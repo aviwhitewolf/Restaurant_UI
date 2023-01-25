@@ -1,0 +1,179 @@
+<app-loader class="absolute top-0 left-0" *ngIf="loading"></app-loader>
+<div *ngIf="!loading" class="bg-white mt-8 pb-12 ">
+  <form [formGroup]="userFormGroup">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Confirm Order -->
+      <div class="flex justify-between py-4 items-center">
+        <div (click)="goBackback()" class="text-indigo-500 cursor-pointer flex items-center  text-sm">
+          <mat-icon class="mr-2 text-base ">
+            arrow_back</mat-icon> Back
+        </div>
+        <button type="button" (click)="confirmOrder()" [disabled]="userFormGroup.invalid || total <= 0"
+          class="disabled:bg-indigo-400 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          <mat-icon class="mr-2 text-md">
+            save</mat-icon>
+          Confirm Order
+        </button>
+      </div>
+      <!-- Confirm Order End -->
+
+      <!-- search dishes -->
+      <div class="mb-6">
+        <app-search-dish (selectedData)="addDish($event)"></app-search-dish>
+      </div>
+      <!-- search dihes end -->
+
+
+      <div class="pt-6 lg:grid lg:grid-cols-2 lg:gap-x-12 xl:gap-x-16 border-t border-gray-300">
+        <!-- Order summary -->
+        <div class="mt-10 lg:mt-0">
+          <h2 class="text-lg font-medium text-gray-900">Order summary</h2>
+          <div class="mt-4 bg-white border border-gray-200 rounded-lg shadow-sm">
+            <div *ngIf="total > 0">
+              <div class="px-4 sm:px-6">
+                <div class="mt-8">
+                  <div class="flow-root">
+                    <ul role="list" class="-my-6 divide-y divide-gray-200 ">
+
+                      <app-cart-card *ngFor="let property of cartItems | keyvalue " [dish]="getJsonData(property.value)"
+                        [theme]="'admin'" [type]="getJsonData(property.value)?.type"
+                        (refreshCart)="refreshCartItems($event)">
+                      </app-cart-card>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <dl class="mt-4 py-6 px-4 space-y-6 sm:px-6">
+                <div class="flex items-center justify-between">
+                  <dt class="text-sm">Subtotal</dt>
+                  <dd class="text-sm font-medium text-red-500">{{currencySymbol}}{{total}}</dd>
+                </div>
+                <div class="flex items-center justify-between">
+                  <dt class="text-sm">Taxes</dt>
+                  <dd class="text-sm font-medium text-red-500">{{currencySymbol}}0</dd>
+                </div>
+                <div class="flex items-center justify-between border-t border-gray-200 pt-6">
+                  <dt class="text-base font-medium">Total</dt>
+                  <dd class="text-base font-medium text-red-500">{{currencySymbol}}{{total}}</dd>
+                </div>
+              </dl>
+            </div>
+            <div class="px-4 py-6 sm:px-6" *ngIf="total <= 0">
+              <div class="text-center">
+
+                <mat-icon class="mx-auto h-12 w-12 text-gray-400">
+                  shopping_bag</mat-icon>
+
+                <h3 class="mt-2 text-sm font-medium text-gray-900">No items</h3>
+                <p class="mt-1 text-sm text-gray-500">Get started by searching & adding a new dish from search input.
+                </p>
+
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+        <!-- Order Summary End -->
+
+        <!-- User Information -->
+        <div class="mb-6 pb-6 mt-10 lg:mt-0">
+          <h2 class="text-lg font-medium text-gray-900 sm:mt-0 mt-4">User information</h2>
+
+          <div class="mt-4 flex sm:flex-row flex-col gap-x-2">
+
+            <div class="w-full">
+              <label for="phone-number" class="block text-sm font-medium text-gray-700">Phone Number</label>
+              <div class="mt-1 flex rounded-md shadow-sm">
+                <div class="relative flex items-stretch flex-grow focus-within:z-10">
+                  <div class="absolute inset-y-0 left-0 flex items-center">
+                    <label for="country" class="sr-only">Country Code</label>
+                    <select id="country" name="country" autocomplete="country"
+                      class="focus:ring-indigo-500 focus:border-indigo-500 h-full py-0 pl-3 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md">
+                      <option>+91</option>
+                    </select>
+                  </div>
+                  <input type="number" name="phone-number" formControlName="mobile" autocomplete="none" 
+                  [ngClass]="{'border-2 border-red-500' : userFormGroup.get('mobile')?.errors &&
+                    ( userFormGroup.get('mobile')?.touched ||  userFormGroup.get('mobile')?.dirty)
+                  ,'border border-gray-300' : !(userFormGroup.get('mobile')?.errors &&
+                  ( userFormGroup.get('mobile')?.touched ||  userFormGroup.get('mobile')?.dirty))}"
+                    class="block w-full rounded-l-md pl-14   text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500  sm:text-sm">
+                </div>
+                <button (click)="searchUser()"
+                  class="-ml-px cursor-pointer relative inline-flex items-center space-x-2 px-2 border border-gray-300 text-sm font-medium rounded-r-md text-gray-700 bg-gray-50 hover:bg-gray-100 ">
+                  <mat-icon class="text-gray-500">search</mat-icon>
+                </button>
+              </div>
+
+              <div
+                *ngIf="(userFormGroup.get('mobile')?.touched ||  userFormGroup.get('mobile')?.dirty) 
+            && (userFormGroup.get('mobile')?.errors?.['required'] || userFormGroup.get('mobile')?.errors?.['pattern']) "
+                class="text-red-500 text-xs pt-1">Number is invalid</div>
+            </div>
+
+            <div class="w-full sm:mt-0 mt-4">
+              <label for="name" class="block text-sm font-medium text-gray-700">Full Name</label>
+              <div class="mt-1 ">
+                <input formControlName="fullName" type="text" id="name" name="name" autocomplete="name" 
+                [ngClass]="{' border-2 border-red-500' : userFormGroup.get('fullName')?.errors &&
+              ( userFormGroup.get('fullName')?.touched ||  userFormGroup.get('fullName')?.dirty),
+            'border border-gray-300' : !(userFormGroup.get('fullName')?.errors &&
+            ( userFormGroup.get('fullName')?.touched ||  userFormGroup.get('fullName')?.dirty))}"
+                  class="appearance-none relative block w-full px-3 py-2  placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm">
+              </div>
+              <div *ngIf="(userFormGroup.get('fullName')?.touched ||  userFormGroup.get('fullName')?.dirty) 
+          && (userFormGroup.get('fullName')?.errors?.['required']) " class="text-red-500 text-xs pt-1">Name is invalid
+              </div>
+            </div>
+
+          </div>
+
+          <div class="mt-4">
+            <label for="email-address" class="block text-sm font-medium text-gray-700">Email address</label>
+            <div class="mt-1">
+              <input formControlName="email" type="email" id="email-address" name="email-address" autocomplete="email"
+                [ngClass]="{'border-2 border-red-500' : userFormGroup.get('email')?.errors &&
+                (userFormGroup.get('email')?.touched ||  userFormGroup.get('email')?.dirty),
+              'border border-gray-300' : !(userFormGroup.get('email')?.errors &&
+              (userFormGroup.get('email')?.touched ||  userFormGroup.get('email')?.dirty))}"
+                class="appearance-none relative block w-full px-3 py-2  placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm">
+
+              <div *ngIf="(userFormGroup.get('email')?.touched ||  userFormGroup.get('email')?.dirty) 
+            && (userFormGroup.get('email')?.errors?.['required'] || userFormGroup.get('email')?.errors?.['email']) "
+                class="text-red-500 text-xs pt-1">Email is invalid</div>
+            </div>
+
+          </div>
+          <div class="mt-4">
+            <label for="table-number" class="block text-sm font-medium text-gray-700">Table Number</label>
+            <div class="mt-1">
+              <select name="table" autocomplete="none" formControlName="tableNumber" 
+              [ngClass]="{' border-2 border-red-500' : userFormGroup.get('tableNumber')?.errors &&
+            ( userFormGroup.get('tableNumber')?.touched ||  userFormGroup.get('tableNumber')?.dirty),
+        'border-gray-300' : !(userFormGroup.get('tableNumber')?.errors &&
+        ( userFormGroup.get('tableNumber')?.touched ||  userFormGroup.get('tableNumber')?.dirty))}"
+              class="mt-1 block w-full bg-white  rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+
+              <option *ngFor="let table of tables" [value]="table?.name">
+                  {{table?.name}}</option>
+
+          </select>
+
+          <!-- Error -->
+          <div *ngIf="(userFormGroup.get('table')?.touched ||  userFormGroup.get('table')?.dirty) 
+          && (userFormGroup.get('table')?.errors?.['required'])"
+              class="text-red-500 text-xs pt-1">
+              Table is invalid
+          </div> </div>
+
+          </div>
+        </div>
+        <!-- User Information End -->
+
+      </div>
+
+    </div>
+  </form>
+</div>

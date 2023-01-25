@@ -1,0 +1,110 @@
+<div class="bg-gray-100 px-5 py-4 flex justify-between items-center">
+    <h3 class="font-bold">Edit Image</h3>
+    <button type="button" (click)="clear()"
+        class="inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 focus:outline-none sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">Clear</button>
+</div>
+<div style="background: repeating-conic-gradient(rgb(246, 246, 249) 0%, rgb(246, 246, 249) 25%, transparent 0%, transparent 50%) 50% center / 20px 20px;" 
+class="bg-white p-6">
+    <div *ngIf="!imageChangedEvent"
+        class="block w-full border-2 border-gray-300 border-dashed rounded-lg p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+
+        <label for="upload-photo">
+            <svg class="mx-auto h-12 w-12 text-gray-400" xmlns="http://www.w3.org/2000/svg" stroke="currentColor"
+                fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M8 14v20c0 4.418 7.163 8 16 8 1.381 0 2.721-.087 4-.252M8 14c0 4.418 7.163 8 16 8s16-3.582 16-8M8 14c0-4.418 7.163-8 16-8s16 3.582 16 8m0 0v14m0-4c0 4.418-7.163 8-16 8S8 28.418 8 24m32 10v6m0 0v6m0-6h6m-6 0h-6" />
+            </svg>
+            <span class="mt-2 block text-sm font-medium text-gray-600">Click to upload image</span>
+        </label>
+
+        <input (change)="fileChangeEvent($event)" type="file" name="photo" id="upload-photo"
+            style="opacity: 0; position: absolute; z-index: -1;" />
+
+    </div>
+
+    <!-- buttons -->
+    <div *ngIf="imageChangedEvent">
+        <div class="flex justify-between items-center my-6">
+            <button type="button" (click)="rotateLeft()"
+                class="inline-flex items-center p-2 border border-transparent rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <mat-icon class="text-base ">rotate_90_degrees_ccw</mat-icon>
+            </button>
+            <button type="button" (click)="rotateRight()"
+                class="ml-4 inline-flex items-center p-2 border border-transparent rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <mat-icon class="text-base">rotate_90_degrees_cw</mat-icon>
+            </button>
+            <button type="button" (click)="flipHorizontal()"
+                class="ml-4 inline-flex items-center p-2 border border-transparent rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <mat-icon class="text-base h-6 w-6">flip</mat-icon>
+            </button>
+
+            <button type="button" (click)="flipVertical()"
+                class="ml-4 inline-flex items-center p-2 border border-transparent rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <mat-icon class="text-base">flip</mat-icon>
+            </button>
+
+            <!-- <button (click)="toggleContainWithinAspectRatio()">{{containWithinAspectRatio?'Fill Aspect Ratio':'Contain
+            Within Aspect Ratio'}}</button> -->
+
+            <button type="button" (click)="zoomOut()"
+                class="ml-4 inline-flex items-center p-2 border border-transparent rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <mat-icon class="text-base">zoom_out</mat-icon>
+            </button>
+
+            <button type="button" (click)="zoomIn()"
+                class="ml-4 inline-flex items-center p-2 border border-transparent rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <mat-icon class="text-base">zoom_in</mat-icon>
+            </button>
+
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2">
+            <div class="max-w-xs max-h-min">
+                <image-cropper 
+                    [imageChangedEvent]="imageChangedEvent" 
+                    [maintainAspectRatio]="true"
+                    [containWithinAspectRatio]="containWithinAspectRatio" 
+                    [aspectRatio]="1 / 1" 
+                    [resizeToWidth]="1280"
+                    [resizeToHeight]="640" 
+                    [onlyScaleDown]="true" 
+                    [roundCropper]="false"
+                    [canvasRotation]="canvasRotation" 
+                    [transform]="transform" 
+                    [alignImage]="'left'"
+                    [style.display]="showCropper ? null : 'none'" 
+                    (imageCropped)="imageCropped($event)"
+                    (imageLoaded)="imageLoaded()" 
+                    (cropperReady)="cropperReady($event)"
+                    (loadImageFailed)="loadImageFailed()"></image-cropper>
+            </div>
+            <div class="max-w-xs max-h-min">
+                <img loading="lazy" [src]="croppedImage" />
+            </div>
+        </div>
+
+        <div class="w-full flex justify-center mt-4">
+            <button (click)="resetImage()"
+                class="flex items-center bg-red-600 border border-transparent rounded-md shadow-sm py-2 px-4 text-sm text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-red-500">
+                <mat-icon class="mr-2">
+                    rotate_left</mat-icon>
+                Reset
+            </button>
+        </div>
+    </div>
+    <!-- button end -->
+</div>
+
+<div class="bg-gray-100 px-5 py-4  flex justify-between">
+
+    <button (click)="closeModal()"
+        class="py-2 px-4 border border-indigo-500 text-sm font-medium rounded-md text-indigo-500  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+        Close
+    </button>
+
+    <button [disabled]="!croppedImage" [mat-dialog-close]="data"
+        class="disabled:bg-indigo-400 cursor-pointer py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+        Save
+    </button>
+
+</div>

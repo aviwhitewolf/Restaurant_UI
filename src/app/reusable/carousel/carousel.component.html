@@ -1,0 +1,14 @@
+<div class="pl-3 md:pl-6 mt-12 text-2xl font-bold text-gray-900 dark:bg-gray-900 dark:text-white">
+    <h1>{{heading}}</h1>
+  </div>
+  <div *ngIf="dishes && dishes.length > 0" class="mt-2 keen-slider px-4 py-8 bg-gray-50 border-t border-b border-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-700" #sliderRef>
+
+  <app-dish-card  *ngFor="let dish of dishes;let index = index;"
+  [dish]="dish"  
+  [theme]="'slide'"
+  (openDishInfo) = "openDishInfo($event)"
+  class="keen-slider__slide" style="min-width: 14rem;max-width: 14rem;"></app-dish-card>
+
+ 
+</div>
+  

@@ -1,0 +1,50 @@
+<div class="shadow rounded-lg bg-white">
+    <div class="p-6">
+        <div class="sm:hidden">
+            <label for="tabs" class="sr-only">Select a tab</label>
+            <h3 class="text-gray-900 text-md font-medium">Top Food Items</h3>
+            <select name="tabs" (change)="changeCategoryAndRenderChart($any($event.target).value)"
+                class="mt-4 block w-full focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md">
+                <option [selected]="DISH_CHART_CONSTANT_TYPE.SUMMARY == activeCategory"
+                    [value]="DISH_CHART_CONSTANT_TYPE.SUMMARY">
+                    Summary
+                </option>
+                <option [selected]="DISH_CHART_CONSTANT_TYPE.DETAILS == activeCategory"
+                    [value]="DISH_CHART_CONSTANT_TYPE.DETAILS">
+                    Details
+                </option>
+
+            </select>
+        </div>
+        <div class="hidden sm:block ">
+
+            <div class="flex items-center flex-row flex-wrap justify-between sm:space-y-2">
+                <h3 class="text-gray-800 text-base font-medium pl-6 sm:pl-0">Top Food Items</h3>
+                <span class="relative z-0 inline-flex shadow-sm rounded-md">
+                    <button (click)="changeCategoryAndRenderChart(DISH_CHART_CONSTANT_TYPE.SUMMARY)"
+                        class="relative inline-flex items-center px-4 py-2 rounded-l-lg border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
+                        [ngClass]="{'bg-gray-50' : (DISH_CHART_CONSTANT_TYPE.SUMMARY == activeCategory)}">
+                        Summary
+                    </button>
+                    <button (click)="changeCategoryAndRenderChart(DISH_CHART_CONSTANT_TYPE.DETAILS)"
+                        class="-ml-px relative inline-flex items-center px-4 py-2 rounded-r-lg border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
+                        [ngClass]="{'bg-gray-50' : (DISH_CHART_CONSTANT_TYPE.DETAILS == activeCategory)}">
+                        Detail
+                    </button>
+                </span>
+
+            </div>
+
+        </div>
+        <p *ngIf="data.length == 0" class="mt-8 text-sm text-gray-800">No Data Found.</p>
+        <div class="w-full aspect-w-3 aspect-h-2 mt-8">
+            <div *ngIf="data.length > 0" id="chart">
+                <apx-chart [series]="dishChartOptions.series" [chart]="dishChartOptions.chart"
+                    [dataLabels]="dishChartOptions.dataLabels" [plotOptions]="dishChartOptions.plotOptions"
+                    [yaxis]="dishChartOptions.yaxis" [xaxis]="dishChartOptions.xaxis" [fill]="dishChartOptions.fill"
+                    [title]="dishChartOptions.title" [colors]="dishChartOptions.colors"></apx-chart>
+            </div>
+        </div>
+        <!-- <p class="mt-8 text-base text-gray-500">The 20L model has enough space for 370 candy bars, 6 cylinders of chips, 1220 standard gumballs, or any combination of on-the-go treats that your heart desires. Yes, we did the math.</p> -->
+    </div>
+</div>

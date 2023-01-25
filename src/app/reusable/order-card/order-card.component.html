@@ -1,0 +1,22 @@
+<li class="flex flex-col mx-1">
+
+  <div class="mt-2" *ngFor="let orderItem of orderItems; let first = first;">
+
+    <div class="flex justify-between items-center  p-2 mx-1" *ngFor="let dishCategory of orderItem?.orderDishCategory">
+
+      <div class="flex space-x-4 items-center flex-nowrap">
+        <img loading="lazy" class="inline-block h-12 w-12 rounded-full ring-2 object-cover ring-white"
+          [src]="orderItem?.dish?.image ? getImageUrl(orderItem?.dish?.image ? orderItem?.dish?.image[0] : '') : '' " alt="">
+        <div class="text-sm text-gray-500 dark:text-gray-100 flex flex-wrap">{{dishCategory?.name | titlecase }}
+          {{orderItem?.dish?.name}}&nbsp;/&nbsp;
+          {{currencySymbol}}{{dishCategory?.unitPrice}}&nbsp;<b>*&nbsp;{{dishCategory.quantity}}</b></div>
+
+      </div>
+
+      <div class="text-red-500 dark:text-red-700 flex items-center text-sm">
+        {{currencySymbol}}{{dishCategory.totalPrice}}</div>
+
+    </div>
+  </div>
+
+</li>

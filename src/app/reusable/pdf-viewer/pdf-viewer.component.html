@@ -1,0 +1,148 @@
+<div class="fixed z-10 inset-0 overflow-hidden bg-gray-200" aria-labelledby="modal-title" role="dialog"
+    aria-modal="true">
+    <div class="relative items-end justify-center text-center block p-0">
+
+        <nav class="bg-white shadow">
+            <div class="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
+                <div class="flex justify-between h-16">
+                    <div class="flex px-2 lg:px-0">
+
+                        <div class="hidden lg:flex lg:space-x-8">
+      
+                            <div class="py-3 inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
+                                <button (click)="zoom = zoom +.1"
+                                    class="relative inline-flex items-center rounded-l-md border border-gray-300 bg-white px-1 py-1 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20">
+                                    <span class="sr-only">Zoom In</span>
+                                    <mat-icon class="h-5 w-5 text-gray-500">zoom_in</mat-icon>
+                                </button>
+                                <button (click)="zoom = zoom -.1"
+                                    class="relative inline-flex items-center rounded-r-md border border-gray-300 bg-white px-1 py-1 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20">
+                                    <span class="sr-only">Zoom Out</span>
+                                    <mat-icon class="h-5 w-5 text-gray-500">zoom_out</mat-icon>
+                                </button>
+                            </div>
+
+                            <div class="py-3 inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
+                                <button (click)="changeZoomScale('page-width')"
+                                    class="relative inline-flex items-center rounded-l-md border border-gray-300 bg-white px-1 py-1 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20">
+                                    <span class="sr-only">Fill Screen</span>
+                                    <mat-icon class="h-5 w-5 text-gray-500">zoom_out_map</mat-icon>
+                                </button>
+                                <button (click)="changeZoomScale('page-height')"
+                                    class="relative inline-flex items-center  border border-gray-300 bg-white px-1 py-1 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20">
+                                    <span class="sr-only">Fit Height</span>
+                                    <mat-icon class="h-5 w-5 text-gray-500">height</mat-icon>
+                                </button>
+                                <button (click)="changeZoomScale('page-fit')"
+                                    class="relative inline-flex items-center rounded-r-md border border-gray-300 bg-white px-1 py-1 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20">
+                                    <span class="sr-only">Fit Screen</span>
+                                    <mat-icon class="h-5 w-5 text-gray-500">fit_screen</mat-icon>
+                                </button>
+                            </div>
+
+                            <div class="py-3 inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
+                                <button (click)="rotation = rotation - 90"
+                                    class="relative inline-flex items-center rounded-l-md border border-gray-300 bg-white px-1 py-1 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20">
+                                    <span class="sr-only">rotate left</span>
+                                    <mat-icon class="h-5 w-5 text-gray-500">rotate_left</mat-icon>
+                                </button>
+                                <button (click)="rotation = rotation + 90"
+                                    class="relative inline-flex items-center rounded-r-md border border-gray-300 bg-white px-1 py-1 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20">
+                                    <span class="sr-only">rotate right</span>
+                                    <mat-icon class="h-5 w-5 text-gray-500">rotate_right</mat-icon>
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="flex-1 flex items-center justify-center px-2 lg:ml-6 lg:justify-end">
+                        <div class="max-w-lg w-full lg:max-w-xs">
+                            <label for="search" class="sr-only">Search</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <!-- Heroicon name: solid/search -->
+                                    <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                        <path fill-rule="evenodd"
+                                            d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                                <input
+                                    class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                    id="pdfQueryInput" type="text" placeholder="Search..."
+                                    (keyup)="searchQueryChanged(($any($event.target).value))">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ml-4 flex items-center">
+                        <button mat-dialog-close type="button"
+                            class="flex flex-shrink-0 bg-white p-1 text-gray-400 rounded-full hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            <span class="sr-only">Close</span>
+
+                            <mat-icon class="justify-center items-center text-gray-500">close</mat-icon>
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+
+
+        </nav>
+
+
+        <div class="pt-2">
+            <pdf-viewer *ngIf="data?.url" 
+            [src]="data?.url" [rotation]="0"
+            (pagechanging)="pagechanging(($any($event.target).value))" 
+            [original-size]="false"
+            (after-load-complete)="afterLoadComplete($event)" 
+            [show-all]="showAll" 
+            [fit-to-page]="fitToPage"
+            [zoom]="zoom" 
+            [zoom-scale]="'page-fit'" 
+            [stick-to-page]="false" 
+            [render-text]="true"
+            [external-link-target]="'blank'" 
+            [autoresize]="true" 
+            [(page)]="page" 
+            [rotation]="rotation"
+            [show-borders]="false"
+            (error)="onError($event)"
+            style="width: 100%; height: 90vh;">
+            </pdf-viewer>
+        </div>
+        <div class="fixed z-50 bottom-2  p-4 w-full">
+
+            <div class="w-32 mx-auto">
+                <label for="search" class="sr-only">Search</label>
+                <div class="relative ">
+
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center cursor-pointer" (click)="prevPage()">
+                        <mat-icon class="text-base">arrow_upward</mat-icon>
+                    </div>
+
+                    <input
+                        class="shadow-md block w-full pl-10 pr-16 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 text-sm"
+                        [value]="page"
+                        (keyup)="page=(($any($event.target).value) > 0 && ($any($event.target).value) < totalPages) ? ($any($event.target).value) : page">
+
+                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer" (click)="nextPage()">
+                        <span class="text-sm">/  {{totalPages}}</span>
+                        <mat-icon class="ml-3 text-base">arrow_downward</mat-icon>
+                    </div>
+
+                </div>
+
+
+
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+</div>

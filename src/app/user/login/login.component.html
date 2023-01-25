@@ -1,0 +1,95 @@
+<app-loader class="absolute top-0 left-0" *ngIf="loading"></app-loader>
+<div *ngIf="!loading"  class="p-5 bg-white dark:bg-slate-800 ">
+    <div *ngIf="!otpScreen && loginScreen" class="space-y-6">
+        <form [formGroup]="loginFormGroup" (ngSubmit)="sendOtp()">
+            <!-- <input type="hidden" name="remember" value="true"> -->
+            <h1 class="font-semibold text-sm mt-6 dark:text-white">Login / Signup Info</h1>
+            <div class="rounded-md shadow-sm mt-4 -space-y-px">
+                <div>
+                    <label for="email-address" class="sr-only dark:text-white">Email address</label>
+                    <input formControlName="email" name="email" type="email" autocomplete="email" required [ngClass]="{'border-2 border-red-500' : loginFormGroup.get('email')?.errors &&
+            (loginFormGroup.get('email')?.touched ||  loginFormGroup.get('email')?.dirty)}"
+                        class="dark:bg-slate-700 dark:placeholder:text-gray-400 dark:text-white dark:ring-slate-600 dark:border-gray-500 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                        placeholder="Email address (abc@mail.com)">
+                </div>
+                <div>
+                    <label for="mobile" class="sr-only dark:text-white">Mobile</label>
+                    <input formControlName="mobile" name="mobile" type="tel" autocomplete="mobile" required [ngClass]="{'border-2 border-red-500' : loginFormGroup.get('mobile')?.errors &&
+            ( loginFormGroup.get('mobile')?.touched ||  loginFormGroup.get('mobile')?.dirty)}"
+                        class="dark:bg-slate-700 dark:placeholder:text-gray-400 dark:text-white dark:ring-slate-600 dark:border-gray-500 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                        placeholder="Mobile Number (9876543210)">
+                </div>
+            </div>
+            <div class="text-red-500 text-xs mt-2">{{getErrors('loginFormGroup')}}</div>
+            <button type="submit" [disabled]="loginFormGroup.invalid"
+                [ngClass]="{'bg-indigo-200 hover:bg-indigo-300' : loginFormGroup.invalid, 'bg-indigo-600 hover:bg-indigo-700' : !loginFormGroup.invalid}"
+                class="group relative w-full mt-4 flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500  custom-ripple"
+                matRipple [matRippleCentered]="false" [matRippleDisabled]="false" [matRippleUnbounded]="false">
+                <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+
+                    <svg class="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                        <path fill-rule="evenodd"
+                            d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                            clip-rule="evenodd" />
+                    </svg>
+                </span>
+                Sent OTP
+            </button>
+        </form>
+    </div>
+
+    <div *ngIf="otpScreen && !loginScreen">
+        <form [formGroup]="loginFormOtpGroup" (ngSubmit)="onLogin()" class="space-y-6">
+
+            <div class="flex justify-between mt-6">
+                <h1 class="font-semibold text-sm dark:text-white">Verify OTP</h1>
+                <div class="flex items-center space-x-1">
+                    <a (click)="resendOtp()" [ngClass]="{'text-indigo-200' : wait}"
+                        class="text-indigo-500 underline text-sm cursor-pointer p-2 rounded-full custom-ripple"
+                        matRipple [matRippleCentered]="false" [matRippleDisabled]="false" [matRippleUnbounded]="false">
+                        Resend Otp
+                    </a>
+                    <span *ngIf="timeLeft != 0 && timeLeft != 60" class="text-indigo-500 text-xs">{{timeLeft}}s</span>
+                </div>
+            </div>
+            <div class="rounded-md shadow-sm mt-4 -space-y-px">
+                <div>
+                    <label for="otp" class="sr-only">Otp</label>
+                    <input formControlName="otp" name="otp" type="tel" autocomplete="" required [ngClass]="{'border-2 border-red-500' : loginFormOtpGroup.get('otp')?.errors &&
+                ( loginFormOtpGroup.get('otp')?.touched ||  loginFormOtpGroup.get('otp')?.dirty)}"
+                        class="dark:bg-slate-700 dark:placeholder:text-gray-400 dark:text-white dark:ring-slate-600 dark:border-gray-500  appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                        placeholder="otp (654321)">
+                </div>
+            </div>
+            <div class="text-red-500 text-xs mt-2">{{getErrors('loginFormOtpGroup')}}</div>
+            <div>
+                <button type="submit" [disabled]="loginFormOtpGroup.invalid"
+                    [ngClass]="{'bg-indigo-200 hover:bg-indigo-300' : loginFormOtpGroup.invalid, 'bg-indigo-600 hover:bg-indigo-700' : !loginFormOtpGroup.invalid}"
+                    class="group relative w-full flex mt-4  justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500  custom-ripple"
+                    matRipple [matRippleCentered]="false" [matRippleDisabled]="false" [matRippleUnbounded]="false">
+                    <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+                        <!-- Heroicon name: solid/lock-closed -->
+                        <svg class="h-5 w-5 text-indigo-500 group-hover:text-indigo-400"
+                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                            aria-hidden="true">
+                            <path fill-rule="evenodd"
+                                d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </span>
+                    Login
+                </button>
+                <div (click)="otpScreen = !otpScreen"
+                    class="flex justify-center items-center mt-6 p-2 rounded-full custom-ripple" matRipple
+                    [matRippleCentered]="false" [matRippleDisabled]="false" [matRippleUnbounded]="false">
+                    <mat-icon aria-hidden="false" aria-label="back to home" class="text-indigo-500 text-sm">chevron_left
+                    </mat-icon>
+                    <a class="text-indigo-500 text-sm cursor-pointer">
+                        Back to login</a>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>

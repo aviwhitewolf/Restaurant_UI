@@ -1,0 +1,407 @@
+<app-loader class="absolute top-0 left-0" *ngIf="loading"></app-loader>
+<div *ngIf="!loading" class="pt-8 pb-12">
+    <div class="max-w-6xl mx-auto px-4  sm:px-6 lg:px-8">
+
+
+        <div class="flex justify-between py-4 items-center">
+            <button (click)="goBackback()" class="text-indigo-500 flex items-center  text-sm  ">
+                <mat-icon class="mr-2 text-base ">
+                    arrow_back</mat-icon> Back
+            </button>
+            <!-- (click)="updateMenu()" [disabled]="expenseFormGroup.invalid" -->
+            <button [disabled]="expenseFormGroup.invalid" (click)="updateOrSaveExpense()"
+                class="disabled:bg-indigo-400 flex items-center bg-indigo-600 border border-transparent rounded-md shadow-sm py-2 px-4 text-sm text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500">
+                <mat-icon class="mr-2">
+                    save</mat-icon>
+                Save
+            </button>
+        </div>
+
+        <div class="py-6">
+            <h2 id="payment-details-heading" class="text-lg leading-6 font-medium text-gray-900">
+                Expense Details</h2>
+            <p class="mt-1 text-sm text-gray-500">Add or Update your Expense information.
+            </p>
+        </div>
+
+        <!-- Form  -->
+        <form [formGroup]="expenseFormGroup">
+
+            <main class="flex-1">
+                <div class="relative ">
+                    <div class="space-y-6 mt-2 lg:col-span-9">
+                        <section aria-labelledby="user-info">
+
+                            <div>
+                                <div class="bg-white">
+
+                                    <div class="mt-6 grid grid-cols-4 gap-6">
+
+                                        <!-- Category -->
+                                        <div class="col-span-4 sm:col-span-2">
+                                            <label for="category"
+                                                class="block text-sm font-medium text-gray-700">Category</label>
+                                            <select name="category" autocomplete="none" formControlName="category"
+                                                (change)="onCategoryChange($any($event).target.value)"
+                                                [ngClass]="{' border-2 border-red-500' : expenseFormGroup.get('category')?.errors &&
+                                              ( expenseFormGroup.get('category')?.touched ||  expenseFormGroup.get('category')?.dirty),
+                                          'border-gray-300' : !(expenseFormGroup.get('category')?.errors &&
+                                          ( expenseFormGroup.get('category')?.touched ||  expenseFormGroup.get('category')?.dirty))}"
+                                                class="mt-1 block w-full bg-white  rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+
+                                                <option *ngFor="let cat of expenseCategories" [value]="cat?.id">
+                                                    {{cat?.name}}
+                                                </option>
+
+                                            </select>
+
+                                            <!-- Error -->
+                                            <div *ngIf="(expenseFormGroup.get('category')?.touched ||  expenseFormGroup.get('category')?.dirty) 
+                                            && (expenseFormGroup.get('category')?.errors?.['required'])"
+                                                class="text-red-500 text-xs pt-1">
+                                                Category is invalid
+                                            </div>
+
+                                        </div>
+                                        <!-- Category End -->
+
+                                        <!-- Selected Employee -->
+                                        <div *ngIf="seletedEmployee" class="col-span-4 sm:col-span-2">
+                                            <div class="flex items-center">
+                                                <img class="w-16 h-16 rounded-full lg:w-20 lg:h-20 object-cover"
+                                                    loading="lazy" [src]="getImageUrl(seletedEmployee?.image[0])"
+                                                    [alt]="seletedEmployee.fullName">
+                                                <div class="ml-4 font-medium text-lg leading-6 space-y-1">
+                                                    <h3 class="capitalize">{{seletedEmployee.fullName}}</h3>
+                                                    <p class="text-indigo-600">{{seletedEmployee?.designation?.name}}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Selected Employee End -->
+
+                                        <!-- Error Message If Employee is not seleted on selecting salary -->
+                                        <div *ngIf="!seletedEmployee && checkIfSalaryIsSelected()"
+                                            class="col-span-4 sm:col-span-2">
+
+                                            <label for="category"
+                                                class="hidden sm:block text-sm font-medium text-gray-700">&nbsp;</label>
+
+                                            <div class="mt-3 flex flex-row text-sm items-center">
+
+                                                <svg class="mr-4 h-6 w-6 text-red-500 flex-none"
+                                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                    stroke="currentColor" aria-hidden="true">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="2"
+                                                        d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                                                </svg>
+                                                <div class="w-full shrink font-semibold text-red-500">No employee
+                                                    selected for salary credit, <u class="cursor-pointer"
+                                                        (click)="openSearchEmployee();  $event.stopPropagation();">Click
+                                                        to select</u></div>
+                                            </div>
+
+                                        </div>
+                                        <!-- Error Message If Employee is not seleted on selecting salary end-->
+
+                                        <!-- Debit  -->
+                                        <div class="col-span-4 sm:col-span-1">
+                                            <label for="debit"
+                                                class="flex items-center text-sm font-medium text-gray-700">
+                                                <span>Debit
+                                                    <b class="font-medium text-indigo-400 text-xs">(INR)</b>
+                                                </span>
+                                            </label>
+                                            <input formControlName="debit" type="text" name="debit" autocomplete="none"
+                                                [ngClass]="{' border-2 border-red-500' : expenseFormGroup.get('debit')?.errors &&
+                                                ( expenseFormGroup.get('debit')?.touched ||  expenseFormGroup.get('debit')?.dirty),
+                                                'border-gray-300' : !(expenseFormGroup.get('debit')?.errors &&
+                                                ( expenseFormGroup.get('debit')?.touched ||  expenseFormGroup.get('debit')?.dirty))}"
+                                                class="mt-1 block w-full  rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+
+                                            <!-- Error -->
+                                            <div *ngIf="(expenseFormGroup.get('debit')?.touched ||  expenseFormGroup.get('debit')?.dirty) 
+                                                && (expenseFormGroup.get('debit')?.errors?.['required'])"
+                                                class="text-red-500 text-xs pt-1">
+                                                Debit is invalid
+                                            </div>
+
+
+                                        </div>
+                                        <!-- Debit End -->
+
+                                        <!-- Credit  -->
+                                        <div class="col-span-4 sm:col-span-1">
+                                            <label for="credit"
+                                                class="flex items-center text-sm font-medium text-gray-700">
+                                                <span>Credit <b
+                                                        class="font-medium text-indigo-400 text-xs">(INR)</b></span>
+                                            </label>
+                                            <input formControlName="credit" type="text" name="credit"
+                                                autocomplete="none"
+                                                [ngClass]="{' border-2 border-red-500' : expenseFormGroup.get('credit')?.errors &&
+                                                ( expenseFormGroup.get('credit')?.touched ||  expenseFormGroup.get('credit')?.dirty),
+                                                'border-gray-300' : !(expenseFormGroup.get('credit')?.errors &&
+                                                ( expenseFormGroup.get('credit')?.touched ||  expenseFormGroup.get('credit')?.dirty))}"
+                                                class="mt-1 block w-full  rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+
+                                            <!-- Error -->
+                                            <div *ngIf="(expenseFormGroup.get('credit')?.touched ||  expenseFormGroup.get('credit')?.dirty) 
+                                                && (expenseFormGroup.get('credit')?.errors?.['required'])"
+                                                class="text-red-500 text-xs pt-1">
+                                                Credit is invalid
+                                            </div>
+
+
+                                        </div>
+                                        <!-- Credit End -->
+
+
+
+                                        <!-- Remarks -->
+                                        <div class="col-span-4 row-span-2 sm:col-span-2">
+                                            <label for="remarks"
+                                                class="block text-sm font-medium text-gray-700">Remarks</label>
+                                            <textarea formControlName="remarks" name="remarks" rows="6"
+                                                [ngClass]="{' border-2 border-red-500' : expenseFormGroup.get('remarks')?.errors &&
+                                            ( expenseFormGroup.get('remarks')?.touched ||  expenseFormGroup.get('remarks')?.dirty),
+                                                'border-gray-300' : !(expenseFormGroup.get('remarks')?.errors &&
+                                                ( expenseFormGroup.get('remarks')?.touched ||  expenseFormGroup.get('remarks')?.dirty))}"
+                                                class="shadow-sm  focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md"></textarea>
+
+                                            <!-- Error -->
+                                            <div *ngIf="(expenseFormGroup.get('remarks')?.touched ||  expenseFormGroup.get('remarks')?.dirty) 
+                                                && (expenseFormGroup.get('remarks')?.errors?.['required'])"
+                                                class="text-red-500 text-xs pt-1">
+                                                Remarks is invalid
+                                            </div>
+
+                                        </div>
+                                        <!-- Remarks End -->
+
+                                        <!-- Upload URL -->
+                                        <div class="col-span-4 sm:col-span-2">
+                                            <label for="upload-url"
+                                                class="block text-sm font-medium text-gray-700">Upload Url</label>
+                                            <input formControlName="uploadUrl" type="text" name="uploadUrl"
+                                                autocomplete="none"
+                                                [ngClass]="{' border-2 border-red-500' : expenseFormGroup.get('uploadUrl')?.errors &&
+                                                ( expenseFormGroup.get('uploadUrl')?.touched ||  expenseFormGroup.get('uploadUrl')?.dirty),
+                                                'border-gray-300' : !(expenseFormGroup.get('uploadUrl')?.errors &&
+                                                ( expenseFormGroup.get('uploadUrl')?.touched ||  expenseFormGroup.get('uploadUrl')?.dirty))}"
+                                                class="mt-1 block w-full  rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+
+                                            <!-- Error -->
+                                            <div *ngIf="(expenseFormGroup.get('uploadUrl')?.touched ||  expenseFormGroup.get('uploadUrl')?.dirty) 
+                                                && (expenseFormGroup.get('uploadUrl')?.errors?.['required'])"
+                                                class="text-red-500 text-xs pt-1">
+                                                Url is invalid
+                                            </div>
+
+                                        </div>
+                                        <!-- Upload Url -->
+
+
+
+                                        <!-- Date -->
+                                        <div class="col-span-4 sm:col-span-2">
+                                            <label for="date"
+                                                class="block text-sm font-medium text-gray-700">Date</label>
+                                            <input formControlName="date" [matDatepicker]="dojpicker" name="date"
+                                                autocomplete="none"
+                                                [ngClass]="{' border-2 border-red-500' : expenseFormGroup.get('date')?.errors &&
+                                                ( expenseFormGroup.get('date')?.touched ||  expenseFormGroup.get('date')?.dirty),
+                                            'border-gray-300' : !(expenseFormGroup.get('date')?.errors &&
+                                            ( expenseFormGroup.get('date')?.touched ||  expenseFormGroup.get('date')?.dirty))}"
+                                                class="border mt-1 block w-full  rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                (click)="dojpicker.open()" placeholder="">
+                                            <mat-datepicker #dojpicker [disabled]="false"></mat-datepicker>
+
+                                            <!-- Error -->
+                                            <div *ngIf="(expenseFormGroup.get('date')?.touched ||  expenseFormGroup.get('date')?.dirty) 
+                                              && (expenseFormGroup.get('date')?.errors?.['required'])"
+                                                class="text-red-500 text-xs pt-1">
+                                                Date is invalid
+                                            </div>
+
+                                        </div>
+                                        <!-- Date  -->
+                                    </div>
+                                </div>
+
+                            </div>
+                        </section>
+
+
+                    </div>
+
+
+                </div>
+            </main>
+
+            <!-- Document -->
+            <footer class="mt-6 sm:mt-12">
+                <div class="grid sm:grid-cols-2 grid-cols-1 sm:space-x-4">
+
+
+                    <!--All Document  -->
+
+                    <ul role="list"
+                        class="mt-6 h-72 sm:mt-0 divide-y divide-gray-200 rounded-md border border-gray-200 overflow-y-scroll">
+                        <div
+                            class=" z-10 sticky top-0  border-gray-200 bg-gray-50 px-3 py-1 text-sm font-medium text-gray-500">
+                            <h1>Documents</h1>
+                        </div>
+
+                        <!-- Documents from server -->
+                        <li *ngFor="let file of singleExpense?.upload;"
+                            class="flex items-center justify-between py-3 pl-3 pr-4 text-sm">
+                            <div class="flex w-0 flex-1 items-center">
+                                <svg class="h-5 w-5 flex-shrink-0 text-gray-400" xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                    <path fill-rule="evenodd"
+                                        d="M15.621 4.379a3 3 0 00-4.242 0l-7 7a3 3 0 004.241 4.243h.001l.497-.5a.75.75 0 011.064 1.057l-.498.501-.002.002a4.5 4.5 0 01-6.364-6.364l7-7a4.5 4.5 0 016.368 6.36l-3.455 3.553A2.625 2.625 0 119.52 9.52l3.45-3.451a.75.75 0 111.061 1.06l-3.45 3.451a1.125 1.125 0 001.587 1.595l3.454-3.553a3 3 0 000-4.242z"
+                                        clip-rule="evenodd" />
+                                </svg>
+
+                                <span class="ml-2 w-0 flex-1 truncate">{{file?.name}}</span>
+
+                            </div>
+                            <div class="ml-4 space-x-2 flex-shrink-0">
+
+                                <button type="button"
+                                    (click)="remove(file); $event.stopPropagation(); documentToDelete = file"
+                                    class="inline-flex items-center  border border-transparent rounded-full shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                                    <mat-icon class="text-base">delete_forever</mat-icon>
+                                </button>
+
+                                <button *ngIf="file?.ext == '.pdf'" type="button" (click)="openPdfViewer(file)"
+                                    class="inline-flex items-center  border border-transparent rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    <mat-icon class="text-base">visibility</mat-icon>
+                                </button>
+
+                                <button type="button" (click)="download(file)"
+                                    class="inline-flex items-center  border border-transparent rounded-full shadow-sm text-white bg-yellow-500 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    <mat-icon class="text-base">download</mat-icon>
+                                </button>
+
+
+                            </div>
+                        </li>
+                        <!-- Documents from server end-->
+
+                        <!-- Documents from local -->
+                        <li *ngFor="let file of files;"
+                            class="flex items-center justify-between py-3 pl-3 pr-4 text-sm">
+                            <div class="flex w-0 flex-1 items-center">
+                                <svg class="h-5 w-5 flex-shrink-0 text-gray-400" xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                    <path fill-rule="evenodd"
+                                        d="M15.621 4.379a3 3 0 00-4.242 0l-7 7a3 3 0 004.241 4.243h.001l.497-.5a.75.75 0 011.064 1.057l-.498.501-.002.002a4.5 4.5 0 01-6.364-6.364l7-7a4.5 4.5 0 016.368 6.36l-3.455 3.553A2.625 2.625 0 119.52 9.52l3.45-3.451a.75.75 0 111.061 1.06l-3.45 3.451a1.125 1.125 0 001.587 1.595l3.454-3.553a3 3 0 000-4.242z"
+                                        clip-rule="evenodd" />
+                                </svg>
+
+                                <span class="ml-2 w-0 flex-1 truncate">{{file?.name}}</span>
+
+                            </div>
+                            <div class="ml-4 space-x-2 flex-shrink-0">
+
+                                <button type="button"
+                                    (click)="remove(file); $event.stopPropagation(); documentToDelete = file"
+                                    class="inline-flex items-center  border border-transparent rounded-full shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                                    <mat-icon class="text-base">delete_forever</mat-icon>
+                                </button>
+
+                            </div>
+                        </li>
+                        <!-- Documents from local end -->
+                        <div
+                            class="sticky bottom-0 cursor-pointer bg-indigo-50 border-t w-full text-sm leading-8 font-medium text-gray-700 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            <label for="upload-document"
+                                class="flex items-center justify-center  w-full py-2 text-indigo-500">
+                                <mat-icon class="mr-2 text-md text-indigo-500">
+                                    add
+                                </mat-icon>
+                                Upload Document
+                            </label>
+                            <input type="file" accept=".pdf, .png, .jpeg, .jpg" onclick="this.value = null"
+                                (change)="uploadFile($event)" name="upload-document" id="upload-document"
+                                style="opacity: 0; position: absolute; z-index: -1;" />
+                        </div>
+
+                    </ul>
+                    <!--All Document End -->
+
+
+
+                </div>
+            </footer>
+            <!-- Document End-->
+
+        </form>
+        <!-- Form End -->
+
+        <div class="mt-8">
+            <app-action-history *ngIf="singleExpense?.actionHistory" [actionHistory]="singleExpense.actionHistory">
+            </app-action-history>
+        </div>
+
+    </div>
+
+    <!-- confirm delete popup -->
+    <div *ngIf="showDeleteDocumentDialog" class="fixed h-full inset-0 z-50 overflow-y-auto" role="dialog"
+        aria-modal="true">
+        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center ">
+
+            <div [ngClass]="{'ease-out duration-300 opacity-100' : showDeleteDocumentDialog, 'ease-in duration-200 opacity-0' : !showDeleteDocumentDialog}"
+                class="fixed inset-0 bg-gray-500 bg-opacity-25 transition-opacity" aria-hidden="true">
+            </div>
+
+            <div [ngClass]="{'ease-out duration-300 opacity-100 scale-100' : showDeleteDocumentDialog, 'ease-in duration-200 opacity-0 scale-95' : !showDeleteDocumentDialog}"
+                class="relative inline-block align-middle m-4 max-w-xl  w-full sm:m-auto transform divide-y divide-gray-500 divide-opacity-10 overflow-hidden rounded-xl bg-white bg-opacity-80 shadow-2xl ring-1 ring-black ring-opacity-5 backdrop-blur backdrop-filter transition-all">
+
+
+                <div (clickOutside)="showDeleteDocumentDialog = false">
+                    <div class="flex items-start px-4 pt-5 p-6 ">
+                        <div
+                            class="flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full sm:mx-0 sm:h-10 sm:w-10">
+                            <mat-icon class="h-6 w-6 text-yellow-500" aria-hidden="false" aria-label="warning">
+                                warning
+                            </mat-icon>
+                        </div>
+                        <div class="mt-0 ml-4 text-left">
+                            <h3 class="text-lg leading-6 font-medium text-gray-900 " id="modal-title">Are
+                                you sure?</h3>
+                            <div class="mt-2">
+                                <p class="text-sm text-gray-500 ">
+                                    Once deleted you won't be able to retrive the data.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-2 flex justify-between px-4 py-5 sm:gap-4 sm:px-6 border-t">
+
+                        <button type="button" (click)="showDeleteDocumentDialog = false"
+                            class="py-2 px-4 border border-indigo-500 text-sm font-medium rounded-md text-indigo-500  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            Cancel
+                        </button>
+
+
+                        <button type="button" (click)="deleteUpload(documentToDelete)"
+                            class="cursor-pointer py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                            Ok, Delete
+                        </button>
+
+
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    <!-- confirm delete popup end -->
+
+</div>

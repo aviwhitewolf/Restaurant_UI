@@ -1,0 +1,197 @@
+<!-- Overview -->
+
+<div class="mt-2 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+    <!-- Card -->
+
+    <div *ngIf="data" class="bg-white overflow-hidden shadow rounded-lg">
+        <div class="p-5">
+            <div class="flex items-center">
+                <div class="flex-shrink-0">
+
+                    <mat-icon class="h-6 w-6 text-gray-500">
+                        receipt_long
+                    </mat-icon>
+
+                </div>
+                <div class="ml-5 w-0 flex-1">
+                    <dl>
+                        <dt class="text-xs font-medium text-gray-600 truncate">Total Transaction</dt>
+                        <dd>
+                            <div class="text-lg font-medium text-red-500">
+                                {{data?.totalAmount || 0 | currency : currencySymbol}}
+                            </div>
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div *ngIf="data" class="bg-white overflow-hidden shadow rounded-lg">
+        <div class="p-5">
+            <div class="flex items-center">
+                <div class="flex-shrink-0">
+
+                    <mat-icon class="h-6 w-6 text-gray-500 rotate-90">
+                        payments
+                    </mat-icon>
+                </div>
+                <div class="ml-5 w-0 flex-1">
+                    <dl>
+
+                        <dl>
+                            <dt class="text-xs font-medium text-gray-600 truncate">Selected Expense</dt>
+                            <dd>
+                                <div class="text-lg font-medium flex flex-wrap text-gray-600">
+                                    <span class="text-red-500">
+                                        {{data?.selectedExpenseTotal?.debit || 0 | currency : currencySymbol}}
+                                        <mat-icon
+                                            class="h-6 w-6 text-red-500 text-base flex justify-center items-center">
+                                            north_east
+                                        </mat-icon>
+                                    </span>,&nbsp;&nbsp;
+                                    <span class="text-green-600">
+
+                                        {{data?.selectedExpenseTotal?.credit || 0 | currency : currencySymbol}}
+                                        <mat-icon
+                                            class="h-5 w-5 text-green-600 text-base flex justify-center items-center">
+                                            south_west
+                                        </mat-icon>
+                                    </span>
+                                </div>
+                            </dd>
+                        </dl>
+                    </dl>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div *ngIf="data" class="bg-white overflow-hidden shadow rounded-lg">
+        <div class="p-5">
+            <div class="flex items-center">
+                <div class="flex-shrink-0">
+
+                    <mat-icon class="h-6 w-6 text-gray-500 ">
+                        functions
+                    </mat-icon>
+                </div>
+                <div class="ml-5 w-0 flex-1">
+                    <dl>
+                        <dt class="text-xs font-medium text-gray-600  truncate">Selected Total</dt>
+                        <dd>
+                            <div class="text-lg font-medium text-red-500">
+                                {{data?.selectedTotal || 0 | currency : currencySymbol}}
+                            </div>
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div *ngIf="data" class="bg-white overflow-hidden shadow rounded-lg">
+        <div class="p-5">
+            <div class="flex items-center">
+                <div class="flex-shrink-0">
+
+                    <mat-icon class="h-6 w-6 text-gray-500 ">
+                        savings
+                    </mat-icon>
+                </div>
+                <div class="ml-5 w-0 flex-1">
+                    <dl>
+                        <dt class="text-xs font-medium text-gray-600  truncate">Selected Profit
+                            <span class="capitalize text-gray-500 text-xs font-normal">&nbsp;(Total&nbsp;-&nbsp;Expense)</span>
+                        </dt>
+                        <dd>
+                            <div class="text-lg font-medium text-red-500">{{data.selectedProfit || 0 | currency :
+                                currencySymbol}}</div>
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div *ngIf="data && data?.orderGroupByModeOfPayment.length" class="bg-white overflow-hidden shadow rounded-lg">
+        <div class="p-5">
+            <div class="flex items-center">
+                <div class="flex-shrink-0">
+
+                    <mat-icon class="h-6 w-6 text-gray-500 ">
+                        contrast
+                    </mat-icon>
+                </div>
+                <div class="ml-5 w-0 flex-1">
+                    <dl>
+                        <dt class="text-xs font-medium text-gray-600  truncate">Transaction Mode</dt>
+
+                        <dd class="flex flex-nowrap flex-row mt-1">
+
+                            <div *ngFor="let mop of data?.orderGroupByModeOfPayment; let index = index; let first = first;let last = last"
+                                [ngStyle]="getPercentage(data?.orderGroupByModeOfPayment, index)"
+                                class="h-6 text-white flex items-center pl-2 text-sm p-1" [ngClass]="{'bg-green-600' : mop?.modeOfPayment == 'online', 'bg-red-500' : mop?.modeOfPayment == 'offline',
+                                'rounded-l-md' : first, 'rounded-r-md' : last, 'ml-1' : last }">
+                                {{mop?.count}}
+                            </div>
+
+                        </dd>
+                        <div class="flex items-center justify-between mt-2 space-x-1">
+
+                            <span *ngFor="let mop of data?.orderGroupByModeOfPayment;"
+                                [ngClass]="{'bg-green-100 text-green-800' : mop?.modeOfPayment == 'online', 'bg-red-100 text-red-800' : mop?.modeOfPayment == 'offline'}"
+                                class="capitalize px-2 inline-flex text-xs leading-5 font-semibold rounded-full ">
+                                {{mop?.modeOfPayment}}
+                            </span>
+
+                        </div>
+
+                    </dl>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div *ngIf="data && data?.ordersGroupByStatus.length" class="bg-white overflow-hidden shadow rounded-lg">
+        <div class="p-5">
+            <div class="flex items-center">
+                <div class="flex-shrink-0">
+
+                    <mat-icon class="h-6 w-6 text-gray-500 ">
+                        flaky
+                    </mat-icon>
+                </div>
+                <div class="ml-5 w-0 flex-1">
+                    <dl>
+                        <dt class="text-xs font-medium text-gray-600 truncate">Transaction Status</dt>
+
+                        <dd class="flex flex-nowrap flex-row mt-1">
+
+                            <div class="flex items-center justify-between mt-2 space-x-1">
+
+                                <span *ngFor="let orders of data?.ordersGroupByStatus;"
+                                    class="capitalize px-2 inline-flex text-xs leading-5 font-semibold rounded-full"
+                                    [ngClass]="{'bg-red-100 text-red-800' : orders.status == 'failed', 'bg-yellow-100 text-yellow-700' : orders.status == 'pending', 'bg-green-100 text-green-800' : orders.status == 'success'}">
+                                    {{orders?.status}}:&nbsp;{{orders?.count}}
+                                </span>
+
+
+                            </div>
+
+                        </dd>
+
+
+                    </dl>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- Overview end -->

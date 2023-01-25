@@ -1,0 +1,26 @@
+@font-face {
+    font-family: VarelaRound-Regular;
+    src: url(/assets/fonts/VarelaRound-Regular.ttf) format("opentype");
+  }
+
+  .font-varela{
+    font-weight: 800;
+    line-height: 1.1;
+    font-family: 'VarelaRound-Regular', 'arial', sans-serif;
+  }
+
+  .wrapper-l {
+    width: fit-content;
+    height: fit-content;
+    -ms-transform: rotate(270deg); /* IE 9 */
+    -webkit-transform: rotate(270deg); /* Chrome, Safari, Opera */
+     transform: rotate(270deg);
+  }
+ 
+  .wrapper-r {
+    width: fit-content;
+    height: fit-content;
+    -ms-transform: rotate(90deg); /* IE 9 */
+    -webkit-transform: rotate(90deg); /* Chrome, Safari, Opera */
+     transform: rotate(90deg);
+  }

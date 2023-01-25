@@ -1,0 +1,379 @@
+<app-loader class="absolute top-0 left-0" *ngIf="loading"></app-loader>
+
+<main *ngIf="!loading" class="flex-1 pb-8 bg-gray-100 min-h-screen">
+    <div class="pt-8">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+
+            <!-- Create expense & date range -->
+            <div class="flex sm:flex-row flex-col justify-between py-4 flex-wrap sm:flex-nowrap">
+
+                <app-date-range (data)="dateRangeChanged($event)" #dateRange></app-date-range>
+
+                <button [routerLink]="['../add']"
+                    class="mt-2 sm:mt-0 inline-flex justify-center items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <mat-icon class="mr-2 text-md">
+                        add</mat-icon>
+                    Create expense
+                </button>
+
+            </div>
+            <!-- Create expense & date range end -->
+
+
+        </div>
+
+        <!--  Category Summary -->
+        <div *ngIf="groupSummary" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+            <h2 class="text-lg leading-6 font-medium text-gray-900">
+                Category Summary
+                <span *ngIf="activeDateRange" class="lowercase text-gray-500 text-xs font-normal">&nbsp;of&nbsp;{{activeDateRange}}</span>
+            </h2>
+            <ul role="list" class="grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 xl:grid-cols-4 mt-3">
+                <li *ngFor="let item of groupSummary | keyvalue"
+                    class="bg-white hover:bg-gray-50 relative col-span-1 flex shadow rounded-xl overflow-hidden">
+                    <div [ngStyle]="{'color' : $any(item)?.value?.colors?.color, 'background-color' : $any(item)?.value?.colors?.backgroundColor}"
+                        class="flex-shrink-0 flex items-center justify-center w-16 text-xl font-medium rounded-l-md">{{
+                        $any(item)?.key?.substring(0,1)}}</div>
+                    <div class="flex-1 flex items-center justify-between rounded-r-md truncate">
+                        <div class="flex-1 px-4 py-2 text-sm truncate">
+                            <p class="text-gray-900 font-medium hover:text-gray-600"> {{item?.key}} </p>
+                            <p class="text-gray-500">Debit: <b class="text-red-500">{{ ($any(item)?.value?.debit ?
+                                    $any(item)?.value?.debit : 0 )| currency : $any(item)?.value?.currency }}</b></p>
+                            <p class="text-gray-500">Credit: <b class="text-green-600">{{ ($any(item)?.value?.credit ?
+                                    $any(item)?.value?.credit : 0) | currency : $any(item)?.value?.currency }}</b></p>
+                        </div>
+
+                    </div>
+                </li>
+
+                <li [routerLink]="['../category','add']"
+                    class="relative col-span-1 flex shadow rounded-xl  cursor-pointer bg-white hover:bg-gray-50">
+
+                    <div class="w-full p-4 flex justify-center items-center truncate">
+                        <mat-icon class="mr-2">add</mat-icon>Add category
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <!--  Category Summary End -->
+
+        <!-- table -->
+        <div class="sm:px-6 lg:px-8 max-w-6xl mx-auto mt-8 px-4 flex flex-row justify-between">
+            <h2 class="text-lg leading-6 font-medium text-gray-900">
+                Expenses
+                <span *ngIf="activeDateRange" class="lowercase text-gray-500 text-xs font-normal">&nbsp;of&nbsp;{{activeDateRange}}</span>
+              </h2>
+            <button (click)="deleteMultipleExpense()" *ngIf="selection.selected.length > 0" type="button" class="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-red-700 bg-red-100 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">Delete ({{selection.selected.length}})</button>
+        </div>
+
+        <!-- For mobile view -->
+        <div class="shadow sm:hidden">
+            <ul role="list" class="mt-2 divide-y divide-gray-200 overflow-hidden shadow sm:hidden">
+                <li>
+                    <a href="#" class="block px-4 py-4 bg-white hover:bg-gray-50">
+                        <span class="flex items-center space-x-4">
+                            <span class="flex-1 flex space-x-2 truncate">
+                                <!-- Heroicon name: solid/cash -->
+                                <svg class="flex-shrink-0 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                    <path fill-rule="evenodd"
+                                        d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                <span class="flex flex-col text-gray-500 text-sm truncate">
+                                    <span class="truncate">Payment to Molly Sanders</span>
+                                    <span><span class="text-gray-900 font-medium">$20,000</span> USD</span>
+                                    <time datetime="2020-07-11">July 11, 2020</time>
+                                </span>
+                            </span>
+                            <!-- Heroicon name: solid/chevron-right -->
+                            <svg class="flex-shrink-0 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                <path fill-rule="evenodd"
+                                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </span>
+                    </a>
+                </li>
+
+                <!-- More transactions... -->
+            </ul>
+
+            <nav class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200"
+                aria-label="Pagination">
+                <div class="flex-1 flex justify-between">
+                    <a href="#"
+                        class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:text-gray-500">
+                        Previous </a>
+                    <a href="#"
+                        class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:text-gray-500">
+                        Next </a>
+                </div>
+            </nav>
+        </div>
+        <!-- For mobile view end-->
+
+        <!-- For desktop view -->
+        <div class="hidden sm:block">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col mt-2">
+                    <div class="align-middle min-w-full overflow-x-auto shadow overflow-hidden sm:rounded-lg bg-white">
+
+                        <div class="w-full flex md:ml-0 px-6 py-4">
+                            <label for="search-field" class="sr-only">Search</label>
+                            <div class="relative w-full text-gray-400 focus-within:text-gray-600">
+                                <div class="absolute inset-y-0 left-0 flex items-center pointer-events-none"
+                                    aria-hidden="true">
+
+                                    <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                                        fill="currentColor" aria-hidden="true">
+                                        <path fill-rule="evenodd"
+                                            d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                                <input (keyup)="applyFilter($event)" name="search-field"
+                                    class="z-0 block w-full h-full pl-8 pr-3 py-2 border-transparent text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-0 focus:border-transparent sm:text-sm"
+                                    placeholder="Search" #input>
+                            </div>
+                        </div>
+
+                        <table mat-table [dataSource]="dataSource" multiTemplateDataRows matSort>
+
+                            <!-- Checkbox Column -->
+                            <ng-container matColumnDef="select">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                    <mat-checkbox (change)="$event ? toggleAllRows() : null"
+                                        [checked]="selection.hasValue() && isAllSelected()"
+                                        [indeterminate]="selection.hasValue() && !isAllSelected()"
+                                        [aria-label]="checkboxLabel()">
+                                    </mat-checkbox>
+                                </th>
+                                <td mat-cell *matCellDef="let row">
+                                    <mat-checkbox (click)="$event.stopPropagation()"
+                                        (change)="$event ? selection.toggle(row) : null"
+                                        [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
+                                    </mat-checkbox>
+                                </td>
+                                <td mat-footer-cell *matFooterCellDef> Total </td>
+                            </ng-container>
+
+
+                            <!-- Date Column -->
+                            <ng-container matColumnDef="date">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <time datetime="2020-07-11">
+                                        {{element?.date | date}}
+                                    </time>
+                                </td>
+                                <td mat-footer-cell *matFooterCellDef></td>
+                            </ng-container>
+
+
+                            <!-- Debit Column -->
+                            <ng-container matColumnDef="debit">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Debit</th>
+                                <td mat-cell *matCellDef="let element">
+                                    <span *ngIf="element?.debit" class="text-red-500 flex items-center">
+                                        <mat-icon class="text-base text-red-500 mr-1">north_east</mat-icon>
+                                        {{element?.debit | currency : element?.currency}}
+                                    </span>
+
+                                    <span *ngIf="!element?.debit">-</span>
+
+                                </td>
+                                <td mat-footer-cell *matFooterCellDef>
+                                    <div class="py-2">
+                                        <span class="text-red-500 flex items-center">
+                                            <mat-icon class="text-base text-red-500 mr-1">north_east</mat-icon>
+                                            {{getDebitCost() | currency : 'INR'}}
+                                        </span>
+
+
+                                    </div>
+                                </td>
+                            </ng-container>
+
+                            <!-- Credit Column -->
+                            <ng-container matColumnDef="credit">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Credit</th>
+                                <td mat-cell *matCellDef="let element">
+                                    <span *ngIf="element?.credit" class="text-green-600 flex items-center">
+                                        <mat-icon class="text-base text-green-600 mr-1">south_west</mat-icon>
+                                        {{element?.credit | currency : element?.currency}}
+                                    </span>
+                                    <span *ngIf="!element?.credit">-</span>
+                                </td>
+                                <td mat-footer-cell *matFooterCellDef>
+                                    <div class="py-2">
+                                        <span class="text-green-600 flex items-center">
+                                            <mat-icon class="text-base text-green-600 mr-1">south_west</mat-icon>
+                                            {{getCreditCost() | currency : 'INR'}}
+                                        </span>
+
+                                    </div>
+                                </td>
+                            </ng-container>
+
+                            <!-- Category Column -->
+                            <ng-container matColumnDef="category">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Category </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <a [routerLink]="['../edit', element.id]"
+                                        class="capitalize underline text-indigo-500">
+                                        {{element?.category?.name}}
+                                    </a>
+                                </td>
+                                <td mat-footer-cell *matFooterCellDef> </td>
+                            </ng-container>
+
+                            <!-- Email Column -->
+                            <ng-container matColumnDef="employee">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Staff </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <div *ngIf="element?.employee" class="text-gray-500">
+                                        {{element?.employee?.fullName}}
+                                    </div>
+                                    <span *ngIf="!element?.employee">-</span>
+                                </td>
+                                <td mat-footer-cell *matFooterCellDef> </td>
+
+                            </ng-container>
+
+
+
+
+
+                            <ng-container matColumnDef="expand">
+                                <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
+                                <td mat-cell *matCellDef="let element">
+                                    <button mat-icon-button aria-label="expand row"
+                                        (click)="(expandedElement = expandedElement === element ? null : element); $event.stopPropagation()">
+                                        <mat-icon *ngIf="expandedElement !== element">keyboard_arrow_down</mat-icon>
+                                        <mat-icon *ngIf="expandedElement === element">keyboard_arrow_up</mat-icon>
+                                    </button>
+                                </td>
+                                <td mat-footer-cell *matFooterCellDef> </td>
+
+                            </ng-container>
+
+
+                            <ng-container matColumnDef="expandedDetail">
+                                <td mat-cell *matCellDef="let element"
+                                    [attr.colspan]="columnsToDisplayWithExpand.length">
+                                    <div class="detail"
+                                        [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+
+                                        <!-- Inside table row -->
+
+                                        <div class="py-4 px-1 ">
+
+                                            <ng-container *ngIf="element?.remarks || element?.employee?.fullName">
+                                                <div
+                                                    class="w-full relative divide-x divide-gray-300 px-4 space-x-3 rounded-lg border border-gray-200 bg-yellow-50 py-4 shadow-md flex  focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
+                                                    <div *ngIf="element?.remarks" class="flex-1 min-w-0 ">
+                                                        <h3 class="text-gray-400 mb-2">Remarks</h3>
+                                                        <a [routerLink]="['../edit', element.id]"
+                                                            class="focus:outline-none">
+                                                            <markdown class=" text-justify" [data]="element.remarks">
+                                                            </markdown>
+
+                                                        </a>
+                                                    </div>
+                                                    <div *ngIf="element?.employee" class="flex-1 pl-4 min-w-0">
+                                                        <a [routerLink]="['../edit', element.id]"
+                                                            class="focus:outline-none">
+                                                            <h3 class="text-gray-400 mb-2">Infomation</h3>
+
+                                                            <ul role="list" class="divide-y divide-gray-200">
+                                                                <li class="py-2 flex-col">
+                                                                    <p class="text-sm font-medium text-gray-900">
+                                                                        Email
+                                                                    </p>
+                                                                    <p class="text-sm text-gray-500">
+                                                                        {{element?.employee?.email}}</p>
+                                                                </li>
+
+                                                                <li class="py-2 flex-col">
+                                                                    <p class="text-sm font-medium text-gray-900">
+                                                                        Name
+                                                                    </p>
+                                                                    <p class="text-sm text-gray-500">
+                                                                        {{element?.employee?.fullName}}</p>
+                                                                </li>
+
+                                                                <li class="py-2 flex-col">
+                                                                    <p class="text-sm font-medium text-gray-900">
+                                                                        Gender
+                                                                    </p>
+                                                                    <p class="text-sm text-gray-500">
+                                                                        {{element?.employee?.gender}}</p>
+                                                                </li>
+
+                                                                <li class="py-2 flex-col">
+                                                                    <p class="text-sm font-medium text-gray-900">
+                                                                        Mobile
+                                                                    </p>
+                                                                    <p class="text-sm text-gray-500">
+                                                                        {{element?.employee?.mobile}}</p>
+                                                                </li>
+
+                                                                <li class="py-2 flex-col">
+                                                                    <p class="text-sm font-medium text-gray-900">
+                                                                        Address
+                                                                    </p>
+                                                                    <markdown class="text-gray-500"
+                                                                        [data]="element?.employee?.address"></markdown>
+                                                                </li>
+                                                            </ul>
+                                                        </a>
+                                                    </div>
+                                                </div>
+
+
+                                            </ng-container>
+
+                                        </div>
+                                        <!-- Inside table row end -->
+
+
+                                    </div>
+                                </td>
+
+                                <td mat-footer-cell *matFooterCellDef> </td>
+                            </ng-container>
+
+
+
+                            <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
+                            <tr mat-row *matRowDef="let element; columns: columnsToDisplayWithExpand;" class="row"
+                                [class.example-expanded-row]="expandedElement === element"
+                                (click)="expandedElement = expandedElement === element ? null : element;">
+
+                            </tr>
+                            <tr mat-footer-row *matFooterRowDef="columnsToDisplayWithExpand; sticky: true"></tr>
+
+                            <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row">
+                            </tr>
+
+                            <!-- Row shown when there is no matching data. -->
+                            <tr class="mat-row" *matNoDataRow>
+                                <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+                            </tr>
+
+                        </table>
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- For desktop view end -->
+
+        <!-- table end -->
+
+    </div>
+</main>

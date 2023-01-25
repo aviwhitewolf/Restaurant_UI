@@ -1,0 +1,125 @@
+<app-loader class="absolute top-0 left-0" *ngIf="loading"></app-loader>
+
+<main *ngIf="!loading" class="flex-1 pb-8 bg-gray-100 min-h-screen">
+    <div class="pt-8">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+
+            
+            <div class="flex sm:flex-row flex-col justify-between py-4 flex-wrap sm:flex-nowrap">
+
+                <div>
+                    <h2 class="text-lg leading-6 font-medium text-gray-900 ">
+                        Categories
+                    </h2>
+                    <span *ngIf="expenseCategories" class="text-xs text-gray-600">{{this.expenseCategories?.length || 0}} entries found</span>
+                </div>
+                
+                <button [routerLink]="['add']"
+                    class="mt-2 sm:mt-0 inline-flex justify-center items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <mat-icon class="mr-2 text-md">
+                        add</mat-icon>
+                    Create category
+                </button>
+
+            </div>
+            
+
+
+        </div>
+
+
+        <!--  Category Summary -->
+        <div *ngIf="expenseCategories" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+            
+            <ul role="list" class="grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 xl:grid-cols-4 mt-3">
+                <li *ngFor="let category of expenseCategories"  [routerLink]="['edit', category.id]"
+                class="cursor-pointer hover:bg-gray-50 bg-white relative col-span-1 flex shadow rounded-xl overflow-hidden">
+                    <div [ngStyle]="{'color' : getColor(category?.name, 'color'), 'background-color' : getColor(category?.name, 'backgroundColor')}"
+                        class="flex-shrink-0 flex items-center justify-center w-16 text-xl font-medium rounded-l-md">
+                        {{category?.name?.substring(0,1)}}
+                    </div>
+                    <div
+                        class="flex-1 flex items-center justify-between rounded-r-md truncate">
+                        <div class="flex-1 px-4 py-6 text-sm truncate">
+                            <p class="text-gray-900 font-medium hover:text-gray-600"> {{category?.name}} </p>
+                        </div>
+
+                    </div>
+                    <div class="mr-4 flex items-center justify-center flex-wrap space-x-2 ">
+
+                        <button type="button" (click)="showDeleteDialog = true; $event.stopPropagation(); categoryIdToDelete = category?.id"
+                            class="inline-flex items-center  border border-transparent rounded-full shadow-sm text-white bg-gray-400 hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                            <mat-icon class="text-base">delete</mat-icon>
+                        </button>
+
+                        <button [routerLink]="['edit', category.id]" type="button"
+                            class="inline-flex items-center  border border-transparent rounded-full shadow-sm text-white bg-gray-400 hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            <mat-icon class="text-base">edit</mat-icon>
+                        </button>
+
+                    </div>
+                </li>
+
+            </ul>
+        </div>
+        <!--  Category Summary End -->
+
+
+            <!-- confirm delete popup -->
+            <div *ngIf="showDeleteDialog" class="fixed h-full inset-0 z-50 overflow-y-auto" role="dialog"
+                aria-modal="true">
+                <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center ">
+
+                    <div [ngClass]="{'ease-out duration-300 opacity-100' : showDeleteDialog, 'ease-in duration-200 opacity-0' : !showDeleteDialog}"
+                        class="fixed inset-0 bg-gray-500 bg-opacity-25 transition-opacity" aria-hidden="true">
+                    </div>
+
+                    <div [ngClass]="{'ease-out duration-300 opacity-100 scale-100' : showDeleteDialog, 'ease-in duration-200 opacity-0 scale-95' : !showDeleteDialog}"
+                        class="relative inline-block align-middle m-4 max-w-xl  w-full sm:m-auto transform divide-y divide-gray-500 divide-opacity-10 overflow-hidden rounded-xl bg-white bg-opacity-80 shadow-2xl ring-1 ring-black ring-opacity-5 backdrop-blur backdrop-filter transition-all">
+
+
+                        <div (clickOutside)="showDeleteDialog = false">
+                            <div class="flex items-start px-4 pt-5 p-6 ">
+                                <div
+                                    class="flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full sm:mx-0 sm:h-10 sm:w-10">
+                                    <mat-icon class="h-6 w-6 text-yellow-500" aria-hidden="false" aria-label="warning">
+                                        warning
+                                    </mat-icon>
+                                </div>
+                                <div class="mt-0 ml-4 text-left">
+                                    <h3 class="text-lg leading-6 font-medium text-gray-900"
+                                        id="modal-title">Are
+                                        you sure?</h3>
+                                    <div class="mt-2">
+                                        <p class="text-sm text-gray-500">
+                                            Once deleted you won't be able to retrive the data.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-2 flex justify-between px-4 py-5 sm:gap-4 sm:px-6 border-t">
+
+                                <button type="button" (click)="showDeleteDialog = false"
+                                    class="py-2 px-4 border border-indigo-500 text-sm font-medium rounded-md text-indigo-500  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    Cancel
+                                </button>
+
+                                <button type="button" (click)="deleteCategory(categoryIdToDelete)"
+                                    class="cursor-pointer py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                                    Ok, Delete
+                                </button>
+
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+            <!-- confirm delete popup end -->
+
+
+    </div>
+</main>

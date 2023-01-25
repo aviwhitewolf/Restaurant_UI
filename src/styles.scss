@@ -1,0 +1,131 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.no-scrollbar{
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+.no-parent-scroll{
+    overflow-y: hidden !important;   
+}
+
+.snackbarClass{
+    z-index: 99999999999999 !important;
+}
+
+.custom-modalbox {
+    mat-dialog-container {
+        padding: 0 !important;
+        background: none;
+        border-radius: 16px;
+        z-index: 999;
+    }
+}
+
+.custom-user-modalbox{
+    mat-dialog-container {
+        padding: 0 !important;
+        background: none;
+        border-radius: 16px;
+        z-index: 999;
+    }
+}
+
+.popUp-modalbox {
+    mat-dialog-container {
+        padding: 0 !important;
+        background: none;
+        z-index: 999;
+    }
+}
+
+.custom-dishmodalbox {
+
+    @media only screen and (max-width: 600px) {
+        mat-dialog-container {
+            padding: 0% !important;
+            max-width: 100%;
+            max-height: 100vh;
+            z-index: 999;
+        }
+    }
+
+    @media only screen and (min-width: 601px) {
+        mat-dialog-container {
+            padding: 0% !important;
+            margin: auto;
+            border-radius: 0px;
+            z-index: 999;
+        }
+
+    }
+
+}
+
+.custom-editDishmodalbox {
+
+
+
+    @media only screen and (max-width: 829px) {
+        mat-dialog-container {
+            padding: 0 !important;
+            border-radius: 8px;
+            height: unset;
+            max-width: 100%;
+            max-height: 100vh;
+            z-index: 999;
+        }
+    }
+
+    @media only screen and (min-width: 830px) {
+        mat-dialog-container {
+            padding: 0 !important;
+            border-radius: 8px;
+            height: auto;
+            z-index: 999;
+        }
+    
+    }
+
+}
+
+.custom-editDishmodalbox::-webkit-scrollbar { 
+    display: none;
+}
+
+.custom-ripple{
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+  
+    -webkit-user-drag: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.snack-bar{
+    z-index: 99999;
+    padding: 0 !important;
+    background: none;
+}
+
+
+.snack-bar-order-notification{
+    z-index: 99999;
+    padding: 0 !important;
+    background: none;
+    background-color: transparent;
+    border-radius: unset !important;
+    box-shadow: none;
+}

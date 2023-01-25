@@ -1,0 +1,18 @@
+<app-loader class="absolute top-0 left-0" *ngIf="loading"></app-loader>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="relative py-16 bg-white dark:bg-slate-900 overflow-hidden">
+
+        <div class="relative px-4 sm:px-6 lg:px-8">
+            <div class="text-lg max-w-prose mx-auto">
+                <h1>
+                   <span
+                        class="mt-2 block text-3xl dark:text-white text-center leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">{{policy?.attributes?.heading}}</span>
+                </h1>
+                
+            </div>
+        </div>
+        <div class="mt-12 mb-96">
+        <markdown class="dark:text-white text-gray-800" [data]="policy?.attributes?.description"></markdown>
+    </div>
+    </div>
+</div>

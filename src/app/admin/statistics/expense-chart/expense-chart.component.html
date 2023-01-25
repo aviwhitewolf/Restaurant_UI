@@ -1,0 +1,63 @@
+<div class="shadow rounded-lg bg-white">
+
+    <div class="p-6">
+        <div class="sm:hidden">
+            <label for="tabs" class="sr-only">Select a tab</label>
+            <h3 class="text-gray-900 text-md font-medium">Expense</h3>
+            <select name="tabs" (change)="changeCategoryAndRenderChart($any($event.target).value)"
+                class="mt-4 block w-full focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md">
+                <option selected [value]="'hours'">Hours</option>
+                <option [value]="'days'">Days</option>
+                <option [value]="'months'">Months</option>
+                <option [value]="'years'">Years</option>
+            </select>
+        </div>
+        <div class="hidden sm:block">
+
+            <div class="flex items-center flex-row flex-wrap justify-between sm:space-y-2">
+                <h3 class="text-gray-800 text-base font-medium pl-6 sm:pl-0">Expense</h3>
+                <span class="relative z-0 inline-flex shadow-sm rounded-md">
+                    <button (click)="changeCategoryAndRenderChart('hours')"
+                        class="relative inline-flex items-center px-4 py-2 rounded-l-lg border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
+                        [ngClass]="{'bg-gray-50' : (category == 'hours')}">
+                        Hours
+                    </button>
+                    <button (click)="changeCategoryAndRenderChart('days')"
+                        class="-ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
+                        [ngClass]="{'bg-gray-50' : (category == 'days')}">
+                        Days
+                    </button>
+                    <button (click)="changeCategoryAndRenderChart('months')"
+                        class="-ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
+                        [ngClass]="{'bg-gray-50' : (category == 'months')}">
+                        Months
+                    </button>
+                    <button (click)="changeCategoryAndRenderChart('years')"
+                        class="-ml-px relative inline-flex items-center px-4 py-2 rounded-r-lg border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
+                        [ngClass]="{'bg-gray-50' : (category == 'years')}">
+                        Years
+                    </button>
+                </span>
+
+
+            </div>
+
+
+        </div>
+     
+        <p *ngIf="data.length == 0" class="mt-8 text-sm text-gray-800">No Data Found.</p>
+ 
+        <div class="w-full aspect-w-3 aspect-h-2 mt-8 ">
+
+            <div *ngIf="data.length > 0" id="chart">
+                <apx-chart [series]="expenseChartOptions.series" [chart]="expenseChartOptions.chart"
+                    [dataLabels]="expenseChartOptions.dataLabels" [plotOptions]="expenseChartOptions.plotOptions"
+                    [yaxis]="expenseChartOptions.yaxis" [xaxis]="expenseChartOptions.xaxis"
+                    [fill]="expenseChartOptions.fill" [title]="expenseChartOptions.title"
+                    [colors]="expenseChartOptions.colors"></apx-chart>
+            </div>
+
+        </div>
+    </div>
+
+</div>

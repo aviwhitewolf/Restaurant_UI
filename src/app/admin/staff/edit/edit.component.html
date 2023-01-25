@@ -1,0 +1,512 @@
+<app-loader class="absolute top-0 left-0" *ngIf="loading"></app-loader>
+<div *ngIf="!loading" class="pt-8 pb-12">
+  <div class="max-w-6xl mx-auto px-4  sm:px-6 lg:px-8">
+
+
+    <div class="flex justify-between py-4 items-center">
+      <button (click)="goBackback()" class="text-indigo-500 flex items-center  text-sm  ">
+        <mat-icon class="mr-2 text-base ">
+          arrow_back</mat-icon> Back
+      </button>
+      <!-- (click)="updateMenu()" [disabled]="employeeFormGroup.invalid" -->
+      <button [disabled]="employeeFormGroup.invalid" (click)="updateOrSaveEmployee()"
+        class="disabled:bg-indigo-400 flex items-center bg-indigo-600 border border-transparent rounded-md shadow-sm py-2 px-4 text-sm text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500">
+        <mat-icon class="mr-2">
+          save</mat-icon>
+        Save
+      </button>
+    </div>
+
+
+    <!-- Photo, Name & Designation -->
+    <div class="mt-6 mx-auto md:flex md:items-center space-y-4 md:justify-between md:space-x-5">
+      <div class="flex items-center space-x-5">
+        <div class="relative rounded-full overflow-hidden flex-shrink-0">
+          <div (click)="changeImage()"
+            class="transition duration-150 ease-in-out hover:opacity-80 opacity-0 bg-gray-300 h-full  absolute w-full  z-10 text-xs flex justify-between items-center text-gray-700">
+            <mat-icon class="mx-auto">add_a_photo</mat-icon>
+          </div>
+          <div class="relative shadow">
+            <span class="h-16 w-16 rounded-full overflow-hidden">
+              <svg *ngIf="!selectedImage && !imageFromApi" class="h-16 w-16 text-gray-300 bg-transparent" fill="currentColor"
+                viewBox="0 0 24 24">
+                <path
+                  d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+              </svg>
+              <img loading="lazy" class="h-16 w-16 sm:h-28 sm:w-28 overflow-hidden rounded-full object-cover"
+                *ngIf="selectedImage || imageFromApi" [src]="getImage()">
+
+            </span>
+
+          </div>
+        </div>
+
+
+
+        <div>
+          <h1  *ngIf="checkIfResigned()" class="text-2xl font-bold text-red-500">Resigned</h1>
+          <h1 class="text-2xl font-bold text-gray-900">{{this.employeeFormGroup.value?.fullName}}</h1>
+          <h3 *ngIf="singleEmployee?.designation?.name" class="text-base">
+            <span class="flex  items-center text-indigo-500">
+              <mat-icon class="mr-2">badge</mat-icon>
+              {{singleEmployee?.designation?.name}}
+            </span>
+          </h3>
+        </div>
+
+        <div class="mt-6 flex flex-col justify-stretch space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4">
+
+        </div>
+      </div>
+
+      <!-- Call & Message Action Button -->
+      <div *ngIf="singleEmployee"
+        class="mt-6 flex space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-x-reverse sm:space-y-0 space-x-3 md:mt-0 md:flex-row md:space-x-3">
+        <a [href]="'mailto:'+singleEmployee?.email" type="button"
+          class="border border-gray-300 inline-flex justify-center px-4 py-2  shadow-sm text-sm font-medium rounded-md text-indigo-500 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          <!-- Heroicon name: solid/mail -->
+          <svg class="-ml-1 mr-2 h-5 w-5 text-indigo-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+            fill="currentColor" aria-hidden="true">
+            <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+            <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+          </svg>
+          <span>Message</span>
+        </a>
+        <a [href]="'tel:'+singleEmployee?.countryCode+'-'+singleEmployee?.mobile"
+          class="border border-gray-300 inline-flex justify-center px-4 py-2  shadow-sm text-sm font-medium rounded-md text-indigo-500 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          <!-- Heroicon name: solid/phone -->
+          <svg class="-ml-1 mr-2 h-5 w-5 text-indigo-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+            fill="currentColor" aria-hidden="true">
+            <path
+              d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+          </svg>
+          <span>Call</span>
+        </a>
+      </div>
+      <!-- Call & Message Action Button End -->
+
+    </div>
+    <!-- Photo, Name & Designation End -->
+
+    <!-- Form  -->
+    <form [formGroup]="employeeFormGroup">
+
+      <main class="flex-1">
+        <div class="relative ">
+          <div class="space-y-6 mt-2 lg:col-span-9">
+            <section aria-labelledby="user-info">
+
+
+              <div>
+                <div class="bg-white">
+
+                  <div class="mt-6 grid grid-cols-4 gap-6">
+                    <!-- Full Name -->
+                    <div class="col-span-4 sm:col-span-2">
+                      <label for="full-name" class="block text-sm font-medium text-gray-700">Full name</label>
+                      <input formControlName="fullName" type="text" name="full-name" autocomplete="none"
+                        [ngClass]="{' border-2 border-red-500' : employeeFormGroup.get('fullName')?.errors &&
+                                            ( employeeFormGroup.get('fullName')?.touched ||  employeeFormGroup.get('fullName')?.dirty),
+                                        'border-gray-300' : !(employeeFormGroup.get('fullName')?.errors &&
+                                        ( employeeFormGroup.get('fullName')?.touched ||  employeeFormGroup.get('fullName')?.dirty))}"
+                        class="mt-1 block w-full rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+
+                      <!-- Error -->
+                      <div *ngIf="(employeeFormGroup.get('fullName')?.touched ||  employeeFormGroup.get('fullName')?.dirty) 
+                        && (employeeFormGroup.get('fullName')?.errors?.['required'])"
+                        class="text-red-500 text-xs pt-1">Full name is invalid
+                      </div>
+
+                    </div>
+                    <!-- Full Name End -->
+
+                    <!-- Email -->
+                    <div class="col-span-4 sm:col-span-2">
+                      <label for="email-address" class="block text-sm font-medium text-gray-700">Email address</label>
+                      <input formControlName="email" type="text" name="email-address" autocomplete="none" [ngClass]="{' border-2 border-red-500' : employeeFormGroup.get('email')?.errors &&
+                      ( employeeFormGroup.get('email')?.touched ||  employeeFormGroup.get('email')?.dirty),
+                  'border-gray-300' : !(employeeFormGroup.get('email')?.errors &&
+                  ( employeeFormGroup.get('email')?.touched ||  employeeFormGroup.get('email')?.dirty))}"
+                        class="mt-1 block w-full  rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+
+                      <!-- Error -->
+                      <div *ngIf="(employeeFormGroup.get('email')?.touched ||  employeeFormGroup.get('email')?.dirty) 
+                        && (employeeFormGroup.get('email')?.errors?.['required'])" class="text-red-500 text-xs pt-1">
+                        Email is invalid</div>
+                    </div>
+                    <!-- Email End -->
+
+                    <!-- Gender -->
+                    <div class="col-span-4 sm:col-span-2">
+                      <label for="gender" class="block text-sm font-medium text-gray-700">Gender</label>
+                      <select formControlName="gender" name="gender" autocomplete="none" [ngClass]="{' border-2 border-red-500' : employeeFormGroup.get('gender')?.errors &&
+                      ( employeeFormGroup.get('gender')?.touched ||  employeeFormGroup.get('gender')?.dirty),
+                  'border-gray-300' : !(employeeFormGroup.get('gender')?.errors &&
+                  ( employeeFormGroup.get('gender')?.touched ||  employeeFormGroup.get('gender')?.dirty))}"
+                        class="mt-1 block w-full bg-white  rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="others">Others</option>
+                      </select>
+
+                      <!-- Error -->
+                      <div *ngIf="(employeeFormGroup.get('gender')?.touched ||  employeeFormGroup.get('gender')?.dirty) 
+                      && (employeeFormGroup.get('gender')?.errors?.['required'])" class="text-red-500 text-xs pt-1">
+                        Gender is invalid</div>
+                    </div>
+                    <!-- Gender End  -->
+
+                    <!-- Address -->
+                    <div class="col-span-4 row-span-2 sm:col-span-2">
+                      <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
+                      <textarea formControlName="address" name="address" rows="6" [ngClass]="{' border-2 border-red-500' : employeeFormGroup.get('address')?.errors &&
+                      ( employeeFormGroup.get('address')?.touched ||  employeeFormGroup.get('address')?.dirty),
+                  'border-gray-300' : !(employeeFormGroup.get('address')?.errors &&
+                  ( employeeFormGroup.get('address')?.touched ||  employeeFormGroup.get('address')?.dirty))}"
+                        class="shadow-sm  focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md"></textarea>
+
+                      <!-- Error -->
+                      <div *ngIf="(employeeFormGroup.get('address')?.touched ||  employeeFormGroup.get('address')?.dirty) 
+                        && (employeeFormGroup.get('address')?.errors?.['required'])" class="text-red-500 text-xs pt-1">
+                        Address is invalid
+                      </div>
+
+                    </div>
+                    <!-- Address End -->
+
+                    <!-- Phone Number -->
+                    <div class="col-span-4 sm:col-span-1">
+                      <label for="mobile" class="block text-sm font-medium text-gray-700">Phone Number</label>
+                      <input formControlName="mobile" type="tel" name="mobile" autocomplete="none" [ngClass]="{' border-2 border-red-500' : employeeFormGroup.get('mobile')?.errors &&
+                      ( employeeFormGroup.get('mobile')?.touched ||  employeeFormGroup.get('mobile')?.dirty),
+                  'border-gray-300' : !(employeeFormGroup.get('mobile')?.errors &&
+                  ( employeeFormGroup.get('mobile')?.touched ||  employeeFormGroup.get('mobile')?.dirty))}"
+                        class="mt-1 block w-full  rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+
+                      <!-- Error -->
+                      <div *ngIf="(employeeFormGroup.get('mobile')?.touched ||  employeeFormGroup.get('mobile')?.dirty) 
+                        && (employeeFormGroup.get('mobile')?.errors?.['required'])" class="text-red-500 text-xs pt-1">
+                        Mobile number is invalid
+                      </div>
+
+                    </div>
+                    <!-- Phone Number -->
+
+                    <!-- Salary  -->
+                    <div class="col-span-4 sm:col-span-1">
+                      <label for="salary" class="flex items-center text-sm font-medium text-gray-700">
+                        <span>Salary <b class="font-medium text-indigo-400 text-xs">(INR)</b></span>
+                      </label>
+                      <input formControlName="salary" type="text" name="salary" autocomplete="none" [ngClass]="{' border-2 border-red-500' : employeeFormGroup.get('salary')?.errors &&
+                      ( employeeFormGroup.get('salary')?.touched ||  employeeFormGroup.get('salary')?.dirty),
+                  'border-gray-300' : !(employeeFormGroup.get('salary')?.errors &&
+                  ( employeeFormGroup.get('salary')?.touched ||  employeeFormGroup.get('salary')?.dirty))}"
+                        class="mt-1 block w-full  rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+
+                      <!-- Error -->
+                      <div *ngIf="(employeeFormGroup.get('salary')?.touched ||  employeeFormGroup.get('salary')?.dirty) 
+                        && (employeeFormGroup.get('salary')?.errors?.['required'])" class="text-red-500 text-xs pt-1">
+                        Salary is invalid
+                      </div>
+
+
+                    </div>
+                    <!-- Salary End -->
+
+                    <!-- Date of Joining -->
+                    <div class="col-span-4 sm:col-span-1">
+                      <label for="dateOfJoining" class="block text-sm font-medium text-gray-700">Date of
+                        Joining</label>
+                      <input formControlName="dateOfJoining" [matDatepicker]="dojpicker" name="dateOfJoining"
+                        autocomplete="none"
+                        [ngClass]="{' border-2 border-red-500' : employeeFormGroup.get('dateOfJoining')?.errors &&
+                        ( employeeFormGroup.get('dateOfJoining')?.touched ||  employeeFormGroup.get('dateOfJoining')?.dirty),
+                    'border-gray-300' : !(employeeFormGroup.get('dateOfJoining')?.errors &&
+                    ( employeeFormGroup.get('dateOfJoining')?.touched ||  employeeFormGroup.get('dateOfJoining')?.dirty))}"
+                        class="border mt-1 block w-full  rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        (click)="dojpicker.open()" placeholder="">
+                      <mat-datepicker #dojpicker [disabled]="false"></mat-datepicker>
+
+                      <!-- Error -->
+                      <div *ngIf="(employeeFormGroup.get('dateOfJoining')?.touched ||  employeeFormGroup.get('dateOfJoining')?.dirty) 
+                      && (employeeFormGroup.get('dateOfJoining')?.errors?.['required'])"
+                        class="text-red-500 text-xs pt-1">
+                        Date of joining is invalid
+                      </div>
+
+
+                    </div>
+                    <!-- Date of Joining End -->
+
+
+                    <!-- Date of Resignation  -->
+                    <div class="col-span-4 sm:col-span-1">
+                      <label for="security-code" class="flex items-center text-sm font-medium text-gray-700">
+                        <span>Date of Resignation</span>
+
+
+                      </label>
+                      <input formControlName="dateOfResignation" [matDatepicker]="dorpicker" name="dateOfResignation"
+                        autocomplete="none"
+                        [ngClass]="{' border-2 border-red-500' : employeeFormGroup.get('dateOfResignation')?.errors &&
+                        ( employeeFormGroup.get('dateOfResignation')?.touched ||  employeeFormGroup.get('dateOfResignation')?.dirty),
+                    'border-gray-300' : !(employeeFormGroup.get('dateOfResignation')?.errors &&
+                    ( employeeFormGroup.get('dateOfResignation')?.touched ||  employeeFormGroup.get('dateOfResignation')?.dirty))}"
+                        class="border mt-1 block w-full  rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        (click)="dorpicker.open()" placeholder="">
+                      <mat-datepicker #dorpicker [disabled]="false"></mat-datepicker>
+
+                      <!-- Error -->
+                      <div *ngIf="(employeeFormGroup.get('dateOfResignation')?.touched ||  employeeFormGroup.get('dateOfResignation')?.dirty) 
+                      && (employeeFormGroup.get('dateOfResignation')?.errors?.['required'])"
+                        class="text-red-500 text-xs pt-1">
+                        Date of resignation is invalid
+                      </div>
+
+                    </div>
+                    <!-- Date of Resignation End -->
+
+                    <!-- Designation -->
+                    <div class="col-span-4 sm:col-span-2">
+                      <label for="designation" class="block text-sm font-medium text-gray-700">Designation</label>
+                      <select name="designation" autocomplete="none" formControlName="designation" [ngClass]="{' border-2 border-red-500' : employeeFormGroup.get('designation')?.errors &&
+                        ( employeeFormGroup.get('designation')?.touched ||  employeeFormGroup.get('designation')?.dirty),
+                    'border-gray-300' : !(employeeFormGroup.get('designation')?.errors &&
+                    ( employeeFormGroup.get('designation')?.touched ||  employeeFormGroup.get('designation')?.dirty))}"
+                        class="mt-1 block w-full bg-white  rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+
+                        <option *ngFor="let des of designation" [value]="des?.id">{{des?.attributes?.name}}</option>
+
+                      </select>
+
+                      <!-- Error -->
+                      <div *ngIf="(employeeFormGroup.get('designation')?.touched ||  employeeFormGroup.get('designation')?.dirty) 
+                      && (employeeFormGroup.get('designation')?.errors?.['required'])"
+                        class="text-red-500 text-xs pt-1">
+                        Designation is invalid
+                      </div>
+
+                    </div>
+                    <!-- Designation End -->
+
+
+                  </div>
+                </div>
+
+              </div>
+            </section>
+
+
+          </div>
+
+
+        </div>
+      </main>
+
+      <!-- Salary History & Document -->
+      <footer class="mt-6 sm:mt-12">
+        <div class="grid sm:grid-cols-2 grid-cols-1 sm:space-x-4">
+
+          <nav *ngIf="singleEmployee?.expenses" class="flex-1 h-72 overflow-y-scroll rounded-md border"
+            aria-label="Directory">
+
+            <!-- Salary History -->
+            <div class="relative">
+              <div class="z-10 sticky top-0  border-gray-200 bg-gray-50 px-6 py-1 text-sm font-medium text-gray-500">
+                <h1>Salary</h1>
+              </div>
+
+              <ul role="list" class="relative z-0 divide-y divide-gray-200">
+                <li *ngFor="let salary of singleEmployee?.expenses">
+                  <a [routerLink]="['../../../expense','edit', salary?.id]"
+                    class="relative px-6 py-5 flex items-center space-x-3 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500">
+                    <div class="flex-shrink-0">
+                      <div class="bg-green-100 h-10 w-10 flex justify-center items-center rounded-full">
+                        <mat-icon class=" text-green-700">call_received</mat-icon>
+                      </div>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                      <div class="focus:outline-none">
+                        <span class="absolute inset-0" aria-hidden="true"></span>
+                        <p class="text-sm font-medium text-red-500">{{currencySymbol}}{{salary?.debit}}</p>
+                        <p class="text-sm text-gray-500 truncate">{{salary?.createdAt | date}}</p>
+                      </div>
+                    </div>
+                    <mat-icon class="text-xl text-indigo-500 hover:text-indigo-600 cursor-pointer p-2 hover:bg-slate-100">open_in_new</mat-icon>
+                  </a>
+                </li>
+              </ul>
+
+            </div>
+            <!-- Salary History End -->
+
+          </nav>
+
+          <!--All Document  -->
+
+          <ul role="list"
+            class="mt-6 h-72 sm:mt-0 divide-y divide-gray-200 rounded-md border border-gray-200 overflow-y-scroll">
+            <div class=" z-10 sticky top-0  border-gray-200 bg-gray-50 px-3 py-1 text-sm font-medium text-gray-500">
+              <h1>Documents <span class="ml-2 text-xs font-normal" [ngClass]="{'text-blue-500' : singleEmployee?.documentVerified, 'text-yellow-400' : !singleEmployee?.documentVerified}">({{singleEmployee?.documentVerified ? 'Document verified' : 'Document not verified'}})</span></h1>
+            </div>
+
+            <!-- Documents from server -->
+            <li *ngFor="let file of singleEmployee?.documents;"
+              class="flex items-center justify-between py-3 pl-3 pr-4 text-sm">
+              <div class="flex w-0 flex-1 items-center">
+                <svg class="h-5 w-5 flex-shrink-0 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                  fill="currentColor" aria-hidden="true">
+                  <path fill-rule="evenodd"
+                    d="M15.621 4.379a3 3 0 00-4.242 0l-7 7a3 3 0 004.241 4.243h.001l.497-.5a.75.75 0 011.064 1.057l-.498.501-.002.002a4.5 4.5 0 01-6.364-6.364l7-7a4.5 4.5 0 016.368 6.36l-3.455 3.553A2.625 2.625 0 119.52 9.52l3.45-3.451a.75.75 0 111.061 1.06l-3.45 3.451a1.125 1.125 0 001.587 1.595l3.454-3.553a3 3 0 000-4.242z"
+                    clip-rule="evenodd" />
+                </svg>
+
+                <span class="ml-2 w-0 flex-1 truncate">{{file?.name}}</span>
+
+              </div>
+              <div class="ml-4 space-x-2 flex-shrink-0">
+
+                <button type="button" (click)="remove(file); $event.stopPropagation(); documentToDelete = file"
+                  class="inline-flex items-center  border border-transparent rounded-full shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                  <mat-icon class="text-base">delete_forever</mat-icon>
+                </button>
+
+                <button type="button" (click)="openPdfViewer(file)"
+                  class="inline-flex items-center  border border-transparent rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                  <mat-icon class="text-base">visibility</mat-icon>
+                </button>
+
+                <button type="button" (click)="downloadPdf(file)"
+                  class="inline-flex items-center  border border-transparent rounded-full shadow-sm text-white bg-yellow-500 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                  <mat-icon class="text-base">download</mat-icon>
+                </button>
+
+
+              </div>
+            </li>
+            <!-- Documents from server end-->
+
+            <!-- Documents from local -->
+            <li *ngFor="let file of files;" class="flex items-center justify-between py-3 pl-3 pr-4 text-sm">
+              <div class="flex w-0 flex-1 items-center">
+                <svg class="h-5 w-5 flex-shrink-0 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                  fill="currentColor" aria-hidden="true">
+                  <path fill-rule="evenodd"
+                    d="M15.621 4.379a3 3 0 00-4.242 0l-7 7a3 3 0 004.241 4.243h.001l.497-.5a.75.75 0 011.064 1.057l-.498.501-.002.002a4.5 4.5 0 01-6.364-6.364l7-7a4.5 4.5 0 016.368 6.36l-3.455 3.553A2.625 2.625 0 119.52 9.52l3.45-3.451a.75.75 0 111.061 1.06l-3.45 3.451a1.125 1.125 0 001.587 1.595l3.454-3.553a3 3 0 000-4.242z"
+                    clip-rule="evenodd" />
+                </svg>
+
+                <span class="ml-2 w-0 flex-1 truncate">{{file?.name}}</span>
+
+              </div>
+              <div class="ml-4 space-x-2 flex-shrink-0">
+
+                <button type="button" (click)="remove(file); $event.stopPropagation(); documentToDelete = file"
+                  class="inline-flex items-center  border border-transparent rounded-full shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                  <mat-icon class="text-base">delete_forever</mat-icon>
+                </button>
+
+              </div>
+            </li>
+            <!-- Documents from local end -->
+            <div
+              class="sticky bottom-0 cursor-pointer bg-indigo-50 border-t w-full text-sm leading-8 font-medium text-gray-700 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              <label for="upload-document" class="flex items-center justify-center  w-full py-2 text-indigo-500">
+                <mat-icon class="mr-2 text-md text-indigo-500">
+                  add
+                </mat-icon>
+                Upload Document
+              </label>
+              <input type="file" accept=".pdf" onclick="this.value = null" (change)="uploadFile($event)"
+                name="upload-document" id="upload-document" style="opacity: 0; position: absolute; z-index: -1;" />
+            </div>
+
+          </ul>
+          <!--All Document End -->
+
+
+          <fieldset class="border-b border-gray-200 mt-6">
+            <legend class="sr-only">Notifications</legend>
+            <div class="divide-y divide-gray-200">
+              <div class="relative flex items-start py-4">
+                <div class="min-w-0 flex-1 text-sm">
+                  <label for="document-verified" class="font-medium text-gray-700">Verify Documents</label>
+                  <p id="document-verified-description" class="text-gray-500">Check this if the documnets uploaded are
+                    correct.</p>
+                </div>
+                <div class="ml-3 flex items-center h-5">
+                  <input formControlName="documentVerified" aria-describedby="document-verified"
+                    name="document-verified" type="checkbox" [checked]="employeeFormGroup.get('documentVerified')?.value"
+                    class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                </div>
+              </div>
+            </div>
+          </fieldset>
+
+        </div>
+      </footer>
+      <!-- Salary History & Document End-->
+
+    </form>
+    <!-- Form End -->
+  </div>
+
+  <!-- confirm delete popup -->
+
+  <div *ngIf="showDeleteDocumentDialog" class="fixed h-full inset-0 z-50 overflow-y-auto" role="dialog"
+    aria-modal="true">
+    <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center ">
+
+      <div
+        [ngClass]="{'ease-out duration-300 opacity-100' : showDeleteDocumentDialog, 'ease-in duration-200 opacity-0' : !showDeleteDocumentDialog}"
+        class="fixed inset-0 bg-gray-500 bg-opacity-25 transition-opacity" aria-hidden="true">
+      </div>
+
+      <div
+        [ngClass]="{'ease-out duration-300 opacity-100 scale-100' : showDeleteDocumentDialog, 'ease-in duration-200 opacity-0 scale-95' : !showDeleteDocumentDialog}"
+        class="relative inline-block align-middle m-4 max-w-xl  w-full sm:m-auto transform divide-y divide-gray-500 divide-opacity-10 overflow-hidden rounded-xl bg-white bg-opacity-80 shadow-2xl ring-1 ring-black ring-opacity-5 backdrop-blur backdrop-filter transition-all">
+
+
+        <div (clickOutside)="showDeleteDocumentDialog = false">
+          <div class="flex items-start px-4 pt-5 p-6 ">
+            <div class="flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full sm:mx-0 sm:h-10 sm:w-10">
+              <mat-icon class="h-6 w-6 text-yellow-500" aria-hidden="false" aria-label="warning">
+                warning
+              </mat-icon>
+            </div>
+            <div class="mt-0 ml-4 text-left">
+              <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">Are
+                you sure?</h3>
+              <div class="mt-2">
+                <p class="text-sm text-gray-500">
+                  Once deleted you won't be able to retrive the data.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-2 flex justify-between px-4 py-5 sm:gap-4 sm:px-6 border-t">
+
+            <button type="button" (click)="showDeleteDocumentDialog = false"
+              class="py-2 px-4 border border-indigo-500 text-sm font-medium rounded-md text-indigo-500  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              Cancel
+            </button>
+
+
+            <button type="button" (click)="deleteUpload(documentToDelete)"
+              class="cursor-pointer py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+              Ok, Delete
+            </button>
+
+
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+  <!-- confirm delete popup end -->
+
+</div>

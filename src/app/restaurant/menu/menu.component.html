@@ -1,0 +1,78 @@
+<div class="w-full dark:bg-gray-900">
+
+    <div class="pb-20 pt-8 mx-auto max-w-7xl dark:bg-gray-900">
+        <router-outlet></router-outlet>
+    </div>
+
+    <section id="bottom-navigation" style="box-shadow: 0px -2px 10px 0px #00000017;"
+        class="block dark:bg-gray-800 bg-white fixed inset-x-0 -bottom-4 z-10 shadow-md">
+        <div id="tabs" class="flex justify-between mx-auto max-w-md">
+            <div *ngFor="let menu of menus;" [routerLink]="[menu.slug]" [queryParams]="{tb: tb}" 
+                class=" cursor-pointer w-full rounded-md justify-center inline-block text-center px-4 py-4 custom-ripple"
+                matRipple [matRippleCentered]="false" [matRippleDisabled]="false" [matRippleUnbounded]="false">
+                <mat-icon *ngIf="menu.icon && (cartCount == 0 || menu.slug != 'cart')" routerLinkActive="text-indigo-500 dark:text-indigo-500" class="dark:text-white">{{menu.icon}}</mat-icon>
+                <mat-icon *ngIf="menu.icon && menu.slug == 'cart' && cartCount > 0" routerLinkActive="text-indigo-500 dark:text-indigo-500" 
+                [matBadge]="cartCount" 
+                matBadgeColor="accent" 
+                matBadgeOverlap="true" 
+                class="dark:text-white">
+                    {{menu.icon}}
+                </mat-icon>
+                <span *ngIf="menu.name"  routerLinkActive="text-indigo-500 dark:text-indigo-500" class="tab tab-home block text-sm dark:text-white font-medium">
+                    {{menu.name}}
+                </span>
+                <div routerLinkActive="bg-indigo-500 dark:bg-indigo-500" class="h-1 w-full mt-2 z-10"></div>
+            </div>
+
+        </div>
+    </section>
+
+</div>
+
+<!-- Privacy Policy Consent -->
+
+<div *ngIf="showPrivacyPolicyPopup" class="z-50 fixed bottom-6 mb-16 sm:ml-6 mx-4">
+    <div
+        class="relative backdrop-blur-lg bg-opacity-80 inline-block align-bottom bg-slate-900 rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-2xl transform transition-all  sm:max-w-sm sm:w-full sm:p-6">
+
+        <!-- <button (click)="showPrivacyPolicyPopup = false"
+            class="absolute top-2 right-2  rounded-full p-1 inline-flex text-gray-400 focus:outline-none custom-ripple"
+            matRipple [matRippleCentered]="false" [matRippleDisabled]="false" [matRippleUnbounded]="false">
+            <span class="sr-only">Close</span>
+
+            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                aria-hidden="true">
+                <path fill-rule="evenodd"
+                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                    clip-rule="evenodd" />
+            </svg>
+
+
+        </button> -->
+
+        <div>
+            <div class="mx-auto sm:mx-0 flex items-center justify-center h-24 w-24 rounded-full bg-amber-100">
+                <mat-icon class="flex justify-center h-24 w-24 text-amber-800 text-6xl">cookie</mat-icon>
+            </div>
+            <div class="mt-3 text-center sm:text-left  sm:mt-5">
+                <h3 class="text-lg leading-6 font-medium text-gray-100">Your privacy</h3>
+                <div class="mt-2">
+                    <p class="text-sm text-gray-300">By clicking "Accept all cookies", you agree we can store cookies on
+                        your device and disclose information in accordance with our "Cookie Policy".</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-5 sm:mt-6">
+            <button type="button" [routerLink]="['../../policy']"
+                class="w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:col-start-1 sm:text-sm">
+                View privacy policy
+            </button>
+            <button type="button" (click)="changePrivacyPolicyConsent()"
+                class="mt-3  w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:col-start-2 sm:text-sm">
+                Accept all cookies
+            </button>
+        </div>
+    </div>
+</div>
+<!-- Privacy Policy Consent End-->

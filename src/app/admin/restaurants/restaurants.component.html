@@ -1,0 +1,34 @@
+<app-loader class="absolute top-0 left-0" *ngIf="loading"></app-loader>
+<div *ngIf="!loading" class="pt-8 bg-gray-100 min-h-screen">
+    <app-loader class="absolute top-0 left-0 w-full" *ngIf="loading"></app-loader>
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <h2 class="text-xl font-medium text-gray-900">Restaurants/Cafe</h2>
+        <p class="mt-1 text-sm text-gray-500">In order to create new restaurant/cafe, connect with your administrator.
+        </p>
+        <ul role="list" class="mt-6 bg-white rounded-lg px-4 shadow">
+            <li *ngFor="let restaurant of restaurants;let first = first;let last= last" 
+            [ngClass]="{'border-b' : !last}">
+                
+                <div class="flex py-4">
+                    <div class="mr-4 flex-shrink-0">
+                        <img loading="lazy" *ngIf="restaurant.image" class="object-cover w-16 rounded-md"
+                        [src]="restaurant?.image ? getImageUrl(restaurant?.image) : '' " [alt]="restaurant?.name">
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-bold">{{restaurant?.name}}</h4>
+                        <p *ngIf="restaurant.description" class="mt-1">{{restaurant?.description}}</p>
+                        <span class="text-gray-500 text-sm" *ngIf="restaurant.tagline">{{restaurant?.tagline}}</span>
+                    </div>
+                </div>
+
+            </li>
+
+
+        </ul>
+        <!-- <div class="mt-6 flex">
+            <a href="#" class="text-sm font-medium text-indigo-600 hover:text-indigo-500">Or start from an empty
+                project<span aria-hidden="true"> &rarr;</span></a>
+        </div> -->
+    </div>
+</div>

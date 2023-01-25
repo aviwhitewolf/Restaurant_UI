@@ -1,0 +1,62 @@
+<div *ngIf="loading" class="flex justify-center items-center w-full p-4">
+    <h1 class="text-xl font-bold text-gray-700">Loading...</h1>
+</div>
+<h2 *ngIf="!loading" class="text-lg font-medium text-gray-900">Search</h2>
+
+<div *ngIf="!loading" class="mx-auto">
+    <div>
+        <form class="mt-6 sm:flex sm:items-center">
+            <label for="search" class="sr-only">Search</label>
+            <div class="relative rounded-md shadow-sm sm:min-w-0 sm:flex-1">
+                <input type="text" name="search" [(ngModel)]="searchTerm"
+                    class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pr-32 sm:text-sm border-gray-300 rounded-md"
+                    placeholder="Burger...">
+            </div>
+        </form>
+    </div>
+    <div class="mt-4">
+        <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Result</h3>
+        <ul role="list" class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4">
+
+            <ng-container *ngFor="let dish of filteredDishes">
+                <ng-container *ngFor="let category of dish.category">
+                    <button *ngIf="format == 'WITH_CATEGORY'" (click)="selectedDish(dish, category)">
+                        <div
+                            class="cursor-pointer bg-gray-100 p-2 w-full flex items-center justify-between rounded-full border border-gray-300 shadow-sm  text-left hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            <img loading="lazy" class="h-10 w-10 object-cover rounded-full"
+                                [src]="dish?.image ? getImageUrl(dish?.image[0]) : '' " [alt]="dish.name">
+                            <div class="flex w-full flex-col ml-2">
+                                <span class="flex text-sm font-medium text-gray-900 capitalize">
+                                    {{category?.name}} {{dish?.name}}
+                                </span>
+                                <span class="flex text-sm font-medium text-red-500">
+                                    {{category?.price | currency :
+                                    currencySymbol}}
+                                </span>
+                            </div>
+                            <mat-icon class="text-md ml-2 text-gray-500 mr-2">
+                                add</mat-icon>
+                        </div>
+                    </button>
+
+                </ng-container>
+                <button (click)="selectedDish(dish, null)" *ngIf="format == 'WITHOUT_CATEGORY'">
+
+                    <div
+                        class="cursor-pointer bg-gray-100 p-2 w-full flex items-center justify-between rounded-full border border-gray-300 shadow-sm  text-left hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <img loading="lazy" class="h-10 w-10 rounded-full object-cover "
+                            [src]="dish?.image ? getImageUrl(dish?.image[0]) : '' " [alt]="dish.name">
+                        <div class="flex w-full flex-col ml-2">
+                            <span class="flex text-sm font-medium text-gray-900 capitalize">
+                                {{dish?.name}}
+                            </span>
+                        </div>
+                        <mat-icon class="text-md ml-2 text-gray-500 mr-2">
+                            add</mat-icon>
+                    </div>
+                </button>
+            </ng-container>
+            
+        </ul>
+    </div>
+</div>

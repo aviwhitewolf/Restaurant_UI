@@ -1,0 +1,109 @@
+<app-loader class="absolute top-0 left-0" *ngIf="loading"></app-loader>
+<main *ngIf="!loading" class="flex-1 pb-8 bg-gray-100 min-h-screen">
+  <!-- Page header -->
+  <div *ngIf="overview?.restaurant" class="bg-white shadow">
+    <div class="px-4 sm:px-6 lg:max-w-6xl lg:mx-auto lg:px-8">
+      <div class="py-6 md:flex md:items-center md:justify-between">
+        <div class="flex-1 min-w-0">
+          <!-- Profile -->
+          <div class="flex items-center">
+
+            <img loading="lazy" class=" hidden h-16 w-16 rounded-full sm:block" *ngIf="!restaurant?.showLogo"
+              [src]="getImageUrl(restaurant?.image ? restaurant?.image : '')" [alt]="restaurant?.name">
+
+            <img loading="lazy" class="hidden h-16 w-16 rounded-full sm:block" *ngIf="restaurant?.showLogo"
+              [src]="getImageUrl(restaurant?.logo ? restaurant?.logo : '')" [alt]="restaurant?.name">
+            <div>
+              <div *ngIf="restaurant" class="flex items-center ">
+                <img loading="lazy" class="h-16 w-16 rounded-full sm:hidden"
+                  [src]="restaurant?.image ? getImageUrl(restaurant.image) : '' " alt="restaurant.slug">
+                <h1 class="flex flex-wrap ml-3 text-2xl font-bold leading-7 text-gray-900 sm:leading-9 sm:truncate">{{getWish()}}<span
+                    *ngIf="user?.fullName">, {{user?.fullName}}</span></h1>
+              </div>
+              <dl *ngIf="restaurant" class="mt-6 flex flex-col sm:ml-3 sm:mt-1 sm:flex-row sm:flex-wrap">
+                <dt class="sr-only">Name</dt>
+                <dd class="flex items-center text-sm text-gray-500 font-medium capitalize sm:mr-6">
+                  <!-- Heroicon name: solid/office-building -->
+                  <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd"
+                      d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 110 2h-3a1 1 0 01-1-1v-2a1 1 0 00-1-1H9a1 1 0 00-1 1v2a1 1 0 01-1 1H4a1 1 0 110-2V4zm3 1h2v2H7V5zm2 4H7v2h2V9zm2-4h2v2h-2V5zm2 4h-2v2h2V9z"
+                      clip-rule="evenodd" />
+                  </svg>
+                  {{restaurant?.name}}
+                </dd>
+                <dt class="sr-only">Account status</dt>
+                <dd class="mt-3 flex items-center text-sm text-gray-500 font-medium sm:mr-6 sm:mt-0 capitalize">
+                  <!-- Heroicon name: solid/check-circle -->
+                  <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-green-400" xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                      clip-rule="evenodd" />
+                  </svg>
+                  Verified account
+                </dd>
+              </dl>
+            </div>
+          </div>
+        </div>
+        <div class="mt-6 flex space-x-3 md:mt-0 md:ml-4">
+          <button [routerLink]="['../expense','add']"
+            class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            Add Expense
+          </button>
+          <button [routerLink]="['../orders','create']"
+            class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            <mat-icon class="mr-2 text-md">
+              add</mat-icon> Create Order
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+
+
+      <app-date-range (data)="dateRangeChanged($event)" #dateRange></app-date-range>
+
+      <h2 class="text-lg leading-6 font-medium text-gray-900">
+        Overview
+        <span *ngIf="activeDateRange" class="lowercase text-gray-500 text-xs font-normal">&nbsp;of&nbsp;{{activeDateRange}}</span>
+      </h2>
+      <app-cards [data]="overview?.cards"></app-cards>
+
+      <div class="mt-16 grid grid-cols-1 gap-y-8 lg:grid-cols-2 lg:gap-x-8">
+
+        <app-dish-chart *ngIf="overview && dateData" [data]="overview?.dishesSale" [start]="dateData?.start"
+          [end]="dateData?.end">
+        </app-dish-chart>
+
+        <app-sales-chart *ngIf="overview && dateData" [data]="overview?.sale" [start]="dateData?.start" [end]="dateData?.end">
+        </app-sales-chart>
+
+        <app-expense-chart *ngIf="overview && dateData" [data]="overview?.expense" [start]="dateData?.start"
+          [end]="dateData?.end"></app-expense-chart>
+
+        <app-expense-category-radial-bar *ngIf="overview && dateData" [data]="overview?.expenseGroupByCategory">
+        </app-expense-category-radial-bar>
+
+      </div>
+
+
+
+    </div>
+
+
+
+
+    <!-- table -->
+    <!-- <h2 class="max-w-6xl mx-auto mt-8 px-4 text-lg leading-6 font-medium text-gray-900 sm:px-6 lg:px-8">
+      Recent Transaction
+    </h2> -->
+
+
+
+  </div>
+</main>

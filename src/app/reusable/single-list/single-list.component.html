@@ -1,0 +1,13 @@
+<div *ngIf="dishes && dishes.length > 0" class=" mt-12 mb-6 h-full flex flex-col text-gray-900 dark:bg-gray-900 dark:text-white">
+    <div class="ml-3 md:ml-6 flex items-start justify-between">
+        <h2 class="text-2xl font-bold text-gray-900 dark:bg-gray-900 dark:text-white" id="slide-over-title">{{heading}}</h2>
+    </div>
+    <div class="my-6 mx-4 sm:mx-6">
+        <div class="flow-root">
+            <ul role="list" class="-my-6 divide-y divide-gray-200 dark:divide-gray-800">
+                <app-dish-card *ngFor="let dish of dishes;let index = index;" [dish]="dish" [theme]="'list'"
+                    (openDishInfo)="openDishInfo($event);"></app-dish-card>
+            </ul>
+        </div>
+    </div>
+</div>

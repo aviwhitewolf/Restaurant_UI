@@ -1,0 +1,106 @@
+<!-- slide theme -->
+<div *ngIf="theme == 'slide'" (click)="dishInfo(dish); $event.stopPropagation()"
+    class="relative shadow-md rounded-2xl m-2 dark:bg-gray-700 bg-white overflow-hidden custom-ripple" matRipple
+    [matRippleCentered]="false" [matRippleDisabled]="false" [matRippleUnbounded]="false">
+    <div class="mb-4 relative text-center w-full overflow-hidden bg-gray-200 aspect-w-1 aspect-h-1">
+        <img loading="lazy" [ngClass]="{'opacity-60' : !dish.inStock}" [src]="dish.image"
+            class="mx-auto mb-4 w-full object-center object-cover" [alt]="dish.name"
+            style="max-width: 320px;  aspect-ratio: 4 / 3;" />
+
+        <div *ngIf="!dish.inStock"
+            class="font-bold text-white py-2 my-auto centered z-10 h-max bg-black bg-opacity-50 backdrop-blur backdrop-filter">
+            <span>OUT OF STOCK</span>
+        </div>
+    </div>
+    <div class="p-4">
+        <h1 class="text-center text-gray-800 text-xl dark:text-white font-bold mb-2 truncate ...">
+            {{dish.name}}
+        </h1>
+        <p *ngIf="dish.category.length > 0" class="capitalize text-gray-400 text-center text-xs truncate ...">
+            <span>{{getCategoryString()}}</span>
+        </p>
+        <div class="flex justify-between text-lg mt-4 font-bold">
+            <div class="flex items-center"><span
+                    class="text-red-500 dark:text-red-700">{{currencySymbol}}{{dish.category[0]?.price}}</span></div>
+            <button *ngIf="dish.inStock" [disabled]="!dish.inStock" (click)="addToCart(); $event.stopPropagation();"
+                class="disabled:bg-indigo-300 shadow-md bg-indigo-500 dark:bg-indigo-500 cursor-pointer rounded-full flex justify-center items-center w-8 h-8 active:bg-indigo-700 active:shadow-sm  custom-ripple"
+                matRipple [matRippleCentered]="false" [matRippleDisabled]="false" [matRippleUnbounded]="false">
+                <mat-icon class="text-white">add</mat-icon>
+            </button>
+        </div>
+    </div>
+    <div>
+    </div>
+    <div [ngClass]="dish.type == 'Veg'?'bg-green-600' : 'bg-red-600'"
+        class="w-4 h-4 border-2 shadow-md border-white absolute top-3 right-3 rounded-full"></div>
+</div>
+
+<!-- grid theme -->
+<div *ngIf="theme == 'grid'" (click)="dishInfo(dish); $event.stopPropagation();" class="relative">
+    <div class="border rounded-lg overflow-hidden bg-white pb-2 dark:bg-gray-700 dark:border-gray-800 custom-ripple"
+        matRipple [matRippleCentered]="false" [matRippleDisabled]="false" [matRippleUnbounded]="false">
+
+        <div class="relative text-center w-full overflow-hidden bg-gray-200 aspect-w-1 aspect-h-1">
+            <img loading="lazy" [ngClass]="{'opacity-60' : !dish.inStock}" [src]="dish.image"
+                class="mx-auto w-full object-center object-cover" [alt]="dish.name"
+                style="max-width: 320px;  aspect-ratio: 4 / 3;" />
+
+            <div *ngIf="!dish.inStock"
+                class="font-bold text-white py-2 my-auto centered z-10 h-max bg-black bg-opacity-50 backdrop-blur backdrop-filter">
+                <span>OUT OF STOCK</span>
+            </div>
+        </div>
+
+        <div class="pt-4 text-xs sm:text-base px-2 md:px-3">
+            <p class="dark:text-white font-bold truncate ...">{{dish.name}}</p>
+            <p *ngIf="dish.category.length > 0" class="capitalize text-gray-500 text-xs truncate ...">
+                {{getCategoryString()}}</p>
+            <div class="flex justify-between items-center mb-2 md:mb-4 font-bold mt-3 px-1 mx-auto"
+                style="max-width: 200px">
+                <div class="flex items-center"><span
+                        class="text-red-500 dark:text-red-700">{{currencySymbol}}{{dish.category[0]?.price}}</span>
+                </div>
+                <button *ngIf="dish.inStock" [disabled]="!dish.inStock" (click)="addToCart(); $event.stopPropagation()"
+                    class="disabled:bg-indigo-300 shadow-md bg-indigo-500 dark:bg-indigo-500 cursor-pointer rounded-full flex justify-center items-center w-6 h-6 md:w-8 md:h-8 active:bg-indigo-700 active:shadow-sm  custom-ripple"
+                    matRipple [matRippleCentered]="false" [matRippleDisabled]="false" [matRippleUnbounded]="false">
+                    <mat-icon class="flex items-center text-white text-base">add</mat-icon>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div [ngClass]="dish.type == 'Veg'?'bg-green-600 dark:bg-green-700' : 'bg-red-600 dark:bg-red-700'"
+        class="w-3 h-3 border-2 shadow-md border-white  absolute top-3 right-3 rounded-full"></div>
+
+</div>
+
+<!-- single list theme -->
+<div *ngIf="theme == 'list'" (click)="dishInfo(dish); $event.stopPropagation();"
+    class="py-6 flex items-center w-full border-b dark:border-gray-700 custom-ripple">
+    <div
+        class="relative flex-shrink-0 w-24 h-24 rounded-lg overflow-hidden dark:border-gray-700 dark:bg-gray-700">
+
+        <img loading="lazy" [ngClass]="{'opacity-60' : !dish.inStock}" [src]="dish.image"
+            class="w-full h-full object-center object-cover" [alt]="dish.name" />
+
+    </div>
+
+    <div class="ml-4 flex-1 flex flex-col">
+        <div class="flex justify-between text-base font-medium text-gray-900 ">
+            <h3 class="flex dark:text-white">{{dish.name}}</h3>
+            <p class="ml-4 text-red-500 dark:text-red-700">{{currencySymbol}}{{dish.category[0]?.price}}</p>
+        </div>
+        <p class="capitalize flex mt-2 text-xs text-gray-500" *ngIf="dish.category.length > 0">{{getCategoryString()}}
+        </p>
+        <p *ngIf="!dish?.inStock" class="mt-2 capitalize text-xs font-bold text-red-500">OUT OF STOCK</p>
+        <div class="mt-2 flex-1 flex items-center justify-between text-sm">
+            <p [ngClass]="dish.type == 'Veg'?'bg-green-100 text-green-800' : 'bg-red-100 text-red-500'"
+                class="text-gray-500 px-1.5 rounded-full ">{{dish.type}}</p>
+
+            <button *ngIf="dish.inStock" [disabled]="!dish.inStock" (click)="addToCart(); $event.stopPropagation();"
+                class="disabled:bg-indigo-300 ml-4 bg-indigo-500 dark:bg-indigo-500 cursor-pointer rounded-full flex justify-center items-center w-8 h-8 active:bg-indigo-700  custom-ripple"
+                matRipple [matRippleCentered]="false" [matRippleDisabled]="false" [matRippleUnbounded]="false">
+                <mat-icon class="text-white">add</mat-icon>
+            </button>
+        </div>
+    </div>
+</div>

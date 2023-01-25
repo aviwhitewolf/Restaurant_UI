@@ -1,0 +1,111 @@
+<ng-container *ngIf="theme == 'user'">
+  <li *ngFor="let property of dish.category | keyvalue;" class="py-6 flex border-b dark:border-gray-700">
+    <div class="flex-shrink-0 w-24 h-24 rounded-lg overflow-hidden">
+      <img loading="lazy" [src]="getImageUrl(dish)" [alt]="dish.name" class="w-full h-full object-center object-cover">
+    </div>
+
+    <div class="ml-4 flex-1 flex flex-col">
+
+      <div>
+        <div class="flex justify-between text-base font-medium text-gray-900 dark:text-white">
+          <h3 class="capitalize">
+            {{getJsonData(property.value, 'name')}}
+          </h3>
+          <p class="ml-4 text-red-500 dark:text-red-700">{{currencySymbol}}{{getJsonData(property.value,'price') *
+            getJsonData(property.value,'quantity')}}</p>
+        </div>
+        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{dish.name}} / {{currencySymbol}}{{getJsonData(property.value,'price')}}
+        </p>
+      </div>
+      <div class="flex-1 flex items-center justify-between text-sm mt-2">
+
+        <p [ngClass]="dish.type == 'Veg'?'bg-green-100 text-green-800' : 'bg-red-100 text-red-500'"
+          class="text-gray-500 px-1.5 py-1  rounded-full text-xs">{{type}}</p>
+
+        <div class="flex items-center space-x-3 border-2 dark:border-gray-700 rounded-full">
+
+          <button (click)="decreaseQuntity(getJsonData(property.value, 'name'))"
+            class="bg-indigo-500 dark:bg-indigo-500 cursor-pointer rounded-full flex justify-center items-center w-8 h-8 active:bg-indigo-700  dark:active:bg-indigo-800 custom-ripple"
+            matRipple [matRippleCentered]="false" [matRippleDisabled]="false" [matRippleUnbounded]="false">
+            <mat-icon class="text-white">remove</mat-icon>
+          </button>
+          <p class="text-gray-500 text-sm dark:text-gray-100">{{getJsonData(property.value,'quantity') || 0}}</p>
+          <button (click)="increaseQuntity(getJsonData(property.value, 'name'))"
+            class="ml-4 bg-indigo-500  dark:bg-indigo-500 cursor-pointer rounded-full flex justify-center items-center w-8 h-8 active:bg-indigo-700 dark:active:bg-indigo-800 custom-ripple"
+            matRipple [matRippleCentered]="false" [matRippleDisabled]="false" [matRippleUnbounded]="false">
+            <mat-icon class="text-white">add</mat-icon>
+          </button>
+        </div>
+
+        <div class="flex">
+          <button (click)="removeDish(getJsonData(property.value, 'name'))" type="button"
+            class="font-medium text-indigo-500 hover:text-indigo-500 p-2 rounded-full custom-ripple" matRipple
+            [matRippleCentered]="false" [matRippleDisabled]="false" [matRippleUnbounded]="false">
+            Remove
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </li>
+</ng-container>
+
+<ng-container *ngIf="theme == 'admin'">
+
+  <ul *ngFor="let property of dish.category | keyvalue;" role="list" class="divide-y divide-gray-200 border-b">
+    <li class="flex py-6 ">
+      <div class="flex-shrink-0">
+        <img loading="lazy" [src]="getImageUrl(dish)" [alt]="dish.name" class="w-20 h-20 object-cover rounded-md">
+      </div>
+
+      <div class="ml-6 flex-1 flex flex-col">
+        <div class="flex">
+          <div class="min-w-0 flex-1">
+            <h4 class="text-sm">
+              <div class="font-medium text-gray-700 hover:text-gray-800 capitalize"> {{getJsonData(property.value,
+                'name')}} {{type}} {{dish.name}} </div>
+            </h4>
+            <p class="mt-1 text-sm text-gray-500"> {{currencySymbol}}{{getJsonData(property.value,'price')}}</p>
+
+          </div>
+
+          <div class="ml-4 flex-shrink-0 flow-root">
+            <button type="button" (click)="removeDish(getJsonData(property.value, 'name'))"
+              class="-m-2.5 bg-white p-2.5 flex items-center justify-center text-gray-400 hover:text-gray-500 custom-ripple"
+              matRipple [matRippleCentered]="false" [matRippleDisabled]="false" [matRippleUnbounded]="false">
+              <span class="sr-only">Remove</span>
+              <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                aria-hidden="true">
+                <path fill-rule="evenodd"
+                  d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                  clip-rule="evenodd" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="flex-1 pt-2 flex items-end justify-between">
+          <div class="flex items-center overflow-hidden space-x-3 border rounded-md ">
+
+            <button (click)="decreaseQuntity(getJsonData(property.value, 'name'))"
+              class="cursor-pointer  bg-gray-100 hover:bg-gray-200 flex justify-center items-center w-6 h-6 ">
+              <mat-icon class="text-gray-400 hover:text-gray-500 rounded-full custom-ripple" matRipple [matRippleCentered]="false"
+                [matRippleDisabled]="false" [matRippleUnbounded]="false">remove</mat-icon>
+            </button>
+            <p class="text-gray-500 text-sm dark:text-gray-100">{{getJsonData(property.value,'quantity') || 0}}</p>
+            <button (click)="increaseQuntity(getJsonData(property.value, 'name'))"
+              class="ml-4 bg-gray-100 cursor-pointer hover:bg-gray-200  flex justify-center items-center w-6 h-6 ">
+              <mat-icon class="text-gray-400 hover:text-gray-500 custom-ripple" matRipple [matRippleCentered]="false"
+                [matRippleDisabled]="false" [matRippleUnbounded]="false">add</mat-icon>
+            </button>
+          </div>
+          <p class="mt-1 text-sm font-medium text-red-500">{{currencySymbol}}{{getJsonData(property.value,'price') *
+            getJsonData(property.value,'quantity')}}</p>
+
+        </div>
+      </div>
+    </li>
+
+  </ul>
+
+</ng-container>

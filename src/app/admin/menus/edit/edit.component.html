@@ -1,0 +1,159 @@
+<app-loader class="absolute top-0 left-0" *ngIf="loading"></app-loader>
+<div *ngIf="!loading" class="bg-gray-100 min-h-screen">
+    <div class="pt-8 pb-12">
+        <div class="max-w-6xl mx-auto px-4 space-y-4 sm:px-6 lg:px-8">
+
+            <div class="flex justify-between py-4 items-center">
+                <button (click)="goBackback()" class="text-indigo-500 flex items-center  text-sm  ">
+                    <mat-icon class="mr-2 text-base ">
+                        arrow_back</mat-icon> Back
+                </button>
+                <button (click)="updateMenu()" [disabled]="menuUpdateFormGroup.invalid"
+                    class="disabled:bg-indigo-400 flex items-center bg-indigo-600 border border-transparent rounded-md shadow-sm py-2 px-4 text-sm text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500">
+                    <mat-icon class="mr-2">
+                        save</mat-icon>
+                    Save
+                </button>
+            </div>
+
+            <section>
+                <form [formGroup]="menuUpdateFormGroup">
+                    <div class="shadow sm:rounded-md sm:overflow-hidden">
+                        <div class="bg-white py-6 px-4 sm:p-6">
+                            <div>
+                                <h2 id="payment-details-heading" class="text-lg leading-6 font-medium text-gray-900">
+                                    Menu Details</h2>
+                                <p class="mt-1 text-sm text-gray-500">Add or Update your Menu information. Add or remove dish
+                                </p>
+                            </div>
+
+                            <div class="mt-6 grid grid-cols-4 gap-6">
+                                <div class="col-span-4 sm:col-span-2">
+                                    <label for="menu-name" class="block text-sm font-medium text-gray-700">Menu
+                                        name</label>
+                                    <input formControlName="name" type="text" name="menu-name" autocomplete="menu-name"
+                                        [ngClass]="{'border-2 border-red-500' : menuUpdateFormGroup.get('name')?.errors && (menuUpdateFormGroup.get('name')?.touched ||  menuUpdateFormGroup.get('name')?.dirty),
+                                        'border-gray-300' : !(menuUpdateFormGroup.get('name')?.errors && (menuUpdateFormGroup.get('name')?.touched ||  menuUpdateFormGroup.get('name')?.dirty))}"
+                                        class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm rounded-md">
+                                    <div *ngIf="menuUpdateFormGroup.get('name')?.errors?.['required'] &&  (menuUpdateFormGroup.get('name')?.errors && (menuUpdateFormGroup.get('name')?.touched ||  menuUpdateFormGroup.get('name')?.dirty))"
+                                        class="text-red-500 text-xs pt-1">Menu name is invalid</div>
+                                </div>
+
+                                <div class="col-span-4 sm:col-span-2">
+                                    <label for="sequence"
+                                        class="block text-sm font-medium text-gray-700">Sequence</label>
+                                    <input type="number" formControlName="sequence" name="sequence"
+                                        autocomplete="sequence"
+                                        [ngClass]="{'border-2 border-red-500' : menuUpdateFormGroup.get('sequence')?.errors && (menuUpdateFormGroup.get('sequence')?.touched ||  menuUpdateFormGroup.get('sequence')?.dirty),
+                                        ' border-gray-300' : !(menuUpdateFormGroup.get('sequence')?.errors && (menuUpdateFormGroup.get('sequence')?.touched ||  menuUpdateFormGroup.get('sequence')?.dirty))}"
+                                        class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm rounded-md">
+                                    <div *ngIf="menuUpdateFormGroup.get('sequence')?.errors?.['required'] && (menuUpdateFormGroup.get('sequence')?.errors && (menuUpdateFormGroup.get('sequence')?.touched ||  menuUpdateFormGroup.get('sequence')?.dirty))"
+                                        class="text-red-500 text-xs pt-1">Sequence is invalid</div>
+                                </div>
+                            </div>
+
+                            <button (click)="showSearchDishDialog = true; $event.stopPropagation()"
+                                *ngIf="singleMenuAndDish?.dishes?.length == 0 "
+                                class=" mt-6 relative block w-full border-2 border-gray-300 border-dashed rounded-lg p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                <mat-icon class="mr-2 font-bold text-gray-500">local_dining</mat-icon>
+                                <span class="mt-2 block text-sm font-medium text-gray-900">No dish found, add a dish
+                                </span>
+                            </button>
+
+
+                            <!-- dishes -->
+                            <div *ngIf="singleMenuAndDish?.dishes"
+                                class="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+
+                                <div *ngFor="let dish of singleMenuAndDish?.dishes"
+                                    class="p-4 w-full relative rounded-lg border  border-gray-200 bg-white shadow-sm flex items-center focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
+
+                                    <div (click)="removeDish(dish)"
+                                        class="animate-bounce hover:animate-none absolute -top-2 -right-2 text-xs text-gray-400 hover:text-red-500 z-50">
+                                        <mat-icon>do_not_disturb_on</mat-icon>
+                                    </div>
+
+                                    <img loading="lazy" class="object-cover w-24 h-24 rounded-full"
+                                        [src]="dish?.image ? getImageUrl(dish?.image ? dish?.image[0] : '') : ''" [alt]="dish?.name">
+
+                                    <div class="flex-1 min-w-0 my-auto px-3 py-2">
+                                        <div class="focus:outline-none">
+                                            <span class="absolute inset-0" aria-hidden="true"></span>
+                                            <div class="text-md flex font-medium text-gray-900 capitalize">
+                                                {{dish?.name}}
+                                            </div>
+
+                                            <ul class="mt-1">
+                                                <li class="text-gray-500 text-xs capitalize"
+                                                    *ngFor="let category of dish.category">
+                                                    <div class="flex flex-wrap justify-between space-y-1">
+                                                        <span>{{category?.name}}</span>
+                                                        <span class="text-red-400 ml-1">{{category?.price | currency :
+                                                            currencySymbol}}</span>
+                                                    </div>
+                                                </li>
+                                            </ul>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- dishes end -->
+
+                            <div class="mt-6 text-right">
+                                <button (click)="showSearchDishDialog = true; $event.stopPropagation()"
+                                    class="font-bold inline-flex items-center px-4 py-2 border border-transparent text-base rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    <mat-icon class="mr-2 font-bold">add</mat-icon>
+                                    Add Dish
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </section>
+
+        </div>
+    </div>
+
+
+    <!-- search popup -->
+
+    <div *ngIf="showSearchDishDialog" class="fixed inset-0 z-50 overflow-y-auto p-4 sm:p-6 md:p-20" role="dialog"
+        aria-modal="true">
+        <!--
+      Background overlay, show/hide based on modal state.
+  
+      Entering: "ease-out duration-300"
+        From: "opacity-0"
+        To: "opacity-100"
+      Leaving: "ease-in duration-200"
+        From: "opacity-100"
+        To: "opacity-0"
+    -->
+        <div [ngClass]="{'ease-out duration-300 opacity-100' : showSearchDishDialog, 'ease-in duration-200 opacity-0' : !showSearchDishDialog}"
+            class="fixed inset-0 bg-gray-500 bg-opacity-25 transition-opacity" aria-hidden="true"></div>
+
+        <!--
+      Command palette, show/hide based on modal state.
+  
+      Entering: "ease-out duration-300"
+        From: "opacity-0 scale-95"
+        To: "opacity-100 scale-100"
+      Leaving: "ease-in duration-200"
+        From: "opacity-100 scale-100"
+        To: "opacity-0 scale-95"
+    -->
+        <div [ngClass]="{'ease-out duration-300 opacity-100 scale-100' : showSearchDishDialog, 'ease-in duration-200 opacity-0 scale-95' : !showSearchDishDialog}"
+            class="mx-auto max-w-4xl transform divide-y divide-gray-500 divide-opacity-10 overflow-hidden rounded-xl bg-white bg-opacity-80 shadow-2xl ring-1 ring-black ring-opacity-5 backdrop-blur backdrop-filter transition-all">
+
+            <!-- search dishes -->
+            <div (clickOutside)="showSearchDishDialog = false" class="p-6">
+                <app-search-dish [format]="'WITHOUT_CATEGORY'" (selectedData)="addDish($event)"></app-search-dish>
+            </div>
+            <!-- search dihes end -->
+
+        </div>
+    </div>
+    <!-- search popup end -->
+
+</div>

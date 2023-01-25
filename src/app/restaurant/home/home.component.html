@@ -1,0 +1,36 @@
+<app-loader class="absolute top-0 left-0" *ngIf="loading"></app-loader>
+<div *ngIf="!loading" class="flex justify-between px-4 items-center w-full">
+  <div class="flex items-center dark:text-indigo-500 text-indigo-500 font-bold text-sm cursor-pointer custom-ripple"
+  (click)="changeUrlToOpenUserInfo()">
+    <mat-icon class="flex items-center dark:text-indigo-500 text-indigo-500 ">person</mat-icon>  <span class="ml-1">{{userInfo}}</span>
+  </div>
+  <div *ngIf="!loading" class="flex flex-row items-center border dark:bg-gray-700 dark:border-gray-800 rounded-md overflow-hidden">
+    <div *ngFor="let theme of themes" (click)="changeTheme(theme.name)"
+      [ngClass]="{'bg-indigo-500 dark:bg-indigo-500' : theme.name == selectedtheme }" class="p-2 flex items-center custom-ripple"
+      matRipple [matRippleCentered]="false" [matRippleDisabled]="false" [matRippleUnbounded]="false">
+      <mat-icon
+        [ngClass]="{'text-white' : theme.name == selectedtheme, 'text-gray-600' : theme.name != selectedtheme }">
+        {{theme.icon}}</mat-icon>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!loading">
+
+  <div *ngIf="selectedtheme == 'slide'">
+    <app-carousel *ngFor="let data of menuAndDishes" [dishes]="data.dishes" [heading]="data.name">
+    </app-carousel>
+  </div>
+
+  <div *ngIf="selectedtheme == 'grid'">
+    <app-grid-list *ngFor="let data of menuAndDishes" 
+    [dishes]="data.dishes" 
+    [heading]="data.name">
+    </app-grid-list>
+  </div>
+  <div *ngIf="selectedtheme == 'list'">
+    <app-single-list *ngFor="let data of menuAndDishes" [dishes]="data.dishes" [heading]="data.name">
+    </app-single-list>
+  </div>
+
+</div>

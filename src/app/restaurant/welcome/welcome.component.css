@@ -1,0 +1,42 @@
+@font-face {
+  font-family: Caveat-Variable;
+  src: url(/assets/fonts/Caveat-VariableFont_wght.ttf) format("opentype");
+}
+
+.zoom-in-out-box {
+  display: inline-flex;
+  animation: zoom-in-zoom-out 2s ease normal;
+}
+
+.opacity-0-to-100{
+    animation: opacity-0-to-100 3s ease normal;
+}
+
+
+@keyframes zoom-in-zoom-out {
+  0% {
+    transform: scale(2, 2);
+  }
+  100% {
+    transform: scale(1, 1);
+  }
+}
+
+@keyframes opacity-0-to-100 {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 100;
+    }
+  }
+  
+
+.font-caveat{
+    font-weight: 800;
+    line-height: 1.1;
+    font-family: 'Caveat-Variable', 'arial', sans-serif;
+  }

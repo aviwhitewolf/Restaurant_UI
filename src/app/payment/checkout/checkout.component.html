@@ -1,0 +1,60 @@
+<app-loader *ngIf="isLoading"></app-loader>
+<div class="w-full  dark:bg-gray-900">
+  <div class="pb-36 pt-8 px-4 mx-auto max-w-md md:mx-auto dark:bg-gray-900">
+    <app-data></app-data>
+    <form [formGroup]="tableFormGroup" class="space-y-6">
+      <div class="mt-4">
+        <p class="dark:text-gray-400 text-sm">Table Number:</p>
+
+
+        <select name="table" autocomplete="none" formControlName="tableNumber" [ngClass]="{' border-2 border-red-500' : tableFormGroup.get('tableNumber')?.errors &&
+        ( tableFormGroup.get('tableNumber')?.touched ||  tableFormGroup.get('tableNumber')?.dirty),
+    'border-gray-300' : !(tableFormGroup.get('tableNumber')?.errors &&
+    ( tableFormGroup.get('tableNumber')?.touched ||  tableFormGroup.get('tableNumber')?.dirty))}"
+          class="mt-2 dark:bg-slate-700 dark:placeholder:text-gray-400 dark:text-white dark:ring-slate-600 dark:border-gray-500  appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm">
+
+          <option *ngFor="let table of tables" [value]="table?.name">
+            {{table?.name}}</option>
+        </select>
+
+        <div *ngIf="checkTableError()" class="text-red-500 text-xs mt-2">
+          Invalid table number
+        </div>
+
+        <p class="text-gray-400 mt-2 text-xs">Table number is where you are sitting, table number is important to server
+          the
+          food to right person.</p>
+      </div>
+    </form>
+    <div class="mt-8 border-t border-gray-200" *ngIf="!isLogin && !isLoading">
+      <app-login></app-login>
+    </div>
+  </div>
+
+  <section id="bottom-navigation" style="box-shadow: 0px -2px 10px 0px #00000017;"
+    class="block dark:bg-gray-800 bg-gray-50 fixed inset-x-0 -bottom-1 z-10 shadow-md">
+    <div id="tabs" class="flex justify-between items-center mx-auto max-w-md align-middle px-4 space-x-4 py-4">
+
+      <div *ngIf="isLogin && !checkTableError()" class="flex justify-between items-center align-middle w-full">
+
+        <button type="submit" [disabled]="isLoading" (click)="createOrderAndRazorpay('offline')"
+          class="bg-white px-6 py-3 border border-indigo-500 text-sm font-medium rounded-md text-indigo-500  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 custom-ripple"
+          matRipple [matRippleCentered]="false" [matRippleDisabled]="false" [matRippleUnbounded]="false">
+          Pay On Desk
+        </button>
+
+        <button (click)="createOrderAndRazorpay('online')" [disabled]="isLoading"
+          class="disabled:bg-indigo-400 flex justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700  custom-ripple"
+          matRipple [matRippleCentered]="false" [matRippleDisabled]="false" [matRippleUnbounded]="false">
+          Pay Now
+        </button>
+      </div>
+
+      <div *ngIf="!isLogin" class="flex text-sm justify-center text-center w-full  text-red-600">
+        You're not logged in, enter email & mobile to login, and proceed to pay</div>
+
+      <div *ngIf="checkTableError()" class="flex text-sm justify-center text-center w-full text-red-600">
+        Table number is incorrect, table number is important for order</div>
+    </div>
+  </section>
+</div>

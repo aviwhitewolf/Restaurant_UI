@@ -1,0 +1,51 @@
+<app-loader class="absolute top-0 left-0" *ngIf="loading"></app-loader>
+<div *ngIf="!loading" class="bg-gray-100 min-h-screen">
+    <div class="pt-8 pb-12">
+        <div class="max-w-6xl mx-auto px-4 space-y-4 sm:px-6 lg:px-8">
+
+            <div class="flex justify-between py-4 items-center">
+                <button (click)="goBackback()" class="text-indigo-500 flex items-center  text-sm  ">
+                    <mat-icon class="mr-2 text-base ">
+                        arrow_back</mat-icon> Back
+                </button>
+                <button (click)="updateOrAddCategory()" [disabled]="categoryUpdateFormGroup.invalid"
+                    class="disabled:bg-indigo-400 flex items-center bg-indigo-600 border border-transparent rounded-md shadow-sm py-2 px-4 text-sm text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500">
+                    <mat-icon class="mr-2">
+                        save</mat-icon>
+                    Save
+                </button>
+            </div>
+
+            <form [formGroup]="categoryUpdateFormGroup">
+                <div class="shadow sm:rounded-md sm:overflow-hidden">
+                    <div class="bg-white py-6 px-4 sm:p-6">
+                        <div>
+                            <h2 id="payment-details-heading" class="text-lg leading-6 font-medium text-gray-900">
+                                Category Details</h2>
+                            <p class="mt-1 text-sm text-gray-500">Update your category information.
+                            </p>
+                        </div>
+
+                        <div class="mt-6 grid grid-cols-4 gap-6">
+                            <div class="col-span-4 sm:col-span-2">
+                                <label for="menu-name" class="block text-sm font-medium text-gray-700">Category
+                                    name</label>
+                                <input formControlName="name" type="text" name="menu-name" autocomplete="menu-name"
+                                    [ngClass]="{'border-2 border-red-500' : categoryUpdateFormGroup.get('name')?.errors && (categoryUpdateFormGroup.get('name')?.touched ||  categoryUpdateFormGroup.get('name')?.dirty),
+                                        'border-gray-300' : !(categoryUpdateFormGroup.get('name')?.errors && (categoryUpdateFormGroup.get('name')?.touched ||  categoryUpdateFormGroup.get('name')?.dirty))}"
+                                    class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm rounded-md">
+                                <div *ngIf="categoryUpdateFormGroup.get('name')?.errors?.['required'] &&  (categoryUpdateFormGroup.get('name')?.errors && (categoryUpdateFormGroup.get('name')?.touched ||  categoryUpdateFormGroup.get('name')?.dirty))"
+                                    class="text-red-500 text-xs pt-1">Category name is invalid</div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+
+
+</div>

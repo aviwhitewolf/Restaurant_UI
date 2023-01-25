@@ -1,0 +1,71 @@
+<mat-accordion>
+    <mat-expansion-panel class="mat-elevation-z0 border">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                Action History
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <ng-template matExpansionPanelContent>
+
+            <div class="flow-root">
+                <ul role="list" class="-mb-8">
+                    <li *ngFor="let history of actionHistory; let last = last">
+                        <div class="relative pb-8">
+                            <span *ngIf="!last" class="absolute top-5 left-5 -ml-px h-full w-0.5 bg-gray-200"
+                                aria-hidden="true"></span>
+                            <div class="relative flex items-start space-x-3">
+                                <div>
+                                    <div class="relative px-1">
+                                        <div
+                                            class="h-8 w-8 bg-gray-100 rounded-full ring-8 ring-white flex items-center justify-center">
+                                            <svg class="h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                                <path fill-rule="evenodd"
+                                                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z"
+                                                    clip-rule="evenodd" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="min-w-0 flex-1">
+                                    <div>
+                                        <div class="text-sm">
+                                            <p class="capitalize font-medium text-gray-900">{{history.user.fullName ||
+                                                history.user.username}} {{history.action}}d this.</p>
+                                        </div>
+                                        <p class="mt-0.5 text-sm text-gray-500">{{history.date | date}}</p>
+                                    </div>
+                                    <div class="mt-2 text-sm text-gray-700">
+                                        <p>{{history.remarks}}</p>
+                                    </div>
+                                    <div class="mt-2">
+                                        <div class="underline text-xs py-2 text-indigo-500 cursor-pointer" (click)="toggleState()">Details</div>
+                                        <mat-accordion #accordion="matAccordion" multi>
+                                            <mat-expansion-panel class="mat-elevation-z0" [expanded]="checkState">
+                                              
+                                                <ng-template matExpansionPanelContent>
+                                                    <div class="flex sm:flex-nowrap flex-wrap justify-between">
+                                                        <div class="flex flex-col bg-gray-100 rounded-md p-4 flex-1">
+                                                            <h3 class="text-sm text-gray-500 font-bold">Old</h3>
+                                                            <div>{{history.old | json}}</div>
+                                                        </div>
+                                                        <div class="flex flex-col bg-gray-100 rounded-md p-4 sm:ml-2 ml-0 mt-2 sm:mt-0 flex-1">
+                                                            <h3 class="text-sm text-gray-500  font-bold">New</h3>
+                                                            <div>{{history.new | json}}</div>
+                                                        </div>
+                                                    </div>
+                                                </ng-template>
+                                            </mat-expansion-panel>
+                                        </mat-accordion>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+
+        </ng-template>
+    </mat-expansion-panel>
+</mat-accordion>

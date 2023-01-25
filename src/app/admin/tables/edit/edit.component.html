@@ -1,0 +1,61 @@
+<app-loader class="absolute top-0 left-0" *ngIf="loading"></app-loader>
+<div *ngIf="!loading" class="bg-gray-100 min-h-screen">
+    <div class="pt-8 pb-12">
+        <div class="max-w-6xl mx-auto px-4 space-y-4 sm:px-6 lg:px-8">
+
+            <div class="flex justify-between py-4 items-center">
+                <button (click)="goBackback()" class="text-indigo-500 flex items-center  text-sm  ">
+                    <mat-icon class="mr-2 text-base ">
+                        arrow_back</mat-icon> Back
+                </button>
+                <button (click)="updateOrAddTable()" [disabled]="tableUpdateFormGroup.invalid"
+                    class="disabled:bg-indigo-400 flex items-center bg-indigo-600 border border-transparent rounded-md shadow-sm py-2 px-4 text-sm text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500">
+                    <mat-icon class="mr-2">
+                        save</mat-icon>
+                    Save
+                </button>
+            </div>
+
+
+            <section>
+                <form [formGroup]="tableUpdateFormGroup">
+                    <div class="shadow sm:rounded-md sm:overflow-hidden">
+                        <div class="bg-white py-6 px-4 sm:p-6">
+                            <div>
+                                <h2 id="payment-details-heading" class="text-lg leading-6 font-medium text-gray-900">
+                                    Table Details</h2>
+                                <p class="mt-1 text-sm text-gray-500">Update your table information.
+                                </p>
+                            </div>
+
+                            <div class="mt-6 grid grid-cols-4 gap-6">
+                                <div class="col-span-4 sm:col-span-2">
+                                    <label for="menu-name" class="block text-sm font-medium text-gray-700">Table
+                                        name</label>
+                                    <input formControlName="name" type="text" name="menu-name" autocomplete="menu-name"
+                                        [ngClass]="{'border-2 border-red-500' : tableUpdateFormGroup.get('name')?.errors && (tableUpdateFormGroup.get('name')?.touched ||  tableUpdateFormGroup.get('name')?.dirty),
+                                        'border-gray-300' : !(tableUpdateFormGroup.get('name')?.errors && (tableUpdateFormGroup.get('name')?.touched ||  tableUpdateFormGroup.get('name')?.dirty))}"
+                                        class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm rounded-md">
+                                    <div *ngIf="tableUpdateFormGroup.get('name')?.errors?.['required'] &&  (tableUpdateFormGroup.get('name')?.errors && (tableUpdateFormGroup.get('name')?.touched ||  tableUpdateFormGroup.get('name')?.dirty))"
+                                        class="text-red-500 text-xs pt-1">Table name is invalid</div>
+                                </div>
+
+                                <div class="col-span-4 sm:col-span-2">
+                                    <label for="slug" class="block text-sm font-medium text-gray-700">Slug</label>
+                                    <input type="text" formControlName="slug" name="slug" autocomplete="slug"
+                                        class="disabled:bg-gray-100 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full border border-gray-200 shadow-sm sm:text-sm rounded-md">
+                                    <div class="text-indigo-500 text-xs pt-1">Slug is generated automatically, based on
+                                        the name</div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </div>
+
+
+
+</div>

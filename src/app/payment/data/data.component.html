@@ -1,0 +1,15 @@
+<div class="rounded-md border border-gray-200 py-6 px-4 dark:border-gray-800">
+    <h1 class="font-semibold text-sm mb-4 dark:text-white">Order Summary</h1>
+    <div class="flex justify-between text-base text-gray-700">
+      <p class="dark:text-gray-400">Subtotal</p>
+      <p class="text-red-500 dark:text-red-700">{{currencySymbol}}{{total}}</p>
+    </div>
+    <div class="flex mt-2 pb-4 justify-between text-base text-gray-700">
+        <p class="dark:text-gray-400">Fee</p>
+        <p class="text-red-500 dark:text-red-700">{{currencySymbol}}0</p>
+    </div>
+    <div class="border-t border-gray-200 flex pt-4 justify-between text-base text-gray-700 dark:border-gray-800">
+        <p class="dark:text-gray-400">Total</p>
+        <p class="text-red-500 dark:text-red-700">{{currencySymbol}}{{total}}</p>
+    </div>
+</div>

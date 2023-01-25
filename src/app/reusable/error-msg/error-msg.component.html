@@ -1,0 +1,38 @@
+
+<div class="fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="min-h-screen pt-4 px-4 text-center block">
+
+      <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+  
+      <span class="inline-block align-middle h-screen" aria-hidden="true">&#8203;</span>
+  
+      <div class="relative inline-block bg-white dark:bg-gray-900 rounded-lg text-left overflow-hidden shadow-xl transform transition-all my-8 align-middle max-w-lg w-full">
+        <div class="bg-white dark:bg-gray-900 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+          <div class="sm:flex sm:items-start">
+            <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full sm:mx-0 sm:h-10 sm:w-10" 
+            [ngClass]="{'bg-red-100 dark:bg-red-200' : data.type == 'E', 'bg-blue-100 dark:bg-blue-200' : data.type == 'I', 'bg-green-100 dark:bg-green-200' : data.type == 'S', 'bg-yellow-100 dark:bg-yellow-200' : data.type == 'W'}">
+              <mat-icon *ngIf="data.type == 'E'" class="h-6 w-6 text-red-600 dark:text-red-700" aria-hidden="false" aria-label="Error">error</mat-icon>
+              <mat-icon *ngIf="data.type == 'S'" class="h-6 w-6 text-green-600 dark:text-green-700" aria-hidden="false" aria-label="Error">check_circle</mat-icon>
+              <mat-icon *ngIf="data.type == 'W'" class="h-6 w-6 text-yellow-500" aria-hidden="false" aria-label="warning">warning</mat-icon>
+              <mat-icon *ngIf="data.type == 'I'" class="h-6 w-6 text-blue-600 dark:text-blue-700" aria-hidden="false" aria-label="info">info</mat-icon>
+            </div>
+            <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+              <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-white" id="modal-title">{{data?.heading || 'Error'}}</h3>
+              <div class="mt-2">
+                <p class="text-sm text-gray-500 dark:text-gray-200">{{data?.message || 'Something went wrong, check you network.'}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="bg-slate-50 dark:bg-slate-800 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+        
+          <button mat-dialog-close (click)="beforeClose()" type="button" class="mt-3 w-full inline-flex justify-center rounded-md border dark:border-gray-700 dark:text-white border-gray-300 shadow-sm px-4 py-2 bg-white dark:bg-indigo-500 text-base font-medium text-gray-700 dark:hover:bg-indigo-600 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-0 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm  custom-ripple" matRipple
+          [matRippleCentered]="false" [matRippleDisabled]="false"
+          [matRippleUnbounded]="false">
+          Ok
+        </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  

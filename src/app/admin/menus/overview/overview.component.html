@@ -1,0 +1,169 @@
+<app-loader class="absolute top-0 left-0" *ngIf="loading"></app-loader>
+<div *ngIf="!loading" class="bg-gray-100 min-h-screen">
+    <div class="pt-8 pb-12">
+        <div class="max-w-6xl mx-auto px-4 space-y-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between py-4 items-center">
+                <div>
+                    <h2 class="text-lg font-medium text-gray-900 ">
+                        Menu
+                    </h2>
+                    <span *ngIf="this.menu" class="text-xs text-gray-600">{{this.menu.length || 0}} entries found</span>
+                </div>
+
+                <button [routerLink]="['add']"
+                    class="disabled:bg-indigo-400 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <mat-icon class="mr-2 text-md">
+                        add</mat-icon>
+                    Create new menu
+                </button>
+            </div>
+            
+                <cdk-accordion class="bg-white accordion mt-4 shadow rounded-xl overflow-hidden">
+                    <cdk-accordion-item *ngFor="let menu of menu; let index = index; let last = last"
+                        #accordionItem="cdkAccordionItem" class="accordion-item" [ngClass]="{'border-b' : !last}"
+                        role="button" tabindex="0" [attr.id]="'accordion-header-' + index"
+                        [attr.aria-expanded]="accordionItem.expanded" [attr.aria-controls]="'accordion-body-' + index">
+                        <div class="accordion-item-header hover:bg-gray-50" (click)="accordionItem.toggle(); $event.stopPropagation();"
+                            [ngClass]="{'bg-gray-50' : accordionItem.expanded}">
+                            <h3 class="text-indigo-500 flex">
+                                {{menu?.name}}
+                            </h3>
+                            <div class="flex  items-center justify-center flex-wrap space-x-4 sm:space-y-0 space-y-2 ">
+
+                                <span
+                                    class="flex justify-center text-center align-middle text-gray-500 text-sm font-bold">{{menu?.sequence}}</span>
+
+
+                                <button type="button"
+                                    (click)="showDeleteDialog = true; $event.stopPropagation(); menuIdToDelete = menu?.id"
+                                    class="inline-flex items-center  border border-transparent rounded-full shadow-sm text-white bg-gray-400 hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                                    <mat-icon class="text-base">delete</mat-icon>
+                                </button>
+
+                                <button [routerLink]="['edit', menu.id]" type="button"
+                                    class="inline-flex items-center  border border-transparent rounded-full shadow-sm text-white bg-gray-400 hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    <mat-icon class="text-base">edit</mat-icon>
+                                </button>
+
+                                <button *ngIf="accordionItem.expanded" type="button" (click)="accordionItem.toggle(); $event.stopPropagation();"
+                                    class="inline-flex items-center  border border-transparent rounded-full shadow-sm text-white bg-gray-400 hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    <mat-icon class="text-base">expand_less</mat-icon>
+                                </button>
+
+
+                                <button *ngIf="!accordionItem.expanded" type="button" (click)="accordionItem.toggle();$event.stopPropagation(); "
+                                    class="inline-flex items-center  border border-transparent rounded-full shadow-sm text-white bg-gray-400 hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    <mat-icon class="text-base">expand_more</mat-icon>
+                                </button>
+
+                            </div>
+
+                        </div>
+                        <div class="accordion-item-body bg-gray-50" role="region"
+                            [style.display]="accordionItem.expanded ? '' : 'none'" [attr.id]="'accordion-body-' + index"
+                            [attr.aria-labelledby]="'accordion-header-' + index">
+
+                            <!-- Inside row -->
+                            <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+
+                                <div *ngFor="let dish of menu?.dishes"
+                                    class="p-4 w-full relative rounded-lg border  border-gray-200 bg-white shadow-sm flex items-center focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
+
+                                    <img loading="lazy" class="object-cover w-24 h-24 rounded-full"
+                                        [src]="dish?.image ? getImageUrl(dish?.image ? dish?.image[0] : '') : '' "
+                                        [alt]="dish?.name">
+
+                                    <div class="flex-1 min-w-0 my-auto px-3 py-2">
+                                        <div class="focus:outline-none">
+                                            <span class="absolute inset-0" aria-hidden="true"></span>
+                                            <div class="text-md flex font-medium text-gray-900 capitalize">
+                                                {{dish?.name}}
+                                            </div>
+                                            <ul class="mt-1">
+                                                <li class="text-gray-500 text-xs capitalize"
+                                                    *ngFor="let category of dish.category">
+                                                    <div class="flex flex-wrap justify-between space-y-1">
+                                                        <span>{{category?.name}}</span>
+                                                        <span class="text-red-400 ml-1">{{category?.price | currency :
+                                                            currencySymbol}}</span>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Inside  row end -->
+
+                        </div>
+                    </cdk-accordion-item>
+                </cdk-accordion>
+            
+
+
+
+            <!-- confirm delete popup -->
+
+            <div *ngIf="showDeleteDialog" class="fixed h-full inset-0 z-50 overflow-y-auto" role="dialog"
+                aria-modal="true">
+                <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center ">
+
+                    <div [ngClass]="{'ease-out duration-300 opacity-100' : showDeleteDialog, 'ease-in duration-200 opacity-0' : !showDeleteDialog}"
+                        class="fixed inset-0 bg-gray-500 bg-opacity-25 transition-opacity" aria-hidden="true">
+                    </div>
+
+                    <div [ngClass]="{'ease-out duration-300 opacity-100 scale-100' : showDeleteDialog, 'ease-in duration-200 opacity-0 scale-95' : !showDeleteDialog}"
+                        class="relative inline-block align-middle m-4 max-w-xl  w-full sm:m-auto transform divide-y divide-gray-500 divide-opacity-10 overflow-hidden rounded-xl bg-white bg-opacity-80 shadow-2xl ring-1 ring-black ring-opacity-5 backdrop-blur backdrop-filter transition-all">
+
+
+                        <div (clickOutside)="showDeleteDialog = false">
+                            <div class="flex items-start px-4 pt-5 p-6 ">
+                                <div
+                                    class="flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full sm:mx-0 sm:h-10 sm:w-10">
+                                    <mat-icon class="h-6 w-6 text-yellow-500" aria-hidden="false" aria-label="warning">
+                                        warning
+                                    </mat-icon>
+                                </div>
+                                <div class="mt-0 ml-4 text-left">
+                                    <h3 class="text-lg leading-6 font-medium text-gray-900 "
+                                        id="modal-title">Are
+                                        you sure?</h3>
+                                    <div class="mt-2">
+                                        <p class="text-sm text-gray-500 ">
+                                            Deleting menu won't delete dishes included in the menu. In order to delete
+                                            the
+                                            dishes,
+                                            go to "Dishes" section in
+                                            sidebar menu.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-2 flex justify-between px-4 py-5 sm:gap-4 sm:px-6 border-t">
+
+                                <button type="button" (click)="showDeleteDialog = false"
+                                    class="py-2 px-4 border border-indigo-500 text-sm font-medium rounded-md text-indigo-500  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    Cancel
+                                </button>
+
+
+                                <button type="button" (click)="deleteMenu(menuIdToDelete)"
+                                    class="cursor-pointer py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                                    Ok, Delete
+                                </button>
+
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+            <!-- confirm delete popup end -->
+
+
+        </div>
+    </div>
+</div>

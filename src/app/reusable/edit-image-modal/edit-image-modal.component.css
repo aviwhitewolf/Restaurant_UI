@@ -1,0 +1,13 @@
+
+
+
+@media only screen and (max-width: 829px) {
+  image-cropper {
+    height: fit-content !important;
+  }
+}
+
+image-cropper {
+  height: 50vh;
+  
+}

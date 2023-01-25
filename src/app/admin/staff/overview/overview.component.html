@@ -1,0 +1,102 @@
+<app-loader class="absolute top-0 left-0" *ngIf="loading"></app-loader>
+<div *ngIf="!loading" class="bg-gray-100 min-h-screen">
+    <div class="pt-8 pb-12">
+        <div class="max-w-6xl mx-auto px-4 space-y-4 sm:px-6 lg:px-8">
+
+            <div class="flex justify-between py-4 items-center">
+                <div>
+                    <h2 class="text-lg leading-6 font-medium text-gray-900 ">
+                        Staff
+                    </h2>
+                    <span class="text-xs text-gray-600">{{this.apiPagination?.total || 0}} entries found</span>
+                </div>
+
+                <button type="button" [routerLink]="['add']"
+                    class="disabled:bg-indigo-400 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <mat-icon class="mr-2 text-md">
+                        add</mat-icon>
+                    Add Staff
+                </button>
+            </div>
+
+            <div class="bg-white shadow overflow-hidden sm:rounded-md">
+                <ul role="list" class="divide-y divide-gray-200">
+                    
+                    <app-pagination *ngIf="apiPagination" [total]="apiPagination?.total"
+                        [pageCount]="apiPagination?.pageCount" [page]="apiPagination?.page"
+                        [pageSize]="apiPagination?.pageSize" (pageChange)="onPageChange($event)"></app-pagination>
+
+                    <li *ngFor="let employee of employees;">
+                        <a [routerLink]="['edit', employee?.id]" class="block hover:bg-gray-50">
+                            <div class="flex items-center px-4 py-4 sm:px-6">
+                                <div class="min-w-0 flex-1 flex items-center">
+                                    <div class="flex-shrink-0">
+                                        <img loading="lazy" class="h-16 w-16 rounded-full object-cover"
+                                            [src]="getImageUrl(employee?.image ? employee?.image[0] : '')"
+                                            [alt]="employee?.fullName">
+                                    </div>
+                                    <div class="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">
+                                        <div>
+                                            <p [ngClass]="{'text-red-500' : checkIfResigned(employee?.dateOfResignation), 'text-indigo-600' :!checkIfResigned(employee?.dateOfResignation) }"
+                                                class="text-sm font-medium truncate capitalize">{{employee?.fullName}}
+                                            </p>
+                                            <p class="mt-2 flex items-center text-sm text-gray-500">
+
+                                                <mat-icon class="text-base text-gray-400">mail</mat-icon>
+                                                <span class="truncate">{{employee?.email}}</span>
+                                            </p>
+                                            <p class="mt-1 flex items-center text-sm text-gray-500">
+                                                <mat-icon class="text-base text-gray-400">phone</mat-icon>
+                                                <span
+                                                    class="truncate">{{employee?.countryCode}}-{{employee?.mobile}}</span>
+                                            </p>
+                                        </div>
+                                        <div class="hidden md:block">
+                                            <div>
+                                                <p [ngClass]="{'text-red-500' : checkIfResigned(employee?.dateOfResignation), 'text-indigo-600' :!checkIfResigned(employee?.dateOfResignation) }"
+                                                    class="flex items-center font-semibold text-sm">
+                                                    <mat-icon class="text-base">badge</mat-icon>
+                                                    {{employee?.designation?.name}}
+                                                </p>
+                                                <p *ngIf="!checkIfResigned(employee?.dateOfResignation)"
+                                                    class="text-sm mt-2 text-gray-500">
+                                                    <mat-icon class="text-base">calendar_month</mat-icon>
+                                                    Joined on
+                                                    <time>{{employee?.dateOfJoining | date}}</time>
+                                                </p>
+                                                <p *ngIf="checkIfResigned(employee?.dateOfResignation)"
+                                                    class="text-sm mt-2 text-red-500">
+                                                    <mat-icon class="text-base">calendar_month</mat-icon>
+                                                    Resigned on
+                                                    <time>{{employee?.dateOfResignation | date}}</time>
+                                                </p>
+                                                <p class="mt-2 flex items-center text-sm text-gray-500">
+                                                    <mat-icon class="text-base">currency_rupee</mat-icon>
+                                                    {{employee?.salary}}
+
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <!-- Heroicon name: solid/chevron-right -->
+                                    <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                        <path fill-rule="evenodd"
+                                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+
+                    <app-pagination *ngIf="apiPagination" [total]="apiPagination?.total"
+                        [pageCount]="apiPagination?.pageCount" [page]="apiPagination?.page"
+                        [pageSize]="apiPagination?.pageSize" (pageChange)="onPageChange($event)"></app-pagination>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
