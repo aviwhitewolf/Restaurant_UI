@@ -8,6 +8,7 @@ import { Constants } from 'src/app/Constants/Interface/Constants';
 import { MainService } from 'src/app/main.service';
 import { AdminService } from '../../admin.service';
 import { EditImageModalComponent } from '../../../reusable/edit-image-modal/edit-image-modal.component';
+import { RestaurantService } from 'src/app/restaurant/restaurant.service';
 
 @Component({
   selector: 'app-edit',
@@ -30,7 +31,7 @@ export class EditComponent implements OnInit {
   private formdata = new FormData();
   public showAddTagDialog: boolean = false;
 
-  public publish : string = ""
+  public publish: string = ""
 
   public tagAddFormGroup: FormGroup = this.formBuilder.group({
     name: ['', [Validators.required]]
@@ -54,7 +55,8 @@ export class EditComponent implements OnInit {
     public dialog: MatDialog,
     private formBuilder: FormBuilder,
     private router: Router,
-    private mainService: MainService
+    private mainService: MainService,
+    private restaurantService: RestaurantService
 
   ) {
   }
@@ -62,12 +64,13 @@ export class EditComponent implements OnInit {
   ngOnInit() {
 
     this.addDishCategoryToFormArray()
-    this.route?.parent?.parent?.params.subscribe((mparam: any) => {
-      if (mparam && mparam['slug']) {
-        this.getSingleRestaurantMenu(mparam['slug'] || "")
+    const restaurantSlug = this.restaurantService.getRestaurantSlug()
+    if (restaurantSlug) {
+      {
+        this.getSingleRestaurantMenu(restaurantSlug)
         this.route?.params.subscribe((param: any) => {
           if (param['dishId']) {
-            this.getSingleDish(mparam['slug'], param['dishId'])
+            this.getSingleDish(restaurantSlug, param['dishId'])
           }
           else {
             this.addDishCategory()
@@ -75,22 +78,23 @@ export class EditComponent implements OnInit {
           }
         })
       }
-    });
 
-    // subscribe to open dish dialog using url change
-    this.routeQueryParams$ = this.route.queryParams.subscribe(params => {
-      if (params['showImageDialog']) {
-        this.openEditImageModal();
-      }
-    });
+      // subscribe to open dish dialog using url change
+      this.routeQueryParams$ = this.route.queryParams.subscribe(params => {
+        if (params['showImageDialog']) {
+          this.openEditImageModal();
+        }
+      });
+
+    }
 
   }
 
 
-  saveDish(publish : string = "Publish") {
+  saveDish(publish: string = "Publish") {
     this.loading = true
-    this.route?.parent?.parent?.params.subscribe((mparam: any) => {
-      if (mparam && mparam['slug']) {
+    const restaurantSlug = this.restaurantService.getRestaurantSlug()
+      if (restaurantSlug) {
         this.route?.params.subscribe(async (param: any) => {
           const dishData = {
             name: this.dishFormGroup.value.name,
@@ -100,12 +104,10 @@ export class EditComponent implements OnInit {
             type: this.dishFormGroup.value.type,
             tags: this.dishFormGroup.value.tags.map((tag: any) => tag.id),
             menus: this.dishFormGroup.value.menus.map((menu: any) => menu.id),
-            currency: 'INR',
-            currencySymbol: '₹',
             category: this.dishFormGroup.value.category,
-            publishedAt : publish == 'Publish' ? new Date() : null
+            publishedAt: publish == 'Publish' ? new Date() : null
           }
-          console.log(dishData)
+          
           dishData.category = dishData.category.map((cat: any) => {
             if (!cat.id)
               delete cat?.id
@@ -118,7 +120,7 @@ export class EditComponent implements OnInit {
             //User did not changed the Image
             if (!this.selectedImage) {
               //do a normal request without formdata
-              this.adminService.updateDish(dishData, mparam['slug'], param['dishId'])
+              this.adminService.updateDish(dishData,restaurantSlug, param['dishId'])
                 .then((result) => {
                   this.loading = false
                   this.mainService.openDialog("Success", "Dish Updated Successfully", "S", true)
@@ -133,7 +135,7 @@ export class EditComponent implements OnInit {
 
               this.formdata.delete('data')
               this.formdata.append("data", JSON.stringify(dishData));
-              this.adminService.updateDish(this.formdata, mparam['slug'], param['dishId'])
+              this.adminService.updateDish(this.formdata, restaurantSlug, param['dishId'])
                 .then((result) => {
                   this.loading = false
                   this.mainService.openDialog("Success", "Dish Updated Successfully", "S", true)
@@ -143,13 +145,12 @@ export class EditComponent implements OnInit {
                   this.mainService.openDialog("Error", this.mainService.errorMessage(err), "E")
 
                 })
-
             }
 
             //User wants to add
           } else {
-            this.route?.parent?.parent?.params.subscribe((param: any) => {
-              if (param && param['slug']) {
+            const restaurantSlug = this.restaurantService.getRestaurantSlug()
+              if (restaurantSlug)  {
                 if (!this.selectedImage) {
                   this.mainService.openDialog("Error", "Please upload image", "E")
                   return
@@ -157,7 +158,7 @@ export class EditComponent implements OnInit {
                 this.formdata.delete('data')
                 this.formdata.append("data", JSON.stringify(dishData));
 
-                this.adminService.addDish(this.formdata, param['slug'])
+                this.adminService.addDish(this.formdata, restaurantSlug)
                   .then((result) => {
                     this.loading = false
                     this.mainService.openDialog("Success", "Dish Added Successfully with id : " + result.data.id, "S", true)
@@ -168,13 +169,11 @@ export class EditComponent implements OnInit {
 
                   })
               }
-            });
+            
           }
 
         })
       }
-    });
-
   }
 
 
@@ -207,8 +206,7 @@ export class EditComponent implements OnInit {
               price: dishData?.price,
               inStock: dishData?.inStock,
               type: dishData?.type,
-              currency: dishData?.currency,
-              currencySymbol: dishData?.currencySymbol
+              currency: dishData?.currency
             });
 
           this.publish = dishData?.publishedAt
@@ -467,6 +465,11 @@ export class EditComponent implements OnInit {
   toggleStock() {
     this.dishFormGroup.patchValue({ 'inStock': !this.dishFormGroup.get('inStock')?.value })
   }
+
+
+  getCurrency() {
+    return this.restaurantService.getCurrency()
+    }
 
 }
 

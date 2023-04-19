@@ -3,11 +3,11 @@ import { Constants } from 'src/app/Constants/Interface/Constants';
 import { MainService } from 'src/app/main.service';
 import { PaymentService } from '../payment.service';
 import { MatDialog } from '@angular/material/dialog';
-import { ErrorMsgComponent } from 'src/app/reusable/error-msg/error-msg.component';
 import { UserService } from 'src/app/user/user.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AdminService } from 'src/app/admin/admin.service';
+import { RestaurantService } from 'src/app/restaurant/restaurant.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-checkout',
@@ -23,9 +23,8 @@ export class CheckoutComponent implements OnInit {
   public tables: any[] = []
 
   public tableFormGroup: FormGroup = this.formBuilder.group({
-    tableNumber: ['', [Validators.required, Validators.nullValidator]]
+    table: ['', [Validators.required, Validators.nullValidator]]
   });
-
 
   constructor(
     private formBuilder: FormBuilder,
@@ -35,8 +34,11 @@ export class CheckoutComponent implements OnInit {
     private userService: UserService,
     private router: Router,
     private route: ActivatedRoute,
-    private zone: NgZone
+    private zone: NgZone,
+    private restaurantService: RestaurantService,
+    private _location: Location
   ) {
+    this.slug = restaurantService.getRestaurantSlug() 
     const user = this.mainService.getToLocalStorage(Constants.LOCAL_USER)
     this.jwt = user.jwt || ""
     if (!this.mainService.getToLocalStorage(Constants.LOCAL_CART)) {
@@ -59,18 +61,9 @@ export class CheckoutComponent implements OnInit {
       this.isLoading = false
     }
 
-    this.route?.parent?.params.subscribe((param: any) => {
-      if (param && param['name']) {
-        this.slug = param['name']
         this.route.queryParams.subscribe(params => {
-
-          // this.tableFormGroup.controls['tableNumber'].setValue(params['tb'])
-          this.getAllTables(param['name'], params['tb'])
+          this.getAllTables( params['tb'])
         });
-      }
-    });
-
-
 
   }
 
@@ -88,7 +81,19 @@ export class CheckoutComponent implements OnInit {
     })
   }
 
-  public async createOrderAndRazorpay(modeOfPayment: string) {
+
+  public createOrder(modeOfPayment: string) {
+
+    if (this.restaurantService.getRestaurantPaymentGateway() == 'razorpay') {
+      this.createOrderWithRazorpay(modeOfPayment)
+    } else {
+      this.mainService.openDialog("Payment Service Error", 'No Payment gateway selected?', "E")
+    }
+  }
+
+
+  // Razorpay 
+  public async createOrderWithRazorpay(modeOfPayment: string) {
 
     if (modeOfPayment == 'online') {
       this.isLoading = true
@@ -100,9 +105,9 @@ export class CheckoutComponent implements OnInit {
         return
       }
 
-      this.route?.parent?.params.subscribe((param: any) => {
-        if (param && param['name']) {
-          this.paymentService.createOrder(this.paymentService.getOrderInfo(param['name'] || ""), this.tableFormGroup.value.tableNumber, modeOfPayment).then((response) =>
+      
+        if (this.slug) {
+          this.paymentService.createOrder(this.paymentService.getOrderInfo(this.slug), this.tableFormGroup.value.table, modeOfPayment).then((response) =>
             this.launchRazorPay(response.data))
             .catch((err) => {
               this.isLoading = false
@@ -110,18 +115,18 @@ export class CheckoutComponent implements OnInit {
               this.mainService.openDialog("Create Order Error", err && err?.response && err?.response && err?.response?.data?.error ? (err?.response?.data?.error?.status + ": " + err?.response?.data?.error?.message) : "Something went wrong, check your network and try again.", "E")
             })
         }
-      });
+      
 
     } else if (modeOfPayment == 'offline') {
       this.isLoading = true
-      this.route?.parent?.params.subscribe((param: any) => {
-        if (param && param['name']) {
-          this.paymentService.createOrder(this.paymentService.getOrderInfo(param['name'] || ""), this.tableFormGroup.value.tableNumber, modeOfPayment)
+      
+        if (this.slug) {
+          this.paymentService.createOrder(this.paymentService.getOrderInfo(this.slug), this.tableFormGroup.value.table, modeOfPayment)
             .then((response: any) => {
               this.isLoading = false
               this.mainService.setshowPaymentStatus(true)
               localStorage.setItem(Constants.LOCAL_CART, "")
-              this.zone.run(() => this.router.navigate(['payment', this.slug, Constants.SUCCESS], { queryParams: { tb: this.tableFormGroup.value.tableNumber, message: "Order placed, preparing your order, kindly make your payment on desk" } }));
+              this.zone.run(() => this.router.navigate(['/restaurant', this.slug, 'payment', Constants.SUCCESS], { queryParams: { tb: this.tableFormGroup.value.table, message: "Order placed, preparing your order, kindly make your payment on desk" } }));
             })
             .catch((err) => {
               this.isLoading = false
@@ -129,17 +134,18 @@ export class CheckoutComponent implements OnInit {
               this.mainService.openDialog("Create Order Error", err && err?.response && err?.response && err?.response?.data?.error ? (err?.response?.data?.error?.status + ": " + err?.response?.data?.error?.message) : "Something went wrong, check your network and try again.", "E")
             })
         }
-      });
+      
     }
   }
 
   private launchRazorPay(data: any) {
     this.mainService.setshowPaymentStatus(true)
+    const razorpayInfo = data.paymentInfo 
     const options = {
-      key: data.razorpayKeyId,
+      key: razorpayInfo.razorpayKeyId,
       currency: data.currency,
-      amount: data.amountBaseUnit,
-      order_id: data.razorpayOrderId,
+      amount: razorpayInfo.amountBaseUnit,
+      order_id: razorpayInfo.razorpayOrderId,
       notes: { id: data.id },
       name: "Paying to " + this.slug.split('-').join(' ').toUpperCase(),
       description: Constants.PAYMENT_DESCRIPTION,
@@ -152,7 +158,7 @@ export class CheckoutComponent implements OnInit {
             //   "Order Id", response.razorpay_order_id, "Signature", response.razorpay_signature)
 
             localStorage.setItem(Constants.LOCAL_CART, "")
-            this.router.navigate(['payment', this.slug, Constants.SUCCESS], { queryParams: { tb: this.tableFormGroup.value.tableNumber, message: "Payment Received, preparing your order" } })
+            this.router.navigate(['/restaurant', this.slug, 'payment', Constants.SUCCESS], { queryParams: { tb: this.tableFormGroup.value.table, message: "Payment Received, preparing your order" } })
 
           } catch (err: any) {
             this.isLoading = false
@@ -177,6 +183,7 @@ export class CheckoutComponent implements OnInit {
       "modal": {
         "ondismiss": () => this.zone.run(() => {
           this.isLoading = false
+          this._location.back();
         })
       }
     }
@@ -196,7 +203,7 @@ export class CheckoutComponent implements OnInit {
       //   "Payment_id", response.error.metadata.payment_id
       // );
       try {
-        this.router.navigate(['payment', this.slug, Constants.FAILED], { queryParams: { tb: this.tableFormGroup.value.tableNumber } })
+        this.router.navigate(['/restaurant', this.slug, 'payment', Constants.FAILED], { queryParams: { tb: this.tableFormGroup.value.table } })
       } catch (err: any) {
         this.isLoading = false
         console.log(err)
@@ -208,39 +215,30 @@ export class CheckoutComponent implements OnInit {
 
   }
 
-  getAllTables(slug: string, tableNumber: string) {
-    this.isLoading = true
+  // Razorpay End
 
+  getAllTables(mtable: string) {
+    const slug = this.restaurantService.getRestaurantSlug()
+    if(slug){
+    this.isLoading = true
     this.paymentService.getAllTables(slug)
       .then((res) => {
         this.tables = res.data
-
-        const tableName = this.tables?.filter(table => table.slug == tableNumber)[0]?.name
-        this.tableFormGroup.controls['tableNumber'].patchValue(tableName)
+        const tableId = this.tables?.filter(table => table.slug == mtable)[0]?.id
+        this.tableFormGroup.controls['table'].patchValue(tableId)
         this.isLoading = false
       }).catch((err) => {
         this.isLoading = false
         console.log("Error", err)
         this.mainService.openDialog("Error", this.mainService.errorMessage(err), "E")
       })
+    }
 
   }
 
   public checkTableError() {
-    return this.tableFormGroup.get('tableNumber')?.errors
+    return this.tableFormGroup.get('table')?.errors
 
-  }
-
-  private openDialog(heading: string, error: string, type: string) {
-    this.dialog.open(ErrorMsgComponent, {
-      data: {
-        message: error,
-        type: type,
-        heading: heading
-      },
-      panelClass: 'popUp-modalbox'
-    });
-    this.isLoading = false
   }
 
 }

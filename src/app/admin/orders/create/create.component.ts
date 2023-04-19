@@ -19,19 +19,20 @@ import { AdminService } from '../../admin.service';
 export class CreateComponent implements OnInit {
 
   public loading: boolean = false
-  public currencySymbol = ""
   public dishQuantity!: any
   public cartItems!: any
   public total: number = 0
   private mobileRegrex = /[0,9]\d{4,17}/
   public tables : any[] = []
+  public taxes : any[] = []
+  public subTotal : number = 0
 
 
   public userFormGroup: FormGroup = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
     mobile: ['', [Validators.required, Validators.pattern(this.mobileRegrex)]],
     fullName: ['', [Validators.required]],
-    tableNumber: ['', [Validators.required]],
+    table: ['', [Validators.required]],
     userId: ['', []]
   });
 
@@ -45,7 +46,6 @@ export class CreateComponent implements OnInit {
     private paymentService: PaymentService,
     private restaurantService: RestaurantService
   ) {
-    this.currencySymbol = this.mainService.getToLocalStorage(Constants.LOCAL_USER).currencySymbol || "₹"
     this.cartItems = this.mainService.getToLocalStorage(Constants.LOCAL_CART)
 
     if (this.checkCartItems()) this.calculateTotal()
@@ -58,10 +58,9 @@ export class CreateComponent implements OnInit {
 
   getAllTables() {
     this.loading = true
-    this.route?.parent?.parent?.params.subscribe((param: any) => {
-
-      if(param['slug'])
-      this.adminService.getAllTables(param['slug'])
+    const restaurantSlug = this.restaurantService.getRestaurantSlug()
+    if (restaurantSlug) {
+      this.adminService.getAllTables(restaurantSlug)
       .then((res) => {
 
         this.tables = res.data?.tables
@@ -72,17 +71,16 @@ export class CreateComponent implements OnInit {
         this.mainService.openDialog("Error", this.mainService.errorMessage(err), "E")
       })
 
-    });
+    }
   }
 
 
   confirmOrder() {
     this.loading = true
-    this.route?.parent?.parent?.params.subscribe((param: any) => {
+    const restaurantSlug = this.restaurantService.getRestaurantSlug()
+    if (restaurantSlug) {
 
-      if (param && param['slug']) {
-
-        const orderInfo = this.paymentService.getOrderInfo(param['slug'] || "")
+        const orderInfo = this.paymentService.getOrderInfo(restaurantSlug)
         orderInfo.user = this.userFormGroup.value.userId
 
         orderInfo.userInfo = {
@@ -93,10 +91,10 @@ export class CreateComponent implements OnInit {
 
         orderInfo.mCreatedBy = this.mainService.getToLocalStorage(Constants.LOCAL_USER).id
         orderInfo.createdAt = moment().toISOString()
-        orderInfo.tableNumber = this.userFormGroup.value.tableNumber
+        orderInfo.table = this.userFormGroup.value.table
         orderInfo.modeOfPayment = "offline"
 
-        this.adminService.createOrder(orderInfo, param['slug']).then((result) => {
+        this.adminService.createOrder(orderInfo, restaurantSlug).then((result) => {
           localStorage.setItem(Constants.LOCAL_CART, "")
           this.loading = false
           this.userFormGroup.reset()
@@ -112,21 +110,19 @@ export class CreateComponent implements OnInit {
         })
       }
 
-    });
   }
 
   searchUser() {
     if (!this.userFormGroup.value.mobile) return
     this.loading = true
-    this.route?.parent?.parent?.params.subscribe((param: any) => {
+    const restaurantSlug = this.restaurantService.getRestaurantSlug()
+    if (restaurantSlug) {
 
-      if (param && param['slug']) {
-
-        this.adminService.searchUser(this.userFormGroup.value.mobile, param['slug'])
+        this.adminService.searchUser(this.userFormGroup.value.mobile, restaurantSlug)
           .then((result) => {
             this.loading = false
             const data = result.data
-            this.userFormGroup.patchValue({ fullName: data.fullName, email: data.email, mobile: data.number, userId: data.id, tableNumber : this.userFormGroup?.value?.tableNumber });
+            this.userFormGroup.patchValue({ fullName: data.fullName, email: data.email, mobile: data.number, userId: data.id, table : this.userFormGroup?.value?.table });
           }).catch((err) => {
             this.loading = false
             console.log(err)
@@ -134,8 +130,6 @@ export class CreateComponent implements OnInit {
 
           })
       }
-
-    });
   }
 
   public addDish(data: any) {
@@ -147,8 +141,6 @@ export class CreateComponent implements OnInit {
   goBackback() {
     this._location.back(); // <-- go back to previous location on cancel
   }
-
-
 
   getJsonData(data: any): any {
     return data
@@ -164,12 +156,18 @@ export class CreateComponent implements OnInit {
   }
 
   calculateTotal() {
-    this.total = this.restaurantService.calculateTotal(this.cartItems);
+    this.subTotal = this.restaurantService.calculateTotal(this.cartItems);
+    const totalWithTax = this.mainService.calculateTaxes(this.subTotal, this.restaurantService.getTaxes())
+    this.total = totalWithTax?.total
+    this.taxes = totalWithTax?.taxes
   }
 
   checkCartItems(): boolean {
     return this.cartItems && Object.values(this.cartItems).length > 0 ? true : false
   }
 
+  getCurrency(): string|undefined {
+    return this.restaurantService.getCurrency()
+    }
 
 }

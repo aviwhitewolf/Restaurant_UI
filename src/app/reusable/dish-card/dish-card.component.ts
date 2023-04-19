@@ -23,9 +23,7 @@ export class DishCardComponent implements OnInit {
 
   @Output()
   public openDishInfo = new EventEmitter<Dish>();
-
   public showCategoryMenu: boolean = false
-  public currencySymbol = ""
 
   constructor(
     public dialog: MatDialog,
@@ -33,7 +31,6 @@ export class DishCardComponent implements OnInit {
     private mainService: MainService,
     private _snackBar: MatSnackBar
   ) {
-    this.currencySymbol = mainService.getToLocalStorage(Constants.LOCAL_USER).currencySymbol || "₹"
   }
 
   ngOnInit(): void {

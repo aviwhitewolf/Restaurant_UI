@@ -12,13 +12,30 @@
                         class="dark:bg-slate-700 dark:placeholder:text-gray-400 dark:text-white dark:ring-slate-600 dark:border-gray-500 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                         placeholder="Email address (abc@mail.com)">
                 </div>
+
+
                 <div>
+                    <label for="phone-number" class="sr-only dark:text-white">Phone Number</label>
+                    <div class="relative rounded-md shadow-sm">
+                      <div class="absolute inset-y-0 left-0 flex items-center">
+                        <label for="country" class="sr-only">Country</label>
+                        <select id="country" name="country" autocomplete="country" class="focus:ring-indigo-500 focus:border-indigo-500 h-full py-0 pl-3 pr-7 border-transparent bg-transparent dark:text-gray-400 text-gray-600 sm:text-sm rounded-md">
+                          <option>{{getCountryAndCode()}}</option>
+                        </select>
+                      </div>
+                      <input formControlName="mobile" name="mobile" type="tel" autocomplete="mobile" required [ngClass]="{'border-2 border-red-500' : loginFormGroup.get('mobile')?.errors &&
+                      ( loginFormGroup.get('mobile')?.touched ||  loginFormGroup.get('mobile')?.dirty)}"          
+                       class="block w-full pl-24 dark:bg-slate-700 dark:placeholder:text-gray-400 dark:text-white dark:ring-slate-600 dark:border-gray-500  px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Mobile Number (9876543210)">
+                    </div>
+                  </div>
+
+                <!-- <div>
                     <label for="mobile" class="sr-only dark:text-white">Mobile</label>
                     <input formControlName="mobile" name="mobile" type="tel" autocomplete="mobile" required [ngClass]="{'border-2 border-red-500' : loginFormGroup.get('mobile')?.errors &&
             ( loginFormGroup.get('mobile')?.touched ||  loginFormGroup.get('mobile')?.dirty)}"
                         class="dark:bg-slate-700 dark:placeholder:text-gray-400 dark:text-white dark:ring-slate-600 dark:border-gray-500 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                         placeholder="Mobile Number (9876543210)">
-                </div>
+                </div> -->
             </div>
             <div class="text-red-500 text-xs mt-2">{{getErrors('loginFormGroup')}}</div>
             <button type="submit" [disabled]="loginFormGroup.invalid"
@@ -80,7 +97,7 @@
                     </span>
                     Login
                 </button>
-                <div (click)="otpScreen = !otpScreen"
+                <div (click)="otpScreen = false; loginScreen = true"
                     class="flex justify-center items-center mt-6 p-2 rounded-full custom-ripple" matRipple
                     [matRippleCentered]="false" [matRippleDisabled]="false" [matRippleUnbounded]="false">
                     <mat-icon aria-hidden="false" aria-label="back to home" class="text-indigo-500 text-sm">chevron_left

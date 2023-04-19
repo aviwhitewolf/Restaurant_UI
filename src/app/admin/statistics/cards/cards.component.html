@@ -18,7 +18,7 @@
                         <dt class="text-xs font-medium text-gray-600 truncate">Total Transaction</dt>
                         <dd>
                             <div class="text-lg font-medium text-red-500">
-                                {{data?.totalAmount || 0 | currency : currencySymbol}}
+                                {{data?.totalAmount || 0 | currency : currency}}
                             </div>
                         </dd>
                     </dl>
@@ -45,7 +45,7 @@
                             <dd>
                                 <div class="text-lg font-medium flex flex-wrap text-gray-600">
                                     <span class="text-red-500">
-                                        {{data?.selectedExpenseTotal?.debit || 0 | currency : currencySymbol}}
+                                        {{data?.selectedExpenseTotal?.debit || 0 | currency : currency}}
                                         <mat-icon
                                             class="h-6 w-6 text-red-500 text-base flex justify-center items-center">
                                             north_east
@@ -53,7 +53,7 @@
                                     </span>,&nbsp;&nbsp;
                                     <span class="text-green-600">
 
-                                        {{data?.selectedExpenseTotal?.credit || 0 | currency : currencySymbol}}
+                                        {{data?.selectedExpenseTotal?.credit || 0 | currency : currency}}
                                         <mat-icon
                                             class="h-5 w-5 text-green-600 text-base flex justify-center items-center">
                                             south_west
@@ -83,7 +83,7 @@
                         <dt class="text-xs font-medium text-gray-600  truncate">Selected Total</dt>
                         <dd>
                             <div class="text-lg font-medium text-red-500">
-                                {{data?.selectedTotal || 0 | currency : currencySymbol}}
+                                {{data?.selectedTotal || 0 | currency : currency}}
                             </div>
                         </dd>
                     </dl>
@@ -109,7 +109,7 @@
                         </dt>
                         <dd>
                             <div class="text-lg font-medium text-red-500">{{data.selectedProfit || 0 | currency :
-                                currencySymbol}}</div>
+                                currency}}</div>
                         </dd>
                     </dl>
                 </div>

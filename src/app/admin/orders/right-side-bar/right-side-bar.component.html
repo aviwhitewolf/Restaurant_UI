@@ -38,7 +38,9 @@
 
                             <ul role="list"
                                 class="border-t border-gray-200 flex-1 divide-y divide-gray-200 overflow-y-auto">
-                                <ng-container *cdkVirtualFor="let mOrder of orders; trackBy:trackByOrderId">
+                                <ng-container *cdkVirtualFor="let mOrder of orders; let first = first; let last = last;trackBy:trackByOrderId">
+                                    <div *ngIf="first" hidden class="hidden">{{scrollToOrder()}}</div>
+                                    <div *ngIf="last" hidden class="hidden">{{stopScroll()}}</div>
                                     <li [routerLink]="['../', mOrder.id]" [fragment]="mOrder.orderId"
                                         (click)="toggleRightSideBar(false)" [attr.id]='mOrder?.orderId'
                                         class="cursor-pointer hover:shadow-md">
@@ -47,8 +49,9 @@
                                             <p class="flex justify-between items-center my-2 text-gray-700  text-xs">
 
                                                 <b>#{{mOrder.orderId}}</b>
-                                                <span class="mt-2 text-gray-500  text-xs">
-                                                    {{mOrder?.createdAt | date: 'dd MMM yyyy hh:mm aa'}}
+                                                <span [ngClass]="{'text-indigo-600 font-bold' : checkOrderRead(mOrder?.metadata)}"
+                                                class="mt-2 text-gray-500  text-xs">
+                                                    {{getDateFromTimeX(mOrder?.createdAt)}}
                                                 </span>
 
                                             </p>
@@ -56,8 +59,10 @@
 
                                                 <p class="text-red-500">
                                                     <span
-                                                        class="font-bold">{{currencySymbol}}{{mOrder?.totalAmount}}</span>
+                                                        class="font-bold">{{mOrder?.totalAmount | currency : mOrder.currency}}</span>
                                                 </p>
+
+                                                <div *ngIf="checkOrderRead(mOrder?.metadata)" class="w-5 h-5 flex justify-center items-center text-center shadow-m text-white text-xs bg-indigo-600 rounded-full">1</div>
 
                                             </div>
 
@@ -204,10 +209,12 @@
 
                                         </div>
                                     </li>
+  
                                 </ng-container>
 
                             </ul>
 
+                          
                             <div *ngIf="loading" class="flex w-full justify-center items-center mb-12">
                                 <mat-progress-bar mode="indeterminate"></mat-progress-bar>
                             </div>

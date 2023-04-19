@@ -7,7 +7,7 @@ export interface OrderInfo{
     orderItems : OrderItems[]
     user : number
     restaurantSlug : string
-    tableNumber : string
+    table : string
     modeOfPayment : string
     mCreatedBy? : number
     createdAt? : string

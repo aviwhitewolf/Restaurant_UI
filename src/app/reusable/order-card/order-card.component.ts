@@ -13,10 +13,13 @@ export class OrderCardComponent implements OnInit {
   @Input()
   orderItems!: OrderItems[];
 
-  public currencySymbol = ""
+  @Input()
+  currency : string = "INR"
+
+  @Input()
+  taxes!: any[];
 
   constructor(private mainService : MainService) { 
-    this.currencySymbol = this.mainService.getToLocalStorage(Constants.LOCAL_USER).currencySymbol || "₹"
   }
 
   ngOnInit(): void {

@@ -17,23 +17,17 @@
 
 
         <nav aria-label="Progress" class="my-6">
-            <ol role="list"
-                class="border border-gray-300 rounded-md divide-y divide-gray-300 md:flex md:divide-y-0">
+            <ol role="list" class="border border-gray-300 rounded-md divide-y divide-gray-300 md:flex md:divide-y-0">
                 <li class="relative md:flex-1 md:flex">
                     <!-- Completed Step -->
                     <div class="group flex items-center w-full">
-                        <span
-                            class="px-4 py-2 flex items-center text-sm font-medium">
-
-
+                        <span class="px-4 py-2 flex items-center text-sm font-medium">
 
                             <span *ngIf="getStepStatus(order).payment"
                                 class="flex-shrink-0 w-6 h-6 flex items-center justify-center bg-green-600 rounded-full ">
                                 <!-- Heroicon name: solid/check -->
-                                <svg class="w-4 h-4 text-white"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 20 20" fill="currentColor"
-                                    aria-hidden="true">
+                                <svg class="w-4 h-4 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                                    fill="currentColor" aria-hidden="true">
                                     <path fill-rule="evenodd"
                                         d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
                                         clip-rule="evenodd" />
@@ -47,37 +41,30 @@
                                 <span class="text-indigo-600 text-xs">01</span>
                             </span>
 
-                            <span
-                                [ngClass]="{'text-indigo-600' : !getStepStatus(order).payment }"
+                            <span [ngClass]="{'text-indigo-600' : !getStepStatus(order).payment }"
                                 class="ml-2 text-xs font-medium text-gray-500">Payment</span>
                         </span>
                     </div>
 
                     <!-- Arrow separator for lg screens and up -->
-                    <div class="hidden md:block absolute top-0 right-0 h-full w-5"
-                        aria-hidden="true">
-                        <svg class="h-full w-full text-gray-300" viewBox="0 0 22 80"
-                            fill="none" preserveAspectRatio="none">
-                            <path d="M0 -2L20 40L0 82"
-                                vector-effect="non-scaling-stroke"
-                                stroke="currentcolor" stroke-linejoin="round" />
+                    <div class="hidden md:block absolute top-0 right-0 h-full w-5" aria-hidden="true">
+                        <svg class="h-full w-full text-gray-300" viewBox="0 0 22 80" fill="none"
+                            preserveAspectRatio="none">
+                            <path d="M0 -2L20 40L0 82" vector-effect="non-scaling-stroke" stroke="currentcolor"
+                                stroke-linejoin="round" />
                         </svg>
                     </div>
                 </li>
 
                 <li class="relative md:flex-1 md:flex">
                     <!-- Current Step -->
-                    <div class="px-4 py-2 flex items-center text-sm font-medium"
-                        aria-current="step">
+                    <div class="px-4 py-2 flex items-center text-sm font-medium" aria-current="step">
 
-                        <span
-                            *ngIf="getStepStatus(order).food && getStepStatus(order).payment"
+                        <span *ngIf="getStepStatus(order).food && getStepStatus(order).payment"
                             class="flex-shrink-0 w-6 h-6 flex items-center justify-center bg-green-600 rounded-full ">
                             <!-- Heroicon name: solid/check -->
-                            <svg class="w-4 h-4 text-white"
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 20 20" fill="currentColor"
-                                aria-hidden="true">
+                            <svg class="w-4 h-4 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                                fill="currentColor" aria-hidden="true">
                                 <path fill-rule="evenodd"
                                     d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
                                     clip-rule="evenodd" />
@@ -85,8 +72,7 @@
 
                         </span>
 
-                        <span
-                            *ngIf="!getStepStatus(order).food && getStepStatus(order).payment"
+                        <span *ngIf="!getStepStatus(order).food && getStepStatus(order).payment"
                             class="flex-shrink-0 w-6 h-6 flex items-center justify-center border-2 border-indigo-600 text-indigo-600 rounded-full">
                             <span class="text-xs">02</span>
                         </span>
@@ -100,13 +86,11 @@
                     </div>
 
                     <!-- Arrow separator for lg screens and up -->
-                    <div class="hidden md:block absolute top-0 right-0 h-full w-5"
-                        aria-hidden="true">
-                        <svg class="h-full w-full text-gray-300" viewBox="0 0 22 80"
-                            fill="none" preserveAspectRatio="none">
-                            <path d="M0 -2L20 40L0 82"
-                                vector-effect="non-scaling-stroke"
-                                stroke="currentcolor" stroke-linejoin="round" />
+                    <div class="hidden md:block absolute top-0 right-0 h-full w-5" aria-hidden="true">
+                        <svg class="h-full w-full text-gray-300" viewBox="0 0 22 80" fill="none"
+                            preserveAspectRatio="none">
+                            <path d="M0 -2L20 40L0 82" vector-effect="non-scaling-stroke" stroke="currentcolor"
+                                stroke-linejoin="round" />
                         </svg>
                     </div>
                 </li>
@@ -114,18 +98,15 @@
                 <li class="relative md:flex-1 md:flex">
                     <!-- Upcoming Step -->
                     <div class="group flex items-center">
-                        <span
-                            class="px-4 py-2 flex items-center text-sm font-medium">
+                        <span class="px-4 py-2 flex items-center text-sm font-medium">
 
 
                             <span
                                 *ngIf="getStepStatus(order).delivered && getStepStatus(order).food && getStepStatus(order).payment"
                                 class="flex-shrink-0 w-6 h-6 flex items-center justify-center bg-green-600 rounded-full ">
                                 <!-- Heroicon name: solid/check -->
-                                <svg class="w-4 h-4 text-white"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 20 20" fill="currentColor"
-                                    aria-hidden="true">
+                                <svg class="w-4 h-4 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                                    fill="currentColor" aria-hidden="true">
                                     <path fill-rule="evenodd"
                                         d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
                                         clip-rule="evenodd" />
@@ -154,7 +135,7 @@
 
         <div class="text-sm border-b border-gray-200 mt-2 pb-5 sm:flex sm:justify-between">
             <dl class="flex flex-wrap text-gray-500 w-full">
-                <dt class="">Order number&nbsp;</dt>
+                <dt class="">Order Id&nbsp;</dt>
                 <dd class="font-medium  flex-nowrap">{{order?.orderId}}</dd>
                 <dt>
                     <span class="sr-only">Number</span>
@@ -180,12 +161,15 @@
             </div>
         </div>
 
-        <div class="mt-10 grid gap-4  grid-cols-1 sm:grid-cols-3 grid-flow-row justify-between">
+        <div class="mt-6 grid grid-cols-1 sm:grid-cols-3 grid-flow-row justify-between">
 
             <!-- Status button -->
             <div *ngFor="let row of dropDown" class="w-full">
-                <label id="listbox-label" class="block text-sm font-medium text-gray-700"> {{row.name}}</label>
-                <div class="mt-1 relative">
+
+                <!-- For Mobile -->
+                <label id="listbox-label" class="block text-sm font-medium text-gray-700 px-2 mt-4">
+                    {{row.name}}</label>
+                <div class="sm:hidden mt-1 relative">
                     <button type="button" (click)="row.showDropDown = !row.showDropDown"
                         (clickOutside)="row.showDropDown = false"
                         class="relative w-full bg-white hover:bg-gray-100 border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -234,11 +218,30 @@
 
                     </ul>
                 </div>
+                <!-- Mobile End -->
+
+
+                <!-- For desktop -->
+                <div class="sm:flex hidden flex-col space-y-2 mt-2 max-h-60 overflow-y-scroll p-2">
+                    <!--
+                      In Stock: "cursor-pointer", Out of Stock: "opacity-25 cursor-not-allowed"
+                      Active: "ring-2 ring-offset-2 ring-indigo-500"
+                      Checked: "bg-indigo-600 border-transparent text-white hover:bg-indigo-700", Not Checked: "bg-white border-gray-200 text-gray-900 hover:bg-gray-50"
+                    -->
+                    <label *ngFor="let subRow of row.columns" (click)="changeSelectedValue(subRow, row.name)"
+                        class=" cursor-pointer active:ring-2 active:ring-offset-2 active:ring-indigo-500 hover:ring-2 hover:ring-offset-2 hover:ring-indigo-500 border-2  rounded-md py-3 px-3 flex items-center justify-center text-sm font-medium capitalize sm:flex-1 focus:outline-none"
+                        [ngClass]="{'bg-indigo-600 border-transparent text-white hover:bg-indigo-700' : getSelectedValue(subRow, row.name)}">
+                        <input type="radio" class="sr-only">
+                        <p>{{subRow}}</p>
+                    </label>
+
+
+                </div>
+                <!-- Desktop End -->
+
             </div>
             <!-- Status button end -->
 
-
-            
         </div>
 
 
@@ -249,8 +252,16 @@
                 <ul *ngIf="order" role="list" class="border-t border-b border-gray-200 divide-y divide-gray-200">
                     <div class="py-6 flex items-center justify-between">
                         <span class="text-base font-medium">Total</span>
-                        <div class=" text-base font-medium text-red-500">{{order?.totalAmount | currency :
-                            currencySymbol}}
+                        <div class=" text-base font-medium text-red-500">
+                            {{order?.totalAmount | currency : order.currency}}
+                        </div>
+                    </div>
+                    <div *ngFor="let tax of order?.taxes" class="py-6 flex items-center justify-between">
+                        <span class="text-sm font-medium">{{tax.name}}
+                            <span class="text-gray-600 font-semibold text-xs ml-2">({{tax.rate}}%)</span>
+                        </span>
+                        <div class=" text-sm font-medium text-red-500">
+                            {{tax?.taxDue | currency : order.currency}}
                         </div>
                     </div>
                     <ng-container *ngFor="let items of order.orderItems">
@@ -275,7 +286,7 @@
                                         </div>
                                         <div class="mt-1 flex text-sm">
                                             <p class="border-gray-200 text-gray-500">{{category?.unitPrice | currency :
-                                                currencySymbol}}</p>
+                                                order.currency}}</p>
                                         </div>
 
                                     </div>
@@ -289,7 +300,7 @@
 
                                         <div class="absolute top-0 right-0 text-red-500">
                                             {{category?.totalPrice
-                                            | currency : currencySymbol}}
+                                            | currency : order.currency}}
                                         </div>
                                     </div>
                                 </div>
@@ -321,18 +332,6 @@
                             </dd>
                         </div>
 
-                        <div *ngIf="order.razorpayOrderId" class="flex items-center justify-between">
-                            <dt class="text-sm text-gray-600">Razorpay Id</dt>
-                            <dd class="text-sm font-medium text-gray-900">
-                                {{order?.razorpayOrderId}}</dd>
-                        </div>
-
-                        <div *ngIf="order.razorpayStatus" class="flex items-center justify-between">
-                            <dt class="text-sm text-gray-600">Razorpay Status</dt>
-                            <dd class="text-sm font-medium text-gray-900">{{order?.razorpayStatus}}</dd>
-                        </div>
-
-
                         <div class="flex items-center justify-between">
                             <dt class="text-sm text-gray-600">Food Status</dt>
                             <dd [ngClass]="{'bg-yellow-100 text-yellow-700' : order?.foodStatus == 'hold', 'bg-green-100 text-green-800' : order?.foodStatus == 'served', 'bg-red-100 text-red-800' : order?.foodStatus == 'cancel',  'bg-orange-100 text-orange-800' : order?.foodStatus == 'preparing'}"
@@ -342,9 +341,9 @@
 
                         </div>
 
-                        <div class="flex items-center justify-between">
+                        <div *ngIf="order?.table?.name" class="flex items-center justify-between">
                             <dt class="text-sm text-gray-600">Table Number</dt>
-                            <dd class="text-sm font-medium text-gray-900">{{order?.tableNumber}}</dd>
+                            <dd class="text-sm font-medium text-gray-900">{{order?.table?.name}}</dd>
                         </div>
 
                         <div class="flex items-center justify-between">
@@ -366,7 +365,7 @@
                         <div class="border-t border-gray-200 pt-4 flex items-center justify-between">
                             <dt class="text-base font-medium text-gray-900">Order Total Amount</dt>
                             <dd class="text-base font-medium text-red-500">{{order?.totalAmount | currency :
-                                currencySymbol}}
+                                order.currency}}
                             </dd>
                         </div>
                     </dl>
@@ -405,7 +404,6 @@
 </div>
 
 <div>
-    <app-right-side-bar *ngIf="showRightSideBar && order"
-    [order]="order"
-    (closeBar)="toggleRightSideBar($event)"></app-right-side-bar>
+    <app-right-side-bar *ngIf="showRightSideBar && order" [order]="order"
+        (closeBar)="toggleRightSideBar($event)"></app-right-side-bar>
 </div>

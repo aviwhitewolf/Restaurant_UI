@@ -5,6 +5,7 @@ import { MainService } from 'src/app/main.service';
 import { AdminService } from '../admin.service';
 import * as moment from 'moment';
 import { UserService } from 'src/app/user/user.service';
+import { RestaurantService } from 'src/app/restaurant/restaurant.service';
 
 @Component({
   selector: 'app-home',
@@ -15,7 +16,6 @@ export class HomeComponent implements OnInit {
 
   public restaurant: any
   public orders: any
-  public currencySymbol = ""
   public loading: boolean = true
   public user: any;
   public overview: any
@@ -29,18 +29,18 @@ export class HomeComponent implements OnInit {
     private adminService: AdminService,
     private mainService: MainService,
     private route: ActivatedRoute,
-    private userService: UserService
+    private restaurantService: RestaurantService
   ) {
-    this.currencySymbol = this.mainService.getToLocalStorage(Constants.LOCAL_USER).currencySymbol || "₹"
   }
 
   ngOnInit(): void {
-    this.route?.parent?.params.subscribe((param: any) => {
-      if (param && param['slug']) {
+
+    const restaurantSlug = this.restaurantService.getRestaurantSlug()
+    if (restaurantSlug) {
         this.getUserInfo()
-        this.initDate(param['slug'])
+        this.initDate(restaurantSlug)
       }
-    });
+    
 
 
   }
@@ -59,20 +59,8 @@ export class HomeComponent implements OnInit {
 
   }
 
-
-
   getUserInfo() {
-    this.loading = true
-    this.userService.checkLoggedIn(this.mainService.getToLocalStorage(Constants.LOCAL_USER).jwt)
-      .then((res) => {
-        this.user = res.data
-        this.loading = false
-      }).catch((err) => {
-        this.loading = false
-        console.log(err)
-        this.mainService.openDialog("Error", this.mainService.errorMessage(err), "E")
-
-      })
+    this.user = this.mainService.getToLocalStorage(Constants.LOCAL_USER)
   }
 
   returnZero() {
@@ -82,15 +70,15 @@ export class HomeComponent implements OnInit {
 
 
   dateRangeChanged(date: any) {
-    this.route?.parent?.params.subscribe((param: any) => {
-      if (param && param['slug']) {
+    const restaurantSlug = this.restaurantService.getRestaurantSlug()
+    if (restaurantSlug) {
         this.activeDateRange = date.type
         this.dateData = date
-        this.getOverview(param['slug'],
+        this.getOverview(restaurantSlug,
           moment(date.start).startOf('day').toISOString(),
           moment(date.end).endOf('day').toISOString())
       }
-    })
+    
   }
 
 

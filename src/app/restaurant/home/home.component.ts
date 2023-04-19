@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs';
 import { MainService } from 'src/app/main.service';
 import { Constants } from 'src/app/Constants/Interface/Constants';
 import { Location } from '@angular/common';
-import { PlatformLocation } from '@angular/common' 
+import { PlatformLocation } from '@angular/common'
 
 @Component({
   selector: 'app-home',
@@ -37,15 +37,14 @@ export class HomeComponent implements OnInit {
   ) {
     this.selectedtheme = this.mainService.getToLocalStorage(Constants.LOCAL_USER).theme || "grid"
     this.userInfo = this.mainService.getToLocalStorage(Constants.LOCAL_USER).jwt ? this.mainService.getToLocalStorage(Constants.LOCAL_USER).username : "Login / Signup"
-  
+
   }
 
   ngOnInit(): void {
-    this.route?.parent?.params.subscribe((param: any) => {
-      if (param && param['name']) {
-        this.fetchMenuAndDishes(param['name'] || "")
-      }
-    });
+    
+    const restaurantSlug = this.restaurantService.getRestaurantSlug()
+    if (restaurantSlug)
+      this.fetchMenuAndDishes(restaurantSlug)
 
     this.route.queryParams.subscribe(params => {
       if (params['tb']) this.tb = params['tb']
@@ -56,7 +55,7 @@ export class HomeComponent implements OnInit {
   fetchMenuAndDishes(slug: string) {
     this.loading = true
     if (slug) {
-      this.restaurantService.getMenuAndDishes(slug)
+      this.restaurantService.getRestaurantMenuAndDishes(slug)
         .then((res: any) => {
           this.menuAndDishes = res
 
@@ -86,7 +85,7 @@ export class HomeComponent implements OnInit {
       if (mMenu) {
         const modalData = mMenu?.dishes.find((dish: Dish) => dish.id == dishId)
         if (modalData) {
-          
+
           document.body.classList.add("no-parent-scroll");
           const dialogRef = this.dialog.open(SingleDishComponent, {
             width: '100%',

@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AdminService } from 'src/app/admin/admin.service';
 import { Constants } from 'src/app/Constants/Interface/Constants';
 import { MainService } from 'src/app/main.service';
+import { RestaurantService } from 'src/app/restaurant/restaurant.service';
 
 @Component({
   selector: 'app-search-dish',
@@ -20,24 +21,20 @@ export class SearchDishComponent implements OnInit {
   public loading : boolean = true
   public filteredDishes: any
   private _searchTerm: string = ""
-  public currencySymbol = ""
   public dishes : any
   
   constructor(
     private mainService : MainService,
     private adminService : AdminService,
-    private route: ActivatedRoute
-    ) {
-    this.currencySymbol = this.mainService.getToLocalStorage(Constants.LOCAL_USER).currencySymbol || "₹"
-   
-   }
+    private route: ActivatedRoute,
+    private restaurantService : RestaurantService
+    ) { }
 
   ngOnInit(): void {
-    this.route?.parent?.parent?.params.subscribe((param: any) => {
-      if (param && param['slug']) {
-        this.getAllDishes(param['slug'] || "")
-      }
-    });
+    const restaurantSlug = this.restaurantService.getRestaurantSlug()
+      if (restaurantSlug) {
+        this.getAllDishes(restaurantSlug)
+      } 
   }
 
   private getAllDishes(slug: string) {

@@ -13,7 +13,7 @@ export interface Order {
     preparationTime: string,
     updatedAt: string,
     publishedAt: string,
-    tableNumber: string,
+    table: any,
     orderItems: any,
     user: {
         id: number,

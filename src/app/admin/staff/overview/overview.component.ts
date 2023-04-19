@@ -5,6 +5,7 @@ import { Constants } from 'src/app/Constants/Interface/Constants';
 import { MainService } from 'src/app/main.service';
 import * as moment from 'moment';
 import { AdminService } from '../../admin.service';
+import { RestaurantService } from 'src/app/restaurant/restaurant.service';
 
 @Component({
   selector: 'app-overview',
@@ -15,7 +16,6 @@ export class OverviewComponent implements OnInit {
 
   public loading : boolean = true
   public employees : any
-  public currencySymbol = ""
   public apiPagination : any
   private routeQueryParams$!: Subscription;
   public isLoggedIn : boolean = false
@@ -24,10 +24,10 @@ export class OverviewComponent implements OnInit {
     private adminService: AdminService,
     private mainService: MainService,
     private route: ActivatedRoute,
-    private _router: Router
+    private _router: Router,
+    private restaurantService : RestaurantService
   ) {
     this.isLoggedIn = this.mainService.getToLocalStorage(Constants.LOCAL_USER).jwt && this.mainService.getToLocalStorage(Constants.LOCAL_USER).jwt.length > 0 ? true : false
-    this.currencySymbol = this.mainService.getToLocalStorage(Constants.LOCAL_USER).currencySymbol || "₹"
     this.routeQueryParams$ = this.route.queryParams.subscribe(params => {
 
         this._router.navigate([], {
@@ -48,16 +48,16 @@ export class OverviewComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.route?.parent?.parent?.params.subscribe((mparam: any) => {
-      if (mparam && mparam['slug']) {
+    const restaurantSlug = this.restaurantService.getRestaurantSlug()
+    if (restaurantSlug) {
         this.routeQueryParams$ = this.route.queryParams.subscribe(params => {
           if (params['page'] && params['pageSize']) {
-            this.getAllEmployees(mparam['slug'], params['page'], params['pageSize'])
+            this.getAllEmployees(restaurantSlug, params['page'], params['pageSize'])
           }
         });
         
       }
-    });
+    
 
 
   }
@@ -83,8 +83,8 @@ export class OverviewComponent implements OnInit {
   }
 
   public onPageChange(page : number): void {
-    this.route?.parent?.parent?.params.subscribe((mparam: any) => {
-      if (mparam && mparam['slug']) {
+    const restaurantSlug = this.restaurantService.getRestaurantSlug()
+    if (restaurantSlug) {
         this.routeQueryParams$ = this.route.queryParams.subscribe(params => {
           if (params['page'] && params['pageSize']) {
             this._router.navigate([], {
@@ -99,8 +99,6 @@ export class OverviewComponent implements OnInit {
           }
         });
       }
-    });
-
   }
 
   public getImageUrl(image: any) {

@@ -33,7 +33,7 @@
           <ul class="-mx-2 text-sm text-gray-700" id="options" role="listbox">
             <!-- Active: "bg-gray-100 text-gray-900" -->
             <li *ngFor="let employee of employees"
-              (click)="selectedEmpAfterSearch = selectedEmpAfterSearch?.mobile == employee?.mobile ? null : employee"
+              (click)="selectedEmpAfterSearch = selectedEmpAfterSearch?.number == employee?.number ? null : employee"
               class="cursor-pointer hover:bg-gray-100 group flex select-none items-center rounded-md p-2" id="option-1"
               role="option" tabindex="-1">
               <img loading="lazy" [src]="getImageUrl(employee?.image[0])" [alt]="employee.fullName"
@@ -64,7 +64,7 @@
           <div class="flex flex-auto flex-col justify-between p-6">
             <dl class="grid grid-cols-1 gap-x-6 gap-y-3 text-sm text-gray-700">
               <dt class="col-end-1 font-semibold text-gray-900">Phone</dt>
-              <dd>{{selectedEmpAfterSearch?.countryCode}} {{selectedEmpAfterSearch?.mobile}}</dd>
+              <dd>{{selectedEmpAfterSearch?.countryCode}} {{selectedEmpAfterSearch?.number}}</dd>
               <dt class="col-end-1 font-semibold text-gray-900">Email</dt>
               <dd class="truncate"><a href="#" class="text-indigo-600 underline">{{selectedEmpAfterSearch?.email}}</a>
               </dd>
@@ -85,7 +85,7 @@
             d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
         </svg>
         <p class="mt-4 font-semibold text-gray-900">Search Employee</p>
-        <p class="mt-2 text-gray-500">Use email, mobile or name to search an employee (min 3 words required).</p>
+        <p class="mt-2 text-gray-500">Use email, number or name to search an employee (min 3 words required).</p>
       </div>
 
       <!-- Not found, show/hide based on command palette state -->
@@ -97,7 +97,7 @@
             d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
         </svg>
         <p class="mt-4 font-semibold text-red-500">No matched result</p>
-        <p class="mt-2 text-red-400">Try searching again with email, mobile or name.</p>
+        <p class="mt-2 text-red-400">Try searching again with email, number or name.</p>
       </div>
     </div>
   </form>

@@ -4,6 +4,7 @@ import { Constants } from 'src/app/Constants/Interface/Constants';
 import { NgxQrcodeElementTypes, NgxQrcodeErrorCorrectionLevels } from '@techiediaries/ngx-qrcode';
 import { MainService } from 'src/app/main.service';
 import { AdminService } from 'src/app/admin/admin.service';
+import { RestaurantService } from 'src/app/restaurant/restaurant.service';
 
 @Component({
   selector: 'app-print-qrcode',
@@ -23,7 +24,7 @@ export class PrintQrcodeComponent implements OnInit {
   public qrCodeScale = Constants.QRCODE_SCALE
 
   constructor(
-    private adminService: AdminService,
+    private restaurantService: RestaurantService,
     private route: ActivatedRoute,
     private mainService : MainService
   ) { 
@@ -31,19 +32,17 @@ export class PrintQrcodeComponent implements OnInit {
   }
   ngOnInit(): void {
 
-    this.route?.parent?.parent?.params.subscribe((param: any) => {
-      if (param && param['slug']) {
-        this.slug = param['slug']
-        this.getRestaurantInfo(param['slug'])
+    const restaurantSlug = this.restaurantService.getRestaurantSlug()
+    if (restaurantSlug) {
+        this.slug = restaurantSlug
+        this.getRestaurantInfo(restaurantSlug)
       }
-    });
-
   }
   getRestaurantInfo(slug: any) {
 
-    this.adminService.getRestaurantInfo(slug)
+    this.restaurantService.getRestaurantInfo(slug)
     .then((result) => {
-      this.restaurantInfo = result?.data?.data?.attributes
+      this.restaurantInfo = result
     }).catch((err) => {
       
       console.log(err)

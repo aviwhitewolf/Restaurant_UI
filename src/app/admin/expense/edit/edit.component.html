@@ -1,4 +1,32 @@
 <app-loader class="absolute top-0 left-0" *ngIf="loading"></app-loader>
+<div *ngIf="!loading && expenseCategories && expenseCategories.length == 0" class="bg-red-500">
+    <div class="mx-auto max-w-6xl py-3 px-3 sm:px-6 lg:px-8">
+        <div class="flex flex-wrap items-start justify-between">
+            <div class="items-start flex w-0 flex-1">
+         
+                    <mat-icon style="height: unset;width: unset;" class="text-white p-2 bg-red-600 rounded-lg">
+                        error
+                    </mat-icon>
+                
+                <div class="flex items-center flex-wrap">
+                    <p class="ml-3 font-medium text-white ">
+                        In order to create expense, you need to create expense category first.
+                    </p>
+                    <button type="button" [routerLink]="['../', 'category','add']"
+                        class="mt-2 lg:mt-0 ml-3 mx-auto inline-flex items-center px-4 py-1 border border-red-300 shadow-lg text-sm font-medium rounded-3xl text-red-500 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                        Create one
+                        <mat-icon style="height: unset;width: unset;" class="ml-2 text-red-500 text-md">
+                            east
+                        </mat-icon>
+                    </button>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
 <div *ngIf="!loading" class="pt-8 pb-12">
     <div class="max-w-6xl mx-auto px-4  sm:px-6 lg:px-8">
 

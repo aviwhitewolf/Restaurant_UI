@@ -12,6 +12,7 @@ import { RestaurantsComponent } from './restaurants/restaurants.component';
 import { UserModule } from '../user/user.module';
 import { NgApexchartsModule } from "ng-apexcharts";
 import { StatisticsModule } from './statistics/statistics.module';
+import { MyRestaurantsModule } from './my-restaurants/my-restaurants.module';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { StatisticsModule } from './statistics/statistics.module';
     NgApexchartsModule,
     ReusableModule,
     UserModule,
-    StatisticsModule
+    StatisticsModule,
+    MyRestaurantsModule
   ]
 })
 export class AdminModule { }

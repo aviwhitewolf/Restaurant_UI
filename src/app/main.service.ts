@@ -162,4 +162,38 @@ export class MainService {
   }
 
 
+  calculateTaxes(subtotal : number, taxes : any) {
+    let total = subtotal
+    const compoundTaxes = []
+    const calculatedTaxes = []
+    const mTotal = subtotal
+    for (let index = 0; index < taxes.length; index++) {
+        const tax = taxes[index];
+        if (!tax?.disable) {
+            if (!tax.compound) {
+                const taxDue = mTotal * (tax.rate / 100);
+                taxes[index].taxDue = taxDue;
+                calculatedTaxes.push(tax)
+                total += (mTotal * (1 + (tax?.rate / 100))) - mTotal;
+            } else {
+                compoundTaxes.push(index)
+            }
+        }
+    }
+
+    let cTotal = total
+    for (let index = 0; index < compoundTaxes.length; index++) {
+        const i = compoundTaxes[index];
+        const compoundTax = taxes[i]
+        const taxDue = cTotal * (compoundTax.rate / 100);
+        taxes[i].taxDue = taxDue;
+        calculatedTaxes.push(compoundTax)
+        cTotal += (cTotal * (1 + (compoundTax?.rate / 100))) - cTotal;
+    }
+
+    total = cTotal
+
+    return { total, taxes: calculatedTaxes }
+}
+
 }

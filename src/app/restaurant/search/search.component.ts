@@ -29,6 +29,7 @@ export class SearchComponent implements OnInit {
     public dialog: MatDialog,
     private route: ActivatedRoute,
     private router: Router,
+    private restaurantService : RestaurantService
   ) { }
 
   ngOnInit(): void {
@@ -39,12 +40,10 @@ export class SearchComponent implements OnInit {
       behavior: 'smooth'
     });
 
-    this.route?.parent?.params.subscribe((param: any) => {
-      if (param && param['name']) {
-        this.getMenuDishes(param['name'] || "")
-      }
-    });
-
+    const restaurantSlug = this.restaurantService.getRestaurantSlug()
+    if (restaurantSlug)
+        this.getMenuDishes(restaurantSlug)
+  
     this.route.queryParams.subscribe(params => {
       if (params['tb']) this.tb = params['tb']
     });
@@ -55,7 +54,7 @@ export class SearchComponent implements OnInit {
   private getMenuDishes(slug : string){
     this.loading = true
     if (slug) {
-      this.restaurantSerive.getMenuAndDishes(slug)
+      this.restaurantSerive.getRestaurantMenuAndDishes(slug)
         .then((res: any) => {
           this.menuAndDishes = res
           this.searchMenuAndDishes = this.menuAndDishes

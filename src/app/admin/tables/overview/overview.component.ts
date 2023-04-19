@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { NgxQrcodeElementTypes, NgxQrcodeErrorCorrectionLevels } from '@techiediaries/ngx-qrcode';
 import { Constants } from 'src/app/Constants/Interface/Constants';
 import { AdminService } from '../../admin.service';
+import { RestaurantService } from 'src/app/restaurant/restaurant.service';
 
 
 @Component({
@@ -29,19 +30,20 @@ export class OverviewComponent implements OnInit {
     private adminService: AdminService,
     private mainService: MainService,
     private route: ActivatedRoute,
-    private _location: Location
+    private _location: Location,
+    private restaurantService : RestaurantService
   ) { 
 
   }
 
   ngOnInit(): void {
 
-    this.route?.parent?.parent?.params.subscribe((param: any) => {
-      if (param && param['slug']) {
-        this.slug = param['slug']
-        this.getAllTables(param['slug'])
+    const restaurantSlug = this.restaurantService.getRestaurantSlug()
+    if (restaurantSlug) {
+        this.slug = restaurantSlug
+        this.getAllTables(restaurantSlug)
       }
-    });
+    
   }
   getAllTables(slug: any) {
     this.loading = true
@@ -59,7 +61,7 @@ export class OverviewComponent implements OnInit {
   getValue(tableName: string) {
 
     if (this.slug) {
-      return Constants.UI_DOMAIN + `/welcome/${this.slug}/${tableName}`
+      return Constants.UI_DOMAIN + `/restaurant/${this.slug}/welcome/${tableName}`
     }
     return ''
   }

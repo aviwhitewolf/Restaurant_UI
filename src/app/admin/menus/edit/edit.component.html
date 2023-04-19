@@ -88,8 +88,7 @@
                                                     *ngFor="let category of dish.category">
                                                     <div class="flex flex-wrap justify-between space-y-1">
                                                         <span>{{category?.name}}</span>
-                                                        <span class="text-red-400 ml-1">{{category?.price | currency :
-                                                            currencySymbol}}</span>
+                                                        <span class="text-red-400 ml-1">{{category?.price | currency : dish.currency}}</span>
                                                     </div>
                                                 </li>
                                             </ul>

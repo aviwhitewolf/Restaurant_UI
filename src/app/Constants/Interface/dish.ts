@@ -6,7 +6,6 @@ export interface Dish{
     image : any
     inStock : boolean
     currency : string
-    currencySymbol : string 
     category : any,
     type : string,
     images : any,

@@ -22,9 +22,7 @@ export class CartCardComponent implements OnInit {
 
   @Output()
   public refreshCart = new EventEmitter<number>();
-  public currencySymbol = ""
   constructor(private mainService: MainService) { 
-    this.currencySymbol = mainService.getToLocalStorage(Constants.LOCAL_USER).currencySymbol || "₹"
   }
 
   ngOnInit(): void {
@@ -32,6 +30,10 @@ export class CartCardComponent implements OnInit {
 
   public getJsonData(data : any, key : string){
     return data[key]
+  }
+
+  public getTotalPrice(){
+    
   }
 
   removeDish(name : string) {

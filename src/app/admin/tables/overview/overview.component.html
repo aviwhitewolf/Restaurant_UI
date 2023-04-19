@@ -1,183 +1,212 @@
 <app-loader class="absolute top-0 left-0" *ngIf="loading"></app-loader>
-<div *ngIf="!loading" class="bg-gray-100 min-h-screen">
-    <div class="pt-8 pb-12">
-        <div class="max-w-6xl mx-auto px-4 space-y-4 sm:px-6 lg:px-8">
 
-            <div class="flex justify-between py-4 items-center">
 
-                <div>
-                    <h2 class="text-lg font-medium text-gray-900 ">
-                        Tables
-                    </h2>
-                    <span *ngIf="this.tables" class="text-xs text-gray-600">{{this.tables.length || 0}} entries
-                        found</span>
+<div class=" bg-gray-100 min-h-screen">
+
+
+
+    <div class="p-12 max-w-6xl mx-auto " *ngIf="!loading && (!tables || tables?.length == 0)">
+        <button type="button" [routerLink]="['add']"
+            class="flex flex-col w-full border-2 border-gray-300 border-dashed rounded-lg p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            <mat-icon style="height: unset;width: unset;" class="mx-auto  text-gray-600  text-5xl">
+                deck
+            </mat-icon>
+            <span class="mx-auto mt-2 text-sm font-medium text-gray-500">
+                No table found.
+            </span>
+            <button type="button"
+                class=" mx-auto mt-2 inline-flex items-center px-4 py-2 border border-gray-300 shadow-purple-500 shadow-sm text-sm font-medium rounded-3xl text-indigo-500 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                Create one
+                <mat-icon style="height: unset;width: unset;" class="ml-2 text-indigo-500 text-md">
+                    east
+                </mat-icon>
+            </button>
+        </button>
+    </div>
+
+
+    <div *ngIf="!loading && tables && tables.length > 0">
+        <div class="pt-8 pb-12">
+            <div class="max-w-6xl mx-auto px-4 space-y-4 sm:px-6 lg:px-8">
+
+                <div class="flex justify-between py-4 items-center">
+
+                    <div>
+                        <h2 class="text-lg font-medium text-gray-900 ">
+                            Tables
+                        </h2>
+                        <span *ngIf="this.tables" class="text-xs text-gray-600">{{this.tables.length || 0}} entries
+                            found</span>
+                    </div>
+
+                    <button type="button" [routerLink]="['add']"
+                        class="disabled:bg-indigo-400 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <mat-icon class="mr-2 text-md">
+                            add</mat-icon>
+                        Create Table
+                    </button>
                 </div>
 
-                <button type="button" [routerLink]="['add']"
-                    class="disabled:bg-indigo-400 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    <mat-icon class="mr-2 text-md">
-                        add</mat-icon>
-                    Create Table
-                </button>
-            </div>
 
+                <ul role="list" class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                    <li *ngFor="let table of tables;" [routerLink]="['edit', table?.id]"
+                        class="flex flex-col overflow-hidden bg-white rounded-lg shadow hover:bg-gray-50">
 
-            <ul role="list" class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                <li *ngFor="let table of tables;" [routerLink]="['edit', table?.id]"
-                    class="flex flex-col overflow-hidden bg-white rounded-lg shadow hover:bg-gray-50">
-                    
-                    <div class="flex flex-col h-full items-center space-y-4 p-6">
-                        <p class="w-56 px-4 text-indigo-500 text-base font-bold text-center truncate h-6">
-                            {{table?.name}}</p>
-                        <ngx-qrcode class="rounded-lg shadow-md overflow-hidden" [elementType]="elementType"
-                            [errorCorrectionLevel]="correctionLevel" [value]="getValue(table?.slug)"
-                            [scale]='qrCodeScale.medium' cssClass="coolQRCode">
-                            Loading...</ngx-qrcode>
+                        <div class="flex flex-col h-full items-center space-y-4 p-6">
+                            <p class="w-56 px-4 text-indigo-500 text-base font-bold text-center truncate h-6">
+                                {{table?.name}}</p>
+                            <ngx-qrcode class="rounded-lg shadow-md overflow-hidden" [elementType]="elementType"
+                                [errorCorrectionLevel]="correctionLevel" [value]="getValue(table?.slug)"
+                                [scale]='qrCodeScale.medium' cssClass="coolQRCode">
+                                Loading...</ngx-qrcode>
 
-                        <a [href]="getValue(table?.slug)" target="_blank" rel="noopener noreferrer"
-                            (click)="$event.stopPropagation();"
-                            class="truncate inline-flex rounded-full items-center py-1 pl-2.5 pr-2 text-xs font-medium bg-indigo-100 text-indigo-700">
-                            Open link
-                            <button type="button"
-                                class=" flex-shrink-0 ml-0.5 h-4 w-4 justify-center rounded-full inline-flex items-center text-indigo-400 hover:bg-indigo-200 hover:text-indigo-500 focus:outline-none focus:bg-indigo-500 focus:text-white">
-                                <span class="sr-only">Remove large option</span>
-                                <mat-icon class="h-2 w-2 text-base">open_in_new</mat-icon>
-                            </button>
-                        </a>
-                    </div>
-
-
-                    <div class="mt-6">
-                        <div class="border-t flex sm:flex-row flex-col divide-x divide-gray-200">
-                            <button (click)="showDeleteDialog = true ;tableToDelete = table; $event.stopPropagation();"
-                                class="cursor-pointer sm:w-0 flex-1 flex text-gray-500 hover:text-gray-700">
-                                <a
-                                    class="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-red-500">
-                                    <mat-icon class="text-base ">
-                                        delete</mat-icon>
-                                    <span class="ml-2">Delete</span>
-                                </a>
-                            </button>
-                            <div
-                                class="cursor-pointer -ml-px border-t sm:border-t-0 sm:w-0 flex-1 flex text-gray-500 hover:text-gray-700">
-
-                                <a [routerLink]="['edit', table.id]"
-                                    class="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-indigo-500">
-                                    <mat-icon class="text-base ">
-                                        edit</mat-icon>
-                                    <span class="ml-2">Edit</span>
-                                </a>
-
-                            </div>
-                        </div>
-                    </div>
-                    <!-- action button end -->
-                </li>
-            </ul>
-
-
-            <!--show qr code popup -->
-            <div *ngIf="showDownloadQrCodes" class="fixed h-full inset-0 z-50 overflow-y-auto" role="dialog"
-                aria-modal="true">
-                <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20">
-
-                    <div [ngClass]="{'ease-out duration-300 opacity-100' : showDownloadQrCodes, 'ease-in duration-200 opacity-0' : !showDownloadQrCodes}"
-                        class="fixed inset-0 bg-gray-500 bg-opacity-25 transition-opacity" aria-hidden="true">
-                    </div>
-
-                    <div [ngClass]="{'ease-out duration-300 opacity-100 scale-100' : showDownloadQrCodes, 'ease-in duration-200 opacity-0 scale-95' : !showDownloadQrCodes}"
-                        class="relative inline-block align-middle m-4 max-w-6xl  w-full sm:m-auto transform divide-y divide-gray-500 divide-opacity-10 overflow-hidden rounded-xl bg-white bg-opacity-80 shadow-2xl ring-1 ring-black ring-opacity-5 backdrop-blur backdrop-filter transition-all">
-
-                        <div (clickOutside)="showDownloadQrCodes = false">
-
-                            <div class="px-6 py-5 flex justify-between">
-                                <h2 class=" text-lg leading-6 font-medium text-gray-900">
-                                    QR Code</h2>
-                                <button [useExistingCss]="true" printSectionId="print-section" ngxPrint
-                                    class="disabled:bg-indigo-400 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                    <mat-icon class="mr-2 text-md">
-                                        print
-                                    </mat-icon>
-                                    Print
+                            <a [href]="getValue(table?.slug)" target="_blank" rel="noopener noreferrer"
+                                (click)="$event.stopPropagation();"
+                                class="truncate inline-flex rounded-full items-center py-1 pl-2.5 pr-2 text-xs font-medium bg-indigo-100 text-indigo-700">
+                                Open link
+                                <button type="button"
+                                    class=" flex-shrink-0 ml-0.5 h-4 w-4 justify-center rounded-full inline-flex items-center text-indigo-400 hover:bg-indigo-200 hover:text-indigo-500 focus:outline-none focus:bg-indigo-500 focus:text-white">
+                                    <span class="sr-only">Remove large option</span>
+                                    <mat-icon class="h-2 w-2 text-base">open_in_new</mat-icon>
                                 </button>
-                            </div>
-
-                            <app-print-qrcode *ngIf="selectedTable" [table]="selectedTable"></app-print-qrcode>
-
-                            <div class="mt-6 flex justify-between px-6 py-5 border-t">
-
-                                <button type="button" (click)="showDownloadQrCodes = false"
-                                    class="py-2 px-4 border border-indigo-500 text-sm font-medium rounded-md text-indigo-500  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                    Cancel
-                                </button>
-
-                            </div>
-
+                            </a>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <!-- show qr code  end -->
 
 
-
-            <!-- confirm delete popup -->
-            <div *ngIf="showDeleteDialog" class="fixed h-full inset-0 z-50 overflow-y-auto" role="dialog"
-                aria-modal="true">
-                <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center ">
-
-                    <div [ngClass]="{'ease-out duration-300 opacity-100' : showDeleteDialog, 'ease-in duration-200 opacity-0' : !showDeleteDialog}"
-                        class="fixed inset-0 bg-gray-500 bg-opacity-25 transition-opacity" aria-hidden="true">
-                    </div>
-
-                    <div [ngClass]="{'ease-out duration-300 opacity-100 scale-100' : showDeleteDialog, 'ease-in duration-200 opacity-0 scale-95' : !showDeleteDialog}"
-                        class="relative inline-block align-middle m-4 max-w-xl  w-full sm:m-auto transform divide-y divide-gray-500 divide-opacity-10 overflow-hidden rounded-xl bg-white bg-opacity-80 shadow-2xl ring-1 ring-black ring-opacity-5 backdrop-blur backdrop-filter transition-all">
-
-
-                        <div (clickOutside)="showDeleteDialog = false">
-                            <div class="flex items-start px-4 pt-5 p-6 ">
+                        <div class="mt-6">
+                            <div class="border-t flex sm:flex-row flex-col divide-x divide-gray-200">
+                                <button
+                                    (click)="showDeleteDialog = true ;tableToDelete = table; $event.stopPropagation();"
+                                    class="cursor-pointer sm:w-0 flex-1 flex text-gray-500 hover:text-gray-700">
+                                    <a
+                                        class="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-red-500">
+                                        <mat-icon class="text-base ">
+                                            delete</mat-icon>
+                                        <span class="ml-2">Delete</span>
+                                    </a>
+                                </button>
                                 <div
-                                    class="flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full sm:mx-0 sm:h-10 sm:w-10">
-                                    <mat-icon class="h-6 w-6 text-yellow-500" aria-hidden="false" aria-label="warning">
-                                        warning
-                                    </mat-icon>
+                                    class="cursor-pointer -ml-px border-t sm:border-t-0 sm:w-0 flex-1 flex text-gray-500 hover:text-gray-700">
+
+                                    <a [routerLink]="['edit', table.id]"
+                                        class="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-indigo-500">
+                                        <mat-icon class="text-base ">
+                                            edit</mat-icon>
+                                        <span class="ml-2">Edit</span>
+                                    </a>
+
                                 </div>
-                                <div class="mt-0 ml-4 text-left">
-                                    <h3 class="text-lg leading-6 font-medium text-gray-900"
-                                        id="modal-title">Are
-                                        you sure?</h3>
-                                    <div class="mt-2">
-                                        <p class="text-sm text-gray-500">
-                                            Once deleted you won't be able to retrive the data.
-                                        </p>
+                            </div>
+                        </div>
+                        <!-- action button end -->
+                    </li>
+                </ul>
+
+
+                <!--show qr code popup -->
+                <div *ngIf="showDownloadQrCodes" class="fixed h-full inset-0 z-50 overflow-y-auto" role="dialog"
+                    aria-modal="true">
+                    <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20">
+
+                        <div [ngClass]="{'ease-out duration-300 opacity-100' : showDownloadQrCodes, 'ease-in duration-200 opacity-0' : !showDownloadQrCodes}"
+                            class="fixed inset-0 bg-gray-500 bg-opacity-25 transition-opacity" aria-hidden="true">
+                        </div>
+
+                        <div [ngClass]="{'ease-out duration-300 opacity-100 scale-100' : showDownloadQrCodes, 'ease-in duration-200 opacity-0 scale-95' : !showDownloadQrCodes}"
+                            class="relative inline-block align-middle m-4 max-w-6xl  w-full sm:m-auto transform divide-y divide-gray-500 divide-opacity-10 overflow-hidden rounded-xl bg-white bg-opacity-80 shadow-2xl ring-1 ring-black ring-opacity-5 backdrop-blur backdrop-filter transition-all">
+
+                            <div (clickOutside)="showDownloadQrCodes = false">
+
+                                <div class="px-6 py-5 flex justify-between">
+                                    <h2 class=" text-lg leading-6 font-medium text-gray-900">
+                                        QR Code</h2>
+                                    <button [useExistingCss]="true" printSectionId="print-section" ngxPrint
+                                        class="disabled:bg-indigo-400 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                        <mat-icon class="mr-2 text-md">
+                                            print
+                                        </mat-icon>
+                                        Print
+                                    </button>
+                                </div>
+
+                                <app-print-qrcode *ngIf="selectedTable" [table]="selectedTable"></app-print-qrcode>
+
+                                <div class="mt-6 flex justify-between px-6 py-5 border-t">
+
+                                    <button type="button" (click)="showDownloadQrCodes = false"
+                                        class="py-2 px-4 border border-indigo-500 text-sm font-medium rounded-md text-indigo-500  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                        Cancel
+                                    </button>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- show qr code  end -->
+
+
+
+                <!-- confirm delete popup -->
+                <div *ngIf="showDeleteDialog" class="fixed h-full inset-0 z-50 overflow-y-auto" role="dialog"
+                    aria-modal="true">
+                    <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center ">
+
+                        <div [ngClass]="{'ease-out duration-300 opacity-100' : showDeleteDialog, 'ease-in duration-200 opacity-0' : !showDeleteDialog}"
+                            class="fixed inset-0 bg-gray-500 bg-opacity-25 transition-opacity" aria-hidden="true">
+                        </div>
+
+                        <div [ngClass]="{'ease-out duration-300 opacity-100 scale-100' : showDeleteDialog, 'ease-in duration-200 opacity-0 scale-95' : !showDeleteDialog}"
+                            class="relative inline-block align-middle m-4 max-w-xl  w-full sm:m-auto transform divide-y divide-gray-500 divide-opacity-10 overflow-hidden rounded-xl bg-white bg-opacity-80 shadow-2xl ring-1 ring-black ring-opacity-5 backdrop-blur backdrop-filter transition-all">
+
+
+                            <div (clickOutside)="showDeleteDialog = false">
+                                <div class="flex items-start px-4 pt-5 p-6 ">
+                                    <div
+                                        class="flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full sm:mx-0 sm:h-10 sm:w-10">
+                                        <mat-icon class="h-6 w-6 text-yellow-500" aria-hidden="false"
+                                            aria-label="warning">
+                                            warning
+                                        </mat-icon>
+                                    </div>
+                                    <div class="mt-0 ml-4 text-left">
+                                        <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">Are
+                                            you sure?</h3>
+                                        <div class="mt-2">
+                                            <p class="text-sm text-gray-500">
+                                                Once deleted you won't be able to retrive the data.
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
+
+                                <div class="mt-2 flex justify-between px-4 py-5 sm:gap-4 sm:px-6 border-t">
+
+                                    <button type="button" (click)="showDeleteDialog = false"
+                                        class="py-2 px-4 border border-indigo-500 text-sm font-medium rounded-md text-indigo-500  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                        Cancel
+                                    </button>
+
+
+                                    <button type="button" (click)="deleteTable(tableToDelete?.id)"
+                                        class="cursor-pointer py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                                        Ok, Delete
+                                    </button>
+
+
+                                </div>
                             </div>
 
-                            <div class="mt-2 flex justify-between px-4 py-5 sm:gap-4 sm:px-6 border-t">
 
-                                <button type="button" (click)="showDeleteDialog = false"
-                                    class="py-2 px-4 border border-indigo-500 text-sm font-medium rounded-md text-indigo-500  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                    Cancel
-                                </button>
-
-
-                                <button type="button" (click)="deleteTable(tableToDelete?.id)"
-                                    class="cursor-pointer py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
-                                    Ok, Delete
-                                </button>
-
-
-                            </div>
                         </div>
-
-
                     </div>
                 </div>
+                <!-- confirm delete popup end -->
+
+
             </div>
-            <!-- confirm delete popup end -->
-
-
         </div>
     </div>
+
 </div>

@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AdminService } from 'src/app/admin/admin.service';
 import { MainService } from 'src/app/main.service';
 import toMaterialStyle from 'material-color-hash'
+import { RestaurantService } from 'src/app/restaurant/restaurant.service';
 
 @Component({
   selector: 'app-overview',
@@ -20,21 +21,21 @@ export class OverviewComponent implements OnInit {
     private route: ActivatedRoute,
     private adminService : AdminService,
     private mainService: MainService,
+    private restaurantService : RestaurantService
     ) { }
 
   ngOnInit(): void {
-    this.route?.parent?.parent?.parent?.params.subscribe((param: any) => {
-      if (param && param['slug']) {
-        this.getExpenseCategory(param['slug'])
+    const restaurantSlug = this.restaurantService.getRestaurantSlug()
+    if (restaurantSlug) {
+        this.getExpenseCategory(restaurantSlug)
       }
-    })
+    
   }
   getExpenseCategory(slug : string) {
     this.loading = true
     this.adminService.getExpenseCategory(slug)
       .then((res) => {
         this.expenseCategories = res?.data
-        console.log("Expenses", this.expenseCategories)
         this.loading = false
       }).catch((err) => {
         this.loading = false
@@ -45,9 +46,9 @@ export class OverviewComponent implements OnInit {
 
   deleteCategory(catId: string) {
     this.loading = true
-    this.route?.parent?.parent?.parent?.params.subscribe((param: any) => {
-      if (param && param['slug']) {
-        this.adminService.deleteExpenseCategory(param['slug'], catId)
+    const restaurantSlug = this.restaurantService.getRestaurantSlug()
+    if (restaurantSlug) {
+        this.adminService.deleteExpenseCategory(restaurantSlug, catId)
           .then((res) => {
             this.loading = false
             this.mainService.openDialog("Success", "Category deleted successfully", "S", true, false)
@@ -57,7 +58,6 @@ export class OverviewComponent implements OnInit {
             this.mainService.openDialog("Error", this.mainService.errorMessage(err), "E")
           })
       }
-    })
   }
 
 

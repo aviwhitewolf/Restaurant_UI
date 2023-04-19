@@ -1,11 +1,15 @@
 <app-loader class="absolute top-0 left-0" *ngIf="loading"></app-loader>
 <div *ngIf="!loading && orders && orders.length > 0" class="w-screen max-w-md mx-auto">
      <div class="h-full flex flex-col bg-white dark:bg-slate-900">
-          <div class="ml-3 md:ml-6 flex items-start justify-between">
+          <div class="ml-3 md:ml-6 flex items-start justify-between flex-col">
                <h2 class="text-2xl font-bold text-gray-900 dark:text-white" id="slide-over-title">Orders</h2>
+
+               <span *ngIf="this.orders" class="text-xs text-gray-600">{{this.orders.length}} entries
+                    found</span>
+
           </div>
           <div class="py-6 px-4 sm:px-6">
-               <div class="mt-8">
+               <div class="mt-4">
                     <div class="flow-root">
                          <ul role="list">
                               <cdk-accordion *ngIf="orders" class="my-accordion">
@@ -14,23 +18,30 @@
                                         [attr.id]="'accordion-header-' + index"
                                         [attr.aria-expanded]="accordionItem.expanded"
                                         [attr.aria-controls]="'accordion-body-' + index"
-                                        class="my-accordion-item border dark:border-gray-700 custom-ripple" >
+                                        class="my-accordion-item border dark:border-gray-700 custom-ripple">
                                         <div (click)="accordionItem.toggle()" class="my-accordion-item-header">
-                                             <p class="my-2 text-gray-500 dark:text-white text-xs">
-                                                  <b>#{{order.orderId}}</b>
-                                             </p>
+                                             <div class="w-full flex justify-between flex-wrap items-center">
+                                                  <p class="my-2 text-gray-500 dark:text-white text-xs">
+                                                       <b>#{{order.orderId}}</b>
+                                                  </p>
+                                                  <span (click)="showDeleteDialog = true;orderIdToDelete = order.id; $event.stopPropagation();"
+                                                       *ngIf="order.status == 'pending' ||  order.status == 'failed'"
+                                                       class="text-red-400 dark:text-red-300 my-accordion-item-description underline">
+                                                       Delete this order
+                                                  </span>
+                                             </div>
                                              <div class="flex justify-between">
 
                                                   <p class="text-red-500 dark:text-red-700">
-                                                       {{currencySymbol}}{{order.totalAmount}}</p>
+                                                       {{order.totalAmount | currency : order.currency}}</p>
 
                                                   <div [ngClass]="{'bg-yellow-200 text-yellow-800 dark:bg-yellow-500 dark:text-yellow-100' : order.status == 'pending', 'bg-green-200 dark:bg-green-700 text-green-800 dark:text-green-200' : order.status == 'success', 'bg-red-200 dark:bg-red-700 text-red-800 dark:text-red-200' : order.status == 'failed' }"
                                                        class="ml-3 md:ml-6 text-xs inline-flex items-center leading-sm capitalize px-3 py-1 rounded-full font-bold">
-                                                       {{order.status}}
+                                                       Payment : {{order.status}}
 
                                                   </div>
 
-                                                  <span class="my-accordion-item-description">
+                                                  <span class="my-accordion-item-description text-gray-400">
                                                        Click to {{ accordionItem.expanded ? 'close' : 'open' }}
                                                   </span>
                                              </div>
@@ -65,7 +76,8 @@
 
                                                   </div>
                                              </div>
-                                             <app-order-card [orderItems]="order.orderItems">
+                                             <app-order-card [orderItems]="order?.orderItems"
+                                                  [currency]="order?.currency" [taxes]="order?.taxes">
                                              </app-order-card>
 
                                         </div>
@@ -80,7 +92,8 @@
 
 </div>
 
-<div *ngIf="(!orders || orders.length <= 0) && !loading && isLoggedIn" class="text-center mx-auto my-auto max-w-lg">
+<div *ngIf="(!orders || orders.length <= 0) && !loading && isLoggedIn"
+     class="flex justify-center items-center flex-col mx-auto my-auto max-w-lg">
 
      <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
           x="0px" y="0px" viewBox="0 0 1000 1000" style="enable-background:new 0 0 1000 1000;" xml:space="preserve">
@@ -390,9 +403,9 @@
           </g>
      </svg>
      <div class="mt-8 space-y-2 px-4">
-          <h2 class="text-3xl font-bold text-slate-900 dark:text-white">You haven't ordered anything</h2>
-          <p class="text-gray-600 text-lg dark:text-gray-400">Let's order some delicious food</p>
-          <p class="text-indigo-500 font-semibold text-sm">Yum Yum Yummy, In My Tummy</p>
+          <h2 class="text-3xl font-bold text-slate-900 dark:text-white  text-center">You haven't ordered anything</h2>
+          <p class="text-gray-600 text-lg dark:text-gray-400  text-center">Let's order some delicious food</p>
+          <p class="text-indigo-500 font-semibold text-sm text-center">Yum Yum Yummy, In My Tummy</p>
           <!-- <a (click)="navigateToHome()"
                class="cursor-pointer inline-flex justify-center rounded-md border border-gray-300 dark:border-gray-700 shadow-sm px-4 py-2 bg-white dark:bg-indigo-500 dark:text-white text-base font-medium text-gray-700 focus:outline-none ">
                Order Now
@@ -440,3 +453,58 @@
           </div>
      </div>
 </div>
+
+<!-- confirm delete popup -->
+
+<div *ngIf="showDeleteDialog" class="fixed h-full inset-0 z-50 overflow-y-auto" role="dialog" aria-modal="true">
+     <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center ">
+
+          <div [ngClass]="{'ease-out duration-300 opacity-100' : showDeleteDialog, 'ease-in duration-200 opacity-0' : !showDeleteDialog}"
+               class="fixed inset-0 bg-gray-500 bg-opacity-25 transition-opacity" aria-hidden="true">
+          </div>
+
+          <div [ngClass]="{'ease-out duration-300 opacity-100 scale-100' : showDeleteDialog, 'ease-in duration-200 opacity-0 scale-95' : !showDeleteDialog}"
+               class="relative inline-block align-middle m-4 max-w-xl  w-full sm:m-auto transform divide-y divide-gray-500 divide-opacity-10 overflow-hidden rounded-xl bg-white bg-opacity-80 shadow-2xl ring-1 ring-black ring-opacity-5 backdrop-blur backdrop-filter transition-all">
+
+
+               <div (clickOutside)="showDeleteDialog = false">
+                    <div class="flex items-start px-4 pt-5 p-6 ">
+                         <div
+                              class="flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full sm:mx-0 sm:h-10 sm:w-10">
+                              <mat-icon class="h-6 w-6 text-yellow-500" aria-hidden="false" aria-label="warning">
+                                   warning
+                              </mat-icon>
+                         </div>
+                         <div class="mt-0 ml-4 text-left">
+                              <h3 class="text-lg leading-6 font-medium text-gray-900 " id="modal-title">Are
+                                   you sure?</h3>
+                              <div class="mt-2">
+                                   <p class="text-sm text-gray-500 ">
+                                        Once deleted you won't be able to retrive the data.
+                                   </p>
+                              </div>
+                         </div>
+                    </div>
+
+                    <div class="mt-2 flex justify-between px-4 py-5 sm:gap-4 sm:px-6 border-t">
+
+                         <button type="button" (click)="showDeleteDialog = false"
+                              class="py-2 px-4 border border-indigo-500 text-sm font-medium rounded-md text-indigo-500  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                              Cancel
+                         </button>
+
+
+                         <button type="button" (click)="deleteOrder(orderIdToDelete)"
+                              class="cursor-pointer py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                              Ok, Delete
+                         </button>
+
+
+                    </div>
+               </div>
+
+
+          </div>
+     </div>
+</div>
+<!-- confirm delete popup end -->

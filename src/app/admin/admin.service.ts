@@ -15,7 +15,6 @@ export class AdminService {
     private mainService: MainService
   ) { }
 
-
   getAdminMenu(slug: string) {
     const jwt = this.mainService.getToLocalStorage(Constants.LOCAL_USER).jwt || ""
 
@@ -85,7 +84,7 @@ export class AdminService {
       Authorization: `Bearer ${jwt}`
     }
 
-    return axios.put(Constants.BASE_URL + Constants.UPDATE_ORDER_URL + `/${orderId}`, updateOrder, { headers })
+    return axios.put(Constants.BASE_URL + Constants.ORDER_URL + `/${orderId}`, updateOrder, { headers })
   }
 
   getAllDishes(slug: string) {
@@ -356,6 +355,18 @@ export class AdminService {
 
   }
 
+  updateMyImage(data: any, slug: string) {
+    const jwt = this.mainService.getToLocalStorage(Constants.LOCAL_USER).jwt || ""
+
+    const headers = {
+      Authorization: `Bearer ${jwt}`
+    }
+    const url = Constants.BASE_URL + Constants.ADMIN_USER_ME + `?slug=${slug}`
+    return axios.put(url, data, { headers })
+
+  }
+
+
   addEmployee(data: any, slug: string) {
     const jwt = this.mainService.getToLocalStorage(Constants.LOCAL_USER).jwt || ""
     const headers = {
@@ -365,16 +376,6 @@ export class AdminService {
 
   }
 
-  getRestaurantInfo(slug: string) {
-    const jwt = this.mainService.getToLocalStorage(Constants.LOCAL_USER).jwt || ""
-
-    const headers = {
-      Authorization: `Bearer ${jwt}`
-    }
-    const url = Constants.BASE_URL + Constants.ADMIN_RESTAURANT_INFO + `/${slug}`
-    return axios.get(url, { headers })
-
-  }
 
   getDesignation(slug: string) {
     const jwt = this.mainService.getToLocalStorage(Constants.LOCAL_USER).jwt || ""
@@ -498,6 +499,17 @@ export class AdminService {
 
   }
 
+  getLoggedInEmployee(slug: string) {
+    const jwt = this.mainService.getToLocalStorage(Constants.LOCAL_USER).jwt || ""
+
+    const headers = {
+      Authorization: `Bearer ${jwt}`
+    }
+    const url = Constants.BASE_URL + Constants.ADMIN_EMPLOYEE_ME + `?slug=${slug}`
+    return axios.get(url, { headers })
+  }
+
+  
 
   subscribeToWebpushNotification(data: any, slug: string){
     const jwt = this.mainService.getToLocalStorage(Constants.LOCAL_USER).jwt || ""
@@ -534,6 +546,56 @@ export class AdminService {
     return axios.delete(Constants.BASE_URL + Constants.ADMIN_EXPENSE_CATEGORY + `/${catId}?slug=${slug}`, { headers })
 
   }
+
+  getTaxes(slug: string) {
+    const jwt = this.mainService.getToLocalStorage(Constants.LOCAL_USER).jwt || ""
+
+    const headers = {
+      Authorization: `Bearer ${jwt}`
+    }
+    const url = Constants.BASE_URL + Constants.ADMIN_TAX + `?slug=${slug}`
+    return axios.get(url, { headers })
+
+  }
+
+  getSingleTax(slug: string, taxId : string) {
+    const jwt = this.mainService.getToLocalStorage(Constants.LOCAL_USER).jwt || ""
+
+    const headers = {
+      Authorization: `Bearer ${jwt}`
+    }
+    const url = Constants.BASE_URL + Constants.ADMIN_TAX + `/${taxId}?slug=${slug}`
+    return axios.get(url, { headers })
+
+  }
+
+  deleteTax(slug: string, taxId: string) {
+    const jwt = this.mainService.getToLocalStorage(Constants.LOCAL_USER).jwt || ""
+    const headers = {
+      Authorization: `Bearer ${jwt}`
+    }
+    return axios.delete(Constants.BASE_URL + Constants.ADMIN_TAX + `/${taxId}?slug=${slug}`, { headers })
+
+  }
+
+  addTax(data: any, slug: string) {
+    const jwt = this.mainService.getToLocalStorage(Constants.LOCAL_USER).jwt || ""
+    const headers = {
+      Authorization: `Bearer ${jwt}`
+    }
+    return axios.post(Constants.BASE_URL + Constants.ADMIN_TAX + `?slug=${slug}`, data, { headers })
+
+  }
+
+  updateTax(data: any, slug: string, id: string) {
+    const jwt = this.mainService.getToLocalStorage(Constants.LOCAL_USER).jwt || ""
+    const headers = {
+      Authorization: `Bearer ${jwt}`
+    }
+    return axios.put(Constants.BASE_URL + Constants.ADMIN_TAX + `/${id}?slug=${slug}`, data, { headers })
+
+  }
+
 
   async getBase64ImageFromUrl(imageUrl: string) {
     var res = await fetch(imageUrl);

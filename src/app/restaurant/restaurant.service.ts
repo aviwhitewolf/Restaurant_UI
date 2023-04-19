@@ -12,114 +12,92 @@ import { EventHandlerService } from '../event-handler.service';
 })
 export class RestaurantService {
 
-  private getMenuAndDishesData: any = null
+
   public menuAndDishes: MenuDishes[] = []
+  private restaurantData: any
   constructor(
     private mainService: MainService,
     private eventManagement: EventHandlerService
   ) { }
 
-
-  getRestaurantInfo(restaurantSlug: string) {
+  /*
+  ** @param restaurantName : Name of the Restaurant
+  ** @return Promise with list of menus and dishes 
+  */
+  getRestaurantMenuAndDishes(restaurantSlug: string, restaurantInfoOnly: boolean = false) {
 
     return new Promise(async (resolve, reject) => {
 
       try {
 
-        const query = qs.stringify({
-          fields: ['*'],
-          populate: {
-            image: {
-              fields: ['*']
-            },
-            logo: {
-              fields: ['*']
-            },
-            socialMedia : {
-              fields : ['*'],
-              populate : {
-                icon : {
-                  fields : ['*']
-                }
-              }
-            }
-          },
-          filters: {
-            slug: {
-              $eq: restaurantSlug
-
-            }
-          }
-        }, {
-          encodeValuesOnly: true,
-        });
-        const response = await axios.get(Constants.BASE_URL + Constants.RESTAURANT_URL + `?${query}`);
-        const restaurantInfo = response.data.data[0]
-        resolve(restaurantInfo)
-
-      } catch (error) {
-        reject(error)
-      }
-
-    })
-  }
-
-  /*
-  ** @param restaurantName : Name of the Restaurant
-  ** @return Promise with list of menus and dishes 
-  */
-  getMenuAndDishes(restaurantSlug: string) {
-
-    return new Promise(async (resolve, reject) => {
-      if (this.menuAndDishes.length <= 0) {
-        const query = qs.stringify({
-
-          populate: {
-            menus: {
-              sort: ['sequence'],
-              fields: ['name'],
-              populate: {
-                dishes: {
-                  fields: ['*'],
-                  populate: {
-                    image: {
-                      fields: ["url", "alternativeText", "formats"]
-                    },
-                    category: {
-                      fields: ["*"]
-                    },
-                    tags: {
-                      fields: ["name"]
+        if (!this.menuAndDishes || !this.menuAndDishes[0]) {
+          const query = qs.stringify({
+            populate: {
+              menus: {
+                sort: ['sequence'],
+                fields: ['name'],
+                populate: {
+                  dishes: {
+                    fields: ['*'],
+                    populate: {
+                      image: {
+                        fields: ["url", "alternativeText", "formats"]
+                      },
+                      category: {
+                        fields: ["*"]
+                      },
+                      tags: {
+                        fields: ["name"]
+                      }
                     }
                   }
                 }
-              }
-            }
-          },
-          filters: {
-            $and: [
-              {
-                slug: {
-                  $eq: restaurantSlug
-
+              },
+              image: {
+                fields: ['*']
+              },
+              logo: {
+                fields: ['*']
+              },
+              socialMedia: {
+                fields: ['*'],
+                populate: {
+                  icon: {
+                    fields: ['*']
+                  }
                 }
               }
-            ]
-          }
-        }, {
-          encodeValuesOnly: true,
-        });
+            },
+            filters: {
+              slug: {
+                $eq: restaurantSlug
+              }
+            }
+          }, {
+            encodeValuesOnly: true,
+          });
 
-        try {
+
           const response = await axios.get(Constants.BASE_URL + Constants.RESTAURANT_URL + `?${query}`);
+          const getMenuAndDishesData = response?.data?.data[0]?.attributes?.menus
 
-          this.getMenuAndDishesData = response.data.data[0].attributes.menus
-
-          this.getMenuAndDishesData.data.forEach((item: any) => {
+          getMenuAndDishesData?.data?.forEach((item: any) => {
             const obj: any = {}
-            obj.name = item.attributes.name
-            obj.dishes = item.attributes.dishes.data.map((item: any) => {
-              let mDish: Dish = { id: "", name: "", tags: [""], description: "", currency: "", images: [], currencySymbol: "", type: "", category: {}, image: "", inStock: false, price: 0.0 }
+            obj.name = item?.attributes?.name
+            obj.dishes = item?.attributes?.dishes?.data?.map((item: any) => {
+              let mDish: Dish = {
+                id: "",
+                name: "",
+                tags: [""],
+                description: "",
+                currency: "",
+                images: [],
+                type: "",
+                category: {},
+                image: "",
+                inStock: false,
+                price: 0.0
+              }
               const largeImage = item.attributes.image.data[0].attributes.formats?.large?.url
               const thumbnailImage = item.attributes.image.data[0].attributes.formats?.thumbnail?.url
               const mediumImage = item.attributes.image.data[0].attributes.formats?.medium?.url
@@ -136,32 +114,29 @@ export class RestaurantService {
                 imageToDisplay = Constants.BASE_URL + largeImage
               }
 
-              mDish.name = item.attributes.name
-              mDish.id = item.id
-              mDish.description = item.attributes.description
-              mDish.currency = item.attributes.currency
-              mDish.currencySymbol = item.attributes.currencySymbol
-              mDish.price = item.attributes.price
+              mDish.name = item?.attributes?.name
+              mDish.id = item?.id
+              mDish.description = item?.attributes?.description
+              mDish.currency = item?.attributes?.currency
+              mDish.price = item?.attributes?.price
               mDish.image = imageToDisplay
-              mDish.inStock = item.attributes.inStock
-              mDish.category = item.attributes.category
-              mDish.type = item.attributes.type
-              mDish.tags = item.attributes.tags.data.map((tag: any) => tag.attributes.name)
-              mDish.images = item.attributes.image.data.map((item: any) => {
-                return Constants.BASE_URL + item.attributes.url
+              mDish.inStock = item?.attributes?.inStock
+              mDish.category = item?.attributes?.category
+              mDish.type = item?.attributes?.type
+              mDish.tags = item?.attributes?.tags?.data?.map((tag: any) => tag?.attributes?.name)
+              mDish.images = item?.attributes?.image?.data?.map((item: any) => {
+                return Constants.BASE_URL + item?.attributes?.url
               })
               return mDish
             })
             this.menuAndDishes.push(obj)
           });
 
-          resolve(this.menuAndDishes)
-        } catch (error) {
-          reject(error)
         }
-      } else {
-
         resolve(this.menuAndDishes)
+
+      } catch (error) {
+        reject(error)
       }
 
     })
@@ -179,7 +154,6 @@ export class RestaurantService {
       })
     return dishQuantity
   }
-
 
   public getDishCountFromLocal(): number {
     let cartDishCount = 0
@@ -219,7 +193,6 @@ export class RestaurantService {
         id: dish.id,
         name: dish.name,
         currency: dish.currency,
-        currencySymbol: dish.currencySymbol,
         description: dish.description,
         image: dish.image,
         inStock: dish.inStock,
@@ -268,7 +241,7 @@ export class RestaurantService {
         const headers = {
           Authorization: `Bearer ${jwt}`
         }
-        const response = await axios.get(Constants.BASE_URL + Constants.ORDER_URL + `/${slug}?publicationState=preview`, { headers });
+        const response = await axios.get(Constants.BASE_URL + Constants.ALL_ORDER_API + `/${slug}?publicationState=preview`, { headers });
         resolve(response.data)
       } catch (error) {
         reject(error)
@@ -276,6 +249,66 @@ export class RestaurantService {
 
     })
   }
+
+
+  deletePendingOrder(orderId: string, slug: string) {
+    const jwt = this.mainService.getToLocalStorage(Constants.LOCAL_USER).jwt || ""
+    const headers = {
+      Authorization: `Bearer ${jwt}`
+    }
+    return axios.delete(Constants.BASE_URL + Constants.ORDER_URL + `/${orderId}?slug=${slug}`, { headers })
+
+  }
+
+  getRestaurantInfo(slug: string) {
+
+    return new Promise(async (resolve, reject) => {
+      try {
+        if (!this.restaurantData) {
+          const jwt = this.mainService.getToLocalStorage(Constants.LOCAL_USER).jwt || ""
+
+          const headers = {
+            Authorization: `Bearer ${jwt}`
+          }
+          const url = Constants.BASE_URL + Constants.ADMIN_RESTAURANT_INFO + `/${slug}`
+          const restaurant = await axios.get(url, { headers })
+          if (restaurant?.data) {
+            this.restaurantData = restaurant?.data
+          } else {
+            return reject("No Restaurtant Data found")
+          }
+
+        }
+        return resolve(this.restaurantData)
+
+      } catch (error) {
+        return reject(error)
+      }
+    })
+
+
+  }
+
+  getCurrency() {
+    return this.restaurantData?.currency
+  }
+
+  getTaxes() {
+    return this.restaurantData?.taxes
+  }
+
+  getRestaurantSlug() {
+    return this.restaurantData?.slug
+  }
+
+  getRestaurantPaymentGateway() {
+    return this.restaurantData?.paymentGateway
+  }
+
+  getRestaurantData() {
+    return this.restaurantData
+  }
+
 
 
 }

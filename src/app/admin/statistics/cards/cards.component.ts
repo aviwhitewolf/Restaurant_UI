@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Constants } from 'src/app/Constants/Interface/Constants';
-import { MainService } from 'src/app/main.service';
+import { RestaurantService } from 'src/app/restaurant/restaurant.service';
 
 
 
@@ -14,17 +13,14 @@ export class CardsComponent implements OnInit {
   @Input()
   data: any
 
-  public currencySymbol = ""
+  public currency! : string
+  
+  constructor(private restaurantService : RestaurantService) {
 
-  constructor(private mainService: MainService) {
-
-    this.currencySymbol = this.mainService.getToLocalStorage(Constants.LOCAL_USER).currencySymbol || "₹"
-
+    this.currency = restaurantService.getCurrency()
   }
 
-  ngOnInit(): void {
-    
-  }
+  ngOnInit(): void {}
 
 
   getPercentage(data: any, index: number) {

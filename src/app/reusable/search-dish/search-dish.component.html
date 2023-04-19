@@ -3,7 +3,22 @@
 </div>
 <h2 *ngIf="!loading" class="text-lg font-medium text-gray-900">Search</h2>
 
-<div *ngIf="!loading" class="mx-auto">
+
+  <div class="text-center  border-gray-300 pt-4" *ngIf="!loading && filteredDishes.length == 0">
+    <button type="button" [routerLink]="['../../', 'dishes','add']"
+        class="block w-full border-2 border-gray-300 border-dashed rounded-lg p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+        <mat-icon style="height: unset;width: unset;" class="mx-auto  text-gray-600  text-5xl">lunch_dining</mat-icon>
+        <span class="mx-auto mt-2 block text-sm font-medium text-gray-500">No dihes found.</span>
+        <button type="button" class=" mx-auto mt-2 inline-flex items-center px-4 py-2 border border-gray-300 shadow-purple-500 shadow-sm text-sm font-medium rounded-3xl text-indigo-500 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">            
+            Create one
+            <mat-icon style="height: unset;width: unset;" class="ml-2 text-indigo-500 text-md">
+                east
+            </mat-icon>
+        </button>
+    </button>
+</div>
+  
+<div *ngIf="!loading && filteredDishes.length > 0" class="mx-auto">
     <div>
         <form class="mt-6 sm:flex sm:items-center">
             <label for="search" class="sr-only">Search</label>
@@ -31,7 +46,7 @@
                                 </span>
                                 <span class="flex text-sm font-medium text-red-500">
                                     {{category?.price | currency :
-                                    currencySymbol}}
+                                        category?.currency}}
                                 </span>
                             </div>
                             <mat-icon class="text-md ml-2 text-gray-500 mr-2">

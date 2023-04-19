@@ -18,7 +18,7 @@ import { DishRoutingModule } from './dish-routing.module';
     MatIconModule,
     ReusableModule,
     DishRoutingModule,
-    ReactiveFormsModule,
+    ReactiveFormsModule
   ]
 })
 export class DishesModule { }

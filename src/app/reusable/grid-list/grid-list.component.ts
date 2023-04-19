@@ -11,16 +11,18 @@ export class GridListComponent implements OnInit {
 
   @Input()
   public dishes!: Dish[]
-  
+
   @Input()
   public heading: string = ""
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {
+  }
 
   ngOnInit(): void {
   }
 
-  openDishInfo(dish : Dish){
-    this.router.navigate([], {queryParams: { menu : this.heading, dishInfo : true, dishId : dish.id } });
+  openDishInfo(dish: Dish) {
+    this.router.navigate([], { queryParams: { menu: this.heading, dishInfo: true, dishId: dish.id } });
   }
+
 }

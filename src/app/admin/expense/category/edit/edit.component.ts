@@ -5,6 +5,7 @@ import { AdminService } from 'src/app/admin/admin.service';
 import { Constants } from 'src/app/Constants/Interface/Constants';
 import { MainService } from 'src/app/main.service';
 import { Location } from '@angular/common';
+import { RestaurantService } from 'src/app/restaurant/restaurant.service';
 
 @Component({
   selector: 'app-edit',
@@ -15,7 +16,6 @@ export class EditComponent implements OnInit {
 
  
   public loading: boolean = true
-  public currencySymbol = ""
   public singleCategory: any
 
   public categoryUpdateFormGroup: FormGroup = this.formBuilder.group({
@@ -27,24 +27,23 @@ export class EditComponent implements OnInit {
     private adminService: AdminService,
     private mainService: MainService,
     private route: ActivatedRoute,
-    private _location: Location
-  ) {
-    this.currencySymbol = this.mainService.getToLocalStorage(Constants.LOCAL_USER).currencySymbol || "₹"
-    
+    private _location: Location,
+    private restaurantService : RestaurantService
+  ) {    
   }
 
   ngOnInit(): void {
-    this.route?.parent?.parent?.parent?.params.subscribe((mparam: any) => {
-      if (mparam && mparam['slug']) {
+    const restaurantSlug = this.restaurantService.getRestaurantSlug()
+    if (restaurantSlug) {
         this.route?.params.subscribe((param: any) => {
           if (param['catId']) {
-            this.getSingleCategory(mparam['slug'], param['catId'])
+            this.getSingleCategory(restaurantSlug, param['catId'])
           } else {
             this.loading = false
           }
         })
       }
-    });
+    
   }
 
   private getSingleCategory(slug: string, catId: string) {
@@ -62,18 +61,18 @@ export class EditComponent implements OnInit {
   }
 
   updateOrAddCategory() {
-    this.route?.parent?.parent?.parent?.params.subscribe((mparam: any) => {
-      if (mparam && mparam['slug']) {
+    const restaurantSlug = this.restaurantService.getRestaurantSlug()
+    if (restaurantSlug) {
         this.route?.params.subscribe((param: any) => {
           if (param['catId']) {
-            this.updateTable(mparam['slug'], param['catId'])
+            this.updateTable(restaurantSlug, param['catId'])
           } else {
-            this.addCategory(mparam['slug'])
+            this.addCategory(restaurantSlug)
           }
 
         })
       }
-    });
+    
   }
 
   updateTable(slug: string, catId: string) {

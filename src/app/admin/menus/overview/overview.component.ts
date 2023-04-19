@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Constants } from 'src/app/Constants/Interface/Constants';
 import { MainService } from 'src/app/main.service';
+import { RestaurantService } from 'src/app/restaurant/restaurant.service';
 import { AdminService } from '../../admin.service';
 
 @Component({
@@ -13,16 +14,15 @@ export class OverviewComponent implements OnInit {
 
   public menu: any
   public loading: boolean = true
-  public currencySymbol = ""
   public showDeleteDialog: boolean = false
   public menuIdToDelete: string = ""
 
   constructor(
     private adminService: AdminService,
     private mainService: MainService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private restaurantService : RestaurantService
   ) {
-    this.currencySymbol = this.mainService.getToLocalStorage(Constants.LOCAL_USER).currencySymbol || "₹"
   }
 
   ngOnInit(): void {
@@ -31,9 +31,9 @@ export class OverviewComponent implements OnInit {
 
   private getAllMenuAndDishes() {
     this.loading = true
-    this.route?.parent?.parent?.params.subscribe((param: any) => {
-      if (param && param['slug']) {
-        this.adminService.getMenuAndDishes(param['slug'])
+    const restaurantSlug = this.restaurantService.getRestaurantSlug()
+    if (restaurantSlug) {
+        this.adminService.getMenuAndDishes(restaurantSlug)
           .then((results) => {
             this.menu = results.data
             this.loading = false
@@ -43,15 +43,15 @@ export class OverviewComponent implements OnInit {
             this.mainService.openDialog("Error", this.mainService.errorMessage(err), "E")
           })
       }
-    });
+    
 
   }
 
   deleteMenu(menuId: string) {
     this.loading = true
-    this.route?.parent?.parent?.params.subscribe((param: any) => {
-      if (param && param['slug']) {
-        this.adminService.deleteMenu(menuId, param['slug'])
+    const restaurantSlug = this.restaurantService.getRestaurantSlug()
+    if (restaurantSlug) {
+        this.adminService.deleteMenu(menuId, restaurantSlug)
           .then((results) => {
             this.menuIdToDelete = ""
             this.getAllMenuAndDishes()
@@ -64,7 +64,6 @@ export class OverviewComponent implements OnInit {
 
           })
       }
-    });
 
   }
 

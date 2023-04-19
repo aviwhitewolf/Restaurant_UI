@@ -3,6 +3,7 @@ interface Dish{
     name : string
     price : number
     image : any
+    currency : string
 }
 
 interface OrderDishCategory{

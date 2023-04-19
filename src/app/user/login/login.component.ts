@@ -6,6 +6,7 @@ import { MainService } from 'src/app/main.service';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackbarComponent } from 'src/app/reusable/snackbar/snackbar.component';
+import { RestaurantService } from 'src/app/restaurant/restaurant.service';
 
 @Component({
   selector: 'app-login',
@@ -13,10 +14,11 @@ import { SnackbarComponent } from 'src/app/reusable/snackbar/snackbar.component'
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+
   private timer : any 
   public wait : boolean = false
   public timeLeft: number = Constants.OTP_TIMER;
-  private mobileRegrex = /[0,9]\d{4,17}/
+  private mobileRegrex = /^[5-9]\d{9}$/
   public otpScreen: boolean = false
   public loginScreen : boolean = true
   private number: number = 0
@@ -35,7 +37,8 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private mainService: MainService,
     public dialog: MatDialog,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private restaurantService : RestaurantService
     ) { }
 
   ngOnInit(): void {
@@ -57,7 +60,8 @@ export class LoginComponent implements OnInit {
       number: this.loginFormGroup.value.mobile
     }
 
-    axios.post(Constants.BASE_URL + Constants.LOGIN_URL , loginData)
+    if(this.restaurantService.getRestaurantSlug())
+    axios.post(Constants.BASE_URL + Constants.LOGIN_URL + `/${this.restaurantService.getRestaurantSlug()}`, loginData)
       .then(response => {
         this.wait = true
         this.startTimer()
@@ -103,7 +107,6 @@ export class LoginComponent implements OnInit {
           user.number = this.number
           user.email = this.email
           user.username = response.data.user.username
-          user.currency = response.data.user.currency
           user.countryCode = response.data.user.countryCode
           user.country = response.data.user.country
           user.confirmed = response.data.user.confirmed
@@ -190,7 +193,10 @@ export class LoginComponent implements OnInit {
       }
     },1000)
   }
-
+  getCountryAndCode() {
+    const restaurant = this.restaurantService.getRestaurantData()
+    return restaurant?.country + " " + restaurant?.countryCode 
+    }
 
 
 }

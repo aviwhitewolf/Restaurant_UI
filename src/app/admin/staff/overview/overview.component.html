@@ -1,5 +1,26 @@
 <app-loader class="absolute top-0 left-0" *ngIf="loading"></app-loader>
-<div *ngIf="!loading" class="bg-gray-100 min-h-screen">
+
+<div class=" bg-gray-100 min-h-screen">
+
+<div class="max-w-6xl p-12 mx-auto" *ngIf="!loading && (!employees || employees?.length == 0)">
+    <button type="button" [routerLink]="['add']"
+        class="block w-full border-2 border-gray-300 border-dashed rounded-lg p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+        <mat-icon style="height: unset;width: unset;" class="mx-auto  text-gray-600  text-5xl">
+            person_search
+        </mat-icon>
+        <span class="mx-auto mt-2 block text-sm font-medium text-gray-500">
+            No staff found.
+        </span>
+        <button type="button" class=" mx-auto mt-2 inline-flex items-center px-4 py-2 border border-gray-300 shadow-purple-500 shadow-sm text-sm font-medium rounded-3xl text-indigo-500 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">            
+            Create one
+            <mat-icon style="height: unset;width: unset;" class="ml-2 text-indigo-500 text-md">
+                east
+            </mat-icon>
+        </button>
+    </button>
+</div>
+
+<div *ngIf="!loading && employees && employees.length > 0" >
     <div class="pt-8 pb-12">
         <div class="max-w-6xl mx-auto px-4 space-y-4 sm:px-6 lg:px-8">
 
@@ -48,7 +69,7 @@
                                             <p class="mt-1 flex items-center text-sm text-gray-500">
                                                 <mat-icon class="text-base text-gray-400">phone</mat-icon>
                                                 <span
-                                                    class="truncate">{{employee?.countryCode}}-{{employee?.mobile}}</span>
+                                                    class="truncate">{{employee?.countryCode}}-{{employee?.number}}</span>
                                             </p>
                                         </div>
                                         <div class="hidden md:block">
@@ -99,4 +120,5 @@
             </div>
         </div>
     </div>
+</div>
 </div>

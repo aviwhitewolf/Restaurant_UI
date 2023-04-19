@@ -11,6 +11,7 @@ import { AdminService } from '../../admin.service';
 import { Expense } from '../../../Constants/dto/expense.dto';
 import toMaterialStyle from 'material-color-hash'
 import {SelectionModel} from '@angular/cdk/collections';
+import { RestaurantService } from 'src/app/restaurant/restaurant.service';
 
 @Component({
   selector: 'app-overview',
@@ -29,7 +30,6 @@ export class OverviewComponent implements OnInit {
   public loading: boolean = true
   public restaurant: any
   public expense: any
-  public currencySymbol = ""
   public dataSource!: MatTableDataSource<Expense>;
   public displayedColumns: string[] = ['select', 'category', 'employee', 'date', 'debit', 'credit'];
   public columnsToDisplayWithExpand = [...this.displayedColumns, 'expand']
@@ -49,10 +49,9 @@ export class OverviewComponent implements OnInit {
   constructor(
     private adminService: AdminService,
     private mainService: MainService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private restaurantService : RestaurantService
   ) {
-    this.currencySymbol = this.mainService.getToLocalStorage(Constants.LOCAL_USER).currencySymbol || "₹"
-
   }
 
   ngOnInit(): void {
@@ -60,26 +59,26 @@ export class OverviewComponent implements OnInit {
 
   ngAfterViewInit(): void {
 
-    this.route?.parent?.parent?.params.subscribe((param: any) => {
-      if (param && param['slug']) {
-        this.initDate(param['slug'])
+    const restaurantSlug = this.restaurantService.getRestaurantSlug()
+    if (restaurantSlug) {
+        this.initDate(restaurantSlug)
       }
-    });
+    
   }
 
 
   dateRangeChanged(date: any) {
-    this.route?.parent?.parent?.params.subscribe((param: any) => {
-      if (param && param['slug']) {
-        this.activeDateRange = date.type
+    const restaurantSlug = this.restaurantService.getRestaurantSlug()
+    if (restaurantSlug) {
+        this.activeDateRange = date?.type
         this.dateData = date
 
-        this.getAllExpense(param['slug'],
+        this.getAllExpense(restaurantSlug,
           moment(date.start).startOf('day').toISOString(),
           moment(date.end).endOf('day').toISOString()
         )
       }
-    })
+    
   }
 
   private async initDate(slug: string) {
@@ -101,8 +100,8 @@ export class OverviewComponent implements OnInit {
     this.loading = true
     this.adminService.getAllExpense(start, end, slug)
       .then((res: any) => {
-        this.restaurant = res.data.restaurant
-        this.expense = res.data
+        this.restaurant = res?.data?.restaurant
+        this.expense = res?.data
 
         this.dogrouping()
         this.dataSource = new MatTableDataSource<Expense>(this.expense);
@@ -123,18 +122,18 @@ export class OverviewComponent implements OnInit {
 
   dogrouping() {
     this.groupSummary = {}
-    if (this.expense && this.expense.length > 0) {
+    if (this.expense && this.expense?.length > 0) {
       for (let index = 0; index < this.expense.length; index++) {
         const element = this.expense[index];
-        if (this.groupSummary[element.category.name]) {
-          this.groupSummary[element.category.name]['debit'] = this.groupSummary[element.category.name].debit + element.debit
-          this.groupSummary[element.category.name]['credit'] = this.groupSummary[element.category.name].credit + element.credit
+        if (this.groupSummary[element?.category?.name]) {
+          this.groupSummary[element?.category?.name]['debit'] = this.groupSummary[element?.category?.name].debit + element?.debit
+          this.groupSummary[element?.category?.name]['credit'] = this.groupSummary[element?.category?.name].credit + element?.credit
         } else {
-          this.groupSummary[element.category.name] = {
-            debit: parseFloat(element.debit),
-            credit: parseFloat(element.credit),
-            currency: element.currency,
-            colors: toMaterialStyle(element.category.name, 700)
+          this.groupSummary[element?.category?.name] = {
+            debit: parseFloat(element?.debit),
+            credit: parseFloat(element?.credit),
+            currency: element?.currency,
+            colors: toMaterialStyle(element?.category?.name, 700)
           }
         }
       }
@@ -142,16 +141,16 @@ export class OverviewComponent implements OnInit {
   }
 
   applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
+    const filterValue = (event.target as HTMLInputElement)?.value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   public getDebitCost() {
-    return parseInt(this.expense.map((e: any) => e.debit).reduce((acc: number, value: number) => acc + value, 0));
+    return parseInt(this.expense?.map((e: any) => e?.debit).reduce((acc: number, value: number) => acc + value, 0));
   }
 
   public getCreditCost() {
-    return parseInt(this.expense.map((e: any) => e.credit).reduce((acc: number, value: number) => acc + value, 0));
+    return parseInt(this.expense?.map((e: any) => e?.credit).reduce((acc: number, value: number) => acc + value, 0));
   }
 
   public getImageUrl(image: any) {
@@ -160,10 +159,10 @@ export class OverviewComponent implements OnInit {
 
   public deleteMultipleExpense(){
     this.loading = true
-    const idsToDelete = this.selection.selected.map(e => e.id)
-    this.route?.parent?.parent?.params.subscribe((param: any) => {
-      if (param && param['slug']) {
-        this.adminService.deleteExpenses(idsToDelete, param['slug']) 
+    const idsToDelete = this.selection?.selected.map(e => e.id)
+    const restaurantSlug = this.restaurantService.getRestaurantSlug()
+    if (restaurantSlug) {
+        this.adminService.deleteExpenses(idsToDelete, restaurantSlug) 
         .then((res) => {
           this.loading = false
           this.mainService.openDialog("Success", "Selected expense deleted successfully", "S", true, false)
@@ -174,14 +173,13 @@ export class OverviewComponent implements OnInit {
         })
 
       }
-    });
     
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
+    const numSelected = this.selection?.selected?.length;
+    const numRows = this.dataSource?.data?.length;
     return numSelected === numRows;
   }
 
@@ -192,7 +190,7 @@ export class OverviewComponent implements OnInit {
       return;
     }
 
-    this.selection.select(...this.dataSource.data);
+    this.selection.select(...this.dataSource?.data);
   }
 
   /** The label for the checkbox on the passed row */

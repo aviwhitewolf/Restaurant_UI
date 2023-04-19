@@ -32,6 +32,8 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 import { DateRangeComponent } from './date-range/date-range.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { OrderNotificationComponent } from './order-notification/order-notification.component';
+import { AppRoutingModule } from '../app-routing.module';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -71,7 +73,8 @@ import { OrderNotificationComponent } from './order-notification/order-notificat
     NgxPrintModule,
     ImageCropperModule,
     MatNativeDateModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    RouterModule
   ],
   exports: [
     CarouselComponent,

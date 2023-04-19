@@ -10,6 +10,7 @@ import * as moment from 'moment';
 import { Order } from '../../../Constants/dto/order.dto';
 import { AdminService } from '../../admin.service';
 import { SelectionModel } from '@angular/cdk/collections';
+import { RestaurantService } from 'src/app/restaurant/restaurant.service';
 
 @Component({
   selector: 'app-overview',
@@ -28,9 +29,8 @@ export class OverviewComponent implements OnInit {
 
   public loading: boolean = true
   public orders: any
-  public currencySymbol = ""
   public dataSource!: MatTableDataSource<Order>;
-  public displayedColumns: string[] = ['select', 'orderId', 'totalAmount', 'status', 'email', 'tableNumber', 'number', 'createdAt'];
+  public displayedColumns: string[] = ['select', 'orderId', 'totalAmount', 'status', 'email', 'table', 'number', 'createdAt'];
   public columnsToDisplayWithExpand = [...this.displayedColumns, 'expand']
   public selection = new SelectionModel<Order>(true, []);
   public expandedElement!: Order
@@ -48,9 +48,9 @@ export class OverviewComponent implements OnInit {
   constructor(
     private adminService: AdminService,
     private mainService: MainService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private restaurantService : RestaurantService
   ) {
-    this.currencySymbol = this.mainService.getToLocalStorage(Constants.LOCAL_USER).currencySymbol || "₹"
   }
 
   ngOnInit(): void {
@@ -58,26 +58,26 @@ export class OverviewComponent implements OnInit {
 
   ngAfterViewInit(): void {
 
-    this.route?.parent?.parent?.params.subscribe((param: any) => {
-      if (param && param['slug']) {
-        this.initDate(param['slug'])
+    const restaurantSlug = this.restaurantService.getRestaurantSlug()
+    if (restaurantSlug) {
+        this.initDate(restaurantSlug)
       }
-    });
+    
   }
 
   dateRangeChanged(date: any) {
-    this.route?.parent?.parent?.params.subscribe((param: any) => {
-      if (param && param['slug']) {
+    const restaurantSlug = this.restaurantService.getRestaurantSlug()
+    if (restaurantSlug) {
         this.activeDateRange = date.type
         this.dateData = date
 
         this.getMyOrders(
-          param['slug'],
+          restaurantSlug,
           moment(date.start).startOf('day').toISOString(),
           moment(date.end).endOf('day').toISOString()
         )
       }
-    })
+    
   }
 
   getMyOrders(slug: string, start: string, end: string) {
@@ -104,11 +104,11 @@ export class OverviewComponent implements OnInit {
 
   deleteMultipleOrders() {
 
-    this.route?.parent?.parent?.params.subscribe((param: any) => {
-      if (param && param['slug']) {
+    const restaurantSlug = this.restaurantService.getRestaurantSlug()
+    if (restaurantSlug) {
         this.loading = true
         const idsToDelete = this.selection.selected.map(e => e.id)
-        this.adminService.deleteMultipleOrders(idsToDelete, param['slug'])
+        this.adminService.deleteMultipleOrders(idsToDelete, restaurantSlug)
           .then((res) => {
             this.loading = false
             this.mainService.openDialog("Success", "Selected order deleted successfully", "S", true, false)
@@ -118,7 +118,6 @@ export class OverviewComponent implements OnInit {
             this.mainService.openDialog("Error", this.mainService.errorMessage(err), "E")
           })
       }
-    })
   }
 
 

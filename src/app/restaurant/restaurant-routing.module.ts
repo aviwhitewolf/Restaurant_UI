@@ -8,14 +8,14 @@ import { SearchComponent } from './search/search.component';
 
 const routes: Routes = [
   {
-    path: ':name',
+    path: '',
     component: MenuComponent,
     children: [
       { path: 'cart', component: CartComponent, pathMatch: 'full'},
       { path: 'home', component: HomeComponent, pathMatch: 'full'},
       { path: 'search', component: SearchComponent, pathMatch: 'full'},
       { path: 'orders', component: OrdersComponent, pathMatch: 'full' },
-      { path: '**', redirectTo: '/404' }
+      // { path: '**', redirectTo: '/404' }
     ]
   }
 ];

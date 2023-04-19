@@ -8,13 +8,13 @@ import { SuccessComponent } from './success/success.component';
 
 const routes: Routes = [
   {
-    path: ':name',
+    path: '',
     component: HomeComponent,
     children: [
-      { path: 'checkout', component: CheckoutComponent, pathMatch: 'full' },
+      { path: 'checkout', component: CheckoutComponent, pathMatch: 'full', canActivate: [PaymentStatusGuard] },
       { path: 'success', component: SuccessComponent, pathMatch: 'full', canActivate: [PaymentStatusGuard] },
       { path: 'failed', component: FailComponent, pathMatch: 'full', canActivate: [PaymentStatusGuard] },
-      { path: '**', redirectTo: '/404' }
+      // { path: '**', redirectTo: '/404' }
     ]
   }
 ];

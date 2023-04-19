@@ -5,6 +5,7 @@ import { Constants } from 'src/app/Constants/Interface/Constants';
 import { MainService } from 'src/app/main.service';
 import { Location } from '@angular/common';
 import { AdminService } from '../../admin.service';
+import { RestaurantService } from 'src/app/restaurant/restaurant.service';
 
 @Component({
   selector: 'app-edit',
@@ -15,7 +16,6 @@ export class EditComponent implements OnInit {
 
   public loading: boolean = true
   public singleMenuAndDish: any = { dishes: [] }
-  public currencySymbol = ""
   public showSearchDishDialog: boolean = false
 
   public menuUpdateFormGroup: FormGroup = this.formBuilder.group({
@@ -28,37 +28,36 @@ export class EditComponent implements OnInit {
     private adminService: AdminService,
     private mainService: MainService,
     private route: ActivatedRoute,
-    private _location: Location
+    private _location: Location,
+    private restaurantService : RestaurantService
   ) {
-    this.currencySymbol = this.mainService.getToLocalStorage(Constants.LOCAL_USER).currencySymbol || "₹"
-   
   }
 
   ngOnInit(): void {
-    this.route?.parent?.parent?.params.subscribe((mparam: any) => {
-      if (mparam && mparam['slug'] ) {
+    const restaurantSlug = this.restaurantService.getRestaurantSlug()
+    if (restaurantSlug) {
         this.route?.params.subscribe((param: any) => {
           if (param['menuId']) {
-            this.getSingleMenuAndDish(mparam['slug'], param['menuId'])
+            this.getSingleMenuAndDish(restaurantSlug, param['menuId'])
           } else {
             this.loading = false
           }
         })
       }
-    });
   }
 
 
   public updateMenu() {
     this.loading = true
-    this.route?.parent?.parent?.params.subscribe((mparam: any) => {
+    const restaurantSlug = this.restaurantService.getRestaurantSlug()
+    if (restaurantSlug)  {
       this.route?.params.subscribe((param: any) => {
         const dataToUpdate = {
           ...this.menuUpdateFormGroup.value,
           dishes: this.singleMenuAndDish?.dishes.map((dish: any) => dish.id),
         }
         if (param['menuId']) {
-          this.adminService.updateMenu(dataToUpdate, mparam['slug'], param['menuId'])
+          this.adminService.updateMenu(dataToUpdate, restaurantSlug, param['menuId'])
             .then((res) => {
               this.loading = false
               this.mainService.openDialog("Success", "Menu updated successfully", "S")
@@ -68,7 +67,7 @@ export class EditComponent implements OnInit {
               this.mainService.openDialog("Error", this.mainService.errorMessage(err), "E")
             })
         } else {
-          this.adminService.addMenu(dataToUpdate, mparam['slug'])
+          this.adminService.addMenu(dataToUpdate, restaurantSlug)
             .then((res) => {
               this.menuUpdateFormGroup.reset()
               this.singleMenuAndDish.dishes = []
@@ -84,7 +83,7 @@ export class EditComponent implements OnInit {
       })
 
 
-    });
+    }
 
 
   }

@@ -8,11 +8,15 @@ import { RestaurantsComponent } from './restaurants/restaurants.component';
 
 const routes: Routes = [
   {
-    path: ':slug',
+    path: '',
     component: DashboardComponent,
     children: [
       { path: 'home', component: HomeComponent, pathMatch: 'full' },
       { path: 'restaurants', component: RestaurantsComponent, pathMatch: 'full' },
+      {
+        path: 'my-restaurants',
+        loadChildren: () => import('./my-restaurants/my-restaurant-routing.module').then(m => m.MyRestaurantRoutingModule)
+      },
       {
         path: 'tables',
         loadChildren: () => import('./tables/tables.module').then(m => m.TablesModule)
@@ -37,7 +41,11 @@ const routes: Routes = [
         path: 'expense',
         loadChildren: () => import('./expense/expense.module').then(m => m.ExpenseModule)
       },
-      { path: '**', redirectTo: '/404' }
+      {
+        path: 'profile',
+        loadChildren: () => import('./profile/profile.module').then(m => m.ProfileModule)
+      },
+      // { path: '**', redirectTo: '/404' }
     ]
   }
 ];

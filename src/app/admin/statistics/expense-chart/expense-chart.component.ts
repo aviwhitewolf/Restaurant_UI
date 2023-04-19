@@ -107,7 +107,7 @@ export class ExpenseChartComponent implements OnInit {
             colors: ['#fff', '#f2f2f2']
           }
         },
-        colors: ["#00e396", "#6366f1"],
+        colors: ["#00e396", "#FF0000"],
         xaxis: {
           categories: chartData.categories
         }

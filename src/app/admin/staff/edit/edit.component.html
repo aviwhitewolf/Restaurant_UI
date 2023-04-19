@@ -1,4 +1,25 @@
 <app-loader class="absolute top-0 left-0" *ngIf="loading"></app-loader>
+
+<div *ngIf="!loading && !isEditPage" class="bg-yellow-500">
+  <div class="mx-auto max-w-6xl py-3 px-3 sm:px-6 lg:px-8">
+      <div class="flex flex-wrap items-start justify-between">
+          <div class="items-center flex w-0 flex-1">
+       
+                  <mat-icon style="height: unset;width: unset;" class="text-white p-2 bg-yellow-600 rounded-lg">
+                    info
+                  </mat-icon>
+              
+              <div class="flex items-center flex-wrap justify-between">
+                  <p class="ml-3 font-medium text-white ">
+                    If the staff member is already having account, then create account with same email and phone number in order to link them, else a new account will be created.
+                  </p>
+
+              </div>
+          </div>
+
+      </div>
+  </div>
+</div>
 <div *ngIf="!loading" class="pt-8 pb-12">
   <div class="max-w-6xl mx-auto px-4  sm:px-6 lg:px-8">
 
@@ -72,7 +93,7 @@
           </svg>
           <span>Message</span>
         </a>
-        <a [href]="'tel:'+singleEmployee?.countryCode+'-'+singleEmployee?.mobile"
+        <a [href]="'tel:'+singleEmployee?.countryCode+'-'+singleEmployee?.number"
           class="border border-gray-300 inline-flex justify-center px-4 py-2  shadow-sm text-sm font-medium rounded-md text-indigo-500 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
           <!-- Heroicon name: solid/phone -->
           <svg class="-ml-1 mr-2 h-5 w-5 text-indigo-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
@@ -123,11 +144,11 @@
                     <!-- Email -->
                     <div class="col-span-4 sm:col-span-2">
                       <label for="email-address" class="block text-sm font-medium text-gray-700">Email address</label>
-                      <input formControlName="email" type="text" name="email-address" autocomplete="none" [ngClass]="{' border-2 border-red-500' : employeeFormGroup.get('email')?.errors &&
+                      <input [readonly]="isEditPage" formControlName="email" type="text" name="email-address" autocomplete="none" [ngClass]="{' border-2 border-red-500' : employeeFormGroup.get('email')?.errors &&
                       ( employeeFormGroup.get('email')?.touched ||  employeeFormGroup.get('email')?.dirty),
                   'border-gray-300' : !(employeeFormGroup.get('email')?.errors &&
                   ( employeeFormGroup.get('email')?.touched ||  employeeFormGroup.get('email')?.dirty))}"
-                        class="mt-1 block w-full  rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        class="read-only:bg-gray-100 mt-1 block w-full  rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
 
                       <!-- Error -->
                       <div *ngIf="(employeeFormGroup.get('email')?.touched ||  employeeFormGroup.get('email')?.dirty) 
@@ -177,16 +198,16 @@
 
                     <!-- Phone Number -->
                     <div class="col-span-4 sm:col-span-1">
-                      <label for="mobile" class="block text-sm font-medium text-gray-700">Phone Number</label>
-                      <input formControlName="mobile" type="tel" name="mobile" autocomplete="none" [ngClass]="{' border-2 border-red-500' : employeeFormGroup.get('mobile')?.errors &&
-                      ( employeeFormGroup.get('mobile')?.touched ||  employeeFormGroup.get('mobile')?.dirty),
-                  'border-gray-300' : !(employeeFormGroup.get('mobile')?.errors &&
-                  ( employeeFormGroup.get('mobile')?.touched ||  employeeFormGroup.get('mobile')?.dirty))}"
-                        class="mt-1 block w-full  rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                      <label for="number" class="block text-sm font-medium text-gray-700">Phone Number</label>
+                      <input [readonly]="isEditPage" formControlName="number" type="tel" name="number" autocomplete="none" [ngClass]="{' border-2 border-red-500' : employeeFormGroup.get('number')?.errors &&
+                      ( employeeFormGroup.get('number')?.touched ||  employeeFormGroup.get('number')?.dirty),
+                  'border-gray-300' : !(employeeFormGroup.get('number')?.errors &&
+                  ( employeeFormGroup.get('number')?.touched ||  employeeFormGroup.get('number')?.dirty))}"
+                        class="read-only:bg-gray-100 mt-1 block w-full  rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
 
                       <!-- Error -->
-                      <div *ngIf="(employeeFormGroup.get('mobile')?.touched ||  employeeFormGroup.get('mobile')?.dirty) 
-                        && (employeeFormGroup.get('mobile')?.errors?.['required'])" class="text-red-500 text-xs pt-1">
+                      <div *ngIf="(employeeFormGroup.get('number')?.touched ||  employeeFormGroup.get('number')?.dirty) 
+                        && (employeeFormGroup.get('number')?.errors?.['required'])" class="text-red-500 text-xs pt-1">
                         Mobile number is invalid
                       </div>
 
@@ -329,7 +350,7 @@
                     <div class="flex-1 min-w-0">
                       <div class="focus:outline-none">
                         <span class="absolute inset-0" aria-hidden="true"></span>
-                        <p class="text-sm font-medium text-red-500">{{currencySymbol}}{{salary?.debit}}</p>
+                        <p class="text-sm font-medium text-red-500">{{salary?.debit | currency : salary.currency}}</p>
                         <p class="text-sm text-gray-500 truncate">{{salary?.createdAt | date}}</p>
                       </div>
                     </div>

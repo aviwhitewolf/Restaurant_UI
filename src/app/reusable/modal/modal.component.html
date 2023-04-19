@@ -10,7 +10,7 @@
             &nbsp;({{dishCategory?.metadata}})
           </div>
         </dt>
-        <dd class="mt-1 text-sm text-red-500  font-semibold sm:mt-0 sm:col-span-2">₹{{dishCategory?.price}}</dd>
+        <dd class="mt-1 text-sm text-red-500  font-semibold sm:mt-0 sm:col-span-2">{{dishCategory?.price | currency : dish.currency}}</dd>
       </div>
 
       <div class="flex items-center space-x-3 border-2 dark:border-gray-700 rounded-full">

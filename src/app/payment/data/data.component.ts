@@ -4,7 +4,6 @@ import { Constants } from 'src/app/Constants/Interface/Constants';
 import { MainService } from 'src/app/main.service';
 import { RestaurantService } from 'src/app/restaurant/restaurant.service';
 import { MatDialog } from '@angular/material/dialog';
-import { ErrorMsgComponent } from 'src/app/reusable/error-msg/error-msg.component';
 
 @Component({
   selector: 'app-data',
@@ -14,7 +13,9 @@ import { ErrorMsgComponent } from 'src/app/reusable/error-msg/error-msg.componen
 export class DataComponent implements OnInit {
 
 
-  public total: number = 0
+  public subtotal: number = 0
+  public calculatedTaxes : any = []
+  public total : number = 0
 
   // private orderDemoInfo = {
   //   "details": {},
@@ -54,7 +55,7 @@ export class DataComponent implements OnInit {
   // }
 
   public cartItems: any
-  public currencySymbol = ""
+  public currency! : string
   constructor(
     private mainService: MainService,
     private router: Router,
@@ -62,13 +63,19 @@ export class DataComponent implements OnInit {
     private restaturantService: RestaurantService,
     public dialog: MatDialog
   ) {
-    this.currencySymbol = mainService.getToLocalStorage(Constants.LOCAL_USER).currencySymbol || "₹"
   }
 
   ngOnInit(): void {
     this.cartItems = this.mainService.getToLocalStorage(Constants.LOCAL_CART)
+    this.currency = this.restaturantService.getCurrency()
     if (this.cartItems) {
-      this.total = this.restaturantService.calculateTotal(this.cartItems)
+      this.subtotal = this.restaturantService.calculateTotal(this.cartItems)
+      
+      const totalWithTax = this.mainService.calculateTaxes(this.subtotal, this.restaturantService.getTaxes())
+      this.calculatedTaxes = totalWithTax?.taxes
+      this.total = totalWithTax?.total
+
+      
     } else {
       this.route?.parent?.params.subscribe((param: any) => {
         if (param && param['name']) {
@@ -80,16 +87,6 @@ export class DataComponent implements OnInit {
     }
   }
 
-  private openDialog(heading: string, error: string, type: string) {
-    this.dialog.open(ErrorMsgComponent, {
-      data: {
-        message: error,
-        type: type,
-        heading: heading
-      },
-      panelClass: 'popUp-modalbox'
-    });
-  }
 
 
 }

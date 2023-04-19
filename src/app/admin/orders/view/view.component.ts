@@ -5,6 +5,8 @@ import { MainService } from 'src/app/main.service';
 import { Location } from '@angular/common';
 import { AdminService } from '../../admin.service';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+import { SocketService } from 'src/app/socket.service';
+import { RestaurantService } from 'src/app/restaurant/restaurant.service';
 
 @Component({
   selector: 'app-view',
@@ -17,7 +19,6 @@ export class ViewComponent implements OnInit {
   public showDateRange: boolean = false
   public restaurant: any
   public order: any
-  public currencySymbol = ""
   public dropDown = Constants.ADMIN_DROPDOWN_ORDER_MENU
   public dropDownSelectedValue: any = {}
   public showRightSideBar: boolean = false
@@ -33,9 +34,10 @@ export class ViewComponent implements OnInit {
     private route: ActivatedRoute,
     private _location: Location,
     private router: Router,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private socket: SocketService,
+    private restaurantService : RestaurantService
   ) {
-    this.currencySymbol = this.mainService.getToLocalStorage(Constants.LOCAL_USER).currencySymbol || "₹"
     this.dropDownSelectedValue[Constants.ADMIN_ORDER_STATUS_DROPDOWN] = ""
     this.dropDownSelectedValue[Constants.ADMIN_FOOD_STATUS_DROPDOWN] = ""
     this.dropDownSelectedValue[Constants.ADMIN_FOOD_PREPARATION_DROPDOWN] = ""
@@ -44,17 +46,13 @@ export class ViewComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.route?.parent?.parent?.params.subscribe((mparam: any) => {
-      if (mparam && mparam['slug']) {
+    const restaurantSlug = this.restaurantService.getRestaurantSlug()
+    if (restaurantSlug) {
         this.route?.params.subscribe((param: any) => {
-          this.getSingleOrder(mparam['slug'], +param['orderId'])
+          this.getSingleOrder(restaurantSlug, +param['orderId'])
         })
       }
-    });
   }
-
-
-
 
   goBackback() {
     this._location.back(); // <-- go back to previous location on cancel
@@ -65,6 +63,9 @@ export class ViewComponent implements OnInit {
     this.adminService.getSingleOrder(slug, orderId)
       .then((res: any) => {
         this.order = res.data.results[0]
+
+        this.emitOrderRead(this.order, slug)
+
         if (this.order) {
           this.dropDownSelectedValue[Constants.ADMIN_ORDER_STATUS_DROPDOWN] = this.order.status
           this.dropDownSelectedValue[Constants.ADMIN_FOOD_STATUS_DROPDOWN] = this.order.foodStatus
@@ -99,6 +100,14 @@ export class ViewComponent implements OnInit {
         console.log(err)
         this.mainService.openDialog("Error", this.mainService.errorMessage(err), "E")
       })
+  }
+
+
+  private emitOrderRead(order : any, restaurantSlug : string){
+
+    this.socket.emit(Constants.SOCKET_ORDER_READ, order, restaurantSlug, (data : any) => {
+
+    })
   }
 
   public getImageUrl(image: any) {
@@ -136,7 +145,7 @@ export class ViewComponent implements OnInit {
 
   toggleRightSideBar(state: boolean) {
 
-    this.showRightSideBar = state
+    this.showRightSideBar = !this.showRightSideBar
 
     if (this.showRightSideBar)
       document.body.classList.add("no-parent-scroll");

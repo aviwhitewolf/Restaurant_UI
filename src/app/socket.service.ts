@@ -13,10 +13,9 @@ export class SocketService {
 
   constructor(private mainService : MainService) {}
 
-  initializeSocket(): Boolean {
+  initializeSocket(restaurantSlug : string): Boolean {
     try {
       const token = this.mainService.getToLocalStorage(Constants.LOCAL_USER).jwt || ""
-      const restaurantSlug = this.mainService.getToLocalStorage(Constants.LOCAL_USER).restaurantSlug || ""
       this.socket = io(Constants.BASE_URL, {
         auth: {
           token
@@ -37,9 +36,9 @@ export class SocketService {
 
   }
 
-  listen(eventName: string) {
+  listen(eventName: string, slug : string) {
     if (this.socket == null)
-      this.initializeSocket();
+      this.initializeSocket(slug);
 
     return new Observable((subscriber) => {
       this.socket.on(eventName, (data: any) => {
@@ -50,9 +49,9 @@ export class SocketService {
 
   }
 
-  emit(eventName: string, data: any, callback : any) {
+  emit(eventName: string, data: any, slug : string, callback : any) {
     if (this.socket == null)
-      this.initializeSocket();
+      this.initializeSocket(slug);
 
     this.socket.emit(eventName, data, (err: any) => {
       if (err) {

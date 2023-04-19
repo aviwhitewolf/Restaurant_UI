@@ -1,4 +1,33 @@
 <app-loader class="absolute top-0 left-0" *ngIf="loading"></app-loader>
+
+<div *ngIf="!loading && tables && tables.length == 0" class="bg-red-500">
+  <div class="mx-auto max-w-6xl py-3 px-3 sm:px-6 lg:px-8">
+    <div class="flex flex-wrap items-start justify-between">
+      <div class="items-start flex w-0 flex-1">
+
+        <mat-icon style="height: unset;width: unset;" class="text-white p-2 bg-red-600 rounded-lg">
+          error
+        </mat-icon>
+
+        <div class="flex items-center flex-wrap justify-between">
+          <p class="ml-3 font-medium text-white ">
+            To create an order, you need to create a table first.
+          </p>
+          <button type="button" [routerLink]="['../../', 'tables','add']"
+            class="mt-2 lg:mt-0 ml-3 mx-auto inline-flex items-center px-4 py-1 border border-red-300 shadow-lg text-sm font-medium rounded-3xl text-red-500 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+            Create one
+            <mat-icon style="height: unset;width: unset;" class="ml-2 text-red-500 text-md">
+              east
+            </mat-icon>
+          </button>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 <div *ngIf="!loading" class="bg-white mt-8 pb-12 ">
   <form [formGroup]="userFormGroup">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -47,22 +76,25 @@
               <dl class="mt-4 py-6 px-4 space-y-6 sm:px-6">
                 <div class="flex items-center justify-between">
                   <dt class="text-sm">Subtotal</dt>
-                  <dd class="text-sm font-medium text-red-500">{{currencySymbol}}{{total}}</dd>
+                  <dd class="text-sm font-medium text-red-500">{{subTotal | currency : getCurrency()}}</dd>
                 </div>
-                <div class="flex items-center justify-between">
-                  <dt class="text-sm">Taxes</dt>
-                  <dd class="text-sm font-medium text-red-500">{{currencySymbol}}0</dd>
+
+                <div *ngFor="let tax of taxes" class="flex pb-2 justify-between text-base text-gray-700">
+                  <p class="dark:text-gray-400 flex justify-center items-center text-xs text-gray-600">{{tax?.name}} <span
+                      class="text-gray-600 font-semibold text-xs ml-2">({{tax.rate}}%)</span></p>
+                  <p class="text-sm font-medium text-red-500">{{ tax?.taxDue | currency : getCurrency()}}</p>
                 </div>
+
                 <div class="flex items-center justify-between border-t border-gray-200 pt-6">
                   <dt class="text-base font-medium">Total</dt>
-                  <dd class="text-base font-medium text-red-500">{{currencySymbol}}{{total}}</dd>
+                  <dd class="text-base font-medium text-red-500">{{total | currency : getCurrency()}}</dd>
                 </div>
               </dl>
             </div>
             <div class="px-4 py-6 sm:px-6" *ngIf="total <= 0">
               <div class="text-center">
 
-                <mat-icon class="mx-auto h-12 w-12 text-gray-400">
+                <mat-icon class="mx-auto h-12 w-12 text-2xl text-gray-600">
                   shopping_bag</mat-icon>
 
                 <h3 class="mt-2 text-sm font-medium text-gray-900">No items</h3>
@@ -94,8 +126,7 @@
                       <option>+91</option>
                     </select>
                   </div>
-                  <input type="number" name="phone-number" formControlName="mobile" autocomplete="none" 
-                  [ngClass]="{'border-2 border-red-500' : userFormGroup.get('mobile')?.errors &&
+                  <input type="number" name="phone-number" formControlName="mobile" autocomplete="none" [ngClass]="{'border-2 border-red-500' : userFormGroup.get('mobile')?.errors &&
                     ( userFormGroup.get('mobile')?.touched ||  userFormGroup.get('mobile')?.dirty)
                   ,'border border-gray-300' : !(userFormGroup.get('mobile')?.errors &&
                   ( userFormGroup.get('mobile')?.touched ||  userFormGroup.get('mobile')?.dirty))}"
@@ -116,8 +147,7 @@
             <div class="w-full sm:mt-0 mt-4">
               <label for="name" class="block text-sm font-medium text-gray-700">Full Name</label>
               <div class="mt-1 ">
-                <input formControlName="fullName" type="text" id="name" name="name" autocomplete="name" 
-                [ngClass]="{' border-2 border-red-500' : userFormGroup.get('fullName')?.errors &&
+                <input formControlName="fullName" type="text" id="name" name="name" autocomplete="name" [ngClass]="{' border-2 border-red-500' : userFormGroup.get('fullName')?.errors &&
               ( userFormGroup.get('fullName')?.touched ||  userFormGroup.get('fullName')?.dirty),
             'border border-gray-300' : !(userFormGroup.get('fullName')?.errors &&
             ( userFormGroup.get('fullName')?.touched ||  userFormGroup.get('fullName')?.dirty))}"
@@ -149,24 +179,23 @@
           <div class="mt-4">
             <label for="table-number" class="block text-sm font-medium text-gray-700">Table Number</label>
             <div class="mt-1">
-              <select name="table" autocomplete="none" formControlName="tableNumber" 
-              [ngClass]="{' border-2 border-red-500' : userFormGroup.get('tableNumber')?.errors &&
-            ( userFormGroup.get('tableNumber')?.touched ||  userFormGroup.get('tableNumber')?.dirty),
-        'border-gray-300' : !(userFormGroup.get('tableNumber')?.errors &&
-        ( userFormGroup.get('tableNumber')?.touched ||  userFormGroup.get('tableNumber')?.dirty))}"
-              class="mt-1 block w-full bg-white  rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+              <select name="table" autocomplete="none" formControlName="table" [ngClass]="{' border-2 border-red-500' : userFormGroup.get('table')?.errors &&
+            ( userFormGroup.get('table')?.touched ||  userFormGroup.get('table')?.dirty),
+        'border-gray-300' : !(userFormGroup.get('table')?.errors &&
+        ( userFormGroup.get('table')?.touched ||  userFormGroup.get('table')?.dirty))}"
+                class="mt-1 block w-full bg-white  rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
 
-              <option *ngFor="let table of tables" [value]="table?.name">
+                <option *ngFor="let table of tables" [value]="table?.id">
                   {{table?.name}}</option>
 
-          </select>
+              </select>
 
-          <!-- Error -->
-          <div *ngIf="(userFormGroup.get('table')?.touched ||  userFormGroup.get('table')?.dirty) 
-          && (userFormGroup.get('table')?.errors?.['required'])"
-              class="text-red-500 text-xs pt-1">
-              Table is invalid
-          </div> </div>
+              <!-- Error -->
+              <div *ngIf="(userFormGroup.get('table')?.touched ||  userFormGroup.get('table')?.dirty) 
+          && (userFormGroup.get('table')?.errors?.['required'])" class="text-red-500 text-xs pt-1">
+                Table is invalid
+              </div>
+            </div>
 
           </div>
         </div>

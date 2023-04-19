@@ -11,10 +11,10 @@
           <h3 class="capitalize">
             {{getJsonData(property.value, 'name')}}
           </h3>
-          <p class="ml-4 text-red-500 dark:text-red-700">{{currencySymbol}}{{getJsonData(property.value,'price') *
-            getJsonData(property.value,'quantity')}}</p>
+          <p class="ml-4 text-red-500 dark:text-red-700">{{getJsonData(property.value,'price') *
+            getJsonData(property.value,'quantity') | currency : dish.currency}}</p>
         </div>
-        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{dish.name}} / {{currencySymbol}}{{getJsonData(property.value,'price')}}
+        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{dish.name}} /{{getJsonData(property.value,'price') | currency : dish.currency}}
         </p>
       </div>
       <div class="flex-1 flex items-center justify-between text-sm mt-2">
@@ -65,7 +65,7 @@
               <div class="font-medium text-gray-700 hover:text-gray-800 capitalize"> {{getJsonData(property.value,
                 'name')}} {{type}} {{dish.name}} </div>
             </h4>
-            <p class="mt-1 text-sm text-gray-500"> {{currencySymbol}}{{getJsonData(property.value,'price')}}</p>
+            <p class="mt-1 text-sm text-gray-500">{{getJsonData(property.value,'price') | currency : dish.currency}}</p>
 
           </div>
 
@@ -92,15 +92,15 @@
               <mat-icon class="text-gray-400 hover:text-gray-500 rounded-full custom-ripple" matRipple [matRippleCentered]="false"
                 [matRippleDisabled]="false" [matRippleUnbounded]="false">remove</mat-icon>
             </button>
-            <p class="text-gray-500 text-sm dark:text-gray-100">{{getJsonData(property.value,'quantity') || 0}}</p>
+            <p class="text-gray-500 text-sm">{{getJsonData(property.value,'quantity') || 0}}</p>
             <button (click)="increaseQuntity(getJsonData(property.value, 'name'))"
               class="ml-4 bg-gray-100 cursor-pointer hover:bg-gray-200  flex justify-center items-center w-6 h-6 ">
               <mat-icon class="text-gray-400 hover:text-gray-500 custom-ripple" matRipple [matRippleCentered]="false"
                 [matRippleDisabled]="false" [matRippleUnbounded]="false">add</mat-icon>
             </button>
           </div>
-          <p class="mt-1 text-sm font-medium text-red-500">{{currencySymbol}}{{getJsonData(property.value,'price') *
-            getJsonData(property.value,'quantity')}}</p>
+          <p class="mt-1 text-sm font-medium text-red-500">{{getJsonData(property.value,'price') *
+            getJsonData(property.value,'quantity') | currency : dish.currency}}</p>
 
         </div>
       </div>

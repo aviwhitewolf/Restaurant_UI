@@ -6,14 +6,13 @@
       <div class="mt-4">
         <p class="dark:text-gray-400 text-sm">Table Number:</p>
 
-
-        <select name="table" autocomplete="none" formControlName="tableNumber" [ngClass]="{' border-2 border-red-500' : tableFormGroup.get('tableNumber')?.errors &&
-        ( tableFormGroup.get('tableNumber')?.touched ||  tableFormGroup.get('tableNumber')?.dirty),
-    'border-gray-300' : !(tableFormGroup.get('tableNumber')?.errors &&
-    ( tableFormGroup.get('tableNumber')?.touched ||  tableFormGroup.get('tableNumber')?.dirty))}"
+        <select name="table" autocomplete="none" formControlName="table" [ngClass]="{' border-2 border-red-500' : tableFormGroup.get('table')?.errors &&
+        ( tableFormGroup.get('table')?.touched ||  tableFormGroup.get('table')?.dirty),
+    'border-gray-300' : !(tableFormGroup.get('table')?.errors &&
+    ( tableFormGroup.get('table')?.touched ||  tableFormGroup.get('table')?.dirty))}"
           class="mt-2 dark:bg-slate-700 dark:placeholder:text-gray-400 dark:text-white dark:ring-slate-600 dark:border-gray-500  appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm">
 
-          <option *ngFor="let table of tables" [value]="table?.name">
+          <option *ngFor="let table of tables" [value]="table?.id">
             {{table?.name}}</option>
         </select>
 
@@ -37,13 +36,13 @@
 
       <div *ngIf="isLogin && !checkTableError()" class="flex justify-between items-center align-middle w-full">
 
-        <button type="submit" [disabled]="isLoading" (click)="createOrderAndRazorpay('offline')"
+        <button type="submit" [disabled]="isLoading" (click)="createOrder('offline')"
           class="bg-white px-6 py-3 border border-indigo-500 text-sm font-medium rounded-md text-indigo-500  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 custom-ripple"
           matRipple [matRippleCentered]="false" [matRippleDisabled]="false" [matRippleUnbounded]="false">
-          Pay On Desk
+          Pay On Reception
         </button>
 
-        <button (click)="createOrderAndRazorpay('online')" [disabled]="isLoading"
+        <button (click)="createOrder('online')" [disabled]="isLoading"
           class="disabled:bg-indigo-400 flex justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700  custom-ripple"
           matRipple [matRippleCentered]="false" [matRippleDisabled]="false" [matRippleUnbounded]="false">
           Pay Now

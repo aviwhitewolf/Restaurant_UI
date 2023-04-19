@@ -8,7 +8,7 @@
             <mat-icon class="text-white">
                 info</mat-icon>
           </span>
-          <p class="ml-3 truncate font-medium text-white">
+          <p class="ml-3 font-medium text-white">
             <span>Your dish is not published, means it won't be visible to the users.</span>
           </p>
         </div>
@@ -124,9 +124,9 @@
                                 <!-- Description End -->
 
                                 <!-- In Stock Toggle -->
-                                <div class="sm:col-span-3">
+                                <div class="sm:col-span-6 flex flex-row justify-between items-center border-y py-3">
                                     <label for="photo" class="block text-sm font-medium text-gray-700"> Stock </label>
-                                    <div class="mt-1 flex flex-col">
+                                    <div class="mt-1 flex flex-col items-center">
                                         <!-- Enabled: "bg-indigo-600", Not Enabled: "bg-gray-200" -->
                                         <button type="button" (click)="toggleStock()"
                                             [ngClass]="{'bg-indigo-600' : dishFormGroup.get('inStock')?.value == true, 'bg-gray-200' : dishFormGroup.get('inStock')?.value == false}"
@@ -137,18 +137,18 @@
                                                 [ngClass]="{'translate-x-5' : dishFormGroup.get('inStock')?.value == true, 'translate-x-0' : dishFormGroup.get('inStock')?.value == false}"
                                                 class="translate-x-0 pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200"></span>
                                         </button>
-                                        <span class="mt-2 text-xs text-gray-500">(click to toggle)</span>
+                                        <span style="font-size: 0.49rem;line-height: 0.5rem;" class="mt-2 text-xs text-gray-500">(click to toggle)</span>
                                     </div>
                                 </div>
                                 <!-- In Stock Toggle End -->
 
                                 <!-- Photo -->
                                 <div class="sm:col-span-3">
-                                    <label for="photo" class="block text-sm font-medium text-gray-700">
+                                    <label for="photo" class="sr-only block text-sm font-medium text-gray-700">
                                         Photo
                                     </label>
                                     <div class="mt-1 flex items-center">
-                                        <span class="h-16 w-16 rounded-full overflow-hidden bg-gray-100">
+                                        <span class="h-32 w-32 rounded-full overflow-hidden bg-gray-100">
                                             <svg *ngIf="!selectedImage && !imageFromApi"
                                                 class="h-full w-full text-gray-300" fill="currentColor"
                                                 viewBox="0 0 24 24">
@@ -156,7 +156,7 @@
                                                     d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
                                             </svg>
                                             <img loading="lazy" *ngIf="selectedImage || imageFromApi" [src]="getImage()"
-                                                class="h-16 w-16 object-cover" />
+                                                class="h-32 w-32 object-cover" />
 
                                         </span>
                                         <button (click)="changeImage()"
@@ -207,7 +207,7 @@
                                             <!-- Price  -->
                                             <div class="sm:col-span-1">
                                                 <label for="Price" class="block text-sm font-medium text-gray-700">
-                                                    Price
+                                                    Price <span class="text-red-500 text-xs">({{getCurrency()}})</span>
                                                 </label>
                                                 <div class="mt-1">
                                                     <input formControlName="price" type="number" name="price"
@@ -307,16 +307,33 @@
                         <!-- Menu -->
                         <div class="mt-4 col-span-6">
                             <label for="tag" class="block text-sm font-medium text-gray-700">Menus</label>
-                            <div class="bg-gray-50 p-2 mt-2 rounded-md grid grid-cols-1 sm:grid-cols-4 gap-2">
-                                <div *ngIf="getFormControl('menus').controls.length == 0"
-                                    class="col-span-4 relative block w-full border-2 border-gray-300 border-dashed rounded-lg p-6 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                    <mat-icon class="text-gray-500 text-md">
+                            
+                            <div class="p-2 mt-2 bg-gray-50 rounded-lg" *ngIf="getFormControl('menus').controls.length == 0 && menus.length == 0">
+                                <button type="button" [routerLink]="['./../../','menu', 'add']"
+                                    class="block w-full border-2 border-gray-300 border-dashed rounded-lg p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    <mat-icon style="height: unset;width: unset;" class="mx-auto  text-gray-600  text-5xl">menu_book</mat-icon>
+                                    <span class="mx-auto mt-2 block text-sm font-medium text-gray-500">No menu found.</span>
+                                    <button type="button" class=" mx-auto mt-2 inline-flex items-center px-4 py-2 border border-gray-300 shadow-purple-500 shadow-sm text-sm font-medium rounded-3xl text-indigo-500 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">            
+                                        Create one
+                                        <mat-icon style="height: unset;width: unset;" class="ml-2 text-indigo-500 text-md">
+                                            east
+                                        </mat-icon>
+                                    </button>
+                                </button>
+                            </div>
+
+                            <div class="bg-gray-100 rounded-md grid grid-cols-1 sm:grid-cols-4 gap-2 p-2 mt-2">
+                                <div *ngIf="getFormControl('menus').controls.length == 0 && menus.length > 0"
+                                    class="mt-2 col-span-4 relative block w-full border-2 border-gray-300 border-dashed rounded-lg p-6 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    <mat-icon class="text-gray-500 text-5xl">
                                         menu_book</mat-icon>
-                                    <span class="mt-2 block text-sm font-medium text-gray-900"> No menu added, search to
-                                        add.</span>
+                                    <span class="mt-2 block text-sm font-medium text-gray-900"> 
+                                        No menu added, search to add.
+                                    </span>
                                 </div>
+
                                 <div formArrayName="menus" class="sm:col-span-2 col-span-1"
-                                    *ngFor="let tags of getFormControl('menus').controls; let i = index">
+                                    *ngFor="let tags of getFormControl('menus')?.controls; let i = index">
                                     <div [formGroupName]="i"
                                         class="capitalize py-1 pl-3 pr-2 flex flex-wrap justify-between  rounded-full items-center text-sm font-medium bg-indigo-100 text-indigo-700">
                                         {{getMenu(i)}}
@@ -366,10 +383,10 @@
                         <!-- Tag -->
                         <div class="mt-4 col-span-6">
                             <label for="tag" class="block text-sm font-medium text-gray-700">Tags</label>
-                            <div class="bg-gray-50 p-2 mt-2 rounded-md grid grid-cols-1 sm:grid-cols-4 gap-2">
+                            <div class="bg-gray-100 p-2 mt-2 rounded-md grid grid-cols-1 sm:grid-cols-4 gap-2">
                                 <div *ngIf="getFormControl('tags').controls.length == 0"
                                     class="col-span-4 relative block w-full border-2 border-gray-300 border-dashed rounded-lg p-6 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                    <mat-icon class="text-gray-500 text-md">
+                                    <mat-icon class="text-gray-500 text-5xl">
                                         sell</mat-icon>
                                     <span class="mt-2 block text-sm font-medium text-gray-900"> No tags added, search to
                                         add.</span>

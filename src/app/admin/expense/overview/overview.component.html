@@ -1,5 +1,7 @@
 <app-loader class="absolute top-0 left-0" *ngIf="loading"></app-loader>
 
+
+
 <main *ngIf="!loading" class="flex-1 pb-8 bg-gray-100 min-h-screen">
     <div class="pt-8">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -23,7 +25,7 @@
         </div>
 
         <!--  Category Summary -->
-        <div *ngIf="groupSummary" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+        <div *ngIf="groupSummary && expense && expense.length > 0" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
             <h2 class="text-lg leading-6 font-medium text-gray-900">
                 Category Summary
                 <span *ngIf="activeDateRange" class="lowercase text-gray-500 text-xs font-normal">&nbsp;of&nbsp;{{activeDateRange}}</span>

@@ -10,6 +10,7 @@ import { PdfViewerComponent } from 'src/app/reusable/pdf-viewer/pdf-viewer.compo
 import { AdminService } from '../../admin.service';
 import { SearchEmployeeComponent } from 'src/app/reusable/search-employee/search-employee.component';
 import * as moment from 'moment';
+import { RestaurantService } from 'src/app/restaurant/restaurant.service';
 
 @Component({
   selector: 'app-edit',
@@ -20,7 +21,6 @@ export class EditComponent implements OnInit {
   public loading: boolean = false
   public showChangeImageToggle: boolean = false
   public singleExpense: any
-  public currencySymbol = ""
   public expenseCategories: any
   private routeQueryParams$!: Subscription;
   private formdata = new FormData();
@@ -48,30 +48,28 @@ export class EditComponent implements OnInit {
     public dialog: MatDialog,
     private router: Router,
     private mainService: MainService,
-    private cdRef: ChangeDetectorRef
+    private cdRef: ChangeDetectorRef,
+    private restaurantService : RestaurantService
   ) {
-    this.currencySymbol = this.mainService.getToLocalStorage(Constants.LOCAL_USER).currencySymbol || "₹"
   }
 
   ngOnInit(): void {
-    this.route?.parent?.parent?.params.subscribe((mparam: any) => {
-      if (mparam && mparam['slug']) {
-        this.getAllExpenseCategory(mparam['slug'])
+    const restaurantSlug = this.restaurantService.getRestaurantSlug()
+    if (restaurantSlug) {
+        this.getAllExpenseCategory(restaurantSlug)
         this.route?.params.subscribe((param: any) => {
           if (param['expenseId'])
-            this.getExpense(mparam['slug'], param['expenseId'])
+            this.getExpense(restaurantSlug, param['expenseId'])
         })
-
  
       }
-    });
-
+    
   }
 
   updateOrSaveExpense() {
     this.loading = true
-    this.route?.parent?.parent?.params.subscribe((mparam: any) => {
-      if (mparam && mparam['slug']) {
+    const restaurantSlug = this.restaurantService.getRestaurantSlug()
+    if (restaurantSlug) {
         this.route?.params.subscribe(async (param: any) => {
 
           const expenseData = {
@@ -88,20 +86,17 @@ export class EditComponent implements OnInit {
 
           if (this.files.length > 0) {
             this.formdata.delete('files.upload')
-            this.files.forEach((file: File) => this.formdata.append('files.upload', file, file.name))
+            this.files.forEach((file: File) => this.formdata.append('files.upload', file, file?.name))
           } else {
             this.formdata.delete('files.upload')
           }
-
-
-
 
           //User want to edit
           if (param['expenseId']) {
             //User did not changed the Image or added a new document
             if (! this.formdata.has('files.upload')) {
               //do a normal request without formdata
-              this.adminService.updateExpense(expenseData, mparam['slug'], param['expenseId'])
+              this.adminService.updateExpense(expenseData, restaurantSlug, param['expenseId'])
                 .then((result) => {
                   this.loading = false
                   this.reset()
@@ -118,7 +113,7 @@ export class EditComponent implements OnInit {
 
               this.formdata.delete('data')
               this.formdata.append("data", JSON.stringify(expenseData));
-              this.adminService.updateExpense(this.formdata, mparam['slug'], param['expenseId'])
+              this.adminService.updateExpense(this.formdata, restaurantSlug, param['expenseId'])
                 .then((result) => {
                   this.reset()
                   this.loading = false
@@ -135,17 +130,17 @@ export class EditComponent implements OnInit {
             //User wants to add
           } else {
 
-            this.route?.parent?.parent?.params.subscribe((param: any) => {
-              if (param && param['slug']) {
+            const restaurantSlug = this.restaurantService.getRestaurantSlug()
+            if (restaurantSlug) {
 
                 this.formdata.delete('data')
                 this.formdata.append("data", JSON.stringify(expenseData));
 
-                this.adminService.addExpense(this.formdata, param['slug'])
+                this.adminService.addExpense(this.formdata, restaurantSlug)
                   .then((result) => {
                     this.reset()
                     this.loading = false
-                    this.mainService.openDialog("Success", "Added Successfully with id : " + result.data.id, "S", true)
+                    this.mainService.openDialog("Success", "Added Successfully with id : " + result?.data?.id, "S", true)
                   }).catch((err) => {
                     this.loading = false
                     console.log("Error", err)
@@ -155,15 +150,13 @@ export class EditComponent implements OnInit {
 
               }
 
-            });
-
           }
 
         })
 
       }
 
-    });
+    
 
   }
 
@@ -176,8 +169,8 @@ export class EditComponent implements OnInit {
         //setting select with 'Salary' if url contans 'showSearchEmployee'
         this.route.queryParams.subscribe(params => {
           if (params['showSearchEmployee']) {
-            const mCat = this.expenseCategories.find((e: any) => e.name == 'Salary')
-            this.expenseFormGroup.patchValue({ category: mCat.id })
+            const mCat = this.expenseCategories.find((e: any) => e?.name == 'Salary')
+            this.expenseFormGroup.patchValue({ category: mCat?.id })
           }
         });
         this.loading = false
@@ -217,18 +210,17 @@ export class EditComponent implements OnInit {
   }
 
   onCategoryChange(catId: any) {
-    this.route?.parent?.parent?.params.subscribe((param: any) => {
-      if (param && param['slug']) {
+    const restaurantSlug = this.restaurantService.getRestaurantSlug()
+    if (restaurantSlug) {
         this.router.navigate([]);
         this.seletedEmployee = null
         //Get Salary Id
         const mCatId = this.expenseCategories.find((e: any) => e.name == 'Salary')
         if (mCatId?.id == catId) {
           //Salary Selected
-          this.openEmployeeSearchComponent(param['slug'])
+          this.openEmployeeSearchComponent(restaurantSlug)
         }
       }
-    });
 
   }
 
@@ -247,7 +239,7 @@ export class EditComponent implements OnInit {
   checkIfSalaryIsSelected() {
     if (this.expenseCategories) {
       const mCat = this.expenseCategories.find((e: any) => e?.name?.toLowerCase() == 'salary')
-      if (this.expenseFormGroup.value.category == mCat.id) {
+      if (this.expenseFormGroup.value?.category == mCat?.id) {
         return true
       }
     }
@@ -256,11 +248,11 @@ export class EditComponent implements OnInit {
   }
 
   openSearchEmployee() {
-    this.route?.parent?.parent?.params.subscribe((param: any) => {
-      if (param && param['slug']) {
-          this.openEmployeeSearchComponent(param['slug'])
+    const restaurantSlug = this.restaurantService.getRestaurantSlug()
+    if (restaurantSlug) {
+          this.openEmployeeSearchComponent(restaurantSlug)
         }
-    });
+    
   }
 
 
@@ -319,14 +311,14 @@ export class EditComponent implements OnInit {
   deleteUpload(file: any) {
     this.loading = true
     const id = file?.id
-    this.route?.parent?.parent?.params.subscribe((param: any) => {
-      if (param && param['slug'] && id) {
+    const restaurantSlug = this.restaurantService.getRestaurantSlug()
+      if (restaurantSlug && id) {
         this.route?.params.subscribe(async (mparam: any) => {
           if (mparam['expenseId']) {
-            this.adminService.deleteExpenseUpload(id, mparam['expenseId'], param['slug'])
+            this.adminService.deleteExpenseUpload(id, mparam['expenseId'], restaurantSlug)
               .then((result) => {
                 this.showDeleteDocumentDialog = false
-                const index = this.singleExpense?.upload.map((file: any) => file.id).indexOf(file.id)
+                const index = this.singleExpense?.upload.map((file: any) => file.id).indexOf(file?.id)
                 if (index >= 0) this.singleExpense?.upload.splice(index, 1)
                 this.loading = false
                 this.mainService.openDialog("Success", "Document deleted successfully", "S")
@@ -341,7 +333,7 @@ export class EditComponent implements OnInit {
 
         })
       }
-    })
+    
   }
 
 

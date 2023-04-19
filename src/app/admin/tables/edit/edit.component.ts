@@ -5,6 +5,7 @@ import { Constants } from 'src/app/Constants/Interface/Constants';
 import { MainService } from 'src/app/main.service';
 import { Location } from '@angular/common';
 import { AdminService } from '../../admin.service';
+import { RestaurantService } from 'src/app/restaurant/restaurant.service';
 
 
 @Component({
@@ -15,7 +16,6 @@ import { AdminService } from '../../admin.service';
 export class EditComponent implements OnInit {
 
   public loading: boolean = true
-  public currencySymbol = ""
   public singleTable: any
   private tableId: string = ""
 
@@ -29,25 +29,23 @@ export class EditComponent implements OnInit {
     private adminService: AdminService,
     private mainService: MainService,
     private route: ActivatedRoute,
-    private _location: Location
+    private _location: Location,
+    private restaurantService : RestaurantService
   ) {
-    this.currencySymbol = this.mainService.getToLocalStorage(Constants.LOCAL_USER).currencySymbol || "₹"
-    
   }
 
   ngOnInit(): void {
-    this.route?.parent?.parent?.params.subscribe((mparam: any) => {
-      if (mparam && mparam['slug']) {
+    const restaurantSlug = this.restaurantService.getRestaurantSlug()
+    if (restaurantSlug) {
         this.route?.params.subscribe((param: any) => {
           if (param['tableId']) {
             this.tableId = param['tableId']
-            this.getSingletable(mparam['slug'], param['tableId'])
+            this.getSingletable(restaurantSlug, param['tableId'])
           } else {
             this.loading = false
           }
         })
       }
-    });
   }
 
   private getSingletable(slug: string, tableId: string) {
@@ -65,18 +63,18 @@ export class EditComponent implements OnInit {
   }
 
   updateOrAddTable() {
-    this.route?.parent?.parent?.params.subscribe((mparam: any) => {
-      if (mparam && mparam['slug']) {
+    const restaurantSlug = this.restaurantService.getRestaurantSlug()
+    if (restaurantSlug) {
         this.route?.params.subscribe((param: any) => {
           if (param['tableId']) {
-            this.updateTable(mparam['slug'], param['tableId'])
+            this.updateTable(restaurantSlug, param['tableId'])
           } else {
-            this.addTable(mparam['slug'])
+            this.addTable(restaurantSlug)
           }
 
         })
       }
-    });
+    
   }
 
   updateTable(slug: string, tableId: string) {
@@ -110,9 +108,9 @@ export class EditComponent implements OnInit {
 
   deleteTable(tableId: string) {
     this.loading = true
-    this.route?.parent?.parent?.params.subscribe((param: any) => {
-      if (param && param['slug']) {
-        this.adminService.deleteTable(param['slug'], tableId)
+    const restaurantSlug = this.restaurantService.getRestaurantSlug()
+    if (restaurantSlug) {
+        this.adminService.deleteTable(restaurantSlug, tableId)
           .then((res) => {
             this.loading = false
             this.mainService.openDialog("Success", "Table deleted successfully", "S", true, false)
@@ -122,7 +120,6 @@ export class EditComponent implements OnInit {
             this.mainService.openDialog("Error", this.mainService.errorMessage(err), "E")
           })
       }
-    })
   }
 
   goBackback() {

@@ -11,17 +11,21 @@ import { MarkdownModule } from 'ngx-markdown';
 import { MatIconModule } from '@angular/material/icon';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { EntryPointComponent } from './entry-point/entry-point.component';
+import { EntryPointModule } from './entry-point/entry-point.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    PolicyComponent
+    PolicyComponent,
+    EntryPointComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     UserModule,
     ReusableModule,
+    EntryPointModule,
     MarkdownModule.forRoot(),
     BrowserAnimationsModule,
     MatIconModule,

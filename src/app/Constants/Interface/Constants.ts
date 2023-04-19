@@ -2,9 +2,9 @@ import * as moment from 'moment';
 
 export class Constants {
   public static readonly UI_DOMAIN = "http://localhost:4200"
-  // public static readonly UI_DOMAIN = "http://192.168.29.228:4200"
-  // public static readonly BASE_URL = "http://localhost:1337"
-  public static BASE_URL = "https://d3eb-117-212-76-15.in.ngrok.io"
+  // public static readonly UI_DOMAIN = "http://192.168.1.4:4200"
+  public static readonly BASE_URL = "http://localhost:1337"
+  // public static BASE_URL = "http://192.168.1.4:1337"
   public static readonly LOCAL_CART = "cart"
   public static readonly LOCAL_USER = "user"
   public static readonly LOCAL_RECENT_DISHES = "recent-dishes"
@@ -14,7 +14,7 @@ export class Constants {
   public static readonly RAZORPAY_SCRIPT_URL = 'https://checkout.razorpay.com/v1/checkout.js'
   public static readonly RAZORPAY_KEY = 'rzp_test_kHx9wkorHyQIIZ'
   public static readonly CREATE_ORDER_URL = "/api/payment/createOrder"
-  public static readonly UPDATE_ORDER_URL = "/api/orders"
+  public static readonly ORDER_URL = "/api/orders"
   public static readonly ME_URL = "/api/users/me"
   public static readonly ME_UPDATE_URL = "/api/users"
   public static readonly RESTAURANT_URL = '/api/restaurants'
@@ -23,7 +23,7 @@ export class Constants {
   public static readonly VERIFY_USER_URL = '/api/users/verify'
 
   public static readonly ADMIN_ORDER = '/api/admin/orders'
-  public static readonly ORDER_URL = '/api/orders/getAllOrders'
+  public static readonly ALL_ORDER_API = '/api/orders/getAllOrders'
 
   public static readonly ADMIN_GET_OVERVIEW = '/api/admin/getOverview'
   public static readonly ADMIN_SINGLE_ORDER = '/api/orders'
@@ -46,6 +46,9 @@ export class Constants {
   public static readonly ADMIN_ADD_TAG = "/api/tags"
   public static readonly ADMIN_EMPLOYEE = '/api/employees'
   public static readonly ADMIN_SEARCH_EMPLOYEE = '/api/employee/search'
+  public static readonly ADMIN_EMPLOYEE_UPDATE_IMAGE = '/api/employee/image'
+  public static readonly ADMIN_EMPLOYEE_ME = '/api/employee/me'
+  public static readonly ADMIN_USER_ME = '/api/admin/users/updateMe'
 
   public static readonly ADMIN_RESTAURANT_INFO = '/api/restaurant/info'
   public static readonly ADMIN_ALL_DESIGNATION = '/api/designations'
@@ -57,6 +60,7 @@ export class Constants {
 
   public static readonly ADMIN_WEBPUSH = '/api/subscribe/webpush'
 
+  public static readonly ADMIN_TAX = '/api/admin/taxes'
 
   public static readonly POLICY = '/api/policy'
 
@@ -278,6 +282,7 @@ export class Constants {
   public static readonly PAGE_SIZE: number = 10;
 
   public static readonly SOCKET_ORDER_RECIEVED = 'order::created'
+  public static readonly SOCKET_ORDER_READ = 'order::read'
 
   public static readonly VAPID_PUBLIC_KEY = 'BD7y67C-accMahGgdG-qi6GWFsCrKq_HYUvt6ffLchiCnp2jRVXE4vGo1AfJ7Ec058VlsKYnsj_qvEr5Y49MR2I'
 

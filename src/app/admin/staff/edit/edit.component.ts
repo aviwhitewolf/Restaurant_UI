@@ -10,6 +10,7 @@ import { PdfViewerComponent } from 'src/app/reusable/pdf-viewer/pdf-viewer.compo
 import * as moment from 'moment';
 import { AdminService } from '../../admin.service';
 import { EditImageModalComponent } from '../../../reusable/edit-image-modal/edit-image-modal.component';
+import { RestaurantService } from 'src/app/restaurant/restaurant.service';
 
 @Component({
   selector: 'app-edit',
@@ -23,9 +24,9 @@ export class EditComponent implements OnInit {
   public singleEmployee: any
   public selectedImage: any
   public imageFromApi: any
-  public currencySymbol = ""
   public designation: any
   private routeQueryParams$!: Subscription;
+  public isEditPage: boolean = false
   private formdata = new FormData();
   public files: File[] = []
   public showDeleteDocumentDialog: boolean = false
@@ -34,7 +35,7 @@ export class EditComponent implements OnInit {
   public employeeFormGroup: FormGroup = this.formBuilder.group({
     fullName: ['', [Validators.required]],
     address: ['', [Validators.required]],
-    mobile: ['', [Validators.required]],
+    number: ['', [Validators.required]],
     dateOfResignation: [new Date('9999-12-31'), [Validators.required]],
     documentVerified: [false, [Validators.required]],
     dateOfJoining: [new Date(), [Validators.required]],
@@ -54,22 +55,31 @@ export class EditComponent implements OnInit {
     public dialog: MatDialog,
     private router: Router,
     private mainService: MainService,
-    private cdRef: ChangeDetectorRef
+    private cdRef: ChangeDetectorRef,
+    private restaurantService : RestaurantService
   ) {
-    this.currencySymbol = this.mainService.getToLocalStorage(Constants.LOCAL_USER).currencySymbol || "₹"
+    const restaurantSlug = this.restaurantService.getRestaurantSlug()
+    if (restaurantSlug) {
+        this.route?.params.subscribe((param: any) => {
+          if (param['staffId'])
+            this.isEditPage = true
+          else
+            this.isEditPage = false
+        })
+      }
     
   }
 
   ngOnInit(): void {
-    this.route?.parent?.parent?.params.subscribe((mparam: any) => {
-      if (mparam && mparam['slug']) {
-        this.getAllDesignation(mparam['slug'])
+    const restaurantSlug = this.restaurantService.getRestaurantSlug()
+    if (restaurantSlug) {
+        this.getAllDesignation(restaurantSlug)
         this.route?.params.subscribe((param: any) => {
           if (param['staffId'])
-            this.getEmployee(mparam['slug'], param['staffId'])
+            this.getEmployee(restaurantSlug, param['staffId'])
         })
       }
-    });
+    
     // subscribe to open dish dialog using url change
     this.routeQueryParams$ = this.route.queryParams.subscribe(params => {
       if (params['showImageDialog']) {
@@ -81,14 +91,14 @@ export class EditComponent implements OnInit {
 
   updateOrSaveEmployee() {
     this.loading = true
-    this.route?.parent?.parent?.params.subscribe((mparam: any) => {
-      if (mparam && mparam['slug']) {
+    const restaurantSlug = this.restaurantService.getRestaurantSlug()
+    if (restaurantSlug) {
         this.route?.params.subscribe(async (param: any) => {
 
           const employeeData = {
             fullName: this.employeeFormGroup.value.fullName,
             address: this.employeeFormGroup.value.address,
-            mobile: this.employeeFormGroup.value.mobile,
+            number: this.employeeFormGroup.value.number,
             dateOfResignation: moment(this.employeeFormGroup.value.dateOfResignation).endOf('day').toISOString(),
             dateOfJoining: moment(this.employeeFormGroup.value.dateOfJoining).startOf('day').toISOString(),
             salary: this.employeeFormGroup.value.salary,
@@ -117,7 +127,7 @@ export class EditComponent implements OnInit {
             //User did not changed the Image or added a new document
             if (!(this.formdata.has('files.image') || this.formdata.has('files.documents'))) {
               //do a normal request without formdata
-              this.adminService.updateEmployee(employeeData, mparam['slug'], param['staffId'])
+              this.adminService.updateEmployee(employeeData, restaurantSlug, param['staffId'])
                 .then((result) => {
                   this.loading = false
                   this.reset()
@@ -134,7 +144,7 @@ export class EditComponent implements OnInit {
 
               this.formdata.delete('data')
               this.formdata.append("data", JSON.stringify(employeeData));
-              this.adminService.updateEmployee(this.formdata, mparam['slug'], param['staffId'])
+              this.adminService.updateEmployee(this.formdata,restaurantSlug, param['staffId'])
                 .then((result) => {
                   this.reset()
                   this.loading = false
@@ -143,7 +153,7 @@ export class EditComponent implements OnInit {
                   this.loading = false
                   console.log("Error", err)
                   this.mainService.openDialog("Error", this.mainService.errorMessage(err), "E")
-                  
+
                 })
 
             }
@@ -151,9 +161,8 @@ export class EditComponent implements OnInit {
             //User wants to add
           } else {
 
-            this.route?.parent?.parent?.params.subscribe((param: any) => {
-              if (param && param['slug']) {
-
+            const restaurantSlug = this.restaurantService.getRestaurantSlug()
+            if (restaurantSlug) {
                 if (!this.selectedImage) {
                   this.mainService.openDialog("Error", "Please upload image", "E")
                   this.loading = false
@@ -163,7 +172,7 @@ export class EditComponent implements OnInit {
                 this.formdata.delete('data')
                 this.formdata.append("data", JSON.stringify(employeeData));
 
-                this.adminService.addEmployee(this.formdata, param['slug'])
+                this.adminService.addEmployee(this.formdata, restaurantSlug)
                   .then((result) => {
                     this.reset()
                     this.loading = false
@@ -177,15 +186,14 @@ export class EditComponent implements OnInit {
 
               }
 
-            });
+            
 
           }
 
         })
 
       }
-
-    });
+    
 
   }
 
@@ -203,7 +211,6 @@ export class EditComponent implements OnInit {
 
   }
 
-
   getEmployee(slug: string, staffId: string) {
     this.loading = true
     this.adminService.getSingleEmployee(slug, staffId)
@@ -213,7 +220,7 @@ export class EditComponent implements OnInit {
           {
             fullName: this.singleEmployee.fullName,
             address: this.singleEmployee.address,
-            mobile: this.singleEmployee.mobile,
+            number: this.singleEmployee.number,
             dateOfResignation: moment(this.singleEmployee.dateOfResignation).endOf('day').toISOString(),
             dateOfJoining: moment(this.singleEmployee.dateOfJoining).startOf('day').toISOString(),
             salary: this.singleEmployee.salary,
@@ -237,9 +244,12 @@ export class EditComponent implements OnInit {
       })
   }
 
-
   checkIfResigned() {
-    return moment(this.singleEmployee?.dateOfResignation).isBefore(new Date());
+    if (this.singleEmployee?.dateOfResignation) {
+      return moment(this.singleEmployee?.dateOfResignation).isBefore(new Date());
+    } else {
+      return false;
+    }
   }
 
   openPdfViewer(file: any) {
@@ -304,7 +314,6 @@ export class EditComponent implements OnInit {
       if (index >= 0) this.files.splice(index, 1)
     }
   }
-  // deleteFile()
 
   private reset() {
     this.files = []
@@ -316,11 +325,11 @@ export class EditComponent implements OnInit {
   deleteUpload(file: any) {
     this.loading = true
     const id = file?.id
-    this.route?.parent?.parent?.params.subscribe((param: any) => {
-      if (param && param['slug'] && id) {
+    const restaurantSlug = this.restaurantService.getRestaurantSlug()
+    if (restaurantSlug && id) {
         this.route?.params.subscribe(async (mparam: any) => {
           if (mparam['staffId']) {
-            this.adminService.deleteEmployeeUpload(id, mparam['staffId'], param['slug'])
+            this.adminService.deleteEmployeeUpload(id, mparam['staffId'], restaurantSlug)
               .then((result) => {
                 this.showDeleteDocumentDialog = false
                 const index = this.singleEmployee?.documents.map((file: any) => file.id).indexOf(file.id)
@@ -338,7 +347,6 @@ export class EditComponent implements OnInit {
 
         })
       }
-    })
   }
 
 

@@ -14,8 +14,7 @@ export class CartComponent implements OnInit {
 
   public cartItems!: any
   public total: number = 0
-  public currencySymbol = ""
-  private tb : string = ""
+  private tb: string = ""
 
   constructor(
     private router: Router,
@@ -24,7 +23,6 @@ export class CartComponent implements OnInit {
     private restaurantService: RestaurantService,
     private eventManagement: EventHandlerService
   ) {
-    this.currencySymbol = mainService.getToLocalStorage(Constants.LOCAL_USER).currencySymbol || "₹"
     this.cartItems = this.mainService.getToLocalStorage(Constants.LOCAL_CART)
     if (this.checkCartItems()) this.calculateTotal()
   }
@@ -40,6 +38,10 @@ export class CartComponent implements OnInit {
 
   getJsonData(data: any): any {
     return data
+  }
+
+  getCurrecy(): string|undefined {
+  return this.restaurantService.getCurrency()  
   }
 
   refreshCartItems(id: number) {
@@ -58,12 +60,11 @@ export class CartComponent implements OnInit {
   }
 
   navigateToCheckout() {
-    this.route?.parent?.params.subscribe((param: any) => {
-      if (param && param['name']) {
-        this.router.navigate(['/payment', param['name'], 'checkout'], { queryParams: { tb: this.tb } })
-      }
-    });
-
+    const restaurantSlug = this.restaurantService.getRestaurantSlug()
+    if (restaurantSlug){
+      this.mainService.setshowPaymentStatus(true)
+      this.router.navigate(['/restaurant', restaurantSlug, 'payment', 'checkout'], { queryParams: { tb: this.tb } })
+    }
   }
 
 }

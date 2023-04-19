@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MainService } from 'src/app/main.service';
+import { RestaurantService } from 'src/app/restaurant/restaurant.service';
 import { ErrorMsgComponent } from 'src/app/reusable/error-msg/error-msg.component';
 
 @Component({
@@ -17,7 +18,8 @@ export class FailComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private mainService: MainService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private restaurnatService : RestaurantService
   ) {
 
     this.route.queryParams
@@ -33,28 +35,17 @@ export class FailComponent implements OnInit {
 
   navigateToCheckout() {
 
-    this.route?.parent?.params.subscribe((param: any) => {
-      if (param && param['name']) {
+      const slug = this.restaurnatService.getRestaurantSlug()
+      if (slug) {
         this.route.queryParams.subscribe(params => {
           if (params['tb'])
-            this.router.navigate(['/restaurant', param['name'], 'cart'], { queryParams: { tb: params['tb'] } })
+            this.router.navigate(['/restaurant', slug, 'cart'], { queryParams: { tb: params['tb'] } })
         });
 
       } else {
-        this.mainService.openDialog("Error", "Invalid Url", "E")
+        this.mainService.openDialog("Error", "Invalid Url", "E", false, true)
       }
-    });
-  }
-
-  private openDialog(heading: string, error: string, type: string) {
-    this.dialog.open(ErrorMsgComponent, {
-      data: {
-        message: error,
-        type: type,
-        heading: heading
-      },
-      panelClass: 'popUp-modalbox'
-    });
+    
   }
 
 }

@@ -1,8 +1,12 @@
-<div *ngIf="dishes && dishes.length > 0"
-    class="mt-12 text-gray-900 dark:bg-gray-900 dark:text-white">
+<div *ngIf="dishes" class="mt-12 text-gray-900 dark:bg-gray-900 dark:text-white">
     <h2 class="p-3 md:p-6 text-2xl font-bold mt-4  dark:text-white">{{heading}}</h2>
-    <div class="border-t border-b border-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-700 p-3 md:p-6 grid grid-cols-2 md:grid-cols-4 xl:grid-cols-5 gap-2 md:gap-6 text-center">
-        <app-dish-card *ngFor="let dish of dishes;let index = index;" [dish]="dish" [theme]="'grid'"
-            (openDishInfo)="openDishInfo($event)"></app-dish-card>
+
+    <div class="border-t border-b border-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-700 p-3 md:p-6" *ngIf="!dishes[0]">Nothing in {{heading}}</div>
+    <div *ngIf="dishes[0]"
+        class="border-t border-b border-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-700 p-3 md:p-6 grid grid-cols-2 md:grid-cols-4 xl:grid-cols-5 gap-2 md:gap-6 text-center">
+        <app-dish-card *ngFor="let dish of dishes; let index = index;" [dish]="dish" [theme]="'grid'"
+            (openDishInfo)="openDishInfo($event)">
+        </app-dish-card>
+
     </div>
 </div>

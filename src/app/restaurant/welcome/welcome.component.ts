@@ -24,28 +24,30 @@ export class WelcomeComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.activatedRoute.params.subscribe(params => {
-      if (params['name'] && params['tb']) {
-        this.tb = params['tb']
-        this.getRestaurantInfo(params['name'])
-
-      }
-    })
-
-
+    const restaurantSlug = this.restaurantService.getRestaurantSlug()
+    if (restaurantSlug) {
+      this.activatedRoute.params.subscribe(params => {
+        if (params['tb']) {
+          this.tb = params['tb']
+          this.getRestaurantInfo(restaurantSlug)
+        }
+      })
+    }
   }
 
   navigateToHome() {
-    if (this.restaurantInfo?.slug && this.tb)
-      this.router.navigate(['/restaurant', this.restaurantInfo?.slug, 'home'], { queryParams: { tb: this.tb } })
+    const restaurantSlug = this.restaurantService.getRestaurantSlug()
+    
+    if (restaurantSlug && this.tb) {
+        this.router.navigate(['restaurant', restaurantSlug ,'home'], { queryParams: { tb: this.tb } })
+    }
   }
 
   private async getRestaurantInfo(name: string) {
     this.loading = true
     this.restaurantService.getRestaurantInfo(name)
       .then((res: any) => {
-        this.restaurantInfo = res.attributes
-
+        this.restaurantInfo = res
         const user = this.mainService.getToLocalStorage(Constants.LOCAL_USER)
         if (user) {
           user.restaurantSlug = this.restaurantInfo.slug
@@ -64,8 +66,8 @@ export class WelcomeComponent implements OnInit {
   }
 
   public getImageUrl(image: any) {
-
-    return this.mainService.getImageUrl(image, Constants.IMAGE_JSON_STRUCTURE_WITH_ATTRIBUTE)
+    console.log(image)
+    return this.mainService.getImageUrl(image, Constants.IMAGE_JSON_STRUCTURE_WITHOUT_ATTRIBUTE)
   }
 
 

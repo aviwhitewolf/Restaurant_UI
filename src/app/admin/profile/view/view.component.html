@@ -1,0 +1,159 @@
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div>
+        <!-- Photo, Name & Designation -->
+        <div class="mt-6 mx-auto md:flex md:items-center space-y-4 md:justify-between md:space-x-5">
+            <div class="flex items-center space-x-5 ">
+                <div class="relative rounded-full overflow-hidden flex-shrink-0">
+                    <div (click)="changeImage()"
+                        class="transition duration-150 ease-in-out hover:opacity-80 opacity-0 bg-gray-300 h-full  absolute w-full  z-10 text-xs flex justify-between items-center text-gray-700">
+                        <mat-icon class="mx-auto">add_a_photo</mat-icon>
+                    </div>
+                    <div class="relative shadow">
+                        <span class="h-16 w-16 rounded-full overflow-hidden">
+                            <svg *ngIf="!selectedImage && !imageFromApi" class="h-16 w-16 text-gray-300 bg-transparent"
+                                fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+                            </svg>
+                            <img loading="lazy"
+                                class="h-16 w-16 sm:h-20 sm:w-20 overflow-hidden rounded-full object-cover"
+                                *ngIf="selectedImage || imageFromApi" [src]="getImage()">
+                        </span>
+                    </div>
+                </div>
+
+                <div *ngIf="me?.fullName">
+                    <h1 class="text-2xl font-bold text-gray-900">{{me?.fullName}}</h1>
+                    <h3 *ngIf="me?.designation" class="text-base">
+                        <span class="flex  items-center text-indigo-500">
+                            <mat-icon class="mr-2">badge</mat-icon>
+                            {{me?.designation}}
+                        </span>
+                    </h3>
+                </div>
+            </div>
+
+            <div *ngIf="selectedImage"
+                class="mt-6 flex space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-x-reverse sm:space-y-0 space-x-3 md:mt-0 md:flex-row md:space-x-3">
+                <button (click)="updateEmployeeImage()"
+                    class="disabled:bg-indigo-400 flex items-center bg-indigo-600 border border-transparent rounded-md shadow-sm py-2 px-4 text-sm text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500">
+                    <mat-icon class="mr-2">
+                        save</mat-icon>
+                    Save
+                </button>
+            </div>
+
+        </div>
+        <!-- Photo, Name & Designation End -->
+
+    </div>
+    <div class="mt-5 border-t border-gray-200">
+        <dl class="sm:divide-y sm:divide-gray-200">
+            <div *ngIf="me?.fullName" class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                <dt class="text-sm font-medium text-gray-500">Full name</dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{me?.fullName}}</dd>
+            </div>
+            <div *ngIf="me?.designation" class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                <dt class="text-sm font-medium text-gray-500">Designation</dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 capitalize">{{me?.designation}}</dd>
+            </div>
+            <div *ngIf="me?.email" class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                <dt class="text-sm font-medium text-gray-500">Email address</dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{me?.email}}</dd>
+            </div>
+            <div *ngIf="me?.salary" class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                <dt class="text-sm font-medium text-gray-500">Salary</dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{me?.salary | currency :
+                    me?.currency}}</dd>
+            </div>
+            <div *ngIf="me?.username" class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                <dt class="text-sm font-medium text-gray-500">Username</dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{me?.username}}</dd>
+            </div>
+            <div *ngIf="me?.number" class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                <dt class="text-sm font-medium text-gray-500">Mobile</dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{me?.countryCode}}&nbsp;{{me?.number}}</dd>
+            </div>
+            <div *ngIf="me?.address" class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                <dt class="text-sm font-medium text-gray-500">Address</dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{me?.address}}</dd>
+            </div>
+
+
+            <div *ngIf="reportTo && reportTo[0]?.id" class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                <dt class="text-sm font-medium text-gray-500">Report To</dt>
+
+                <dd class="mt-2  text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    <div class="max-w-5xl mx-auto">
+                        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                            <div *ngFor="let parent of reportTo"
+                                class="relative rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm flex items-center space-x-3  focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-pink-500">
+                                <div class="flex-shrink-0">
+                                    <img class="h-10 w-10 rounded-full"
+                                    [src]="parent?.formats ? getImageUrl(parent?.formats ? {formats : parent?.formats} : '') : ''"
+                                    [alt]="parent?.fullName">
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <div>
+                                        <span class="absolute inset-0" aria-hidden="true"></span>
+                                        <p class="text-sm font-medium text-gray-900">{{parent?.fullName}}</p>
+                                        <p class="text-sm text-gray-500 truncate">{{parent?.name}}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </dd>
+            </div>
+
+            <div *ngIf="salaryHistory" class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                <dt class="text-sm font-medium text-gray-500">Salary History</dt>
+                <!-- Salary History & Document -->
+                <div class="sm:mt-0 mt-2 col-span-2">
+
+
+                    <nav class="flex-1 h-72 overflow-y-scroll rounded-md border"
+                        aria-label="Directory">
+
+                        <!-- Salary History -->
+                        <div class="relative">
+
+
+                            <ul role="list" class="relative z-0 divide-y divide-gray-200">
+                                <li *ngFor="let salary of salaryHistory">
+                                    <div
+                                        class="relative px-6 py-5 flex items-center space-x-3 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500">
+                                        <div class="flex-shrink-0">
+                                            <div
+                                                class="bg-green-100 h-10 w-10 flex justify-center items-center rounded-full">
+                                                <mat-icon class=" text-green-700">call_received</mat-icon>
+                                            </div>
+                                        </div>
+                                        <div class="flex-1 min-w-0">
+                                            <div class="focus:outline-none">
+                                                <span class="absolute inset-0" aria-hidden="true"></span>
+                                                <p class="text-sm font-medium text-red-500">{{salary?.debit |
+                                                    currency : salary.currency}}</p>
+                                                <p class="text-sm text-gray-500 truncate">{{salary?.createdAt |
+                                                    date}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+
+                        </div>
+                        <!-- Salary History End -->
+
+                    </nav>
+
+
+                </div>
+            </div>
+            <!-- Salary History & Document End-->
+
+        </dl>
+    </div>
+</div>
