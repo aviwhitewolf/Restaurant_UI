@@ -50,12 +50,12 @@ export class SalesChartComponent implements OnInit {
   constructor(private mainService: MainService) { }
 
   ngOnInit(): void {
-    if (this.data.length > 0)
+    if (this.data?.length > 0)
     this.renderChart(this.data, this.start, this.end)
   }
 
   changeCategoryAndRenderChart(category: string) {
-    if (this.data.length > 0)
+    if (this.data?.length > 0)
     this.renderChart(this.data, this.start, this.end, category)
   }
 

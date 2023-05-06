@@ -4,7 +4,7 @@
         <p class="dark:text-gray-400">Subtotal</p>
         <p class="text-red-500 dark:text-red-700">{{subtotal | currency : currency}}</p>
     </div>
-    <div *ngIf="calculatedTaxes && calculatedTaxes.length > 0" class="mt-2">
+    <div *ngIf="calculatedTaxes && calculatedTaxes?.length > 0" class="mt-2">
         <div *ngFor="let tax of calculatedTaxes" class="flex pb-2 justify-between text-base text-gray-700">
             <p class="dark:text-gray-400 flex justify-center items-center">{{tax?.name}} <span class="text-gray-600 font-semibold text-xs ml-2">({{tax.rate}}%)</span></p>
             <p class="text-red-500 dark:text-red-700">{{ tax?.taxDue | currency : currency}}</p>

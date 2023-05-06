@@ -22,6 +22,7 @@ import { AdminService } from '../admin.service';
 })
 export class DashboardComponent implements OnInit {
 
+
   public showSideBar: boolean = false
   public showSubMenu: boolean = false
   public showDropDownMenu: boolean = false
@@ -53,7 +54,7 @@ export class DashboardComponent implements OnInit {
 
     const user = this.mainService.getToLocalStorage(Constants.LOCAL_USER)
     this.jwt = user.jwt || ""
-    if (this.jwt && this.jwt.length > 0) {
+    if (this.jwt && this.jwt?.length > 0) {
       this.loading = false
       this.isLoggedIn = true
       const restaurantSlug = this.restaurantService.getRestaurantSlug()
@@ -82,60 +83,69 @@ export class DashboardComponent implements OnInit {
 
   async subscribeToNotifications(slug: string) {
 
-    if (this.swPush.isEnabled) {
-
-      Notification.requestPermission().then(async (perm) => {
-        if (perm === 'granted') {
-
-          //send sub to the server
-          const deviceInfo = this.deviceInformationService.getDeviceInfo().deviceType + '::' +
-            this.deviceInformationService.getDeviceInfo().device + "::" +
-            this.deviceInformationService.getDeviceInfo().os + "::" +
-            this.deviceInformationService.getDeviceInfo().browser
-
-          try {
-
-            const previousSubscription = await this.adminService.findSubscribeToWebpushNotification(deviceInfo, slug)
-            if (!previousSubscription) throw new Error("Not Found in the database")
-
-            console.log("Previous Subscription Data", previousSubscription.data)
-
-          } catch (error) {
-
-            console.log("Error=====", error)
-
-            this.swPush.requestSubscription({
-              serverPublicKey: Constants.VAPID_PUBLIC_KEY
-            }).then(sub => {
-
-              const data = {
-                sub, deviceInfo
-              }
-
-              this.adminService.subscribeToWebpushNotification(data, slug).then((res) => {
-
-                console.log("User Register successfully for notification", res)
-
-              }).catch((err) => {
-                console.error("Error Registering user in the server", err)
-              })
-
-            }).catch(err => console.error("Could not subscribe to notifications", err));
+    try {
 
 
+      if (this.swPush.isEnabled) {
+
+        Notification.requestPermission().then(async (perm) => {
+          if (perm === 'granted') {
+
+            //send sub to the server
+            const deviceInfo = this.deviceInformationService.getDeviceInfo().deviceType + '::' +
+              this.deviceInformationService.getDeviceInfo().device + "::" +
+              this.deviceInformationService.getDeviceInfo().os + "::" +
+              this.deviceInformationService.getDeviceInfo().browser
+
+            try {
+
+              const previousSubscription = await this.adminService.findSubscribeToWebpushNotification(deviceInfo, slug)
+              if (!previousSubscription) throw new Error("Not Found in the database")
+
+              console.log("Previous Subscription Data", previousSubscription.data)
+
+            } catch (error) {
+
+              console.log("Error=====", error)
+
+              this.swPush.requestSubscription({
+                serverPublicKey: Constants.VAPID_PUBLIC_KEY
+              }).then(sub => {
+
+                const data = {
+                  sub, deviceInfo
+                }
+
+                this.adminService.subscribeToWebpushNotification(data, slug).then((res) => {
+
+                  console.log("User Register successfully for notification", res)
+
+                }).catch((err) => {
+                  console.error("Error Registering user in the server", err)
+                })
+
+              }).catch(err => console.error("Could not subscribe to notifications", err));
+
+
+            }
+
+          } else {
+
+            await Notification.requestPermission()
+            // this.mainService.openDialog("Warning", "Notification is not enabled, we won't be able to notify you whenever a new order is there.", "W", false, false)
           }
+        })
+      } else {
 
-        } else {
+        await Notification.requestPermission()
+        // this.mainService.openDialog("Warning", "Notification is not enabled, we won't be able to notify you whenever a new order is there.", "W", false, false)
+      }
 
-          await Notification.requestPermission()
-          // this.mainService.openDialog("Warning", "Notification is not enabled, we won't be able to notify you whenever a new order is there.", "W", false, false)
-        }
-      })
-    } else {
+    } catch (error) {
 
-      await Notification.requestPermission()
-      // this.mainService.openDialog("Warning", "Notification is not enabled, we won't be able to notify you whenever a new order is there.", "W", false, false)
+      console.log("Error in enabling notification", error)
     }
+
   }
 
   async getUserInfo(slug: string) {
@@ -212,7 +222,7 @@ export class DashboardComponent implements OnInit {
         panelClass: 'snack-bar-order-notification',
         horizontalPosition: 'right',
         verticalPosition: 'top',
-        duration: 300000
+        duration: 3000
       });
 
     })
@@ -221,6 +231,10 @@ export class DashboardComponent implements OnInit {
 
   public getImageUrl(image: any) {
     return this.mainService.getImageUrl(image, Constants.IMAGE_JSON_STRUCTURE_WITHOUT_ATTRIBUTE)
+  }
+
+  logout() {
+    this.mainService.logout()
   }
 
 }

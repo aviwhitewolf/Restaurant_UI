@@ -52,7 +52,7 @@ export class SearchDishComponent implements OnInit {
   }
 
   filterDishes(value: string): any {
-    if (this.filteredDishes.length == this.dishes.length) {
+    if (this.filteredDishes?.length == this.dishes?.length) {
       return this.dishes?.slice(0, 2)
     }
     return this.dishes.filter((dish: any) => {

@@ -40,7 +40,7 @@ export class MainService {
   public setRecentDishes(dish: any) {
     let dishes: Array<any> = []
     dishes = this.getToLocalStorage(Constants.LOCAL_RECENT_DISHES) || []
-    if (dishes.length >= Constants.LOCAL_RECENT_DISHES_LIMIT) {
+    if (dishes?.length >= Constants.LOCAL_RECENT_DISHES_LIMIT) {
       dishes.shift()
     }
     dishes.push(dish)
@@ -68,19 +68,19 @@ export class MainService {
     }
 
     if (mediumImage) {
-      imageToDisplay = Constants.BASE_URL + mediumImage
+      imageToDisplay = (mediumImage.includes('https://') || mediumImage.includes('http://')) ? mediumImage : Constants.BASE_URL + mediumImage
       if (prefered == Constants.IMAGE_SIZE.medium) return imageToDisplay
     } else if (smallImage) {
-      imageToDisplay = Constants.BASE_URL + smallImage
+      imageToDisplay = (smallImage.includes('https://') || smallImage.includes('http://')) ? smallImage : Constants.BASE_URL + smallImage
       if (prefered == Constants.IMAGE_SIZE.small) return imageToDisplay
     } else if (thumbnailImage) {
-      imageToDisplay = Constants.BASE_URL + thumbnailImage
+      imageToDisplay = (thumbnailImage.includes('https://') || thumbnailImage.includes('http://')) ? thumbnailImage : Constants.BASE_URL + thumbnailImage
       if (prefered == Constants.IMAGE_SIZE.thumbnail) return imageToDisplay
     } else if (largeImage) {
-      imageToDisplay = Constants.BASE_URL + largeImage
+      imageToDisplay = (largeImage.includes('https://') || largeImage.includes('http://')) ? largeImage : Constants.BASE_URL + largeImage
       if (prefered == Constants.IMAGE_SIZE.large) return imageToDisplay
     } else if (normalImage) {
-      imageToDisplay = Constants.BASE_URL + normalImage
+      imageToDisplay = (normalImage.includes('https://') || normalImage.includes('http://')) ? normalImage : Constants.BASE_URL + normalImage
       if (prefered == Constants.IMAGE_SIZE.normal) return imageToDisplay
     }
 
@@ -167,7 +167,7 @@ export class MainService {
     const compoundTaxes = []
     const calculatedTaxes = []
     const mTotal = subtotal
-    for (let index = 0; index < taxes.length; index++) {
+    for (let index = 0; index < taxes?.length; index++) {
         const tax = taxes[index];
         if (!tax?.disable) {
             if (!tax.compound) {
@@ -182,7 +182,7 @@ export class MainService {
     }
 
     let cTotal = total
-    for (let index = 0; index < compoundTaxes.length; index++) {
+    for (let index = 0; index < compoundTaxes?.length; index++) {
         const i = compoundTaxes[index];
         const compoundTax = taxes[i]
         const taxDue = cTotal * (compoundTax.rate / 100);
@@ -195,5 +195,14 @@ export class MainService {
 
     return { total, taxes: calculatedTaxes }
 }
+
+
+  logout() {
+    const user = this.getToLocalStorage(Constants.LOCAL_USER)
+    user.jwt = ""
+    this.setToLocalStorage(user, Constants.LOCAL_USER)
+    window.location.reload()
+  }
+
 
 }

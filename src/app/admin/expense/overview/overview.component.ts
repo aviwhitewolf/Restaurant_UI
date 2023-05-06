@@ -123,7 +123,7 @@ export class OverviewComponent implements OnInit {
   dogrouping() {
     this.groupSummary = {}
     if (this.expense && this.expense?.length > 0) {
-      for (let index = 0; index < this.expense.length; index++) {
+      for (let index = 0; index < this.expense?.length; index++) {
         const element = this.expense[index];
         if (this.groupSummary[element?.category?.name]) {
           this.groupSummary[element?.category?.name]['debit'] = this.groupSummary[element?.category?.name].debit + element?.debit

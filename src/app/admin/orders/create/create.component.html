@@ -1,6 +1,6 @@
 <app-loader class="absolute top-0 left-0" *ngIf="loading"></app-loader>
 
-<div *ngIf="!loading && tables && tables.length == 0" class="bg-red-500">
+<div *ngIf="!loading && tables && tables?.length == 0" class="bg-red-500">
   <div class="mx-auto max-w-6xl py-3 px-3 sm:px-6 lg:px-8">
     <div class="flex flex-wrap items-start justify-between">
       <div class="items-start flex w-0 flex-1">

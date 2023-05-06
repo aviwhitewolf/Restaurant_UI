@@ -42,7 +42,7 @@ export class SearchEmployeeComponent implements OnInit {
       debounceTime(900),
       distinctUntilChanged())
       .subscribe(value => {
-        if (value && value.length > 3) {
+        if (value && value?.length > 3) {
           this.searchEmployee(value)
         } 
       });

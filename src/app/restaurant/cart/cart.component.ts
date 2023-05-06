@@ -56,7 +56,7 @@ export class CartComponent implements OnInit {
   }
 
   checkCartItems(): boolean {
-    return this.cartItems && Object.values(this.cartItems).length > 0 ? true : false
+    return this.cartItems && Object.values(this.cartItems)?.length > 0 ? true : false
   }
 
   navigateToCheckout() {

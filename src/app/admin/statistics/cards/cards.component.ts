@@ -29,7 +29,7 @@ export class CardsComponent implements OnInit {
 
     const percentage = Math.round((data[index].count / total) * 100)
 
-    return { 'width' : percentage + '%'}
+    return { 'width' : percentage + '%', 'background' : data[index].modeofpayment == 'offline' ? 'red' : 'green'}
 
   }
 

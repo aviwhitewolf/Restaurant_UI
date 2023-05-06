@@ -88,7 +88,7 @@ export class RightSideBarComponent implements OnInit, AfterViewInit {
 
     this.adminService.getMyOrders(start, end, slug, page, pageSize)
       .then((res: any) => {
-        if (res?.data?.data.length == 0) this.isLastItem = true
+        if (res?.data?.data?.length == 0) this.isLastItem = true
         this.orders = this.orders.concat(res.data.data);
         this.loading = false
         let pageCount = null
@@ -141,7 +141,7 @@ export class RightSideBarComponent implements OnInit, AfterViewInit {
     if (restaurantSlug) {
         this.route?.params.subscribe((param: any) => {
           if (!this.startDate) {
-            this.startDate = moment(this.orders[this.orders.length - 1].createdAt).toISOString()
+            this.startDate = moment(this.orders[this.orders?.length - 1].createdAt).toISOString()
           }
           this.getAllOrders(restaurantSlug, page, this.pageSize, this.startDate)
         })
@@ -205,7 +205,7 @@ export class RightSideBarComponent implements OnInit, AfterViewInit {
   private binarySearch() {
 
     let start = 0;
-    let end = this.orders.length - 1;
+    let end = this.orders?.length - 1;
 
     while (start <= end) {
       let mid = Math.floor(start + ((end - start) / 2));

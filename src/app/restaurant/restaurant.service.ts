@@ -159,7 +159,7 @@ export class RestaurantService {
     let cartDishCount = 0
     const cartItems = this.mainService.getToLocalStorage(Constants.LOCAL_CART) || {}
     for (const key in cartItems) {
-      cartDishCount = cartDishCount + Object.keys(cartItems[key]['category']).length
+      cartDishCount = cartDishCount + Object.keys(cartItems[key]['category'])?.length
     }
     return cartDishCount
   }
@@ -182,7 +182,7 @@ export class RestaurantService {
           cartDishes[dish.id].category[categoryName] = { id: id, "name": categoryName, "price": price, "quantity": 1 }
       }
 
-      if (cartDishes[dish.id].category && (Object.keys(cartDishes[dish.id].category).length === 0))
+      if (cartDishes[dish.id].category && (Object.keys(cartDishes[dish.id].category)?.length === 0))
         delete cartDishes[dish.id]
 
       this.mainService.setToLocalStorage(cartDishes, Constants.LOCAL_CART)
@@ -265,7 +265,7 @@ export class RestaurantService {
     return new Promise(async (resolve, reject) => {
       try {
         if (!this.restaurantData) {
-          const jwt = this.mainService.getToLocalStorage(Constants.LOCAL_USER).jwt || ""
+          const jwt = this.mainService.getToLocalStorage(Constants.LOCAL_USER)?.jwt || ""
 
           const headers = {
             Authorization: `Bearer ${jwt}`

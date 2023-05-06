@@ -66,7 +66,6 @@ export class WelcomeComponent implements OnInit {
   }
 
   public getImageUrl(image: any) {
-    console.log(image)
     return this.mainService.getImageUrl(image, Constants.IMAGE_JSON_STRUCTURE_WITHOUT_ATTRIBUTE)
   }
 

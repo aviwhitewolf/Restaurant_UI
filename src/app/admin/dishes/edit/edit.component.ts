@@ -330,7 +330,7 @@ export class EditComponent implements OnInit {
   public searchTags(data: string) {
     this.showTagsListDropDown = true
     this.searchingTags = true
-    if (data && data.length >= 2) {
+    if (data && data?.length >= 2) {
       this.searchingTagName = data
       this.debouncedUpdate()
     } else {
@@ -476,7 +476,7 @@ export class EditComponent implements OnInit {
 export function validate(
   ctrls: FormArray | AbstractControl
 ): ValidationErrors | null {
-  if (ctrls.value.length) {
+  if (ctrls.value?.length) {
     ctrls.markAllAsTouched();
     return null;
   }

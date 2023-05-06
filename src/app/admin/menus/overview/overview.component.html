@@ -23,7 +23,7 @@
         </button>
     </div>
 
-    <div *ngIf="!loading && menu && menu.length > 0">
+    <div *ngIf="!loading && menu && menu?.length > 0">
         <div class="pt-8 pb-12">
             <div class="max-w-6xl mx-auto px-4 space-y-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between py-4 items-center">
@@ -31,7 +31,7 @@
                         <h2 class="text-lg font-medium text-gray-900 ">
                             Menu
                         </h2>
-                        <span *ngIf="this.menu" class="text-xs text-gray-600">{{this.menu.length || 0}} entries
+                        <span *ngIf="this.menu" class="text-xs text-gray-600">{{this.menu?.length || 0}} entries
                             found</span>
                     </div>
 

@@ -1,9 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { Constants } from 'src/app/Constants/Interface/Constants';
 import { NgxQrcodeElementTypes, NgxQrcodeErrorCorrectionLevels } from '@techiediaries/ngx-qrcode';
 import { MainService } from 'src/app/main.service';
-import { AdminService } from 'src/app/admin/admin.service';
 import { RestaurantService } from 'src/app/restaurant/restaurant.service';
 
 @Component({
@@ -16,49 +14,43 @@ export class PrintQrcodeComponent implements OnInit {
 
   @Input()
   public table : any
-
-  public restaurantInfo : any
-  private slug : string = ''
   public elementType = NgxQrcodeElementTypes.IMG
   public correctionLevel = NgxQrcodeErrorCorrectionLevels.HIGH
   public qrCodeScale = Constants.QRCODE_SCALE
+  public restaurantInfo : any
 
   constructor(
     private restaurantService: RestaurantService,
-    private route: ActivatedRoute,
     private mainService : MainService
   ) { 
 
   }
   ngOnInit(): void {
+    this.restaurantInfo = this.restaurantService.getRestaurantData()
+  }
 
+
+  getValue(tableslug: string) {
     const restaurantSlug = this.restaurantService.getRestaurantSlug()
+
     if (restaurantSlug) {
-        this.slug = restaurantSlug
-        this.getRestaurantInfo(restaurantSlug)
-      }
-  }
-  getRestaurantInfo(slug: any) {
-
-    this.restaurantService.getRestaurantInfo(slug)
-    .then((result) => {
-      this.restaurantInfo = result
-    }).catch((err) => {
-      
-      console.log(err)
-      this.mainService.openDialog("Error", this.mainService.errorMessage(err), "E")
-    })
-
-  }
-
-
-  getValue(slug: string) {
-
-    if (this.slug) {
-      return Constants.UI_DOMAIN + `/welcome/${this.slug}/${slug}`
+      return Constants.UI_DOMAIN + `/restaurant/${restaurantSlug}/welcome/${tableslug}`
     }
     return ''
   }
+
+
+  getRestaurantSocialMedia(){
+
+    return this.restaurantService.getRestaurantData()?.socialMedia || []
+
+  }
+
+
+  getImageUrl(image : any){
+    return this.mainService.getImageUrl(image, Constants.IMAGE_JSON_STRUCTURE_WITHOUT_ATTRIBUTE, Constants.IMAGE_SIZE.normal)
+  }
+
 
 
 

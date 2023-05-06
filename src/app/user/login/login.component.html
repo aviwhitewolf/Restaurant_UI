@@ -1,33 +1,36 @@
 <app-loader class="absolute top-0 left-0" *ngIf="loading"></app-loader>
-<div *ngIf="!loading"  class="p-5 bg-white dark:bg-slate-800 ">
+<div *ngIf="!loading" class="p-5 bg-white dark:bg-slate-800 ">
     <div *ngIf="!otpScreen && loginScreen" class="space-y-6">
         <form [formGroup]="loginFormGroup" (ngSubmit)="sendOtp()">
             <!-- <input type="hidden" name="remember" value="true"> -->
-            <h1 class="font-semibold text-sm mt-6 dark:text-white">Login / Signup Info</h1>
+            <h1 class="font-semibold text-sm mt-6 dark:text-white">Log in or sign up to continue</h1>
             <div class="rounded-md shadow-sm mt-4 -space-y-px">
                 <div>
                     <label for="email-address" class="sr-only dark:text-white">Email address</label>
                     <input formControlName="email" name="email" type="email" autocomplete="email" required [ngClass]="{'border-2 border-red-500' : loginFormGroup.get('email')?.errors &&
             (loginFormGroup.get('email')?.touched ||  loginFormGroup.get('email')?.dirty)}"
                         class="dark:bg-slate-700 dark:placeholder:text-gray-400 dark:text-white dark:ring-slate-600 dark:border-gray-500 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                        placeholder="Email address (abc@mail.com)">
+                        placeholder="Enter email address.">
                 </div>
 
 
                 <div>
                     <label for="phone-number" class="sr-only dark:text-white">Phone Number</label>
                     <div class="relative rounded-md shadow-sm">
-                      <div class="absolute inset-y-0 left-0 flex items-center">
-                        <label for="country" class="sr-only">Country</label>
-                        <select id="country" name="country" autocomplete="country" class="focus:ring-indigo-500 focus:border-indigo-500 h-full py-0 pl-3 pr-7 border-transparent bg-transparent dark:text-gray-400 text-gray-600 sm:text-sm rounded-md">
-                          <option>{{getCountryAndCode()}}</option>
-                        </select>
-                      </div>
-                      <input formControlName="mobile" name="mobile" type="tel" autocomplete="mobile" required [ngClass]="{'border-2 border-red-500' : loginFormGroup.get('mobile')?.errors &&
-                      ( loginFormGroup.get('mobile')?.touched ||  loginFormGroup.get('mobile')?.dirty)}"          
-                       class="block w-full pl-24 dark:bg-slate-700 dark:placeholder:text-gray-400 dark:text-white dark:ring-slate-600 dark:border-gray-500  px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Mobile Number (9876543210)">
+                        <div class="absolute inset-y-0 left-0 flex items-center">
+                            <label for="country" class="sr-only">Country</label>
+                            <select id="country" name="country" autocomplete="country"
+                                class="focus:ring-indigo-500 focus:border-indigo-500 h-full py-0 pl-3 pr-6 border-transparent bg-transparent dark:text-gray-400 text-gray-600 text-xs rounded-md">
+                                <option>{{getCountryAndCode()}}</option>
+                            </select>
+                        </div>
+                        <input formControlName="mobile" name="mobile" type="tel" autocomplete="mobile" required
+                            [ngClass]="{'border-2 border-red-500' : loginFormGroup.get('mobile')?.errors &&
+                      ( loginFormGroup.get('mobile')?.touched ||  loginFormGroup.get('mobile')?.dirty)}"
+                            class="block w-full pl-20 dark:bg-slate-700 dark:placeholder:text-gray-400 dark:text-white dark:ring-slate-600 dark:border-gray-500  px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                            placeholder="  Enter mobile number">
                     </div>
-                  </div>
+                </div>
 
                 <!-- <div>
                     <label for="mobile" class="sr-only dark:text-white">Mobile</label>
@@ -56,19 +59,26 @@
         </form>
     </div>
 
-    <div *ngIf="otpScreen && !loginScreen">
+    <div  *ngIf="otpScreen && !loginScreen">
         <form [formGroup]="loginFormOtpGroup" (ngSubmit)="onLogin()" class="space-y-6">
 
             <div class="flex justify-between mt-6">
-                <h1 class="font-semibold text-sm dark:text-white">Verify OTP</h1>
-                <div class="flex items-center space-x-1">
-                    <a (click)="resendOtp()" [ngClass]="{'text-indigo-200' : wait}"
-                        class="text-indigo-500 underline text-sm cursor-pointer p-2 rounded-full custom-ripple"
-                        matRipple [matRippleCentered]="false" [matRippleDisabled]="false" [matRippleUnbounded]="false">
-                        Resend Otp
-                    </a>
-                    <span *ngIf="timeLeft != 0 && timeLeft != 60" class="text-indigo-500 text-xs">{{timeLeft}}s</span>
+                <div class="flex flex-col">
+                    <h1 class="font-semibold text-sm dark:text-white">Enter OTP sent to</h1>
+                    <span
+                        class="text-base dark:text-gray-200 text-gray-800 font-bold mt-4">{{getCountryCode()}}&nbsp;{{loginFormGroup.value.mobile}}</span>
                 </div>
+                <button [ngClass]="{'text-gray-200' : wait}" [disabled]="wait" (click)="resendOtp()" matRipple
+                    class="my-auto rounded-lg custom-ripple inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    
+                    <mat-icon class="mr-1 text-base text-gray-700 my-auto flex items-center">sms</mat-icon>
+                    
+                    <span class="text-gray-800 text-xs cursor-pointer">
+                        Resend OTP&nbsp;
+                    </span>
+                    <span *ngIf="timeLeft != 0 && timeLeft != 60"
+                        class="text-indigo-500 text-xs">in&nbsp;{{timeLeft}}s</span>
+                </button>
             </div>
             <div class="rounded-md shadow-sm mt-4 -space-y-px">
                 <div>
@@ -76,7 +86,7 @@
                     <input formControlName="otp" name="otp" type="tel" autocomplete="" required [ngClass]="{'border-2 border-red-500' : loginFormOtpGroup.get('otp')?.errors &&
                 ( loginFormOtpGroup.get('otp')?.touched ||  loginFormOtpGroup.get('otp')?.dirty)}"
                         class="dark:bg-slate-700 dark:placeholder:text-gray-400 dark:text-white dark:ring-slate-600 dark:border-gray-500  appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                        placeholder="otp (654321)">
+                        placeholder="Enter OTP">
                 </div>
             </div>
             <div class="text-red-500 text-xs mt-2">{{getErrors('loginFormOtpGroup')}}</div>

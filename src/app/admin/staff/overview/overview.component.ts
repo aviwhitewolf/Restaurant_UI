@@ -27,7 +27,7 @@ export class OverviewComponent implements OnInit {
     private _router: Router,
     private restaurantService : RestaurantService
   ) {
-    this.isLoggedIn = this.mainService.getToLocalStorage(Constants.LOCAL_USER).jwt && this.mainService.getToLocalStorage(Constants.LOCAL_USER).jwt.length > 0 ? true : false
+    this.isLoggedIn = this.mainService.getToLocalStorage(Constants.LOCAL_USER).jwt && this.mainService.getToLocalStorage(Constants.LOCAL_USER).jwt?.length > 0 ? true : false
     this.routeQueryParams$ = this.route.queryParams.subscribe(params => {
 
         this._router.navigate([], {

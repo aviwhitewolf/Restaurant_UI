@@ -26,7 +26,6 @@ export class UserInfoComponent implements OnInit, OnDestroy{
     private formBuilder: FormBuilder,
     public dialogRef: MatDialogRef<UserInfoComponent>,
     private userService: UserService,
-    private maimService: MainService,
     private mainService: MainService
   ) {
     document.body.classList.add("cdk-global-scrollblock");
@@ -34,7 +33,7 @@ export class UserInfoComponent implements OnInit, OnDestroy{
 
 
   ngOnInit(): void {
-    this.user = this.maimService.getToLocalStorage(Constants.LOCAL_USER)
+    this.user = this.mainService.getToLocalStorage(Constants.LOCAL_USER)
     if (this.user && this.user.jwt) {
       this.checkUserIsLoggedIn(this.user.jwt)
     } else {
@@ -74,7 +73,7 @@ export class UserInfoComponent implements OnInit, OnDestroy{
           this.isLogin = true
           this.user.username = this.updateFormGroup.value.username
           this.user.fullName = this.updateFormGroup.value.fullName
-          this.maimService.setToLocalStorage(this.user, Constants.LOCAL_USER)
+          this.mainService.setToLocalStorage(this.user, Constants.LOCAL_USER)
           this.loading = false
           this.mainService.openDialog("User Info", "Information Updated Successfully", "S", true, false)
         }).catch((err) => {
@@ -90,10 +89,7 @@ export class UserInfoComponent implements OnInit, OnDestroy{
   }
 
   logout() {
-    const user = this.maimService.getToLocalStorage(Constants.LOCAL_USER)
-    user.jwt = ""
-    this.maimService.setToLocalStorage(user, Constants.LOCAL_USER)
-    window.location.reload()
+    this.mainService.logout()
   }
 
 
@@ -112,12 +108,12 @@ export class UserInfoComponent implements OnInit, OnDestroy{
       }
 
       if (this.updateFormGroup.get('username')?.errors?.['required']) {
-        if (errorText.length > 0) errorText += " & "
+        if (errorText?.length > 0) errorText += " & "
         errorText += "Username is required"
       }
 
       if (this.updateFormGroup.get('fullName')?.errors?.['fullName']) {
-        if (errorText.length > 0) errorText += " & "
+        if (errorText?.length > 0) errorText += " & "
         errorText += "Name is invalid"
       }
 

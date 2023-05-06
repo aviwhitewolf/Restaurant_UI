@@ -110,7 +110,7 @@ export class EditComponent implements OnInit {
             documentVerified: this.employeeFormGroup.value.documentVerified
           }
 
-          if (this.files.length > 0) {
+          if (this.files?.length > 0) {
             this.formdata.delete('files.documents')
             this.files.forEach((file: File) => this.formdata.append('files.documents', file, file.name))
           } else {
@@ -292,7 +292,7 @@ export class EditComponent implements OnInit {
   async uploadFile(event: any) {
     let fileList: FileList = event.target.files;
 
-    if (fileList.length > 0) {
+    if (fileList?.length > 0) {
 
       let file: File = fileList[0];
 

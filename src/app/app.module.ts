@@ -9,7 +9,7 @@ import { MatRippleModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import { PolicyComponent } from './policy/policy.component';
 import { MarkdownModule } from 'ngx-markdown';
 import { MatIconModule } from '@angular/material/icon';
-import { ServiceWorkerModule } from '@angular/service-worker';
+import { ServiceWorkerModule, SwPush } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { EntryPointComponent } from './entry-point/entry-point.component';
 import { EntryPointModule } from './entry-point/entry-point.module';
@@ -37,7 +37,7 @@ import { EntryPointModule } from './entry-point/entry-point.module';
       registrationStrategy: 'registerWhenStable:30000'
     })
   ],
-  providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-IN' }],
+  providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-IN' }, SwPush],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

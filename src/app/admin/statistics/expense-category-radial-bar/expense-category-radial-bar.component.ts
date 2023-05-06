@@ -32,12 +32,12 @@ export class ExpenseCategoryRadialBarComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    if (this.data.length > 0)
+    if (this.data?.length > 0)
       this.renderChart(this.data, 'debit')
   }
 
   changeCategoryAndRenderChart(category: string) {
-    if (this.data.length > 0){
+    if (this.data?.length > 0){
       this.category = category
       this.renderChart(this.data, category)
     }

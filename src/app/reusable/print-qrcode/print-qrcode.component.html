@@ -340,13 +340,13 @@
                                                                     </p>
                                                                 </td>
                                                             </tr>
-                                                            <tr *ngFor="let socialMedia of restaurantInfo?.socialMedia">
+                                                            <tr *ngFor="let socialMedia of getRestaurantSocialMedia()">
                                                                 <td align="center" valign="top"
                                                                     class="flex items-center"
-                                                                    style="padding:0;Margin:0;">
+                                                                    style="padding:0;margin-top:6px;">
                                                                     <img [title]="socialMedia?.name"
-                                                                        [src]="'/assets/icons/' + socialMedia?.name + '.png'"
-                                                                        alt="Fb" width="28px" height="28px"
+                                                                        [src]="getImageUrl(socialMedia?.icon)"
+                                                                        [alt]="socialMedia?.name" width="20px" height="20px"
                                                                         style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic;">
                                                                     <span
                                                                         class="ml-2 text-sm">{{socialMedia?.handle}}</span>

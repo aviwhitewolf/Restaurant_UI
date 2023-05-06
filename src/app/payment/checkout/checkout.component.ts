@@ -126,7 +126,7 @@ export class CheckoutComponent implements OnInit {
               this.isLoading = false
               this.mainService.setshowPaymentStatus(true)
               localStorage.setItem(Constants.LOCAL_CART, "")
-              this.zone.run(() => this.router.navigate(['/restaurant', this.slug, 'payment', Constants.SUCCESS], { queryParams: { tb: this.tableFormGroup.value.table, message: "Order placed, preparing your order, kindly make your payment on desk" } }));
+              this.zone.run(() => this.router.navigate(['/restaurant', this.slug, 'payment', Constants.SUCCESS], { queryParams: { tb: this.tableFormGroup.value.table, message: "Order placed, preparing your order, kindly make your payment on reception." } }));
             })
             .catch((err) => {
               this.isLoading = false
@@ -158,7 +158,7 @@ export class CheckoutComponent implements OnInit {
             //   "Order Id", response.razorpay_order_id, "Signature", response.razorpay_signature)
 
             localStorage.setItem(Constants.LOCAL_CART, "")
-            this.router.navigate(['/restaurant', this.slug, 'payment', Constants.SUCCESS], { queryParams: { tb: this.tableFormGroup.value.table, message: "Payment Received, preparing your order" } })
+            this.router.navigate(['/restaurant', this.slug, 'payment', Constants.SUCCESS], { queryParams: { tb: this.tableFormGroup.value.table, message: "Payment Received, preparing your order. Have a great day." } })
 
           } catch (err: any) {
             this.isLoading = false

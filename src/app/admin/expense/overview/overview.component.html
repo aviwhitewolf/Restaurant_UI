@@ -36,12 +36,12 @@
                     <div [ngStyle]="{'color' : $any(item)?.value?.colors?.color, 'background-color' : $any(item)?.value?.colors?.backgroundColor}"
                         class="flex-shrink-0 flex items-center justify-center w-16 text-xl font-medium rounded-l-md">{{
                         $any(item)?.key?.substring(0,1)}}</div>
-                    <div class="flex-1 flex items-center justify-between rounded-r-md truncate">
+                    <div class="flex-1 flex items-center justify-between rounded-r-md truncate py-2">
                         <div class="flex-1 px-4 py-2 text-sm truncate">
-                            <p class="text-gray-900 font-medium hover:text-gray-600"> {{item?.key}} </p>
-                            <p class="text-gray-500">Debit: <b class="text-red-500">{{ ($any(item)?.value?.debit ?
+                            <p class="text-gray-500 text-xs font-medium "> {{item?.key}} </p>
+                            <p class="text-gray-500 mt-2">Debit: <b class="text-red-500">{{ ($any(item)?.value?.debit ?
                                     $any(item)?.value?.debit : 0 )| currency : $any(item)?.value?.currency }}</b></p>
-                            <p class="text-gray-500">Credit: <b class="text-green-600">{{ ($any(item)?.value?.credit ?
+                            <p class="text-gray-500 ">Credit: <b class="text-green-600">{{ ($any(item)?.value?.credit ?
                                     $any(item)?.value?.credit : 0) | currency : $any(item)?.value?.currency }}</b></p>
                         </div>
 

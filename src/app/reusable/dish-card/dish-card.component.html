@@ -16,7 +16,7 @@
         <h1 class="text-center text-gray-800 text-xl dark:text-white font-bold mb-2 truncate ...">
             {{dish.name}}
         </h1>
-        <p *ngIf="dish.category.length > 0" class="capitalize text-gray-400 text-center text-xs truncate ...">
+        <p *ngIf="dish.category?.length > 0" class="capitalize text-gray-400 text-center text-xs truncate ...">
             <span>{{getCategoryString()}}</span>
         </p>
         <div class="flex justify-between text-lg mt-4 font-bold">
@@ -53,7 +53,7 @@
 
         <div class="pt-4 text-xs sm:text-base px-2 md:px-3">
             <p class="dark:text-white font-bold truncate ...">{{dish.name}}</p>
-            <p *ngIf="dish.category.length > 0" class="capitalize text-gray-500 text-xs truncate ...">
+            <p *ngIf="dish.category?.length > 0" class="capitalize text-gray-500 text-xs truncate ...">
                 {{getCategoryString()}}</p>
             <div class="flex justify-between items-center mb-2 md:mb-4 font-bold mt-3 px-1 mx-auto"
                 style="max-width: 200px">
@@ -89,7 +89,7 @@
             <h3 class="flex dark:text-white">{{dish.name}}</h3>
             <p class="ml-4 text-red-500 dark:text-red-700">{{dish.category[0]?.price | currency : dish.currency}}</p>
         </div>
-        <p class="capitalize flex mt-2 text-xs text-gray-500" *ngIf="dish.category.length > 0">{{getCategoryString()}}
+        <p class="capitalize flex mt-2 text-xs text-gray-500" *ngIf="dish.category?.length > 0">{{getCategoryString()}}
         </p>
         <p *ngIf="!dish?.inStock" class="mt-2 capitalize text-xs font-bold text-red-500">OUT OF STOCK</p>
         <div class="mt-2 flex-1 flex items-center justify-between text-sm">

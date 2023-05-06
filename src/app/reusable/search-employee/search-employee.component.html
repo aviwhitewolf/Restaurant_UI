@@ -14,7 +14,7 @@
             clip-rule="evenodd" />
         </svg>
         <input type="text" cdkFocusInitial
-          (ngModelChange)="this.searchUpdate.next($event); this.loading = $event && $event.length > 3 ? true : false; employees = $event.length == 0 ? null : employees; selectedEmpAfterSearch = $event.length == 0 ? null : selectedEmpAfterSearch"
+          (ngModelChange)="this.searchUpdate.next($event); this.loading = $event && $event?.length > 3 ? true : false; employees = $event?.length == 0 ? null : employees; selectedEmpAfterSearch = $event?.length == 0 ? null : selectedEmpAfterSearch"
           formControlName="search" type="text" name="search" autocomplete="search"
           class="h-12 w-full border-0 bg-transparent pl-11 pr-4 text-sm text-gray-800 placeholder-gray-400 focus:ring-0"
           placeholder="Search... (min 3 words required)" role="combobox" aria-expanded="false" aria-controls="options">

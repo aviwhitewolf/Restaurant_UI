@@ -25,7 +25,7 @@ export class OrdersComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router
   ) {
-    this.isLoggedIn = this.mainService.getToLocalStorage(Constants.LOCAL_USER).jwt && this.mainService.getToLocalStorage(Constants.LOCAL_USER).jwt.length > 0 ? true : false
+    this.isLoggedIn = this.mainService.getToLocalStorage(Constants.LOCAL_USER).jwt && this.mainService.getToLocalStorage(Constants.LOCAL_USER).jwt?.length > 0 ? true : false
   }
 
   ngOnInit(): void {

@@ -25,7 +25,7 @@
     </div>
 
 
-    <div *ngIf="!loading && tables && tables.length > 0">
+    <div *ngIf="!loading && tables && tables?.length > 0">
         <div class="pt-8 pb-12">
             <div class="max-w-6xl mx-auto px-4 space-y-4 sm:px-6 lg:px-8">
 
@@ -35,7 +35,7 @@
                         <h2 class="text-lg font-medium text-gray-900 ">
                             Tables
                         </h2>
-                        <span *ngIf="this.tables" class="text-xs text-gray-600">{{this.tables.length || 0}} entries
+                        <span *ngIf="this.tables" class="text-xs text-gray-600">{{this.tables?.length || 0}} entries
                             found</span>
                     </div>
 
@@ -82,9 +82,22 @@
                                         class="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-red-500">
                                         <mat-icon class="text-base ">
                                             delete</mat-icon>
-                                        <span class="ml-2">Delete</span>
+                                        <span>Delete</span>
                                     </a>
                                 </button>
+
+                                <div
+                                    class="cursor-pointer -ml-px border-t sm:border-t-0 sm:w-0 flex-1 flex text-gray-500 hover:text-gray-700">
+
+                                    <a (click)="showDownloadQrCodes = true ;selectedTable = table; $event.stopPropagation();"
+                                        class="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-indigo-500">
+                                        <mat-icon class="text-base ">
+                                            visibility</mat-icon>
+                                        <span>View</span>
+                                    </a>
+
+                                </div>
+
                                 <div
                                     class="cursor-pointer -ml-px border-t sm:border-t-0 sm:w-0 flex-1 flex text-gray-500 hover:text-gray-700">
 
@@ -92,7 +105,7 @@
                                         class="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-indigo-500">
                                         <mat-icon class="text-base ">
                                             edit</mat-icon>
-                                        <span class="ml-2">Edit</span>
+                                        <span>Edit</span>
                                     </a>
 
                                 </div>

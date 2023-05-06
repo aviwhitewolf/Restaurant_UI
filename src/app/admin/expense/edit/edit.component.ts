@@ -84,7 +84,7 @@ export class EditComponent implements OnInit {
             date : moment(this.expenseFormGroup?.value?.date).endOf('day').toISOString()
           }
 
-          if (this.files.length > 0) {
+          if (this.files?.length > 0) {
             this.formdata.delete('files.upload')
             this.files.forEach((file: File) => this.formdata.append('files.upload', file, file?.name))
           } else {
@@ -278,7 +278,7 @@ export class EditComponent implements OnInit {
   async uploadFile(event: any) {
     let fileList: FileList = event.target.files;
 
-    if (fileList.length > 0) {
+    if (fileList?.length > 0) {
 
       let file: File = fileList[0];
 

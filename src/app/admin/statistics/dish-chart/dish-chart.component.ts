@@ -60,13 +60,13 @@ export class DishChartComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    if (this.data.length > 0)
+    if (this.data?.length > 0)
       this.renderChart(this.data, this.start, this.end, this.activeCategory)
   }
 
 
   changeCategoryAndRenderChart(category: DISH_CHART_CONSTANT) {
-    if (this.data.length > 0) {
+    if (this.data?.length > 0) {
       this.activeCategory = category
       this.renderChart(this.data, this.start, this.end, category)
     }

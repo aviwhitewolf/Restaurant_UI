@@ -39,7 +39,7 @@ export class CartCardComponent implements OnInit {
   removeDish(name : string) {
     const cartDishes = this.mainService.getToLocalStorage(Constants.LOCAL_CART)
     delete cartDishes[this.dish.id].category[name]
-    if(Object.keys(cartDishes[this.dish.id].category).length == 0){
+    if(Object.keys(cartDishes[this.dish.id].category)?.length == 0){
       delete cartDishes[this.dish.id]
     }
     this.mainService.setToLocalStorage(cartDishes, Constants.LOCAL_CART)

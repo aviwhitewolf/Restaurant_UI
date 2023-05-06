@@ -1,10 +1,10 @@
 import * as moment from 'moment';
-
+import { environment } from 'src/environments/environment';
 export class Constants {
-  public static readonly UI_DOMAIN = "http://localhost:4200"
-  // public static readonly UI_DOMAIN = "http://192.168.1.4:4200"
-  public static readonly BASE_URL = "http://localhost:1337"
-  // public static BASE_URL = "http://192.168.1.4:1337"
+  public static readonly UI_DOMAIN = environment.uiDomain
+  // public static readonly UI_DOMAIN = "http://192.168.29.228:4200"
+  public static readonly BASE_URL = environment.baseUrl
+  // public static BASE_URL = "http://192.168.29.228:1337"
   public static readonly LOCAL_CART = "cart"
   public static readonly LOCAL_USER = "user"
   public static readonly LOCAL_RECENT_DISHES = "recent-dishes"
@@ -12,7 +12,7 @@ export class Constants {
   public static readonly SUCCESS = "success"
   public static readonly FAILED = "failed"
   public static readonly RAZORPAY_SCRIPT_URL = 'https://checkout.razorpay.com/v1/checkout.js'
-  public static readonly RAZORPAY_KEY = 'rzp_test_kHx9wkorHyQIIZ'
+  public static readonly RAZORPAY_KEY = environment.razorpayKey
   public static readonly CREATE_ORDER_URL = "/api/payment/createOrder"
   public static readonly ORDER_URL = "/api/orders"
   public static readonly ME_URL = "/api/users/me"
@@ -257,7 +257,7 @@ export class Constants {
   public static readonly ADMIN_ORDER_STATUS_DROPDOWN = 'Payment Status'
   public static readonly ADMIN_FOOD_STATUS_DROPDOWN = 'Food Status'
   public static readonly ADMIN_FOOD_PREPARATION_DROPDOWN = 'Preparation Time'
-  public static readonly MAX_IMAGE_SIZE_IN_MB: string = '5';
+  public static readonly MAX_IMAGE_SIZE_IN_MB: string = '8';
 
   public static readonly IMAGE_JSON_STRUCTURE_WITH_ATTRIBUTE = "WITH_ATTRIBUTE"
   public static readonly IMAGE_JSON_STRUCTURE_WITHOUT_ATTRIBUTE = "WITHOUT_ATTRIBUTE"

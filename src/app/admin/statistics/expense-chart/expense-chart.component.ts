@@ -51,19 +51,19 @@ export class ExpenseChartComponent implements OnInit {
   constructor(private mainService: MainService) { }
 
   ngOnInit(): void {
-    if (this.data.length > 0)
+    if (this.data?.length > 0)
       this.renderChart(this.data, this.start, this.end)
   }
 
   changeCategoryAndRenderChart(category: string) {
-    if (this.data.length > 0)
+    if (this.data?.length > 0)
       this.renderChart(this.data, this.start, this.end, category)
   }
 
   renderChart(data: any, start: string, end: string, category: string = "") {
 
     const chartData = this.formatExpense(data, start, end, category)
-    if (chartData.credit.length > 0 || chartData.debit.length > 0)
+    if (chartData.credit?.length > 0 || chartData.debit?.length > 0)
       this.expenseChartOptions = {
         series: [
           {

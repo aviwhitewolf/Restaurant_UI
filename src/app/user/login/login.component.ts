@@ -15,12 +15,12 @@ import { RestaurantService } from 'src/app/restaurant/restaurant.service';
 })
 export class LoginComponent implements OnInit {
 
-  private timer : any 
-  public wait : boolean = false
+  private timer: any
+  public wait: boolean = false
   public timeLeft: number = Constants.OTP_TIMER;
   private mobileRegrex = /^[5-9]\d{9}$/
   public otpScreen: boolean = false
-  public loginScreen : boolean = true
+  public loginScreen: boolean = true
   private number: number = 0
   private email: string = ""
   public loading: boolean = false
@@ -38,14 +38,14 @@ export class LoginComponent implements OnInit {
     private mainService: MainService,
     public dialog: MatDialog,
     private _snackBar: MatSnackBar,
-    private restaurantService : RestaurantService
-    ) { }
+    private restaurantService: RestaurantService
+  ) { }
 
   ngOnInit(): void {
   }
 
-  resendOtp(){
-    if(!this.wait)
+  resendOtp() {
+    if (!this.wait)
       this.sendOtp()
   }
 
@@ -60,32 +60,32 @@ export class LoginComponent implements OnInit {
       number: this.loginFormGroup.value.mobile
     }
 
-    if(this.restaurantService.getRestaurantSlug())
-    axios.post(Constants.BASE_URL + Constants.LOGIN_URL + `/${this.restaurantService.getRestaurantSlug()}`, loginData)
-      .then(response => {
-        this.wait = true
-        this.startTimer()
-        this.otpScreen = true
-        this.loginScreen = false
-        this.number = this.loginFormGroup.value.mobile
-        this.email = this.loginFormGroup.value.email
-        this._snackBar.openFromComponent(SnackbarComponent, {
-          data: {
-            message: 'Otp sent successfully',
-            type: 'S'
+    if (this.restaurantService.getRestaurantSlug())
+      axios.post(Constants.BASE_URL + Constants.LOGIN_URL + `/${this.restaurantService.getRestaurantSlug()}`, loginData)
+        .then(response => {
+          this.wait = true
+          this.startTimer()
+          this.otpScreen = true
+          this.loginScreen = false
+          this.number = this.loginFormGroup.value.mobile
+          this.email = this.loginFormGroup.value.email
+          this._snackBar.openFromComponent(SnackbarComponent, {
+            data: {
+              message: 'Otp sent successfully',
+              type: 'S'
 
-          },
-          panelClass : 'snack-bar',
-          horizontalPosition : 'center',
-          verticalPosition : 'top',
-          duration: 1700
-        });
-        this.loading = false
-      }).catch(err => {
-        this.loading = false
-        console.log("Error", err)
-        this.mainService.openDialog("Error", this.mainService.errorMessage(err), "E")
-      })
+            },
+            panelClass: 'snack-bar',
+            horizontalPosition: 'center',
+            verticalPosition: 'top',
+            duration: 1700
+          });
+          this.loading = false
+        }).catch(err => {
+          this.loading = false
+          console.log("Error", err)
+          this.mainService.openDialog("Error", this.mainService.errorMessage(err), "E")
+        })
 
   }
 
@@ -99,7 +99,7 @@ export class LoginComponent implements OnInit {
 
       axios.post(Constants.BASE_URL + Constants.VERIFY_USER_URL, loginData)
         .then((response: any) => {
-          if(this.timer) clearInterval(this.timer);
+          if (this.timer) clearInterval(this.timer);
           this.loginScreen = false
           this.otpScreen = false
           const jwt = response.data.jwt
@@ -143,17 +143,17 @@ export class LoginComponent implements OnInit {
         }
 
         if (this.loginFormGroup.get('email')?.errors?.['required']) {
-          if (errorText.length > 0) errorText += " & "
+          if (errorText?.length > 0) errorText += " & "
           errorText += "Email is required"
         }
 
         if (this.loginFormGroup.get('email')?.errors?.['email']) {
-          if (errorText.length > 0) errorText += " & "
+          if (errorText?.length > 0) errorText += " & "
           errorText += "Email is invalid"
         }
 
         if (this.loginFormGroup.get('mobile')?.errors?.['pattern']) {
-          if (errorText.length > 0) errorText += " & "
+          if (errorText?.length > 0) errorText += " & "
           errorText += "Mobile is invalid"
         }
 
@@ -169,7 +169,7 @@ export class LoginComponent implements OnInit {
         }
 
         if (this.loginFormOtpGroup.get('otp')?.errors?.['maxLength']) {
-          if (errorText.length > 0) errorText += " & "
+          if (errorText?.length > 0) errorText += " & "
           errorText += "Otp length should be 6"
         }
 
@@ -183,20 +183,26 @@ export class LoginComponent implements OnInit {
 
 
   startTimer() {
-   this.timer = setInterval(() => {
-      if(this.timeLeft > 0) {
+    this.timer = setInterval(() => {
+      if (this.timeLeft > 0) {
         this.timeLeft--;
       } else {
         this.wait = false
         this.timeLeft = Constants.OTP_TIMER;
         clearInterval(this.timer);
       }
-    },1000)
+    }, 1000)
   }
   getCountryAndCode() {
     const restaurant = this.restaurantService.getRestaurantData()
-    return restaurant?.country + " " + restaurant?.countryCode 
-    }
+    return restaurant?.country + " " + restaurant?.countryCode
+  }
+
+  getCountryCode() {
+    const restaurant = this.restaurantService.getRestaurantData()
+    return restaurant?.countryCode
+  }
+
 
 
 }
