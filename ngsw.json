@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1684044445592,
+  "timestamp": 1684044617056,
   "index": "https://aviwhitewolf.github.io/Restaurant_UI/index.html",
   "assetGroups": [
     {
@@ -27,7 +27,7 @@
         "https://aviwhitewolf.github.io/Restaurant_UI/common.02796ad1ecb018ee.js",
         "https://aviwhitewolf.github.io/Restaurant_UI/favicon.ico",
         "https://aviwhitewolf.github.io/Restaurant_UI/index.html",
-        "https://aviwhitewolf.github.io/Restaurant_UI/main.d8abbc3fbbdbc0f8.js",
+        "https://aviwhitewolf.github.io/Restaurant_UI/main.b153eab2f74da91d.js",
         "https://aviwhitewolf.github.io/Restaurant_UI/manifest.webmanifest",
         "https://aviwhitewolf.github.io/Restaurant_UI/polyfills.20d9d61b9e9c65cb.js",
         "https://aviwhitewolf.github.io/Restaurant_UI/runtime.cfa05e45804a758a.js",
@@ -94,8 +94,8 @@
     "https://aviwhitewolf.github.io/Restaurant_UI/assets/svgs/background-2.svg": "9e69c5adbd8725fa5a96c3316ead15b4e55b7567",
     "https://aviwhitewolf.github.io/Restaurant_UI/common.02796ad1ecb018ee.js": "433100dd58adebd115233bbf9f3234dda5303210",
     "https://aviwhitewolf.github.io/Restaurant_UI/favicon.ico": "22f6a4a3bcaafafb0254e0f2fa4ceb89e505e8b2",
-    "https://aviwhitewolf.github.io/Restaurant_UI/index.html": "67ff57119d5d488792b24fb060c0c3c6f12a08b7",
-    "https://aviwhitewolf.github.io/Restaurant_UI/main.d8abbc3fbbdbc0f8.js": "200d1a76d5e2c2dfcbfe3029792917033b8ff6ec",
+    "https://aviwhitewolf.github.io/Restaurant_UI/index.html": "40bde9c879165506d03126aa97a456bdfeef7ded",
+    "https://aviwhitewolf.github.io/Restaurant_UI/main.b153eab2f74da91d.js": "7c6e2a214e1419b49f50528faea708966a5bd34b",
     "https://aviwhitewolf.github.io/Restaurant_UI/manifest.webmanifest": "26b2416ed397bf53842adb8e23c3d43d82617ab1",
     "https://aviwhitewolf.github.io/Restaurant_UI/polyfills.20d9d61b9e9c65cb.js": "90207411e41ccfa8ec88112c98f9fa2857c9dded",
     "https://aviwhitewolf.github.io/Restaurant_UI/runtime.cfa05e45804a758a.js": "930b80e37b1bb15f7bf122416c88ad74aa0cb9ef",
