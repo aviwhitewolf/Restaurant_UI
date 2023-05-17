@@ -79,7 +79,7 @@ export class DishCardComponent implements OnInit {
   }
 
   public getImageUrl(image: any) {
-    return this.mainService.getImageUrl(image, Constants.IMAGE_JSON_STRUCTURE_WITHOUT_ATTRIBUTE)
+    return this.mainService.getImageUrl(image[0], Constants.IMAGE_JSON_STRUCTURE_WITH_ATTRIBUTE)
   }
 
 }

@@ -102,8 +102,6 @@ export class DashboardComponent implements OnInit {
               const previousSubscription = await this.adminService.findSubscribeToWebpushNotification(deviceInfo, slug)
               if (!previousSubscription) throw new Error("Not Found in the database")
 
-              console.log("Previous Subscription Data", previousSubscription.data)
-
             } catch (error) {
 
               console.log("Error=====", error)

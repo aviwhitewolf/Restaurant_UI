@@ -98,35 +98,17 @@ export class RestaurantService {
                 inStock: false,
                 price: 0.0
               }
-              const largeImage = item.attributes.image.data[0].attributes.formats?.large?.url
-              const thumbnailImage = item.attributes.image.data[0].attributes.formats?.thumbnail?.url
-              const mediumImage = item.attributes.image.data[0].attributes.formats?.medium?.url
-              const smallImage = item.attributes.image.data[0].attributes.formats?.small?.url
-              let imageToDisplay = ""
-
-              if (mediumImage) {
-                imageToDisplay = Constants.BASE_URL + mediumImage
-              } else if (smallImage) {
-                imageToDisplay = Constants.BASE_URL + smallImage
-              } else if (thumbnailImage) {
-                imageToDisplay = Constants.BASE_URL + thumbnailImage
-              } else if (largeImage) {
-                imageToDisplay = Constants.BASE_URL + largeImage
-              }
 
               mDish.name = item?.attributes?.name
               mDish.id = item?.id
               mDish.description = item?.attributes?.description
               mDish.currency = item?.attributes?.currency
               mDish.price = item?.attributes?.price
-              mDish.image = imageToDisplay
+              mDish.image = item.attributes.image.data
               mDish.inStock = item?.attributes?.inStock
               mDish.category = item?.attributes?.category
               mDish.type = item?.attributes?.type
               mDish.tags = item?.attributes?.tags?.data?.map((tag: any) => tag?.attributes?.name)
-              mDish.images = item?.attributes?.image?.data?.map((item: any) => {
-                return Constants.BASE_URL + item?.attributes?.url
-              })
               return mDish
             })
             this.menuAndDishes.push(obj)

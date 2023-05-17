@@ -2,7 +2,7 @@
   <div class="mx-auto z-50 max-w-2xl overflow-auto">
     <div class="mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl ">
       <div class="relative sm:mx-auto">
-        <img loading="lazy" [src]="data.image" class="object-cover w-full h-80" [alt]="data.name" />
+        <img loading="lazy" [src]="getImageUrl(data.image)" class="object-cover w-full h-80" [alt]="data.name" />
       </div>
       <div class="pt-8 md:mb-0 px-4">
         <h2 class="mb-4 font-sans text-2xl font-bold tracking-tight text-gray-900 dark:text-white">

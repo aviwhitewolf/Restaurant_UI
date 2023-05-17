@@ -1,0 +1,62 @@
+<div class="dark:bg-slate-900 w-full min-h-screen pb-32">
+    <div class="mx-auto z-50 max-w-2xl overflow-auto">
+      <div class="mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl ">
+        <div class="relative sm:mx-auto">
+          <img loading="lazy" [src]="getImageUrl(data.image)" class="object-cover w-full h-80" [alt]="data.name" />
+        </div>
+        <div class="pt-8 md:mb-0 px-4">
+          <h2 class="mb-4 font-sans text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+            {{data.name}}
+          </h2>
+  
+          <dl *ngIf="data?.inStock" class="mb-8 border rounded-md border-gray-200  dark:border-gray-700">
+            <div *ngFor="let dishCategory of data?.category;let first=first; let last = last"
+              class="flex justify-between items-center px-4 py-5 sm:gap-4 sm:px-6"
+              [ngClass]="{'border-b border-gray-200 dark:border-gray-700' : !last}">
+              <div class="grid-cols-3 ">
+                <dt class="text-base flex items-center font-medium text-gray-500 dark:text-gray-100">
+                  {{dishCategory?.name}}
+                  <div *ngIf="dishCategory?.metadata" class="dark:text-gray-500 text-gray-400 text-xs font-medium">
+                    &nbsp;({{dishCategory?.metadata}})
+                  </div>
+                </dt>
+                <dd class="mt-1 text-sm text-red-500 dark:text-red-700 font-semibold sm:mt-0 sm:col-span-2">
+                  {{dishCategory?.price | currency : data.currency}}</dd>
+              </div>
+              <div class="flex items-center space-x-3 border-2 dark:border-gray-700 rounded-full">
+  
+                <button (click)="changeDishQuantity(dishCategory, -1)" [disabled]="dishQuantity[dishCategory?.name] <= 0 || !dishQuantity[dishCategory?.name]"
+                  class="bg-indigo-500 cursor-pointer rounded-full flex justify-center items-center w-8 h-8 active:bg-indigo-700 disabled:bg-indigo-300 custom-ripple"
+                  matRipple [matRippleCentered]="false" [matRippleDisabled]="false" [matRippleUnbounded]="false">
+                  <mat-icon class="text-white">remove</mat-icon>
+                </button>
+                <p class="text-gray-500 text-sm dark:text-gray-100">{{dishQuantity[dishCategory?.name] || 0}}</p>
+                <button (click)="changeDishQuantity(dishCategory, 1)"
+                  class="ml-4 bg-indigo-500 cursor-pointer rounded-full flex justify-center items-center w-8 h-8 active:bg-indigo-700  custom-ripple"
+                  matRipple [matRippleCentered]="false" [matRippleDisabled]="false" [matRippleUnbounded]="false">
+                  <mat-icon class="text-white">add</mat-icon>
+                </button>
+              </div>
+            </div>
+          </dl>
+          <dl *ngIf="!data?.inStock" class="flex text-center mb-8 border rounded-md border-gray-200 dark:border-gray-700">
+            <h1 class="capitalize py-4 mx-auto font-bold text-red-500">OUT OF STOCK</h1>
+          </dl>
+  
+          <markdown class="dark:text-white text-justify" [data]="data.description"></markdown>
+  
+        </div>
+      </div>
+  
+      <div class="fixed w-full flex justify-start items-center">
+  
+        
+
+        <button (click)="openLink($event)" class="fixed top-2 left-2  inline-flex items-center p-1 border border-transparent rounded-full shadow-sm bg-opacity-50 text-white bg-gray-900 hover:bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black">
+            <mat-icon class="text-white">close</mat-icon>
+          </button>
+
+      </div>
+  
+    </div>
+  </div>

@@ -7,6 +7,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { SingleDishComponent } from '../single-dish/single-dish.component';
 import { Dish } from 'src/app/Constants/Interface/dish';
+import { SingleDishBottomSheetComponent } from '../single-dish-bottom-sheet/single-dish-bottom-sheet.component';
+import {MatBottomSheet, MatBottomSheetRef} from '@angular/material/bottom-sheet';
 
 @Component({
   selector: 'app-search',
@@ -29,7 +31,8 @@ export class SearchComponent implements OnInit {
     public dialog: MatDialog,
     private route: ActivatedRoute,
     private router: Router,
-    private restaurantService : RestaurantService
+    private restaurantService : RestaurantService,
+    private _bottomSheet: MatBottomSheet
   ) { }
 
   ngOnInit(): void {
@@ -83,17 +86,30 @@ export class SearchComponent implements OnInit {
       if (mMenu) {
         const modalData = mMenu?.dishes.find((dish: Dish) => dish.id == dishId)
         if (modalData) {
-          const dialogRef = this.dialog.open(SingleDishComponent, {
-            width: '100%',
-            minWidth: '100vw',
+          // const dialogRef = this.dialog.open(SingleDishComponent, {
+          //   width: '100%',
+          //   minWidth: '100vw',
+          //   data: modalData,
+          //   height: "100%",
+          //   panelClass: 'custom-dishmodalbox'
+          // });
+          // dialogRef.afterClosed().subscribe(result => {
+          //   document.body.classList.remove("cdk-global-scrollblock");
+          //   this.router.navigate([], { queryParams: { tb: this.tb }, relativeTo: this.route });
+          // });
+
+
+          const bottomSheetRef =  this._bottomSheet.open(SingleDishBottomSheetComponent, {
             data: modalData,
-            height: "100%",
-            panelClass: 'custom-dishmodalbox'
-          });
-          dialogRef.afterClosed().subscribe(result => {
+            panelClass : 'custom-single-bottom-dish'
+          })
+
+          bottomSheetRef.afterDismissed().subscribe(result => {
             document.body.classList.remove("cdk-global-scrollblock");
             this.router.navigate([], { queryParams: { tb: this.tb }, relativeTo: this.route });
           });
+
+
         }
       }
     } else {
@@ -124,11 +140,10 @@ export class SearchComponent implements OnInit {
       obj.name = menu.name
       const dishes: any[] = []
       menu.dishes.forEach((dish: any) => {
-        dish.tags.map((tag: any) => {
-          if (tag.toLowerCase().includes(this.searchingDishName)) {
-            dishes.push(dish)
+          if (JSON.stringify(dish)?.toLowerCase().includes(this.searchingDishName)) {
+              dishes.push(dish)
           }
-        })
+       
       })
       obj.dishes = dishes
       this.searchMenuAndDishes.push(obj)

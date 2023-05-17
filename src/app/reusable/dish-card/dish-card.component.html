@@ -3,7 +3,7 @@
     class="relative shadow-md rounded-2xl m-2 dark:bg-gray-700 bg-white overflow-hidden custom-ripple" matRipple
     [matRippleCentered]="false" [matRippleDisabled]="false" [matRippleUnbounded]="false">
     <div class="mb-4 relative text-center w-full overflow-hidden bg-gray-200 aspect-w-1 aspect-h-1">
-        <img loading="lazy" [ngClass]="{'opacity-60' : !dish.inStock}" [src]="dish.image"
+        <img loading="lazy" [ngClass]="{'opacity-60' : !dish.inStock}" [src]="getImageUrl(dish.image)"
             class="mx-auto mb-4 w-full object-center object-cover" [alt]="dish.name"
             style="max-width: 320px;  aspect-ratio: 4 / 3;" />
 
@@ -41,7 +41,7 @@
         matRipple [matRippleCentered]="false" [matRippleDisabled]="false" [matRippleUnbounded]="false">
 
         <div class="relative text-center w-full overflow-hidden bg-gray-200 aspect-w-1 aspect-h-1">
-            <img loading="lazy" [ngClass]="{'opacity-60' : !dish.inStock}" [src]="dish.image"
+            <img loading="lazy" [ngClass]="{'opacity-60' : !dish.inStock}" [src]="getImageUrl(dish.image)"
                 class="mx-auto w-full object-center object-cover" [alt]="dish.name"
                 style="max-width: 320px;  aspect-ratio: 4 / 3;" />
 
@@ -79,7 +79,7 @@
     <div
         class="relative flex-shrink-0 w-24 h-24 rounded-lg overflow-hidden dark:border-gray-700 dark:bg-gray-700">
 
-        <img loading="lazy" [ngClass]="{'opacity-60' : !dish.inStock}" [src]="dish.image"
+        <img loading="lazy" [ngClass]="{'opacity-60' : !dish.inStock}" [src]="getImageUrl(dish.image)"
             class="w-full h-full object-center object-cover" [alt]="dish.name" />
 
     </div>

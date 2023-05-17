@@ -4,12 +4,14 @@ import { MenuDishes } from 'src/app/Constants/Interface/menu-dishes';
 import { RestaurantService } from '../restaurant.service';
 import { MatDialog } from '@angular/material/dialog';
 import { SingleDishComponent } from 'src/app/restaurant/single-dish/single-dish.component';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { MainService } from 'src/app/main.service';
 import { Constants } from 'src/app/Constants/Interface/Constants';
 import { Location } from '@angular/common';
 import { PlatformLocation } from '@angular/common'
+import {MatBottomSheet, MatBottomSheetRef} from '@angular/material/bottom-sheet';
+import { SingleDishBottomSheetComponent } from '../single-dish-bottom-sheet/single-dish-bottom-sheet.component';
 
 @Component({
   selector: 'app-home',
@@ -33,7 +35,8 @@ export class HomeComponent implements OnInit {
     private router: Router,
     private mainService: MainService,
     private _location: Location,
-    private location: PlatformLocation
+    private location: PlatformLocation,
+    private _bottomSheet: MatBottomSheet
   ) {
     this.selectedtheme = this.mainService.getToLocalStorage(Constants.LOCAL_USER).theme || "grid"
     this.userInfo = this.mainService.getToLocalStorage(Constants.LOCAL_USER).jwt ? this.mainService.getToLocalStorage(Constants.LOCAL_USER).username : "Login / Signup"
@@ -87,19 +90,31 @@ export class HomeComponent implements OnInit {
         if (modalData) {
 
           document.body.classList.add("no-parent-scroll");
-          const dialogRef = this.dialog.open(SingleDishComponent, {
-            width: '100%',
-            minWidth: '100vw',
+          // const dialogRef = this.dialog.open(SingleDishComponent, {
+          //   // width: '100%',
+          //   // minWidth: '100vw',
+          //   data: modalData,
+          //   // height: "100%",
+          //   panelClass: 'custom-dishmodalbox',
+          //   closeOnNavigation: true
+          // });
+          // dialogRef.afterClosed().subscribe(result => {
+
+          //   document.body.classList.remove("no-parent-scroll");
+          //   this.router.navigate([], { queryParams: { tb: this.tb } });
+          //   // this.goBackback()
+          // });
+
+
+          const bottomSheetRef =  this._bottomSheet.open(SingleDishBottomSheetComponent, {
             data: modalData,
-            height: "100%",
-            panelClass: 'custom-dishmodalbox',
-            closeOnNavigation: true
-          });
-          dialogRef.afterClosed().subscribe(result => {
+            panelClass : 'custom-single-bottom-dish'
+          })
+
+          bottomSheetRef.afterDismissed().subscribe(result => {
 
             document.body.classList.remove("no-parent-scroll");
             this.router.navigate([], { queryParams: { tb: this.tb } });
-            // this.goBackback()
           });
         }
       }

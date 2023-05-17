@@ -18,6 +18,8 @@ import { FormsModule } from '@angular/forms';
 import { SearchComponent } from './search/search.component';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatRippleModule } from '@angular/material/core';
+import { SingleDishBottomSheetComponent } from './single-dish-bottom-sheet/single-dish-bottom-sheet.component';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,8 @@ import { MatRippleModule } from '@angular/material/core';
     CartComponent,
     SingleDishComponent,
     OrdersComponent,
-    SearchComponent
+    SearchComponent,
+    SingleDishBottomSheetComponent
   ],
   imports: [
     FormsModule,
@@ -41,6 +44,7 @@ import { MatRippleModule } from '@angular/material/core';
     MatButtonToggleModule,
     MatBadgeModule,
     MatRippleModule,
+    MatBottomSheetModule,
     MarkdownModule.forRoot()
   ]
 })

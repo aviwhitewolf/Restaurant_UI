@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  baseUrl : "https://restaurant-rms-be.onrender.com",
-  uiDomain : "http://localhost:4200",
+  baseUrl : "https://rms-4cleu.ondigitalocean.app",
+  uiDomain : "https://aviwhitewolf.github.io/Restaurant_UI",
   razorpayKey : "rzp_live_WF0fOMFEoikhXP"
 };
