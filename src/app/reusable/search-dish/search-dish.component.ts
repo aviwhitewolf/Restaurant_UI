@@ -31,10 +31,12 @@ export class SearchDishComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
+
     const restaurantSlug = this.restaurantService.getRestaurantSlug()
       if (restaurantSlug) {
         this.getAllDishes(restaurantSlug)
       } 
+    
   }
 
   private getAllDishes(slug: string) {

@@ -211,7 +211,7 @@ export class DashboardComponent implements OnInit {
 
     this.socket.listen(Constants.SOCKET_ORDER_RECIEVED, restaurantSlug).subscribe((data: any) => {
       const audio = new Audio()
-      audio.src = '../../../assets/sounds/order_received.mp3'
+      audio.src = Constants.ORDER_RECIEVED_SOUND_PATH;
       audio.load()
       audio.play()
 

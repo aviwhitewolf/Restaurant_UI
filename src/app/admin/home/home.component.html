@@ -16,7 +16,7 @@
             <div>
               <div *ngIf="restaurant" class="flex items-center ">
                 <img loading="lazy" class="h-16 w-16 rounded-full sm:hidden"
-                  [src]="restaurant?.image ? getImageUrl(restaurant.image) : '' " alt="restaurant.slug">
+                  [src]="restaurant?.image ? getImageUrl(restaurant.image) : getImageUrl(restaurant.logo) " alt="restaurant.slug">
                 <h1 class="flex flex-wrap ml-3 text-2xl font-bold leading-7 text-gray-900 sm:leading-9 sm:truncate">
                   {{getWish()}}<span *ngIf="user?.fullName">, {{user?.fullName}}</span></h1>
               </div>

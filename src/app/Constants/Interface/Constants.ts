@@ -285,5 +285,6 @@ export class Constants {
   public static readonly SOCKET_ORDER_READ = 'order::read'
 
   public static readonly VAPID_PUBLIC_KEY = 'BD7y67C-accMahGgdG-qi6GWFsCrKq_HYUvt6ffLchiCnp2jRVXE4vGo1AfJ7Ec058VlsKYnsj_qvEr5Y49MR2I'
+  public static readonly ORDER_RECIEVED_SOUND_PATH: string = '../../../assets/sounds/order_received.mp3';
 
 }

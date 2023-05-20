@@ -9,12 +9,12 @@
       <div>
         <div class="flex justify-between text-base font-medium text-gray-900 dark:text-white">
           <h3 class="capitalize">
-            {{getJsonData(property.value, 'name')}}
+            {{dish.name}}
           </h3>
           <p class="ml-4 text-red-500 dark:text-red-700">{{getJsonData(property.value,'price') *
             getJsonData(property.value,'quantity') | currency : dish.currency}}</p>
         </div>
-        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{dish.name}} /{{getJsonData(property.value,'price') | currency : dish.currency}}
+        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400"> {{getJsonData(property.value, 'name')}} /{{getJsonData(property.value,'price') | currency : dish.currency}}
         </p>
       </div>
       <div class="flex-1 flex items-center justify-between text-sm mt-2">
@@ -62,10 +62,9 @@
         <div class="flex">
           <div class="min-w-0 flex-1">
             <h4 class="text-sm">
-              <div class="font-medium text-gray-700 hover:text-gray-800 capitalize"> {{getJsonData(property.value,
-                'name')}} {{type}} {{dish.name}} </div>
+              <div class="font-medium text-gray-700 hover:text-gray-800 capitalize">{{dish.name}} </div>
             </h4>
-            <p class="mt-1 text-sm text-gray-500">{{getJsonData(property.value,'price') | currency : dish.currency}}</p>
+            <p class="mt-1 text-sm text-gray-500">{{getJsonData(property.value,'name')}}&nbsp;﹒&nbsp;{{type}}&nbsp;﹒&nbsp;{{getJsonData(property.value,'price') | currency : dish.currency}}</p>
 
           </div>
 

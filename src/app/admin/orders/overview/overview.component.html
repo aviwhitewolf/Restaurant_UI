@@ -93,12 +93,12 @@
                             </ng-container>
 
                             <!-- Transaction Column -->
-                            <ng-container matColumnDef="orderId">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Transaction</th>
+                            <ng-container matColumnDef="fullName">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Full Name</th>
                                 <td mat-cell *matCellDef="let element">
-                                    <a [routerLink]="['view', element.id]" [fragment]="element?.orderId"
-                                        class="text-indigo-500 truncate group-hover:text-gray-900">
-                                        # {{element?.orderId}}
+                                    <a [routerLink]="['view', element.id]" 
+                                        class="capitalize truncate text-indigo-500">
+                                         {{element?.user?.fullName}}
                                     </a>
                                 </td>
                             </ng-container>
@@ -129,14 +129,14 @@
                             </ng-container>
 
                             <!-- Email Column -->
-                            <ng-container matColumnDef="email">
+                            <!-- <ng-container matColumnDef="email">
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
                                 <td mat-cell *matCellDef="let element">
                                     <div class="text-gray-500 ">
                                         {{element?.user?.email}}
                                     </div>
                                 </td>
-                            </ng-container>
+                            </ng-container> -->
 
                             <!-- Mobile Column -->
                             <ng-container matColumnDef="number">
@@ -192,7 +192,10 @@
                                                             class="focus:outline-none">
                                                             <span class="absolute inset-0" aria-hidden="true"></span>
                                                             <p class="text-sm font-medium text-gray-600 capitalize">
-                                                                {{category?.name}}&nbsp;{{items?.dish?.name}}
+                                                                {{items?.dish?.name}}
+                                                            </p>
+                                                            <p class="text-xs font-medium text-gray-400 capitalize">
+                                                                {{category?.name}}
                                                             </p>
                                                             <p class="text-red-500 text-sm flex flex-wrap">
                                                                 {{category?.unitPrice | currency :

@@ -29,7 +29,7 @@ export class CreateComponent implements OnInit {
 
 
   public userFormGroup: FormGroup = this.formBuilder.group({
-    email: ['', [Validators.required, Validators.email]],
+    // email: ['', [Validators.required, Validators.email]],
     mobile: ['', [Validators.required, Validators.pattern(this.mobileRegrex)]],
     fullName: ['', [Validators.required]],
     table: ['', [Validators.required]],
@@ -86,7 +86,7 @@ export class CreateComponent implements OnInit {
         orderInfo.userInfo = {
           fullName: this.userFormGroup.value.fullName,
           number: this.userFormGroup.value.mobile,
-          email: this.userFormGroup.value.email
+          email: `${this.userFormGroup.value.mobile}@gmail.com` //this.userFormGroup.value.email
         }
 
         orderInfo.mCreatedBy = this.mainService.getToLocalStorage(Constants.LOCAL_USER).id
@@ -122,7 +122,7 @@ export class CreateComponent implements OnInit {
           .then((result) => {
             this.loading = false
             const data = result.data
-            this.userFormGroup.patchValue({ fullName: data.fullName, email: data.email, mobile: data.number, userId: data.id, table : this.userFormGroup?.value?.table });
+            this.userFormGroup.patchValue({ fullName: data.fullName, mobile: data.number, userId: data.id, table : this.userFormGroup?.value?.table });
           }).catch((err) => {
             this.loading = false
             console.log(err)

@@ -42,7 +42,10 @@
                                 [src]="dish?.image ? getImageUrl(dish?.image[0]) : '' " [alt]="dish.name">
                             <div class="flex w-full flex-col ml-2">
                                 <span class="flex text-sm font-medium text-gray-900 capitalize">
-                                    {{category?.name}} {{dish?.name}}
+                                    {{dish?.name}}
+                                </span>
+                                <span class="flex text-xs font-medium text-gray-500 capitalize">
+                                    {{category?.name}}
                                 </span>
                                 <span class="flex text-sm font-medium text-red-500">
                                     {{category?.price | currency :
