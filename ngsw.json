@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1684611250315,
+  "timestamp": 1684743105021,
   "index": "https://aviwhitewolf.github.io/Restaurant_UI/index.html",
   "assetGroups": [
     {
@@ -15,7 +15,7 @@
         "https://aviwhitewolf.github.io/Restaurant_UI/205.70ad84aedaed0c54.js",
         "https://aviwhitewolf.github.io/Restaurant_UI/24.834ac1442512302e.js",
         "https://aviwhitewolf.github.io/Restaurant_UI/270.441bb2c4aa396dbe.js",
-        "https://aviwhitewolf.github.io/Restaurant_UI/273.0d5c575780c21ebc.js",
+        "https://aviwhitewolf.github.io/Restaurant_UI/273.e624ad0be8a650de.js",
         "https://aviwhitewolf.github.io/Restaurant_UI/436.11440623ce2c3e0b.js",
         "https://aviwhitewolf.github.io/Restaurant_UI/446.b0cc7f8f05d435fd.js",
         "https://aviwhitewolf.github.io/Restaurant_UI/54.36e46cba1406e3e3.js",
@@ -30,7 +30,7 @@
         "https://aviwhitewolf.github.io/Restaurant_UI/main.8400de4bb6f1b063.js",
         "https://aviwhitewolf.github.io/Restaurant_UI/manifest.webmanifest",
         "https://aviwhitewolf.github.io/Restaurant_UI/polyfills.20d9d61b9e9c65cb.js",
-        "https://aviwhitewolf.github.io/Restaurant_UI/runtime.f7f566ad60779897.js",
+        "https://aviwhitewolf.github.io/Restaurant_UI/runtime.a48afc68d8a506bd.js",
         "https://aviwhitewolf.github.io/Restaurant_UI/styles.ecc44528ef08601c.css"
       ],
       "patterns": []
@@ -68,7 +68,7 @@
     "https://aviwhitewolf.github.io/Restaurant_UI/205.70ad84aedaed0c54.js": "91da2c892064c78b6c18fd03bde46a246fb50c96",
     "https://aviwhitewolf.github.io/Restaurant_UI/24.834ac1442512302e.js": "09c34c0127a2e6df0b5ff7ebd94112c2f27be877",
     "https://aviwhitewolf.github.io/Restaurant_UI/270.441bb2c4aa396dbe.js": "85746b7a5fbc0b6400009d1b60b67089e06718c7",
-    "https://aviwhitewolf.github.io/Restaurant_UI/273.0d5c575780c21ebc.js": "40bd408edd982f1a00fea80910560ef403d596f0",
+    "https://aviwhitewolf.github.io/Restaurant_UI/273.e624ad0be8a650de.js": "dc608b9838d4554d64fc03f8639af0ec702aecc1",
     "https://aviwhitewolf.github.io/Restaurant_UI/436.11440623ce2c3e0b.js": "b4c95cc2f704e7e324add6066348ce23eae2937b",
     "https://aviwhitewolf.github.io/Restaurant_UI/446.b0cc7f8f05d435fd.js": "772651377e125c350acdb3c3b7a7db353c3bf782",
     "https://aviwhitewolf.github.io/Restaurant_UI/54.36e46cba1406e3e3.js": "31139c0d138ccbd681a8b2ae80212dcd24b951b6",
@@ -94,11 +94,11 @@
     "https://aviwhitewolf.github.io/Restaurant_UI/assets/svgs/background-2.svg": "9e69c5adbd8725fa5a96c3316ead15b4e55b7567",
     "https://aviwhitewolf.github.io/Restaurant_UI/common.70bda95c7853d743.js": "8224f1ec6030925c2f739ba97e89a58c2e62cbb7",
     "https://aviwhitewolf.github.io/Restaurant_UI/favicon.ico": "22f6a4a3bcaafafb0254e0f2fa4ceb89e505e8b2",
-    "https://aviwhitewolf.github.io/Restaurant_UI/index.html": "0928461c020cd242cc3c37d53bc3e9e5ea039d20",
+    "https://aviwhitewolf.github.io/Restaurant_UI/index.html": "d8742c4975beb9e9c7495d44f7f06b9bca5812fd",
     "https://aviwhitewolf.github.io/Restaurant_UI/main.8400de4bb6f1b063.js": "4e29287cb8fa6e69b961cca5301f992b75dc4f16",
     "https://aviwhitewolf.github.io/Restaurant_UI/manifest.webmanifest": "26b2416ed397bf53842adb8e23c3d43d82617ab1",
     "https://aviwhitewolf.github.io/Restaurant_UI/polyfills.20d9d61b9e9c65cb.js": "90207411e41ccfa8ec88112c98f9fa2857c9dded",
-    "https://aviwhitewolf.github.io/Restaurant_UI/runtime.f7f566ad60779897.js": "78197b24835e8294184f893e4e7e2b6a04a2eea6",
+    "https://aviwhitewolf.github.io/Restaurant_UI/runtime.a48afc68d8a506bd.js": "271a8fe4e5b20659c76e9eab15845191c3ef982b",
     "https://aviwhitewolf.github.io/Restaurant_UI/styles.ecc44528ef08601c.css": "123c8a634d48d1980312b7835cc2115ae6803fef"
   },
   "navigationUrls": [
