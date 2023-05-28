@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1685292252756,
+  "timestamp": 1685300626747,
   "index": "https://aviwhitewolf.github.io/Restaurant_UI/index.html",
   "assetGroups": [
     {
@@ -27,7 +27,7 @@
         "https://aviwhitewolf.github.io/Restaurant_UI/common.1c436cb03e12dd0c.js",
         "https://aviwhitewolf.github.io/Restaurant_UI/favicon.ico",
         "https://aviwhitewolf.github.io/Restaurant_UI/index.html",
-        "https://aviwhitewolf.github.io/Restaurant_UI/main.0cfee4f8c5821ce5.js",
+        "https://aviwhitewolf.github.io/Restaurant_UI/main.31a7f40b09eaba92.js",
         "https://aviwhitewolf.github.io/Restaurant_UI/manifest.webmanifest",
         "https://aviwhitewolf.github.io/Restaurant_UI/polyfills.20d9d61b9e9c65cb.js",
         "https://aviwhitewolf.github.io/Restaurant_UI/runtime.5f306d04677b3f77.js",
@@ -94,8 +94,8 @@
     "https://aviwhitewolf.github.io/Restaurant_UI/assets/svgs/background-2.svg": "9e69c5adbd8725fa5a96c3316ead15b4e55b7567",
     "https://aviwhitewolf.github.io/Restaurant_UI/common.1c436cb03e12dd0c.js": "bde385f42fb7e6d68a42154f00c751d0e1e15b1f",
     "https://aviwhitewolf.github.io/Restaurant_UI/favicon.ico": "22f6a4a3bcaafafb0254e0f2fa4ceb89e505e8b2",
-    "https://aviwhitewolf.github.io/Restaurant_UI/index.html": "2a0a22cf74f6b351f2d36684ccfa7fb3a757b5bd",
-    "https://aviwhitewolf.github.io/Restaurant_UI/main.0cfee4f8c5821ce5.js": "4fd557361c89d767f332eb136815f3718f8aeb3d",
+    "https://aviwhitewolf.github.io/Restaurant_UI/index.html": "732bf1b291916b2cc7f90945472000575baa4111",
+    "https://aviwhitewolf.github.io/Restaurant_UI/main.31a7f40b09eaba92.js": "9992a26783a7b68e264b884e130e0115ece371ef",
     "https://aviwhitewolf.github.io/Restaurant_UI/manifest.webmanifest": "26b2416ed397bf53842adb8e23c3d43d82617ab1",
     "https://aviwhitewolf.github.io/Restaurant_UI/polyfills.20d9d61b9e9c65cb.js": "90207411e41ccfa8ec88112c98f9fa2857c9dded",
     "https://aviwhitewolf.github.io/Restaurant_UI/runtime.5f306d04677b3f77.js": "f5b3c91502328f1612c4d4f89f35146ddfb373a9",
