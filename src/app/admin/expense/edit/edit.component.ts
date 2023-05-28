@@ -72,6 +72,12 @@ export class EditComponent implements OnInit {
     if (restaurantSlug) {
         this.route?.params.subscribe(async (param: any) => {
 
+          const time = moment(`${new Date().getHours()}:${new Date().getMinutes()}`, "HH:mm");
+          const date = moment(this.expenseFormGroup?.value?.date);
+          const mergedDate = date.set({
+            hour: time.get("hour"),
+            minute: time.get("minute"),
+          });
           const expenseData = {
             currency: this.expenseFormGroup?.value?.currency,
             remarks: this.expenseFormGroup?.value?.remarks,
@@ -81,7 +87,7 @@ export class EditComponent implements OnInit {
             uploadUrl: this.expenseFormGroup?.value?.uploadUrl,
             category: this.expenseFormGroup?.value?.category,
             employee: this.seletedEmployee?.id,
-            date : moment(this.expenseFormGroup?.value?.date).endOf('day').toISOString()
+            date : moment(mergedDate).toISOString()
           }
 
           if (this.files?.length > 0) {

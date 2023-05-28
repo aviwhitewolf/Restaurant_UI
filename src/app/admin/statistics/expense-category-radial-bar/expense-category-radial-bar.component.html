@@ -34,8 +34,11 @@
         <div class="w-full aspect-w-3 aspect-h-2 mt-8 flex justify-center">
 
             <div *ngIf="data && data?.length > 0" class="w-10/12 mx-auto" id="chart">
-                <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [labels]="chartOptions.labels"
-                    [responsive]="chartOptions.responsive" [plotOptions]="chartOptions.plotOptions"></apx-chart>
+                <apx-chart [series]="chartOptions?.series" 
+                [chart]="chartOptions?.chart" 
+                [labels]="chartOptions?.labels"
+                [responsive]="chartOptions?.responsive" 
+                [plotOptions]="chartOptions?.plotOptions"></apx-chart>
             </div>
 
         </div>

@@ -39,10 +39,10 @@
         <p *ngIf="!data || data?.length == 0" class="mt-8 text-sm text-gray-800">No Data Found.</p>
         <div class="w-full aspect-w-3 aspect-h-2 mt-8">
             <div *ngIf="data && data?.length > 0" id="chart">
-                <apx-chart [series]="dishChartOptions.series" [chart]="dishChartOptions.chart"
-                    [dataLabels]="dishChartOptions.dataLabels" [plotOptions]="dishChartOptions.plotOptions"
-                    [yaxis]="dishChartOptions.yaxis" [xaxis]="dishChartOptions.xaxis" [fill]="dishChartOptions.fill"
-                    [title]="dishChartOptions.title" [colors]="dishChartOptions.colors"></apx-chart>
+                <apx-chart [series]="dishChartOptions?.series" [chart]="dishChartOptions?.chart"
+                    [dataLabels]="dishChartOptions?.dataLabels" [plotOptions]="dishChartOptions?.plotOptions"
+                    [yaxis]="dishChartOptions?.yaxis" [xaxis]="dishChartOptions?.xaxis" [fill]="dishChartOptions?.fill"
+                    [title]="dishChartOptions?.title" [colors]="dishChartOptions?.colors"></apx-chart>
             </div>
         </div>
         <!-- <p class="mt-8 text-base text-gray-500">The 20L model has enough space for 370 candy bars, 6 cylinders of chips, 1220 standard gumballs, or any combination of on-the-go treats that your heart desires. Yes, we did the math.</p> -->

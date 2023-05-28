@@ -50,11 +50,11 @@
         <div class="w-full aspect-w-3 aspect-h-2 mt-8 ">
 
             <div *ngIf="data && data?.length > 0" id="chart">
-                <apx-chart [series]="expenseChartOptions.series" [chart]="expenseChartOptions.chart"
-                    [dataLabels]="expenseChartOptions.dataLabels" [plotOptions]="expenseChartOptions.plotOptions"
-                    [yaxis]="expenseChartOptions.yaxis" [xaxis]="expenseChartOptions.xaxis"
-                    [fill]="expenseChartOptions.fill" [title]="expenseChartOptions.title"
-                    [colors]="expenseChartOptions.colors"></apx-chart>
+                <apx-chart [series]="expenseChartOptions?.series" [chart]="expenseChartOptions?.chart"
+                    [dataLabels]="expenseChartOptions?.dataLabels" [plotOptions]="expenseChartOptions?.plotOptions"
+                    [yaxis]="expenseChartOptions?.yaxis" [xaxis]="expenseChartOptions?.xaxis"
+                    [fill]="expenseChartOptions?.fill" [title]="expenseChartOptions?.title"
+                    [colors]="expenseChartOptions?.colors"></apx-chart>
             </div>
 
         </div>

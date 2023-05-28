@@ -167,7 +167,7 @@
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
                                 <td mat-cell *matCellDef="let element">
                                     <time datetime="2020-07-11">
-                                        {{element?.date | date}}
+                                        {{element?.date | date:'medium'}}
                                     </time>
                                 </td>
                                 <td mat-footer-cell *matFooterCellDef></td>

@@ -152,8 +152,8 @@
                             <ng-container matColumnDef="createdAt">
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
                                 <td mat-cell *matCellDef="let element">
-                                    <time datetime="2020-07-11">
-                                        {{element?.createdAt | date}}
+                                    <time>
+                                        {{element?.createdAt | date:'medium'}}
                                     </time>
                                 </td>
                             </ng-container>

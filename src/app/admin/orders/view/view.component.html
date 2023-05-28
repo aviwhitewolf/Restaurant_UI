@@ -277,12 +277,15 @@
                             <div class="ml-4 flex-1 flex flex-col justify-between sm:ml-6">
                                 <div class="relative pr-9 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:pr-0">
                                     <div>
-                                        <div class="flex justify-between">
+                                        <div class="flex justify-between flex-col">
                                             <h3 class="text-sm">
                                                 <span
-                                                    class="font-medium text-gray-700 hover:text-gray-800 capitalize">{{category?.name}}&nbsp;{{items?.dish?.name}}
+                                                    class="font-medium text-gray-700 capitalize">{{items?.dish?.name}}
                                                 </span>
                                             </h3>
+                                            <span
+                                            class="text-xs font-medium text-gray-500  capitalize">{{category?.name}}
+                                        </span>
                                         </div>
                                         <div class="mt-1 flex text-sm">
                                             <p class="border-gray-200 text-gray-500">{{category?.unitPrice | currency :
@@ -353,12 +356,12 @@
 
                         <div class="flex items-center justify-between">
                             <dt class="text-sm text-gray-600">Last Updated</dt>
-                            <dd class="text-sm font-medium text-gray-900">{{order?.updatedAt | date}}</dd>
+                            <dd class="text-sm font-medium text-gray-900">{{order?.updatedAt | date:'medium'}}</dd>
                         </div>
 
                         <div class="flex items-center justify-between">
                             <dt class="text-sm text-gray-600">Created At</dt>
-                            <dd class="text-sm font-medium text-gray-900">{{order?.createdAt | date}}</dd>
+                            <dd class="text-sm font-medium text-gray-900">{{order?.createdAt | date:'medium'}}</dd>
                         </div>
 
 

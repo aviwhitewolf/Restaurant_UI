@@ -22,7 +22,7 @@ export class CreateComponent implements OnInit {
   public dishQuantity!: any
   public cartItems!: any
   public total: number = 0
-  private mobileRegrex = /[0,9]\d{4,17}/
+  private mobileRegrex = /^[0-9]{10}$/
   public tables : any[] = []
   public taxes : any[] = []
   public subTotal : number = 0
