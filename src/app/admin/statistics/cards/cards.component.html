@@ -105,8 +105,9 @@
                 <div class="ml-5 w-0 flex-1">
                     <dl>
                         <dt class="text-xs font-medium text-gray-600  truncate">Selected Profit
-                            <span class="capitalize text-gray-500 text-xs font-normal">&nbsp;(Total&nbsp;-&nbsp;Expense)</span>
+                            <span class="capitalize text-gray-500 text-xs font-normal">&nbsp;= &nbsp;(Total + Exp.Credit&nbsp;-&nbsp;Exp.Debit)</span>
                         </dt>
+                       
                         <dd>
                             <div class="text-lg font-medium text-red-500">{{data.selectedProfit || 0 | currency :
                                 currency}}</div>
