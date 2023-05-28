@@ -1,7 +1,4 @@
-@font-face {
-  font-family: Caveat-Variable;
-  src: url(/assets/fonts/Caveat-VariableFont_wght.ttf) format("opentype");
-}
+@import url('https://fonts.googleapis.com/css2?family=Caveat&display=swap');
 
 .zoom-in-out-box {
   display: inline-flex;
@@ -38,5 +35,5 @@
 .font-caveat{
     font-weight: 800;
     line-height: 1.1;
-    font-family: 'Caveat-Variable', 'arial', sans-serif;
+    font-family: 'Caveat', cursive;
   }
