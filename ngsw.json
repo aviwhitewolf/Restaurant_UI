@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1685260980264,
+  "timestamp": 1685288363718,
   "index": "https://aviwhitewolf.github.io/Restaurant_UI/index.html",
   "assetGroups": [
     {
@@ -27,7 +27,7 @@
         "https://aviwhitewolf.github.io/Restaurant_UI/common.70bda95c7853d743.js",
         "https://aviwhitewolf.github.io/Restaurant_UI/favicon.ico",
         "https://aviwhitewolf.github.io/Restaurant_UI/index.html",
-        "https://aviwhitewolf.github.io/Restaurant_UI/main.8400de4bb6f1b063.js",
+        "https://aviwhitewolf.github.io/Restaurant_UI/main.0cfee4f8c5821ce5.js",
         "https://aviwhitewolf.github.io/Restaurant_UI/manifest.webmanifest",
         "https://aviwhitewolf.github.io/Restaurant_UI/polyfills.20d9d61b9e9c65cb.js",
         "https://aviwhitewolf.github.io/Restaurant_UI/runtime.4e7b4ea34dcc63e4.js",
@@ -94,8 +94,8 @@
     "https://aviwhitewolf.github.io/Restaurant_UI/assets/svgs/background-2.svg": "9e69c5adbd8725fa5a96c3316ead15b4e55b7567",
     "https://aviwhitewolf.github.io/Restaurant_UI/common.70bda95c7853d743.js": "8224f1ec6030925c2f739ba97e89a58c2e62cbb7",
     "https://aviwhitewolf.github.io/Restaurant_UI/favicon.ico": "22f6a4a3bcaafafb0254e0f2fa4ceb89e505e8b2",
-    "https://aviwhitewolf.github.io/Restaurant_UI/index.html": "b497973bf0662348dc553d0447bd6e786c3e93ee",
-    "https://aviwhitewolf.github.io/Restaurant_UI/main.8400de4bb6f1b063.js": "4e29287cb8fa6e69b961cca5301f992b75dc4f16",
+    "https://aviwhitewolf.github.io/Restaurant_UI/index.html": "73c5bed91f4c614a4aaefb71c436007162a5bcd9",
+    "https://aviwhitewolf.github.io/Restaurant_UI/main.0cfee4f8c5821ce5.js": "4fd557361c89d767f332eb136815f3718f8aeb3d",
     "https://aviwhitewolf.github.io/Restaurant_UI/manifest.webmanifest": "26b2416ed397bf53842adb8e23c3d43d82617ab1",
     "https://aviwhitewolf.github.io/Restaurant_UI/polyfills.20d9d61b9e9c65cb.js": "90207411e41ccfa8ec88112c98f9fa2857c9dded",
     "https://aviwhitewolf.github.io/Restaurant_UI/runtime.4e7b4ea34dcc63e4.js": "a05094c17d2c65015d5f2a3c576dfb032153057d",
