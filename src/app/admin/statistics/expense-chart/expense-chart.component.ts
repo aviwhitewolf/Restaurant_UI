@@ -99,7 +99,7 @@ export class ExpenseChartComponent implements OnInit {
         },
         yaxis: {
           title: {
-            text: 'Amount (INR)'
+            text: 'Amount'
           }
         },
         grid: {
@@ -228,8 +228,6 @@ export class ExpenseChartComponent implements OnInit {
     } else {
       this.mainService.openDialog("Error", "Not possible to plot a graph for a given selection.", "E")
     }
-
-
 
     return {
       credit: Object.values(credit),

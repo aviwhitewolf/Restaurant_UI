@@ -8,24 +8,22 @@
             <div class="flex items-center">
                 <div class="flex-shrink-0">
 
-                    <mat-icon class="h-6 w-6 text-gray-500">
-                        receipt_long
+                    <mat-icon class="h-6 w-6 text-gray-500 ">
+                        functions
                     </mat-icon>
-
                 </div>
                 <div class="ml-5 w-0 flex-1">
                     <dl>
-                        <dt class="text-xs font-medium text-gray-600 truncate">Total Transaction</dt>
+                        <dt class="text-xs font-medium text-gray-600  truncate">Selected Sale</dt>
                         <dd>
                             <div class="text-lg font-medium text-red-500">
-                                {{data?.totalAmount || 0 | currency : currency}}
+                                {{data?.selectedTotal || 0 | currency : currency}}
                             </div>
                         </dd>
                     </dl>
                 </div>
             </div>
         </div>
-
     </div>
 
     <div *ngIf="data" class="bg-white overflow-hidden shadow rounded-lg">
@@ -75,16 +73,18 @@
                 <div class="flex-shrink-0">
 
                     <mat-icon class="h-6 w-6 text-gray-500 ">
-                        functions
+                        savings
                     </mat-icon>
                 </div>
                 <div class="ml-5 w-0 flex-1">
                     <dl>
-                        <dt class="text-xs font-medium text-gray-600  truncate">Selected Total</dt>
+                        <dt class="text-xs font-medium text-gray-600  truncate">Selected Profit
+                            <span class="capitalize text-gray-500 text-xs font-normal">&nbsp;= &nbsp;(Total + Exp.Credit&nbsp;-&nbsp;Exp.Debit)</span>
+                        </dt>
+                       
                         <dd>
-                            <div class="text-lg font-medium text-red-500">
-                                {{data?.selectedTotal || 0 | currency : currency}}
-                            </div>
+                            <div class="text-lg font-medium text-red-500">{{data.selectedProfit || 0 | currency :
+                                currency}}</div>
                         </dd>
                     </dl>
                 </div>
@@ -99,18 +99,81 @@
                 <div class="flex-shrink-0">
 
                     <mat-icon class="h-6 w-6 text-gray-500 ">
-                        savings
+                        functions
                     </mat-icon>
                 </div>
                 <div class="ml-5 w-0 flex-1">
                     <dl>
-                        <dt class="text-xs font-medium text-gray-600  truncate">Selected Profit
-                            <span class="capitalize text-gray-500 text-xs font-normal">&nbsp;= &nbsp;(Total + Exp.Credit&nbsp;-&nbsp;Exp.Debit)</span>
-                        </dt>
-                       
+                        <dt class="text-xs font-medium text-gray-600  truncate">Selected Avg Sale</dt>
                         <dd>
-                            <div class="text-lg font-medium text-red-500">{{data.selectedProfit || 0 | currency :
-                                currency}}</div>
+                            <div class="text-lg font-medium text-red-500">
+                                {{data?.selectedAvgTotal || 0 | currency : currency}}
+                            </div>
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="data" class="bg-white overflow-hidden shadow rounded-lg">
+        <div class="p-5">
+            <div class="flex items-center">
+                <div class="flex-shrink-0">
+
+                    <mat-icon class="h-6 w-6 text-gray-500 rotate-90">
+                        payments
+                    </mat-icon>
+                </div>
+                <div class="ml-5 w-0 flex-1">
+                    <dl>
+
+                        <dl>
+                            <dt class="text-xs font-medium text-gray-600 truncate">Selected Avg Expense</dt>
+                            <dd>
+                                <div class="text-lg font-medium flex flex-wrap text-gray-600">
+                                    <span class="text-red-500">
+                                        {{data?.selectedExpenseTotal?.avgdebit || 0 | currency : currency}}
+                                        <mat-icon
+                                            class="h-6 w-6 text-red-500 text-base flex justify-center items-center">
+                                            north_east
+                                        </mat-icon>
+                                    </span>,&nbsp;&nbsp;
+                                    <span class="text-green-600">
+
+                                        {{data?.selectedExpenseTotal?.avgcredit || 0 | currency : currency}}
+                                        <mat-icon
+                                            class="h-5 w-5 text-green-600 text-base flex justify-center items-center">
+                                            south_west
+                                        </mat-icon>
+                                    </span>
+                                </div>
+                            </dd>
+                        </dl>
+                    </dl>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div *ngIf="data" class="bg-white overflow-hidden shadow rounded-lg">
+        <div class="p-5">
+            <div class="flex items-center">
+                <div class="flex-shrink-0">
+
+                    <mat-icon class="h-6 w-6 text-gray-500">
+                        receipt_long
+                    </mat-icon>
+
+                </div>
+                <div class="ml-5 w-0 flex-1">
+                    <dl>
+                        <dt class="text-xs font-medium text-gray-600 truncate">Total Sale</dt>
+                        <dd>
+                            <div class="text-lg font-medium text-red-500">
+                                {{data?.totalAmount || 0 | currency : currency}}
+                            </div>
                         </dd>
                     </dl>
                 </div>
@@ -198,5 +261,6 @@
         </div>
 
     </div>
+    
 </div>
 <!-- Overview end -->

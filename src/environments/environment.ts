@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  baseUrl : "http://localhost:1337",
+  baseUrl : "https://rms-4cleu.ondigitalocean.app",
   uiDomain : "http://localhost:4200",
   razorpayKey : "rzp_test_kHx9wkorHyQIIZ",
   assestPath : "src/assets"

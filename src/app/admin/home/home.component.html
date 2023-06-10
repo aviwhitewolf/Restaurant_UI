@@ -79,7 +79,7 @@
           [end]="dateData?.end">
         </app-dish-chart>
 
-        <app-sales-chart *ngIf="overview && dateData" [data]="overview?.sale" [start]="dateData?.start"
+        <app-sales-chart *ngIf="overview && dateData" [data]="{sale: overview?.sale, expense: overview?.expense}" [start]="dateData?.start"
           [end]="dateData?.end">
         </app-sales-chart>
 
