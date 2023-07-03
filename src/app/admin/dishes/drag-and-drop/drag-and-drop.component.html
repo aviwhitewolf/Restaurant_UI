@@ -1,9 +1,0 @@
-<mat-card>
-    <mat-card-header> Nested Drag And Drop Cards</mat-card-header>
-    <mat-card-content cdkDropList dragAndDropManagerRoot [cdkDropListData]="data"
-      (cdkDropListDropped)="onDragDrop$.next($event)">
-      <ng-container *ngFor="let item of data">
-        <app-item [item]="item" [invert]="invert" [onDragDrop]="onDragDrop$"></app-item>
-      </ng-container>
-    </mat-card-content>
-  </mat-card>

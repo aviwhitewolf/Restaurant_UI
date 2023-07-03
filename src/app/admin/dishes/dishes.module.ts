@@ -6,7 +6,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { ReusableModule } from 'src/app/reusable/reusable.module';
 import { DishRoutingModule } from './dish-routing.module';
-import { DragAndDropModule } from './drag-and-drop/drag-and-drop.module';
 import { DishVariationsModule } from './dish-variations/dish-variations.module';
 
 @NgModule({
@@ -21,7 +20,6 @@ import { DishVariationsModule } from './dish-variations/dish-variations.module';
     ReusableModule,
     DishRoutingModule,
     ReactiveFormsModule,
-    DragAndDropModule,
     DishVariationsModule
   ]
 })
