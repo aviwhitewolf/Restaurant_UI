@@ -235,7 +235,7 @@ export class SalesChartComponent implements OnInit {
      */
     if (type == "" ? (diffYears > 0) : (diffYears > 0 && type == 'yeasrs')) {
 
-      data.reduce((acc: any, curr: any) => {
+      data?.reduce((acc: any, curr: any) => {
 
         if (acc.credit[moment(curr.date).year()]) {
           acc.credit[moment(curr.date).year()] = parseFloat(acc.credit[moment(curr.date).year()]) + parseFloat(curr.credit ? curr.credit : 0)
@@ -257,7 +257,7 @@ export class SalesChartComponent implements OnInit {
 
     } else if (type == "" ? (diffMonth > 4) : (diffMonth > 4 && type == 'months')) {
 
-      data.reduce((acc: any, curr: any) => {
+      data?.reduce((acc: any, curr: any) => {
 
         if (acc.credit[moment(curr.date).format('MMM')]) {
           acc.credit[moment(curr.date).format('MMM')] = parseFloat(acc.credit[moment(curr.date).format('MMM')]) + parseFloat(curr.credit ? curr.credit : 0)
@@ -281,7 +281,7 @@ export class SalesChartComponent implements OnInit {
 
     } else if (type == "" ? (diffdays > 0) : (diffdays > 0 && type == 'days')) {
 
-      data.reduce((acc: any, curr: any) => {
+      data?.reduce((acc: any, curr: any) => {
 
         if (acc.credit[moment(curr.date).format('DD MMM')]) {
           acc.credit[moment(curr.date).format('DD MMM')] = parseFloat(acc.credit[moment(curr.date).format('DD MMM')]) + parseFloat(curr.credit ? curr.credit : 0)
@@ -304,7 +304,7 @@ export class SalesChartComponent implements OnInit {
 
     } else if (type == "" ? (diffhours > 0) : (diffhours > 0 && type == 'hours')) {
 
-      data.reduce((acc: any, curr: any) => {
+      data?.reduce((acc: any, curr: any) => {
 
 
         if (acc.credit[moment(curr.date).format('DD MMM hh:mm A')]) {

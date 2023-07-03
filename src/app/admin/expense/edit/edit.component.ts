@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { MainService } from 'src/app/main.service';
@@ -28,13 +28,15 @@ export class EditComponent implements OnInit {
   public showDeleteDocumentDialog: boolean = false
   public documentToDelete: any
   public seletedEmployee: any
+  public currency! : string
 
   public expenseFormGroup: FormGroup = this.formBuilder.group({
+    modeOfPayment : ['', [Validators.required]],
+    modeOfPaymentInfo :  this.formBuilder.array([]),
     debit: [0, [Validators.required]],
     credit: [0, [Validators.required]],
     remarks: ['', [Validators.required]],
     category: ['', [Validators.required]],
-    currency: ['INR', [Validators.required]],
     uploadUrl: [''],
     employee: [null],
     date : [new Date(), [Validators.required]]
@@ -55,7 +57,8 @@ export class EditComponent implements OnInit {
 
   ngOnInit(): void {
     const restaurantSlug = this.restaurantService.getRestaurantSlug()
-    if (restaurantSlug) {
+    this.currency = this.restaurantService.getCurrency()
+    if (restaurantSlug && this.currency) {
         this.getAllExpenseCategory(restaurantSlug)
         this.route?.params.subscribe((param: any) => {
           if (param['expenseId'])
@@ -67,7 +70,7 @@ export class EditComponent implements OnInit {
   }
 
   updateOrSaveExpense() {
-    this.loading = true
+    
     const restaurantSlug = this.restaurantService.getRestaurantSlug()
     if (restaurantSlug) {
         this.route?.params.subscribe(async (param: any) => {
@@ -78,8 +81,22 @@ export class EditComponent implements OnInit {
             hour: time.get("hour"),
             minute: time.get("minute"),
           });
+
+          let modeOfPayment = this.expenseFormGroup.value?.modeOfPayment
+          let modeOfPaymentInfo = this.expenseFormGroup.value?.modeOfPaymentInfo[0]
+
+          if(this.expenseFormGroup?.value?.debit != 0 && this.expenseFormGroup?.value?.credit != 0 && modeOfPayment && modeOfPayment == 'both'){
+            this.mainService.openDialog("Error", "Please add separate expense for credit and debit if you want to select payment method as 'both'.", "E")
+            return
+          }else if(this.expenseFormGroup?.value?.debit && modeOfPayment && modeOfPayment == 'both' && modeOfPaymentInfo && (modeOfPaymentInfo?.cash + modeOfPaymentInfo?.online) != this.expenseFormGroup?.value?.debit){
+          this.mainService.openDialog("Error", "Cash and online amount is not equal to debit amount.", "E")
+          return
+        }else if ( this.expenseFormGroup?.value?.credit && modeOfPayment && modeOfPayment == 'both' && modeOfPaymentInfo && (modeOfPaymentInfo?.cash + modeOfPaymentInfo?.online) != this.expenseFormGroup?.value?.credit){
+          this.mainService.openDialog("Error", "Cash and online amount is not equal to credit amount.", "E")
+          return
+        }
+
           const expenseData = {
-            currency: this.expenseFormGroup?.value?.currency,
             remarks: this.expenseFormGroup?.value?.remarks,
             address: this.expenseFormGroup?.value?.address,
             debit: this.expenseFormGroup?.value?.debit,
@@ -87,7 +104,11 @@ export class EditComponent implements OnInit {
             uploadUrl: this.expenseFormGroup?.value?.uploadUrl,
             category: this.expenseFormGroup?.value?.category,
             employee: this.seletedEmployee?.id,
-            date : moment(mergedDate).toISOString()
+            currency : this.currency,
+            date : moment(mergedDate).toISOString(),
+            modeOfPayment,
+            cash : (modeOfPayment && modeOfPayment == 'both' && modeOfPaymentInfo) ?  modeOfPaymentInfo?.cash : 0,
+            online : (modeOfPayment && modeOfPayment == 'both' && modeOfPaymentInfo) ?  modeOfPaymentInfo?.online : 0,
           }
 
           if (this.files?.length > 0) {
@@ -96,8 +117,10 @@ export class EditComponent implements OnInit {
           } else {
             this.formdata.delete('files.upload')
           }
-
+          
+          this.loading = true
           //User want to edit
+
           if (param['expenseId']) {
             //User did not changed the Image or added a new document
             if (! this.formdata.has('files.upload')) {
@@ -199,7 +222,7 @@ export class EditComponent implements OnInit {
             credit: this.singleExpense?.credit,
             remarks: this.singleExpense?.remarks,
             category: this.singleExpense?.category?.id,
-            currency: this.singleExpense?.currency,
+            currency: this.currency,
             uploadUrl: this.singleExpense?.uploadUrl,
             date : moment(this.singleExpense?.date).toISOString()
           }
@@ -365,6 +388,64 @@ export class EditComponent implements OnInit {
     });
     return false
   }
+
+
+
+  removeFormControlmodeOfPayment(i = 0) {
+    let paymentInfo = this.expenseFormGroup.controls['modeOfPaymentInfo'] as FormArray;
+    paymentInfo.removeAt(i);
+  }
+
+  onmodeOfPaymentChange(mop : string){
+    let paymentInfo = this.expenseFormGroup.controls['modeOfPaymentInfo'] as FormArray;
+    if(mop == "both" && paymentInfo.length == 0){
+      this.addPaymentInfoObject()
+    }else {
+      this.removeFormControlmodeOfPayment(0)
+    }
+
+  }
+  checkForFormErrors(index: number, key: string, type: string): boolean {
+    let array = this.getFormArray(type);
+    if (array.controls[index].get(key)?.errors && (array.controls[index].get(key)?.touched || array.controls[index].get(key)?.dirty))
+      return true
+    else
+      return false
+  }
+
+  public getFormArray(formGroupName: string): FormArray {
+    return (this.expenseFormGroup.get(formGroupName) as FormArray)
+  }
+
+  public getFormError(index: number, errorName: string, key: string, type: string): boolean {
+    let _array = this.getFormArray(type);
+    return _array.controls[index].get(key)?.errors?.[errorName] || false
+  }
+
+  // Add dish category to formGroup
+
+  get modeOfPaymentInfo(): FormArray {
+    return this.expenseFormGroup.get("modeOfPaymentInfo") as FormArray
+  }
+
+  private addPaymentInfoToFormArray(): FormGroup {
+    return this.formBuilder.group({
+      cash: ['', [Validators.required]],
+      online: ['', [Validators.required]]
+    });
+  }
+
+  public addPaymentInfoObject(): void {
+    this.modeOfPaymentInfo.push(
+      this.addPaymentInfoToFormArray()
+    );
+  }
+
+
+  getFormControl(groupName: string): FormArray {
+    return <FormArray>this.expenseFormGroup.get(groupName);
+  }
+
 
 
 }

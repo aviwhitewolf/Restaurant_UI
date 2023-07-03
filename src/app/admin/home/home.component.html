@@ -73,7 +73,14 @@
       </h2>
       <app-cards [data]="overview?.cards"></app-cards>
 
-      <div class="mt-16 grid grid-cols-1 gap-y-8 lg:grid-cols-2 lg:gap-x-8">
+      <div class="flex justify-between"></div>
+      <h2 class="mt-12 text-lg leading-6 font-medium text-gray-900">
+        Statistics
+        <span *ngIf="activeDateRange"
+          class="lowercase text-gray-500 text-xs font-normal">&nbsp;of&nbsp;{{activeDateRange}}</span>
+      </h2>
+
+      <div class="mt-2 grid grid-cols-1 gap-y-8 lg:grid-cols-2 lg:gap-x-8">
 
         <app-dish-chart *ngIf="overview && dateData" [data]="overview?.dishesSale" [start]="dateData?.start"
           [end]="dateData?.end">

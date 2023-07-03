@@ -22,7 +22,7 @@ export class PaymentService {
       "restaurantSlug": slug,
       "orderItems": [],
       "table" : "",
-      "modeOfPayment" : ""
+      "modeOfTransaction" : ""
     }
 
     for (const key in cartItems) {
@@ -48,10 +48,10 @@ export class PaymentService {
 
   }
 
-  createOrder(orderInfo: OrderInfo, table : string, modeOfPayment : string) {
+  createOrder(orderInfo: OrderInfo, table : string, modeOfTransaction : string) {
     const jwt = this.mainService.getToLocalStorage(Constants.LOCAL_USER).jwt || ""
     orderInfo.table = table
-    orderInfo.modeOfPayment = modeOfPayment
+    orderInfo.modeOfTransaction = modeOfTransaction
     const headers = {
       Authorization: `Bearer ${jwt}`
     }

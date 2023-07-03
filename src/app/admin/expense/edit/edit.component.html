@@ -3,11 +3,11 @@
     <div class="mx-auto max-w-6xl py-3 px-3 sm:px-6 lg:px-8">
         <div class="flex flex-wrap items-start justify-between">
             <div class="items-start flex w-0 flex-1">
-         
-                    <mat-icon style="height: unset;width: unset;" class="text-white p-2 bg-red-600 rounded-lg">
-                        error
-                    </mat-icon>
-                
+
+                <mat-icon style="height: unset;width: unset;" class="text-white p-2 bg-red-600 rounded-lg">
+                    error
+                </mat-icon>
+
                 <div class="flex items-center flex-wrap">
                     <p class="ml-3 font-medium text-white ">
                         In order to create expense, you need to create expense category first.
@@ -138,10 +138,11 @@
                                             <label for="debit"
                                                 class="flex items-center text-sm font-medium text-gray-700">
                                                 <span>Debit
-                                                    <b class="font-medium text-indigo-400 text-xs">(INR)</b>
+                                                    <b class="font-medium text-indigo-400 text-xs">({{currency}})</b>
                                                 </span>
                                             </label>
-                                            <input formControlName="debit" type="text" name="debit" autocomplete="none"
+                                            <input formControlName="debit" type="number" name="debit"
+                                                autocomplete="none"
                                                 [ngClass]="{' border-2 border-red-500' : expenseFormGroup.get('debit')?.errors &&
                                                 ( expenseFormGroup.get('debit')?.touched ||  expenseFormGroup.get('debit')?.dirty),
                                                 'border-gray-300' : !(expenseFormGroup.get('debit')?.errors &&
@@ -163,10 +164,9 @@
                                         <div class="col-span-4 sm:col-span-1">
                                             <label for="credit"
                                                 class="flex items-center text-sm font-medium text-gray-700">
-                                                <span>Credit <b
-                                                        class="font-medium text-indigo-400 text-xs">(INR)</b></span>
+                                                <span>Credit <b class="font-medium text-indigo-400 text-xs">({{currency}})</b></span>
                                             </label>
-                                            <input formControlName="credit" type="text" name="credit"
+                                            <input formControlName="credit" type="number" name="credit"
                                                 autocomplete="none"
                                                 [ngClass]="{' border-2 border-red-500' : expenseFormGroup.get('credit')?.errors &&
                                                 ( expenseFormGroup.get('credit')?.touched ||  expenseFormGroup.get('credit')?.dirty),
@@ -207,6 +207,81 @@
 
                                         </div>
                                         <!-- Remarks End -->
+
+                                        <!-- Mode of Payment -->
+                                        <div class="col-span-4 sm:col-span-2">
+                                            <label for="mode-of-payment"
+                                                class="block text-sm font-medium text-gray-700">Mode of Payment</label>
+                                            <div class="mt-1">
+                                                <select (change)="onmodeOfPaymentChange($any($event.target).value)"
+                                                    name="mode-of-payment" autocomplete="none"
+                                                    formControlName="modeOfPayment"
+                                                    [ngClass]="{' border-2 border-red-500' : expenseFormGroup.get('modeOfPayment')?.errors &&
+                                              ( expenseFormGroup.get('modeOfPayment')?.touched ||  expenseFormGroup.get('modeOfPayment')?.dirty),
+                                          'border-gray-300' : !(expenseFormGroup.get('modeOfPayment')?.errors &&
+                                          ( expenseFormGroup.get('modeOfPayment')?.touched ||  expenseFormGroup.get('modeOfPayment')?.dirty))}"
+                                                    class="mt-1 block w-full bg-white  rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+
+                                                    <option value="cash">Cash</option>
+                                                    <option value="online">Online</option>
+                                                    <option value="both">Both</option>
+                                                    <option value="notConfirm">Not Confirm</option>
+                                                </select>
+                                            </div>
+
+                                        </div>
+
+                                        <div formArrayName="modeOfPaymentInfo" class="col-span-4 sm:col-span-2"
+                                            *ngFor="let expenseFormGroup of getFormControl('modeOfPaymentInfo').controls; let i = index">
+
+                                            <div [formGroupName]="i" class="mt-2 flex sm:flex-row flex-col gap-x-2">
+                                                <div class="w-full sm:mt-0 mt-4">
+                                                    <label for="cash"
+                                                        class="block text-sm font-medium text-gray-700">Cash
+                                                        Amount</label>
+                                                    <div class="mt-1 ">
+                                                        <input formControlName="cash" type="number" name="cash"
+                                                            autocomplete="cash"
+                                                            [ngClass]="{'border-2 border-red-500' :  checkForFormErrors(i, 'cash', 'modeOfPaymentInfo'),'border-gray-300' : !(checkForFormErrors(i, 'cash', 'modeOfPaymentInfo')) }"
+                                                            class="appearance-none relative block w-full px-3 py-2  placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm">
+                                                    </div>
+
+                                                    <!-- Errors -->
+                                                    <span *ngIf="checkForFormErrors(i, 'cash', 'modeOfPaymentInfo')">
+                                                        <span class="text-red-500 text-xs"
+                                                            *ngIf="getFormError(i,'required', 'cash', 'modeOfPaymentInfo')">Cash
+                                                            amount is
+                                                            invalid</span>
+                                                    </span>
+                                                    <!-- Errors End -->
+
+                                                </div>
+
+                                                <div class="w-full sm:mt-0 mt-4">
+                                                    <label for="online"
+                                                        class="block text-sm font-medium text-gray-700">Online
+                                                        Amount</label>
+                                                    <div class="mt-1 ">
+                                                        <input formControlName="online" type="number" name="online"
+                                                            autocomplete="online"
+                                                            [ngClass]="{'border-2 border-red-500' :  checkForFormErrors(i, 'online', 'modeOfPaymentInfo'),'border-gray-300' : !(checkForFormErrors(i, 'online', 'modeOfPaymentInfo')) }"
+                                                            class="appearance-none relative block w-full px-3 py-2  placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm">
+                                                    </div>
+                                                    <!-- Errors -->
+                                                    <span *ngIf="checkForFormErrors(i, 'online', 'modeOfPaymentInfo')">
+                                                        <span class="text-red-500 text-xs"
+                                                            *ngIf="getFormError(i,'required', 'online', 'modeOfPaymentInfo')">Online
+                                                            amount is
+                                                            invalid</span>
+                                                    </span>
+                                                    <!-- Errors End -->
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <!-- Mode of Payment end -->
+
 
                                         <!-- Upload URL -->
                                         <div class="col-span-4 sm:col-span-2">

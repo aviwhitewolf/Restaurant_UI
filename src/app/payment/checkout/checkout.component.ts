@@ -82,10 +82,10 @@ export class CheckoutComponent implements OnInit {
   }
 
 
-  public createOrder(modeOfPayment: string) {
+  public createOrder(modeOfTransaction: string) {
 
     if (this.restaurantService.getRestaurantPaymentGateway() == 'razorpay') {
-      this.createOrderWithRazorpay(modeOfPayment)
+      this.createOrderWithRazorpay(modeOfTransaction)
     } else {
       this.mainService.openDialog("Payment Service Error", 'No Payment gateway selected?', "E")
     }
@@ -93,9 +93,9 @@ export class CheckoutComponent implements OnInit {
 
 
   // Razorpay 
-  public async createOrderWithRazorpay(modeOfPayment: string) {
+  public async createOrderWithRazorpay(modeOfTransaction: string) {
 
-    if (modeOfPayment == 'online') {
+    if (modeOfTransaction == 'online') {
       this.isLoading = true
       const res = await this.loadScript(Constants.RAZORPAY_SCRIPT_URL)
       if (!res) {
@@ -107,7 +107,7 @@ export class CheckoutComponent implements OnInit {
 
       
         if (this.slug) {
-          this.paymentService.createOrder(this.paymentService.getOrderInfo(this.slug), this.tableFormGroup.value.table, modeOfPayment).then((response) =>
+          this.paymentService.createOrder(this.paymentService.getOrderInfo(this.slug), this.tableFormGroup.value.table, modeOfTransaction).then((response) =>
             this.launchRazorPay(response.data))
             .catch((err) => {
               this.isLoading = false
@@ -117,11 +117,11 @@ export class CheckoutComponent implements OnInit {
         }
       
 
-    } else if (modeOfPayment == 'offline') {
+    } else if (modeOfTransaction == 'offline') {
       this.isLoading = true
       
         if (this.slug) {
-          this.paymentService.createOrder(this.paymentService.getOrderInfo(this.slug), this.tableFormGroup.value.table, modeOfPayment)
+          this.paymentService.createOrder(this.paymentService.getOrderInfo(this.slug), this.tableFormGroup.value.table, modeOfTransaction)
             .then((response: any) => {
               this.isLoading = false
               this.mainService.setshowPaymentStatus(true)
