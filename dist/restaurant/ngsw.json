@@ -1,0 +1,123 @@
+{
+  "configVersion": 1,
+  "timestamp": 1688388413337,
+  "index": "https://aviwhitewolf.github.io/Restaurant_UI/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "https://aviwhitewolf.github.io/Restaurant_UI/13.05b125dd8552b647.js",
+        "https://aviwhitewolf.github.io/Restaurant_UI/24.834ac1442512302e.js",
+        "https://aviwhitewolf.github.io/Restaurant_UI/270.441bb2c4aa396dbe.js",
+        "https://aviwhitewolf.github.io/Restaurant_UI/273.c87d9c1a50dd6361.js",
+        "https://aviwhitewolf.github.io/Restaurant_UI/436.049b6c13ecaa19f6.js",
+        "https://aviwhitewolf.github.io/Restaurant_UI/446.b0cc7f8f05d435fd.js",
+        "https://aviwhitewolf.github.io/Restaurant_UI/528.74f38e9fbc2858b0.js",
+        "https://aviwhitewolf.github.io/Restaurant_UI/54.36e46cba1406e3e3.js",
+        "https://aviwhitewolf.github.io/Restaurant_UI/60.9cdcbaf6798b54dc.js",
+        "https://aviwhitewolf.github.io/Restaurant_UI/75.f8401b59c69525f1.js",
+        "https://aviwhitewolf.github.io/Restaurant_UI/778.b47962089d9c188f.js",
+        "https://aviwhitewolf.github.io/Restaurant_UI/91.9431b400d5bbf140.js",
+        "https://aviwhitewolf.github.io/Restaurant_UI/946.9b0e1e3f6e8ec963.js",
+        "https://aviwhitewolf.github.io/Restaurant_UI/common.76241f53d3ede3e7.js",
+        "https://aviwhitewolf.github.io/Restaurant_UI/favicon.ico",
+        "https://aviwhitewolf.github.io/Restaurant_UI/index.html",
+        "https://aviwhitewolf.github.io/Restaurant_UI/main.0d55f0628561eeb5.js",
+        "https://aviwhitewolf.github.io/Restaurant_UI/manifest.webmanifest",
+        "https://aviwhitewolf.github.io/Restaurant_UI/polyfills.20d9d61b9e9c65cb.js",
+        "https://aviwhitewolf.github.io/Restaurant_UI/runtime.2233368f5f9bf629.js",
+        "https://aviwhitewolf.github.io/Restaurant_UI/styles.e63a576c2689b279.css"
+      ],
+      "patterns": []
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "https://aviwhitewolf.github.io/Restaurant_UI/assets/fonts/Caveat-VariableFont_wght.ttf",
+        "https://aviwhitewolf.github.io/Restaurant_UI/assets/fonts/VarelaRound-Regular.ttf",
+        "https://aviwhitewolf.github.io/Restaurant_UI/assets/icons/Facebook.png",
+        "https://aviwhitewolf.github.io/Restaurant_UI/assets/icons/Instagram.png",
+        "https://aviwhitewolf.github.io/Restaurant_UI/assets/icons/icon-128x128.png",
+        "https://aviwhitewolf.github.io/Restaurant_UI/assets/icons/icon-144x144.png",
+        "https://aviwhitewolf.github.io/Restaurant_UI/assets/icons/icon-152x152.png",
+        "https://aviwhitewolf.github.io/Restaurant_UI/assets/icons/icon-192x192.png",
+        "https://aviwhitewolf.github.io/Restaurant_UI/assets/icons/icon-384x384.png",
+        "https://aviwhitewolf.github.io/Restaurant_UI/assets/icons/icon-512x512.png",
+        "https://aviwhitewolf.github.io/Restaurant_UI/assets/icons/icon-72x72.png",
+        "https://aviwhitewolf.github.io/Restaurant_UI/assets/icons/icon-96x96.png",
+        "https://aviwhitewolf.github.io/Restaurant_UI/assets/sounds/order_received.mp3",
+        "https://aviwhitewolf.github.io/Restaurant_UI/assets/svgs/background-1.svg",
+        "https://aviwhitewolf.github.io/Restaurant_UI/assets/svgs/background-2.svg"
+      ],
+      "patterns": []
+    }
+  ],
+  "dataGroups": [],
+  "hashTable": {
+    "https://aviwhitewolf.github.io/Restaurant_UI/13.05b125dd8552b647.js": "5bf45169c97a87209f3c8ec3f29620a28e032cc6",
+    "https://aviwhitewolf.github.io/Restaurant_UI/24.834ac1442512302e.js": "09c34c0127a2e6df0b5ff7ebd94112c2f27be877",
+    "https://aviwhitewolf.github.io/Restaurant_UI/270.441bb2c4aa396dbe.js": "85746b7a5fbc0b6400009d1b60b67089e06718c7",
+    "https://aviwhitewolf.github.io/Restaurant_UI/273.c87d9c1a50dd6361.js": "e809f05b4a90c46c36130a090d89b906d384a9f9",
+    "https://aviwhitewolf.github.io/Restaurant_UI/436.049b6c13ecaa19f6.js": "2a23d5b8ea4b6520a1430a402bfd2f4e6e8d5e8b",
+    "https://aviwhitewolf.github.io/Restaurant_UI/446.b0cc7f8f05d435fd.js": "772651377e125c350acdb3c3b7a7db353c3bf782",
+    "https://aviwhitewolf.github.io/Restaurant_UI/528.74f38e9fbc2858b0.js": "6af87a3a8323472855bbc28972738934d9e48578",
+    "https://aviwhitewolf.github.io/Restaurant_UI/54.36e46cba1406e3e3.js": "31139c0d138ccbd681a8b2ae80212dcd24b951b6",
+    "https://aviwhitewolf.github.io/Restaurant_UI/60.9cdcbaf6798b54dc.js": "6a3eabe79279313c42f29ad2601e8e4b7080a37a",
+    "https://aviwhitewolf.github.io/Restaurant_UI/75.f8401b59c69525f1.js": "f3e756486109086b51e323d94191e451a8cefafb",
+    "https://aviwhitewolf.github.io/Restaurant_UI/778.b47962089d9c188f.js": "386915633707a66b0ba343679abe0e8cea6894c5",
+    "https://aviwhitewolf.github.io/Restaurant_UI/91.9431b400d5bbf140.js": "efc2a9c9556092312f87da3d17981223ce88da9e",
+    "https://aviwhitewolf.github.io/Restaurant_UI/946.9b0e1e3f6e8ec963.js": "53ef083bd16bac6e2780ae43fc4092770c8b193f",
+    "https://aviwhitewolf.github.io/Restaurant_UI/assets/fonts/Caveat-VariableFont_wght.ttf": "622989e46c6e18a42f96e92622e5cdb5ebde0f47",
+    "https://aviwhitewolf.github.io/Restaurant_UI/assets/fonts/VarelaRound-Regular.ttf": "0d28e4c76f4a10590964b9766ccfc54c14527445",
+    "https://aviwhitewolf.github.io/Restaurant_UI/assets/icons/Facebook.png": "9e9d2f2adcf20592ea01d88a4e54155ff1b4e0d3",
+    "https://aviwhitewolf.github.io/Restaurant_UI/assets/icons/Instagram.png": "95abbf305a64c76381edc6a0cd10aa89dbbbb96b",
+    "https://aviwhitewolf.github.io/Restaurant_UI/assets/icons/icon-128x128.png": "dae3b6ed49bdaf4327b92531d4b5b4a5d30c7532",
+    "https://aviwhitewolf.github.io/Restaurant_UI/assets/icons/icon-144x144.png": "b0bd89982e08f9bd2b642928f5391915b74799a7",
+    "https://aviwhitewolf.github.io/Restaurant_UI/assets/icons/icon-152x152.png": "7479a9477815dfd9668d60f8b3b2fba709b91310",
+    "https://aviwhitewolf.github.io/Restaurant_UI/assets/icons/icon-192x192.png": "1abd80d431a237a853ce38147d8c63752f10933b",
+    "https://aviwhitewolf.github.io/Restaurant_UI/assets/icons/icon-384x384.png": "329749cd6393768d3131ed6304c136b1ca05f2fd",
+    "https://aviwhitewolf.github.io/Restaurant_UI/assets/icons/icon-512x512.png": "559d9c4318b45a1f2b10596bbb4c960fe521dbcc",
+    "https://aviwhitewolf.github.io/Restaurant_UI/assets/icons/icon-72x72.png": "c457e56089a36952cd67156f9996bc4ce54a5ed9",
+    "https://aviwhitewolf.github.io/Restaurant_UI/assets/icons/icon-96x96.png": "3914125a4b445bf111c5627875fc190f560daa41",
+    "https://aviwhitewolf.github.io/Restaurant_UI/assets/sounds/order_received.mp3": "a860af14085c49bc64b6aa8b9e88d8405c7ecd3f",
+    "https://aviwhitewolf.github.io/Restaurant_UI/assets/svgs/background-1.svg": "2373342155505e11def7201a452ca9393eda9e3e",
+    "https://aviwhitewolf.github.io/Restaurant_UI/assets/svgs/background-2.svg": "9e69c5adbd8725fa5a96c3316ead15b4e55b7567",
+    "https://aviwhitewolf.github.io/Restaurant_UI/common.76241f53d3ede3e7.js": "330e6e2e6bfd86e16ceb683fe9f7bd37f7fd44ea",
+    "https://aviwhitewolf.github.io/Restaurant_UI/favicon.ico": "22f6a4a3bcaafafb0254e0f2fa4ceb89e505e8b2",
+    "https://aviwhitewolf.github.io/Restaurant_UI/index.html": "8973a3b59afc25c503c59d51577401d45db37316",
+    "https://aviwhitewolf.github.io/Restaurant_UI/main.0d55f0628561eeb5.js": "47877ee7cdb2da0f9c0115134a2ab643b49c622f",
+    "https://aviwhitewolf.github.io/Restaurant_UI/manifest.webmanifest": "26b2416ed397bf53842adb8e23c3d43d82617ab1",
+    "https://aviwhitewolf.github.io/Restaurant_UI/polyfills.20d9d61b9e9c65cb.js": "90207411e41ccfa8ec88112c98f9fa2857c9dded",
+    "https://aviwhitewolf.github.io/Restaurant_UI/runtime.2233368f5f9bf629.js": "b538d6864ce608847c104a24278814cdb0873f1b",
+    "https://aviwhitewolf.github.io/Restaurant_UI/styles.e63a576c2689b279.css": "1dffbac13d1ff054e5e7bb92c5b6ab00e5a7471a"
+  },
+  "navigationUrls": [
+    {
+      "positive": true,
+      "regex": "^\\/.*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*\\.[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*\\/.*$"
+    }
+  ],
+  "navigationRequestStrategy": "performance"
+}
