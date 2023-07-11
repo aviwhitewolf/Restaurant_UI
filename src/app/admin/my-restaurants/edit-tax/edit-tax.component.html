@@ -27,121 +27,118 @@
                     <div
                         class="bg-gray-50 mt-2 sm:col-span-6 px-4 py-5 sm:px-6 sm:py-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-5 border rounded-md">
 
-                            <!-- Compound  -->
-                            <div>
-                                <div class="flex flex-row items-center sm:justify-around justify-between flex-wrap">
-                                    <div>
-                                        <label for="Price" class="block text-sm font-medium text-gray-700">
-                                            Disable
-                                        </label>
+                        <!-- Compound  -->
+                        <div>
+                            <div class="flex flex-row items-center sm:justify-around justify-between flex-wrap">
+                                <div>
+                                    <label for="Price" class="block text-sm font-medium text-gray-700">
+                                        Disable
+                                    </label>
 
-                                        <label class="mt-1 switch">
-                                            <input type="checkbox" formControlName="disable"
+                                    <label class="mt-1 switch">
+                                        <input type="checkbox" formControlName="disable"
                                             [ngClass]="{'border-2 border-red-500' : taxForm.get('disable')?.errors && (taxForm.get('disable')?.touched ||  taxForm.get('disable')?.dirty),
-                                            'border-gray-300' : !(taxForm.get('disable')?.errors && (taxForm.get('disable')?.touched ||  taxForm.get('disable')?.dirty))}"
-                                            >
-                                            <span class="slider round"></span>
-                                           <!-- Errors -->
-                                    <div *ngIf="taxForm.get('disable')?.errors?.['required'] &&  (taxForm.get('disable')?.errors && (taxForm.get('disable')?.touched ||  taxForm.get('disable')?.dirty))"
-                                    class="text-red-500 text-xs pt-1">Compound is invalid</div>
-                                <!-- Errors End -->
-                                        </label>
+                                            'border-gray-300' : !(taxForm.get('disable')?.errors && (taxForm.get('disable')?.touched ||  taxForm.get('disable')?.dirty))}">
+                                        <span class="slider round"></span>
+                                        <!-- Errors -->
+                                        <div *ngIf="taxForm.get('disable')?.errors?.['required'] &&  (taxForm.get('disable')?.errors && (taxForm.get('disable')?.touched ||  taxForm.get('disable')?.dirty))"
+                                            class="text-red-500 text-xs pt-1">Compound is invalid</div>
+                                        <!-- Errors End -->
+                                    </label>
 
-                                    </div>
+                                </div>
 
 
-                                    <div class="ml-1">
-                                        <label for="Price" class="block text-sm font-medium text-gray-700">
-                                            Compound
-                                        </label>
+                                <div class="ml-1">
+                                    <label for="Price" class="block text-sm font-medium text-gray-700">
+                                        Compound
+                                    </label>
 
-                                        <label class="mt-1 switch">
-                                            <input type="checkbox" formControlName="compound"
+                                    <label class="mt-1 switch">
+                                        <input type="checkbox" formControlName="compound"
                                             [ngClass]="{'border-2 border-red-500' : taxForm.get('compound')?.errors && (taxForm.get('compound')?.touched ||  taxForm.get('compound')?.dirty),
-                                            'border-gray-300' : !(taxForm.get('compound')?.errors && (taxForm.get('compound')?.touched ||  taxForm.get('compound')?.dirty))}"
-                                            >
-                                            <span class="slider round"></span>
-                                           <!-- Errors -->
-                                    <div *ngIf="taxForm.get('compound')?.errors?.['required'] &&  (taxForm.get('compound')?.errors && (taxForm.get('compound')?.touched ||  taxForm.get('compound')?.dirty))"
-                                    class="text-red-500 text-xs pt-1">Compound is invalid</div>
-                                <!-- Errors End -->
-                                        </label>
-
-                                    </div>
-
-
+                                            'border-gray-300' : !(taxForm.get('compound')?.errors && (taxForm.get('compound')?.touched ||  taxForm.get('compound')?.dirty))}">
+                                        <span class="slider round"></span>
+                                        <!-- Errors -->
+                                        <div *ngIf="taxForm.get('compound')?.errors?.['required'] &&  (taxForm.get('compound')?.errors && (taxForm.get('compound')?.touched ||  taxForm.get('compound')?.dirty))"
+                                            class="text-red-500 text-xs pt-1">Compound is invalid</div>
+                                        <!-- Errors End -->
+                                    </label>
 
                                 </div>
 
 
+
                             </div>
-                            <!-- Compound End -->
-
-                            <!-- Name -->
-                            <div class="sm:col-span-2">
-                                <label for="taxes-name" class="block text-sm font-medium text-gray-700">
-                                    Name
-                                </label>
-                                <div class="mt-1">
-                                    <input formControlName="name" type="text" name="taxes-name"
-                                        [ngClass]="{'border-2 border-red-500' : taxForm.get('name')?.errors && (taxForm.get('name')?.touched ||  taxForm.get('name')?.dirty),
-                                        'border-gray-300' : !(taxForm.get('name')?.errors && (taxForm.get('name')?.touched ||  taxForm.get('name')?.dirty))}"
-                                        autocomplete="taxes-name"
-                                        class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm  rounded-md">
-                                </div>
-
-                                <!-- Errors -->
-                                <div *ngIf="taxForm.get('name')?.errors?.['required'] &&  (taxForm.get('name')?.errors && (taxForm.get('name')?.touched ||  taxForm.get('name')?.dirty))"
-                                    class="text-red-500 text-xs pt-1">Tax name is invalid</div>
-                                <!-- Errors End -->
-                            </div>
-                            <!-- Name End -->
-
-                            <!-- Rate  -->
-                            <div class="sm:col-span-1">
-                                <label for="Price" class="block text-sm font-medium text-gray-700">
-                                    Rate&nbsp;(%)
-                                </label>
-                                <div class="mt-1">
-                                    <input formControlName="rate" type="number" name="rate" autocomplete="rate"
-                                        [ngClass]="{'border-2 border-red-500' : taxForm.get('rate')?.errors && (taxForm.get('rate')?.touched ||  taxForm.get('rate')?.dirty),
-                                        'border-gray-300' : !(taxForm.get('rate')?.errors && (taxForm.get('rate')?.touched ||  taxForm.get('rate')?.dirty))}"
-                                        class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm rounded-md">
-
-                                    <!-- Errors -->
-                                    <div *ngIf="taxForm.get('rate')?.errors?.['required'] &&  (taxForm.get('rate')?.errors && (taxForm.get('rate')?.touched ||  taxForm.get('rate')?.dirty))"
-                                        class="text-red-500 text-xs pt-1">Rate is invalid</div>
-                                    <!-- Errors End -->
-                                </div>
-                            </div>
-                            <!-- Rate End -->
-
-                            <!-- priority  -->
-                            <div class="sm:col-span-1">
-                                <label for="Price" class="block text-sm font-medium text-gray-700">
-                                    Priority
-                                </label>
-                                <div class="mt-1">
-                                    <input formControlName="priority" type="number" name="priority"
-                                        autocomplete="priority"
-                                        [ngClass]="{'border-2 border-red-500' : taxForm.get('priority')?.errors && (taxForm.get('priority')?.touched ||  taxForm.get('priority')?.dirty),
-                                            'border-gray-300' : !(taxForm.get('priority')?.errors && (taxForm.get('priority')?.touched ||  taxForm.get('priority')?.dirty))}"
-                                        class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm rounded-md">
-
-                                    <!-- Errors -->
-                                    <div *ngIf="taxForm.get('priority')?.errors?.['required'] &&  (taxForm.get('priority')?.errors && (taxForm.get('priority')?.touched ||  taxForm.get('priority')?.dirty))"
-                                        class="text-red-500 text-xs pt-1">Priority is invalid</div>
-                                    <!-- Errors End -->
-                                </div>
-                            </div>
-                            <!-- Priority End -->
-
-
 
 
                         </div>
+                        <!-- Compound End -->
 
-                    
+                        <!-- Name -->
+                        <div class="sm:col-span-2">
+                            <label for="taxes-name" class="block text-sm font-medium text-gray-700">
+                                Name
+                            </label>
+                            <div class="mt-1">
+                                <input formControlName="name" type="text" name="taxes-name"
+                                    [ngClass]="{'border-2 border-red-500' : taxForm.get('name')?.errors && (taxForm.get('name')?.touched ||  taxForm.get('name')?.dirty),
+                                        'border-gray-300' : !(taxForm.get('name')?.errors && (taxForm.get('name')?.touched ||  taxForm.get('name')?.dirty))}"
+                                    autocomplete="taxes-name"
+                                    class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm  rounded-md">
+                            </div>
+
+                            <!-- Errors -->
+                            <div *ngIf="taxForm.get('name')?.errors?.['required'] &&  (taxForm.get('name')?.errors && (taxForm.get('name')?.touched ||  taxForm.get('name')?.dirty))"
+                                class="text-red-500 text-xs pt-1">Tax name is invalid</div>
+                            <!-- Errors End -->
+                        </div>
+                        <!-- Name End -->
+
+                        <!-- Rate  -->
+                        <div class="sm:col-span-1">
+                            <label for="Price" class="block text-sm font-medium text-gray-700">
+                                Rate&nbsp;(%)
+                            </label>
+                            <div class="mt-1">
+                                <input formControlName="rate" type="number" name="rate" autocomplete="rate"
+                                    [ngClass]="{'border-2 border-red-500' : taxForm.get('rate')?.errors && (taxForm.get('rate')?.touched ||  taxForm.get('rate')?.dirty),
+                                        'border-gray-300' : !(taxForm.get('rate')?.errors && (taxForm.get('rate')?.touched ||  taxForm.get('rate')?.dirty))}"
+                                    class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm rounded-md">
+
+                                <!-- Errors -->
+                                <div *ngIf="taxForm.get('rate')?.errors?.['required'] &&  (taxForm.get('rate')?.errors && (taxForm.get('rate')?.touched ||  taxForm.get('rate')?.dirty))"
+                                    class="text-red-500 text-xs pt-1">Rate is invalid</div>
+                                <!-- Errors End -->
+                            </div>
+                        </div>
+                        <!-- Rate End -->
+
+                        <!-- priority  -->
+                        <div class="sm:col-span-1">
+                            <label for="Price" class="block text-sm font-medium text-gray-700">
+                                Priority
+                            </label>
+                            <div class="mt-1">
+                                <input formControlName="priority" type="number" name="priority" autocomplete="priority"
+                                    [ngClass]="{'border-2 border-red-500' : taxForm.get('priority')?.errors && (taxForm.get('priority')?.touched ||  taxForm.get('priority')?.dirty),
+                                            'border-gray-300' : !(taxForm.get('priority')?.errors && (taxForm.get('priority')?.touched ||  taxForm.get('priority')?.dirty))}"
+                                    class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm rounded-md">
+
+                                <!-- Errors -->
+                                <div *ngIf="taxForm.get('priority')?.errors?.['required'] &&  (taxForm.get('priority')?.errors && (taxForm.get('priority')?.touched ||  taxForm.get('priority')?.dirty))"
+                                    class="text-red-500 text-xs pt-1">Priority is invalid</div>
+                                <!-- Errors End -->
+                            </div>
+                        </div>
+                        <!-- Priority End -->
+
+
+
+
+                    </div>
+
+
                     <!-- Category End -->
 
                 </form>

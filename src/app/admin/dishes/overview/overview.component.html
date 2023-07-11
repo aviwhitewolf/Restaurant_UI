@@ -112,10 +112,12 @@
             </div> -->
 
                                 <ul class="mt-6">
-                                    <li class="text-gray-500 text-xs capitalize" *ngFor="let category of dish?.category;let index = index">
+                                    <li class="text-gray-500 text-xs capitalize"
+                                        *ngFor="let category of dish?.category;let index = index">
                                         <div *ngIf="index + 1 <= 4" class="flex flex-wrap justify-between space-y-1">
                                             <span>{{category.name}}</span>
-                                            <span class="text-red-500 ml-1">{{category.price | currency : dish.currency}}</span>
+                                            <span class="text-red-500 ml-1">{{category.price | currency :
+                                                dish.currency}}</span>
                                         </div>
                                     </li>
                                     <div *ngIf="dish.category.length + 1 > 4" class="flex flex-col justify-center">
@@ -126,7 +128,8 @@
                             </div>
                         </div>
 
-                        <p class="mt-6 mx-auto text-base font-medium text-red-500">{{dish?.price | currency : dish.currency}}
+                        <p class="mt-6 mx-auto text-base font-medium text-red-500">{{dish?.price | currency :
+                            dish.currency}}
                         </p>
 
                         <!-- action button -->

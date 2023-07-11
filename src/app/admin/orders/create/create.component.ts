@@ -114,9 +114,6 @@ export class CreateComponent implements OnInit {
         orderInfo.cash = 0
         orderInfo.online = this.total
       
-      }else {
-        this.mainService.openDialog("Error", "Need to select 'Mode of payment'.", "E")
-
       }
 
       orderInfo.modeOfPayment = modeOfPayment

@@ -7,11 +7,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { ReusableModule } from 'src/app/reusable/reusable.module';
 import { DishRoutingModule } from './dish-routing.module';
 import { DishVariationsModule } from './dish-variations/dish-variations.module';
-
+import { AddonDishVariationComponent } from './addon-dish-variation/addon-dish-variation.component';
+import { CdkAccordionModule } from '@angular/cdk/accordion';
 @NgModule({
   declarations: [
     EditComponent,
-    OverviewComponent
+    OverviewComponent,
+    AddonDishVariationComponent
   ],
   imports: [
     CommonModule,
@@ -20,7 +22,9 @@ import { DishVariationsModule } from './dish-variations/dish-variations.module';
     ReusableModule,
     DishRoutingModule,
     ReactiveFormsModule,
-    DishVariationsModule
+    DishVariationsModule,
+    CdkAccordionModule
+    
   ]
 })
 export class DishesModule { }

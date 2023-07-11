@@ -31,7 +31,7 @@ export class DishVariationsComponent implements OnInit {
         children: [
           new Item({ name: 'subItem1' }),
           new Item({ name: 'subItem2' }),
-          new Item({ name: 'subItem3' }),
+          new Item({ name: 'subItem3' })
         ],
       })
     );
@@ -40,11 +40,7 @@ export class DishVariationsComponent implements OnInit {
         name: 'test2',
         children: [
           new Item({ name: 'subItem4' }),
-          new Item({ name: 'subItem5' }),
-          new Item({
-            name: 'subItem6',
-            children: [new Item({ name: 'subItem8' })],
-          }),
+          new Item({ name: 'subItem5' })
         ],
       })
     );
