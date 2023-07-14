@@ -158,10 +158,7 @@
     justify-content: space-between;
   }
   
-  .accordion-item-description {
-    font-size: 0.85em;
-    color: #999;
-  }
+
   
   .accordion-item-header,
   .accordion-item-body {

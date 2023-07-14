@@ -1,71 +1,73 @@
-
-    <cdk-accordion  class="bg-white accordion mt-6 overflow-hidden">
-        <cdk-accordion-item *ngFor="let parent of parentForms;let i = index; let last = last" [formGroup]="parent"
-            #accordionItem="cdkAccordionItem" class="accordion-item" [ngClass]="{'border-b' : !last}" role="button"
-            tabindex="0" [attr.id]="'accordion-header-' + i" [attr.aria-expanded]="accordionItem.expanded"
-            [attr.aria-controls]="'accordion-body-' + i">
-            <div class="accordion-item-header hover:bg-gray-50 px-6"
-                [ngClass]="{'bg-gray-50' : accordionItem.expanded}">
+<cdk-accordion class="bg-white accordion mt-6 overflow-hidden">
+    <cdk-accordion-item *ngFor="let parent of parentForms;let i = index; let last = last" [formGroup]="parent"
+        #accordionItem="cdkAccordionItem" class="accordion-item" [ngClass]="{'border-b' : !last}" role="button"
+        tabindex="0" [attr.id]="'accordion-header-' + i" [attr.aria-expanded]="accordionItem.expanded"
+        [attr.aria-controls]="'accordion-body-' + i">
+        <div class="accordion-item-header hover:bg-gray-50 px-6" [ngClass]="{'bg-gray-50' : accordionItem.expanded}">
 
 
 
-                <div class="w-full grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-3">
+            <div class="w-full grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-3">
 
-                    <div class="">
+                <!-- Name and Meta data -->
+                <div>
 
-                        <!-- Name -->
-                        <div class="sm:col-span-1">
-                            <ng-container *ngIf="isEditing !== 'name'">
-                                <label (click)="editField('name')" for="name"
-                                    class="text-indigo-500 capitalize bg-transparent hover:underline"
-                                    [ngClass]="{'text-red-500' : parent.get('name')?.errors && (parent.get('name')?.touched ||  parent.get('name')?.dirty),
-                        'text-indigo-500 capitalize' : !(parent.get('name')?.errors && (parent.get('name')?.touched ||  parent.get('name')?.dirty))}">
-                                    {{parent.get('name')?.value || 'Name'}}
-                                </label>
-                            </ng-container>
-                            <div>
-                                <input [autofocus]="isEditing === 'name'" placeholder="Name" *ngIf="isEditing === 'name'" (blur)="cancelEdit()"
-                                    (keyup.enter)="saveField('name')" formControlName="name" type="text" name="name"
-                                    class="text-indigo-500 p-0 border-0 outline-none focus:p-0 focus:outline-none focus:ring-0 bg-transparent">
-                            </div>
+                    <!-- Name -->
+                    <div class="sm:col-span-1">
+                        <ng-container *ngIf="isEditing !== 'name' + i">
+                            <label (click)="editField('name' + i)" for="name"
+                                class="font-medium text-gray-700 hover:text-gray-800  bg-transparen"
+                                [ngClass]="{'text-red-500' : parent.get('name')?.errors && (parent.get('name')?.touched ||  parent.get('name')?.dirty),
+                        'font-medium text-gray-700 hover:text-gray-800' : !(parent.get('name')?.errors && (parent.get('name')?.touched ||  parent.get('name')?.dirty))}">
+                                {{parent.get('name')?.value || 'Name'}} <span class="text-xs text-gray-500">(Click to
+                                    write)</span>
+                            </label>
+                        </ng-container>
+                        <div>
+                            <input autofocus placeholder="Name"
+                                *ngIf="isEditing === 'name'  + i" (blur)="cancelEdit()"
+                                (keyup.enter)="saveField('name')" formControlName="name" type="text" name="name"
+                                class="text-indigo-500 p-0 border-0 outline-none focus:p-0 focus:outline-none focus:ring-0 bg-transparent">
+                        </div>
+
+                        <!-- Errors -->
+                        <div *ngIf="parent.get('name')?.errors?.['required'] &&  (parent.get('name')?.errors && (parent.get('name')?.touched ||  parent.get('name')?.dirty))"
+                            class="text-red-500 text-xs pt-1">Name is invalid</div>
+                        <!-- Errors End -->
+                    </div>
+                    <!-- Name End -->
+
+                    <!-- metaData  -->
+                    <div>
+                        <ng-container *ngIf="isEditing !== 'metaData' + i">
+                            <label (click)="editField('metaData' + i)" for="metaData"
+                                class="capitalize text-sm text-gray-500bg-transparent hover:underline"
+                                [ngClass]="{'text-red-500' : parent.get('metaData')?.errors && (parent.get('metaData')?.touched ||  parent.get('metaData')?.dirty),
+                        'capitalize  text-sm text-gray-500' : !(parent.get('metaData')?.errors && (parent.get('metaData')?.touched ||  parent.get('metaData')?.dirty))}">
+                                {{parent.get('metaData')?.value || 'Meta Data'}}
+                            </label>
+                        </ng-container>
+                        <div>
+                            <input [autofocus]="isEditing === 'metaData'  + i" *ngIf="isEditing === 'metaData'  + i"
+                                (blur)="cancelEdit()" (keyup.enter)="saveField('metaData')" formControlName="metaData"
+                                type="text" name="metaData" autocomplete="metaData"
+                                class="capitalize text-sm text-gray-500 bg-transparent p-0 border-0 outline-none focus:p-0 focus:outline-none focus:ring-0">
 
                             <!-- Errors -->
-                            <div *ngIf="parent.get('name')?.errors?.['required'] &&  (parent.get('name')?.errors && (parent.get('name')?.touched ||  parent.get('name')?.dirty))"
-                                class="text-red-500 text-xs pt-1">Tax name is invalid</div>
+                            <div *ngIf="parent.get('metaData')?.errors?.['required'] &&  (parent.get('metaData')?.errors && (parent.get('metaData')?.touched ||  parent.get('metaData')?.dirty))"
+                                class="text-red-500 text-xs pt-1">Meta data is invalid</div>
                             <!-- Errors End -->
                         </div>
-                        <!-- Name End -->
 
-                        <div>
-                            <!-- metaData  -->
-
-                            <ng-container *ngIf="isEditing !== 'metaData'">
-                                <label (click)="editField('metaData')" for="metaData"
-                                    class="capitalize text-sm text-gray-500 bg-transparent hover:underline"
-                                    [ngClass]="{'text-red-500' : parent.get('metaData')?.errors && (parent.get('metaData')?.touched ||  parent.get('metaData')?.dirty),
-                        ' capitalize' : !(parent.get('metaData')?.errors && (parent.get('metaData')?.touched ||  parent.get('metaData')?.dirty))}">
-                                    {{parent.get('metaData')?.value || 'Meta Data'}}
-                                </label>
-                            </ng-container>
-                            <div>
-                                <input [autofocus]="isEditing === 'metaData'" *ngIf="isEditing === 'metaData'" (blur)="cancelEdit()"
-                                    (keyup.enter)="saveField('metaData')" formControlName="metaData" type="text"
-                                    name="metaData" autocomplete="metaData"
-                                    class="capitalize text-sm text-gray-500 bg-transparent p-0 border-0 outline-none focus:p-0 focus:outline-none focus:ring-0">
-
-                                <!-- Errors -->
-                                <div *ngIf="parent.get('metaData')?.errors?.['required'] &&  (parent.get('metaData')?.errors && (parent.get('metaData')?.touched ||  parent.get('metaData')?.dirty))"
-                                    class="text-red-500 text-xs pt-1">Meta data is invalid</div>
-                                <!-- Errors End -->
-                            </div>
-
-                            <!-- metaData End -->
-                        </div>
                     </div>
+                    <!-- metaData End -->
+                </div>
+                <!-- Name and Meta data end-->
 
-                    <!-- type  -->
-                    <div>
-                        <select formControlName="type" name="type" autocomplete="type" [ngClass]="{' border-2 border-red-500' : parent.get('type')?.errors &&
+
+                <!-- type  -->
+                <div>
+                    <select formControlName="type" name="type" autocomplete="type" [ngClass]="{' border-2 border-red-500' : parent.get('type')?.errors &&
                         ( parent.get('type')?.touched ||  parent.get('type')?.dirty),
                      'border-gray-300' : !(parent.get('type')?.errors &&
                      ( parent.get('type')?.touched ||  parent.get('type')?.dirty))}"
@@ -75,110 +77,251 @@
                     </select>
 
                     <div *ngIf="(parent.get('type')?.touched ||  parent.get('type')?.dirty) 
-                    && (parent.get('type')?.errors?.['required'])"
-                        class="text-red-500 text-xs pt-1">Type is invalid</div>
+                    && (parent.get('type')?.errors?.['required'])" class="text-red-500 text-xs pt-1">Type is invalid
                     </div>
-                    <!-- type End -->
+                </div>
+                <!-- type End -->
+
+
+                <div>
+                    <!-- Required -->
+                    <div class="relative flex items-start">
+                        <div class="flex items-center h-5">
+                            <input class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
+                                type="checkbox" formControlName="required"
+                                [ngClass]="{'border-2 border-red-500' : parent.get('required')?.errors && (parent.get('required')?.touched ||  parent.get('required')?.dirty),
+                      'border-gray-300' : !(parent.get('required')?.errors && (parent.get('required')?.touched ||  parent.get('required')?.dirty))}">
+                        </div>
+                        <div class="ml-3 text-sm">
+                            <label for="required" class="font-medium text-gray-700">Required</label>
+                            <span id="comments-description" class="text-gray-500"><span
+                                    class="sr-only">Required</span></span>
+                        </div>
+                    </div>
+                    <!-- Required End -->
+
+                    <!-- MultiSelect -->
+                    <div class="relative flex items-start mt-1">
+                        <div class="flex items-center h-5">
+                            <input class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
+                                type="checkbox" formControlName="multiSelect"
+                                [ngClass]="{'border-2 border-red-500' : parent.get('multiSelect')?.errors && (parent.get('multiSelect')?.touched ||  parent.get('multiSelect')?.dirty),
+                      ' border-gray-300' : !(parent.get('multiSelect')?.errors && (parent.get('multiSelect')?.touched ||  parent.get('multiSelect')?.dirty))}">
+                        </div>
+                        <div class="ml-3 text-sm">
+                            <label for="multiSelect" class="font-medium text-gray-700">MultiSelect</label>
+                            <span id="candidates-description" class="text-gray-500"><span class="sr-only">MultiSelect
+                                </span></span>
+                        </div>
+                    </div>
+                    <!-- MultiSelect End -->
+                </div>
+
+            </div>
+            <div class="flex  items-center justify-center space-x-4 sm:space-y-0 space-y-2 ">
+
+
+                <button type="button" (click)="removeParent(i)"
+                    class="inline-flex items-center  border border-transparent rounded-full shadow-sm text-white bg-gray-400 hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                    <mat-icon class="text-base">delete</mat-icon>
+                </button>
+
+
+                <button *ngIf="accordionItem.expanded" type="button"
+                    (click)="accordionItem.toggle(); $event.stopPropagation();"
+                    class="inline-flex items-center  border border-transparent rounded-full shadow-sm text-white bg-gray-400 hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <mat-icon class="text-base">expand_less</mat-icon>
+                </button>
+
+
+                <button *ngIf="!accordionItem.expanded" type="button"
+                    (click)="accordionItem.toggle();$event.stopPropagation(); "
+                    class="inline-flex items-center  border border-transparent rounded-full shadow-sm text-white bg-gray-400 hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <mat-icon class="text-base">expand_more</mat-icon>
+                </button>
+
+            </div>
+
+        </div>
+        <div class="accordion-item-body bg-gray-50" role="region" [style.display]="accordionItem.expanded ? '' : 'none'"
+            [attr.id]="'accordion-body-' + i" [attr.aria-labelledby]="'accordion-header-' + i">
+
+            <!-- Inside row -->
+
+            <div formArrayName="children" class="w-full px-6 ">
+                <div *ngFor="let child of getChildren(parent); let j = index" [formGroupName]="j" class="flex flex-col">
 
 
                     <div>
-                        <!-- Required -->
-                        <div class="relative flex items-start">
-                            <div class="flex items-center h-5">
-                                <input class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
-                                    type="checkbox" formControlName="required"
-                                    [ngClass]="{'border-2 border-red-500' : parent.get('required')?.errors && (parent.get('required')?.touched ||  parent.get('required')?.dirty),
-                      'border-gray-300' : !(parent.get('required')?.errors && (parent.get('required')?.touched ||  parent.get('required')?.dirty))}">
-                            </div>
-                            <div class="ml-3 text-sm">
-                                <label for="required" class="font-medium text-gray-700">Required</label>
-                                <span id="comments-description" class="text-gray-500"><span class="sr-only">Required</span></span>
-                            </div>
-                        </div>
-                        <!-- Required End -->
 
-                        <!-- MultiSelect -->
-                        <div class="relative flex items-start mt-1">
-                            <div class="flex items-center h-5">
-                                <input class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
-                                    type="checkbox" formControlName="multiSelect"
-                                    [ngClass]="{'border-2 border-red-500' : parent.get('multiSelect')?.errors && (parent.get('multiSelect')?.touched ||  parent.get('multiSelect')?.dirty),
-                      'border-gray-300' : !(parent.get('multiSelect')?.errors && (parent.get('multiSelect')?.touched ||  parent.get('multiSelect')?.dirty))}">
-                            </div>
-                            <div class="ml-3 text-sm">
-                                <label for="multiSelect" class="font-medium text-gray-700">MultiSelect</label>
-                                <span id="candidates-description" class="text-gray-500"><span
-                                        class="sr-only">MultiSelect </span></span>
-                            </div>
+                        <div class="mt-4 bg-white border border-gray-200 rounded-lg shadow-sm">
+                            <ul role="list" class="divide-y divide-gray-200">
+                                <li class="flex py-6 px-4 sm:px-6">
+
+                                    <div class=" flex-1 flex flex-col">
+                                        <div class="flex">
+                                            <div class="min-w-0 flex-1">
+                                                <!-- Name and Meta data -->
+
+
+                                                <!-- Name -->
+                                                <div class="sm:col-span-1">
+                                                    <ng-container *ngIf="isEditing !== 'name' + i + j">
+                                                        <label (click)="editField('name' + i + j)" for="name"
+                                                            class="text-sm font-medium text-gray-700 hover:text-gray-800 bg-transparent"
+                                                            [ngClass]="{'text-red-500' : child.get('name')?.errors && (child.get('name')?.touched ||  child.get('name')?.dirty),
+                                    'text-sm font-medium text-gray-700 hover:text-gray-800' : !(child.get('name')?.errors && (child.get('name')?.touched ||  child.get('name')?.dirty))}">
+                                                            {{child.get('name')?.value || 'Name'}} <span
+                                                                class="text-xs text-gray-500">(Click to
+                                                                edit)</span>
+                                                        </label>
+                                                    </ng-container>
+                                                    <div>
+                                                        <input [autofocus]="isEditing === 'name'  + i + j"
+                                                            placeholder="Name" *ngIf="isEditing === 'name'  + i + j"
+                                                            (blur)="cancelEdit()" (keyup.enter)="saveField('name')"
+                                                            formControlName="name" type="text" name="name"
+                                                            class="text-sm p-0 border-0 outline-none focus:p-0 focus:outline-none focus:ring-0 bg-transparent font-medium text-gray-700 hover:text-gray-800">
+                                                    </div>
+
+                                                    <!-- Errors -->
+                                                    <div *ngIf="child.get('name')?.errors?.['required'] &&  (child.get('name')?.errors && (child.get('name')?.touched ||  child.get('name')?.dirty))"
+                                                        class="text-red-500 text-xs pt-1">Name is invalid</div>
+                                                    <!-- Errors End -->
+                                                </div>
+                                                <!-- Name End -->
+
+                                                <!-- metaData  -->
+                                                <div>
+                                                    <ng-container *ngIf="isEditing !== 'metaData' + i + j">
+                                                        <label (click)="editField('metaData' + i + j)" for="metaData"
+                                                            class="capitalize text-sm text-gray-500 bg-transparent"
+                                                            [ngClass]="{'text-red-500' : child.get('metaData')?.errors && (child.get('metaData')?.touched ||  child.get('metaData')?.dirty),
+                                    ' capitalize' : !(child.get('metaData')?.errors && (child.get('metaData')?.touched ||  child.get('metaData')?.dirty))}">
+                                                            {{child.get('metaData')?.value || 'Meta Data'}}
+                                                        </label>
+                                                    </ng-container>
+                                                    <div>
+                                                        <input [autofocus]="isEditing === 'metaData'  + i + j"
+                                                            *ngIf="isEditing === 'metaData'  + i + j"
+                                                            (blur)="cancelEdit()" (keyup.enter)="saveField('metaData')"
+                                                            formControlName="metaData" type="text" name="metaData"
+                                                            autocomplete="metaData"
+                                                            class="capitalize text-sm text-gray-500 bg-transparent p-0 border-0 outline-none focus:p-0 focus:outline-none focus:ring-0">
+
+                                                        <!-- Errors -->
+                                                        <div *ngIf="child.get('metaData')?.errors?.['required'] &&  (child.get('metaData')?.errors && (child.get('metaData')?.touched ||  child.get('metaData')?.dirty))"
+                                                            class="text-red-500 text-xs pt-1">Meta data is invalid</div>
+                                                        <!-- Errors End -->
+                                                    </div>
+
+
+                                                    <!-- metaData End -->
+                                                </div>
+                                                <!-- Name and Meta data end-->
+                                            </div>
+
+                                            <div class="ml-4 flex-shrink-0 flow-root">
+
+
+                                                <button type="button" (click)="removeChild(i, j)"
+                                                    class="inline-flex items-center  border border-transparent rounded-full shadow-sm text-white bg-gray-400 hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                                                    <mat-icon class="text-base">delete</mat-icon>
+                                                </button>
+
+
+                                            </div>
+                                        </div>
+
+                                        <div class="flex-1 pt-2 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-3">
+
+                                            <!-- type  -->
+                                            <div class="text-sm font-medium text-gray-900">
+                                                <label for="type"
+                                                    class="sr-only block text-sm font-medium text-gray-700">
+                                                    Type
+                                                </label>
+                                                <select formControlName="type" name="type" autocomplete="type"
+                                                    [ngClass]="{' border-2 border-red-500' : child.get('type')?.errors &&
+                        ( child.get('type')?.touched ||  child.get('type')?.dirty),
+                     'border-gray-300' : !(child.get('type')?.errors &&
+                     ( child.get('type')?.touched ||  child.get('type')?.dirty))}"
+                                                    class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm rounded-md">
+                                                    <option value="Veg">Veg</option>
+                                                    <option value="NonVeg">Non Veg</option>
+                                                </select>
+
+                                                <div *ngIf="(child.get('type')?.touched ||  child.get('type')?.dirty) 
+                    && (child.get('type')?.errors?.['required'])" class="text-red-500 text-xs pt-1">Type is invalid
+                                                </div>
+                                            </div>
+                                            <!-- type End -->
+
+                                            <!-- price  -->
+                                            <div>
+                                                <label for="price"
+                                                    class="sr-only block text-sm font-medium text-gray-700">
+                                                    Price
+                                                </label>
+                                                <input type="number" formControlName="price" name="price"
+                                                    autocomplete="price" [ngClass]="{' border-2 border-red-500' : child.get('price')?.errors &&
+                        ( child.get('price')?.touched ||  child.get('price')?.dirty),
+                     'border-gray-300' : !(child.get('price')?.errors &&
+                     ( child.get('price')?.touched ||  child.get('price')?.dirty))}"
+                                                    class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm rounded-md">
+
+
+
+                                                <div *ngIf="(child.get('price')?.touched ||  child.get('price')?.dirty) 
+                    && (child.get('price')?.errors?.['required'])" class="text-red-500 text-xs pt-1">Price is invalid
+                                                </div>
+                                            </div>
+                                            <!-- price end -->
+
+                                            <div>
+                                                <label for="price"
+                                                    class="sr-only block text-sm font-medium text-gray-700">
+                                                    Depends On
+                                                </label>
+                                                <select name="quantity"
+                                                    class="w-full rounded-md border border-gray-300 text-base font-medium text-gray-700 text-left shadow-sm focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                                    <option value="1">Section A</option>
+                                                    <option value="2">Section B</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
+                                                    <option value="5">5</option>
+                                                    <option value="6">6</option>
+                                                    <option value="7">7</option>
+                                                    <option value="8">8</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+
+                            </ul>
+
                         </div>
-                        <!-- MultiSelect End -->
                     </div>
 
                 </div>
-                <div class="flex  items-center justify-center flex-wrap space-x-4 sm:space-y-0 space-y-2 ">
 
-                    <button *ngIf="accordionItem.expanded" type="button"
-                        (click)="accordionItem.toggle(); $event.stopPropagation();"
-                        class="inline-flex items-center  border border-transparent rounded-full shadow-sm text-white bg-gray-400 hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                        <mat-icon class="text-base">expand_less</mat-icon>
+                <div class="py-3 flex justify-end ">
+                    <button (click)="addChild(i)"
+                        class="flex justify-center items-center bg-indigo-600 border border-transparent rounded-md shadow-sm py-1.5 px-4 text-sm text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500">
+                        <mat-icon class="mr-2">
+                            add</mat-icon>
+                        Add Child
                     </button>
-
-
-                    <button *ngIf="!accordionItem.expanded" type="button"
-                        (click)="accordionItem.toggle();$event.stopPropagation(); "
-                        class="inline-flex items-center  border border-transparent rounded-full shadow-sm text-white bg-gray-400 hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                        <mat-icon class="text-base">expand_more</mat-icon>
-                    </button>
-
                 </div>
-
             </div>
-            <div class="accordion-item-body bg-gray-50" role="region"
-                [style.display]="accordionItem.expanded ? '' : 'none'" [attr.id]="'accordion-body-' + i"
-                [attr.aria-labelledby]="'accordion-header-' + i">
 
-                <!-- Inside row -->
-                <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 px-4">
 
-                    <div formArrayName="children">
-                        <div *ngFor="let child of getChildren(parent); let j = index" [formGroupName]="j">
-                            <hr />
-                            <h4>Child {{ i + 1 }}</h4>
-                            <div>
-                                <label>Name:</label>
-                                <input type="text" formControlName="name" />
-                            </div>
-                            <div>
-                                <label>Price:</label>
-                                <input type="number" formControlName="price" />
-                            </div>
-                
-                            <div>
-                                <label>MetaData:</label>
-                                <input type="text" formControlName="metaData" />
-                            </div>
-                            <div>
-                                <label>Type:</label>
-                                <select formControlName="type">
-                                    <option value="Veg">Veg</option>
-                                    <option value="NonVeg">NonVeg</option>
-                                </select>
-                            </div>
-                            <div>
-                                <button type="button" (click)="removeChild(i, j)">Remove Child</button>
-                            </div>
-                        </div>
-                        <div>
-                            <button type="button" (click)="addChild(i)">Add Child</button>
-                        </div>
-                    </div>
-                
+        </div>
+        <!-- Inside  row end -->
 
-                </div>
-                <!-- Inside  row end -->
 
-            </div>
-        </cdk-accordion-item>
+    </cdk-accordion-item>
 
     <div class="py-3 flex justify-end px-6">
         <button (click)="addParent()"
@@ -188,6 +331,4 @@
             Add more variations
         </button>
     </div>
-    </cdk-accordion>
-
-
+</cdk-accordion>
