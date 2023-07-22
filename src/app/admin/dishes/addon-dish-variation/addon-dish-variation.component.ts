@@ -96,6 +96,7 @@ export class AddonDishVariationComponent implements OnInit {
 
   editField(field: string): void {
     this.isEditing = field;
+   
   }
 
   cancelEdit(): void {

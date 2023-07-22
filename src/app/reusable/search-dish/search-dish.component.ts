@@ -43,7 +43,7 @@ export class SearchDishComponent implements OnInit {
     this.loading = true
     this.adminService.getAllDishes(slug)
       .then((result) => {
-        this.dishes = result.data
+        this.dishes = result?.data?.filter((dish : any) => dish?.publishedAt)
         this.filteredDishes = this.dishes?.slice(0, 2)
         this.loading = false
       }).catch((err) => {
@@ -58,8 +58,7 @@ export class SearchDishComponent implements OnInit {
       return this.dishes?.slice(0, 2)
     }
     return this.dishes.filter((dish: any) => {
-      const dataStr = JSON.stringify(dish).toLowerCase();
-      return dataStr.indexOf(value.toLowerCase()) != -1;
+      return dish.publishedAt && JSON.stringify(dish).toLowerCase().indexOf(value.toLowerCase()) != -1;
     })
   }
 

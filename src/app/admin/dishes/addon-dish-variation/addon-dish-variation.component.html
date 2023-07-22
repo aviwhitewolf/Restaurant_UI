@@ -15,19 +15,19 @@
                     <!-- Name -->
                     <div class="sm:col-span-1">
                         <ng-container *ngIf="isEditing !== 'name' + i">
-                            <label (click)="editField('name' + i)" for="name"
+                            <label (click)="editField('name' + i)" for="name" [hidden]="isEditing === 'name'  + i"
                                 class="font-medium text-gray-700 hover:text-gray-800  bg-transparen"
                                 [ngClass]="{'text-red-500' : parent.get('name')?.errors && (parent.get('name')?.touched ||  parent.get('name')?.dirty),
                         'font-medium text-gray-700 hover:text-gray-800' : !(parent.get('name')?.errors && (parent.get('name')?.touched ||  parent.get('name')?.dirty))}">
-                                {{parent.get('name')?.value || 'Name'}} <span class="text-xs text-gray-500">(Click to
+                                {{parent.get('name')?.value || 'Name'}} <span [hidden]="isEditing === 'name'  + i" class="text-xs text-gray-500">(Click to
                                     write)</span>
                             </label>
                         </ng-container>
                         <div>
-                            <input autofocus placeholder="Name"
+                            <input contenteditable="isEditing === 'name'  + i" [hidden]="isEditing != 'name'  + i" placeholder="Name"
                                 *ngIf="isEditing === 'name'  + i" (blur)="cancelEdit()"
                                 (keyup.enter)="saveField('name')" formControlName="name" type="text" name="name"
-                                class="text-indigo-500 p-0 border-0 outline-none focus:p-0 focus:outline-none focus:ring-0 bg-transparent">
+                                class="text-gray-700 p-0 border-0 outline-none focus:p-0 focus:outline-none focus:ring-0 bg-transparent">
                         </div>
 
                         <!-- Errors -->
@@ -41,14 +41,14 @@
                     <div>
                         <ng-container *ngIf="isEditing !== 'metaData' + i">
                             <label (click)="editField('metaData' + i)" for="metaData"
-                                class="capitalize text-sm text-gray-500bg-transparent hover:underline"
+                                class="capitalize text-sm text-gray-500bg-transparent"
                                 [ngClass]="{'text-red-500' : parent.get('metaData')?.errors && (parent.get('metaData')?.touched ||  parent.get('metaData')?.dirty),
                         'capitalize  text-sm text-gray-500' : !(parent.get('metaData')?.errors && (parent.get('metaData')?.touched ||  parent.get('metaData')?.dirty))}">
                                 {{parent.get('metaData')?.value || 'Meta Data'}}
                             </label>
                         </ng-container>
                         <div>
-                            <input [autofocus]="isEditing === 'metaData'  + i" *ngIf="isEditing === 'metaData'  + i"
+                            <input   *ngIf="isEditing === 'metaData'  + i"
                                 (blur)="cancelEdit()" (keyup.enter)="saveField('metaData')" formControlName="metaData"
                                 type="text" name="metaData" autocomplete="metaData"
                                 class="capitalize text-sm text-gray-500 bg-transparent p-0 border-0 outline-none focus:p-0 focus:outline-none focus:ring-0">
