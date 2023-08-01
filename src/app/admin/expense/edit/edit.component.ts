@@ -224,7 +224,8 @@ export class EditComponent implements OnInit {
             category: this.singleExpense?.category?.id,
             currency: this.currency,
             uploadUrl: this.singleExpense?.uploadUrl,
-            date : moment(this.singleExpense?.date).toISOString()
+            date : moment(this.singleExpense?.date).toISOString(),
+            modeOfPayment : this.singleExpense?.modeOfPayment
           }
 
         );

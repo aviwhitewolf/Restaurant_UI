@@ -9,6 +9,8 @@ import { DishRoutingModule } from './dish-routing.module';
 import { DishVariationsModule } from './dish-variations/dish-variations.module';
 import { AddonDishVariationComponent } from './addon-dish-variation/addon-dish-variation.component';
 import { CdkAccordionModule } from '@angular/cdk/accordion';
+import { MatTooltipModule } from '@angular/material/tooltip';
+
 @NgModule({
   declarations: [
     EditComponent,
@@ -23,8 +25,8 @@ import { CdkAccordionModule } from '@angular/cdk/accordion';
     DishRoutingModule,
     ReactiveFormsModule,
     DishVariationsModule,
-    CdkAccordionModule
-    
+    CdkAccordionModule,
+    MatTooltipModule
   ]
 })
 export class DishesModule { }
