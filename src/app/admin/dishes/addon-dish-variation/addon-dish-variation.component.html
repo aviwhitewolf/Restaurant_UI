@@ -90,7 +90,7 @@
                     <!-- MultiSelect -->
                     <div class="relative flex items-start mt-1">
                         <div class="flex items-center h-5">
-                            <input class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
+                            <input class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 text- border-gray-300 rounded"
                                 type="checkbox" formControlName="multiSelect"
                                 [ngClass]="{'border-2 border-red-500' : parent.get('multiSelect')?.errors && (parent.get('multiSelect')?.touched ||  parent.get('multiSelect')?.dirty),
                       ' border-gray-300' : !(parent.get('multiSelect')?.errors && (parent.get('multiSelect')?.touched ||  parent.get('multiSelect')?.dirty))}">
@@ -289,8 +289,6 @@
                                                 </select> -->
 
 
-
-
                                                 <div>
                                                     
                                                     <div class="relative mt-1">
@@ -299,7 +297,7 @@
                                                       class=" relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6" aria-haspopup="listbox" aria-expanded="true" aria-labelledby="listbox-label">
                                                         <span class="flex items-center">
                                                           <span class="h-full ml-3 block truncate">
-                                                            {{child.get('dependsOn')?.value}} &nbsp;
+                                                            {{getName(child.get('dependsOnIndex')?.value)}} &nbsp;
                                                         </span>
                                                         </span>
                                                         <span class="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-2">
@@ -321,48 +319,38 @@
                                                       -->
                                                       <div *ngIf="child.get('showDropDown')?.value" >
                                                       <ul
-                                                      *ngFor="let variation of getList(i)"
+                                                    
                                                       class="absolute z-10 mt-1 max-h-56 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm" tabindex="-1" role="listbox" aria-labelledby="listbox-label" aria-activedescendant="listbox-option-3">
                                                         <!--
                                                           Select option, manage highlight styles based on mouseenter/mouseleave and keyboard navigation.
                                                   
                                                           Highlighted: "bg-indigo-600 text-white", Not Highlighted: "text-gray-900"
                                                         -->
-                                                        <div *ngFor="let children of variation.children; let first = first">
-                                                            <span *ngIf="first" class="text-gray-400 text-xs font-semibold my-3 px-2">{{variation?.name}}</span>
-                                                        <li (click)="changeValueOfDependsOn(i, j, children); $event.stopPropagation();" 
+                                                        <div *ngFor="let variation of getList(i)"> 
+                                                        <div *ngFor="let children of variation.children; let first = first; let k = index;">
+                                                            <span *ngIf="first" class="text-gray-600 text-xs font-semibold my-3 px-2">{{variation?.name}}</span>
+                                                        <li (click)="changeValueOfDependsOn( i, j, children, variation.index, children.index); $event.stopPropagation();" 
+                                                      
                                                         class="hover:bg-gray-100 text-gray-900 relative cursor-default select-none py-2 pl-3 pr-9" id="listbox-option-0" role="option">
                                                           <div class="flex items-center">
                                                             <!-- Selected: "font-semibold", Not Selected: "font-normal" -->
-                                                            <span class="font-normal ml-3 block truncate">{{children.name}}</span>
+                                                            <span [ngClass]="{'font-semibold' : children.name == getName(child.get('dependsOnIndex')?.value)}" class="font-normal ml-3 block truncate">{{children.name}}</span>
                                                           </div>
                                                   
-                                                          <!--
-                                                            Checkmark, only display for selected option.
-                                                  
-                                                            Highlighted: "text-white", Not Highlighted: "text-indigo-600"
-                                                          -->
-                                                          <span *ngIf="children.name == child.get('dependsOn')?.value" class="text-indigo-600 absolute inset-y-0 right-0 flex items-center pr-4">
+                                                          <span *ngIf="children.name == getName(child.get('dependsOnIndex')?.value)" class="text-indigo-600 absolute inset-y-0 right-0 flex items-center pr-4">
                                                             <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                                                               <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
                                                             </svg>
                                                           </span>
                                                         </li>
                                                         </div>
-                                                  
-                                                        <!-- More items... -->
+                                                    </div>
+                                                        
                                                       </ul>
                                                     </div>
                                                     </div>
                                                   </div>
-                                                  
 
-
-
-
-
-
-                                           
                                             </div>
                                         </div>
                                     </div>
@@ -400,4 +388,5 @@
             Add more variations
         </button>
     </div>
+    <button type="button" (click)="submitForm()">Submit</button>
 </cdk-accordion>

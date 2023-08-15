@@ -5,8 +5,10 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "NODE_ENV=production ng build --configuration production",
+    "build-windows": "set NODE_ENV=production ng build --configuration production",
     "watch": "ng build --watch --configuration development",
     "github": "NODE_ENV=production ng build --configuration production && ng deploy --base-href 'https://aviwhitewolf.github.io/Restaurant_UI/'",
+    "github-windows": "set NODE_ENV=production ng build --configuration production && ng deploy --base-href https://aviwhitewolf.github.io/Restaurant_UI/",
     "http": "NODE_ENV=production ng build --configuration production && angular-http-server --path  dist/restaurant"
   },
   "private": true,

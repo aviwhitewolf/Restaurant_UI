@@ -240,7 +240,7 @@
 </div>
 
 
-<!-- <div *ngIf="data" class="pt-6">
+<div *ngIf="data" class="pt-6">
     
     <div class="absolute right-0 inset-y-0 flex items-center pointer-events-none">
         <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20"
@@ -274,13 +274,13 @@
             <dt class="text-xs font-medium text-gray-600  truncate">Total Online</dt>
             <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
                 <div class="flex items-baseline text-lg font-semibold text-red-500">
-                    {{data?.cashAndOnline?.totalcash || 0 | currency : currency}}
+                    {{data?.cashAndOnline?.totalonline || 0 | currency : currency}}
 
                 </div>
             </dd>
         </div>
     </dl>
-</div> -->
+</div>
 
 
 <!-- Overview end -->

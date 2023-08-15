@@ -6,8 +6,8 @@ interface ChildFormData {
   price: number;
   metaData: any;
   type: string;
-  dependsOn : string,
-  showDropDown : boolean
+  dependsOn: string,
+  showDropDown: boolean
 }
 
 @Component({
@@ -45,8 +45,9 @@ export class AddonDishVariationComponent implements OnInit {
       price: [0, Validators.required],
       metaData: '',
       type: ['Veg', Validators.required],
-      dependsOn : [''],
-      showDropDown : [false]
+      dependsOn: [''],
+      showDropDown: [false],
+      dependsOnIndex: [[]]
     });
 
     children.push(childForm);
@@ -55,34 +56,54 @@ export class AddonDishVariationComponent implements OnInit {
   removeChild(parentIndex: number, childIndex: number): void {
     const parent = this.parentForms[parentIndex];
     const children = parent.get('children') as FormArray;
-
+    const childForm = children.at(childIndex);
+    this.updateForm([[parentIndex, childIndex]])
     children.removeAt(childIndex);
   }
 
   addParent(): void {
     const parentForm = this.createParentForm();
     this.parentForms.push(parentForm);
-
   }
 
-  removeParent(index: number): void {
-    this.parentForms.splice(index, 1);
+  removeParent(parentIndex: number): void {
+    this.parentForms.splice(parentIndex, 1);
+    const parent = this.parentForms[parentIndex];
+    const children = parent.value.children;
+    this.updateForm(children.map((child : any, childIndex : number) => [parentIndex, childIndex]))
   }
 
   submitForm(): void {
     // Iterate through the parent forms and access the child forms
+    console.log(this.parentForms[0].value)
     const formData = this.parentForms.map(parent => ({
       name: parent.value.name,
       multiSelect: parent.value.multiSelect,
       metaData: parent.value.metaData,
       type: parent.value.type,
       required: parent.value.required,
-      children: parent.value.children.map((child: any) => ({
-        Name: child.Name,
-        price: child.price,
-        metaData: child.metaData,
-        type: child.type
-      }))
+      children: parent.value.children.map((child: any) => {
+
+        const myChild = {
+          name: child.name,
+          price: child.price,
+          metaData: child.metaData,
+          type: child.type,
+          dependsOn: null,
+          dependsOnIndex : []
+        }
+
+        if (child.dependsOnIndex && child.dependsOnIndex.length > 0) {
+          const [dependOnParentIndex, dependOnChildIndex] = child.dependsOnIndex
+          const dependsOnParent = this.parentForms[dependOnParentIndex];
+          const dependsOnchildren = dependsOnParent.get('children') as FormArray;
+          const dependsOnChildForm = dependsOnchildren.at(dependOnChildIndex);
+          myChild.dependsOn = dependsOnChildForm.value?.name,
+          myChild.dependsOnIndex = child.dependsOnIndex
+        }
+
+        return myChild
+      })
     }));
 
     console.log(formData);
@@ -99,7 +120,7 @@ export class AddonDishVariationComponent implements OnInit {
     const formData = [];
 
     for (let i = 0; i < limitIndex; i++) {
-      
+
       const parent = this.parentForms[i];
       const parentData = {
         name: parent.value.name,
@@ -107,59 +128,103 @@ export class AddonDishVariationComponent implements OnInit {
         metaData: parent.value.metaData,
         type: parent.value.type,
         required: parent.value.required,
-        children: [] as ChildFormData[]
+        children: [] as ChildFormData[],
+        index: i
       };
 
       const children = parent.value.children;
       for (let j = 0; j < children.length; j++) {
         const child = children[j];
 
-        if(child.name){
-        const childData = {
-          name: child.name,
-          price: child.price,
-          metaData: child.metaData,
-          type: child.type,
-          dependsOn : '',
-          showDropDown : false
-        };
-        parentData.children.push(childData);
+        if (child.name) {
+          const childData = {
+            name: child.name,
+            price: child.price,
+            metaData: child.metaData,
+            type: child.type,
+            dependsOn: child.dependsOn,
+            showDropDown: false,
+            index: j,
+            dependsOnIndex: child.dependsOnIndex
+          };
+          parentData.children.push(childData);
+        }
       }
-      }
-
       formData.push(parentData);
     }
-
-    console.log(formData)
     return formData
   }
 
 
-  changeValueOfDependsOn(parentIndex: number, childIndex : number, child : any) {
+  updateForm(dependsOnIndices: any[]) {
+
+    for (let i = 0; i < this.parentForms.length; i++) {
+
+      const parent = this.parentForms[i];
+      const children = parent.value.children;
+
+      for (let j = 0; j < children.length; j++) {
+
+        const dependsOnchildren = parent.get('children') as FormArray;
+        const dependsOnchildForm = dependsOnchildren.at(j);
+        if (dependsOnIndices.findIndex((index: number[]) => index[0] === dependsOnchildForm.value?.dependsOnIndex[0] &&
+          index[1] === dependsOnchildForm.value?.dependsOnIndex[1]) >= 0) {
+          dependsOnchildForm.patchValue({
+            dependsOn: '',
+            showDropDown: false,
+            dependsOnIndex: []
+          });
+        }
+      }
+    }
+
+  }
+
+  changeValueOfDependsOn(parentIndex: number, childIndex: number, child: any, dependOnParentIndex: number, dependOnChildIndex: number) {
+
+    const parent = this.parentForms[parentIndex];
+    const children = parent.get('children') as FormArray;
+    const childForm = children.at(childIndex);
+
+    const dependsOnParent = this.parentForms[dependOnParentIndex];
+    const dependsOnchildren = dependsOnParent.get('children') as FormArray;
+    const dependsOnChildForm = dependsOnchildren.at(dependOnChildIndex);
+
+    childForm.patchValue({
+      // dependsOn: dependsOnChildForm?.value?.name,
+      showDropDown: false,
+      dependsOnIndex: [dependOnParentIndex, dependOnChildIndex]
+    });
+
+
+  }
+
+
+  toggleDropDown(parentIndex: number, childIndex: number, child: any, showDropDown: boolean) {
     const parent = this.parentForms[parentIndex];
     const children = parent.get('children') as FormArray;
     const childForm = children.at(childIndex);
 
     // Replace these default values with your desired values to patch
     const patchedValues = {
-      dependsOn : child.name,
-      showDropDown : false
+      showDropDown: showDropDown
     };
 
     childForm.patchValue(patchedValues);
   }
 
-  toggleDropDown(parentIndex: number, childIndex : number, child : any, showDropDown : boolean){
-    const parent = this.parentForms[parentIndex];
-    const children = parent.get('children') as FormArray;
-    const childForm = children.at(childIndex);
 
-    // Replace these default values with your desired values to patch
-    const patchedValues = {
-      showDropDown : showDropDown
-    };
-
-    childForm.patchValue(patchedValues);
+  getName(dependsOnIndex: number[]): string | null {
+    if (dependsOnIndex && dependsOnIndex.length > 0) {
+      const dependOnParentIndex = dependsOnIndex[0]
+      const dependOnChildIndex = dependsOnIndex[1]
+      const dependsOnParent = this.parentForms[dependOnParentIndex];
+      const dependsOnchildren = dependsOnParent.get('children') as FormArray;
+      const dependsOnChildForm = dependsOnchildren.at(dependOnChildIndex);
+      return dependsOnChildForm?.value?.name ? dependsOnChildForm?.value?.name : null
+    } else {
+      return null
+    }
   }
 
 }
