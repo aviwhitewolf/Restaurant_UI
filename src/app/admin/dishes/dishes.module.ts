@@ -10,12 +10,14 @@ import { DishVariationsModule } from './dish-variations/dish-variations.module';
 import { AddonDishVariationComponent } from './addon-dish-variation/addon-dish-variation.component';
 import { CdkAccordionModule } from '@angular/cdk/accordion';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { EditV1Component } from './edit-v1/edit-v1.component';
 
 @NgModule({
   declarations: [
     EditComponent,
     OverviewComponent,
-    AddonDishVariationComponent
+    AddonDishVariationComponent,
+    EditV1Component
   ],
   imports: [
     CommonModule,

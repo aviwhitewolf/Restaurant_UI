@@ -10,12 +10,13 @@ import { AdminService } from '../../admin.service';
 import { EditImageModalComponent } from '../../../reusable/edit-image-modal/edit-image-modal.component';
 import { RestaurantService } from 'src/app/restaurant/restaurant.service';
 
+
 @Component({
-  selector: 'app-edit',
-  templateUrl: './edit.component.html',
-  styleUrls: ['./edit.component.css']
+  selector: 'app-edit-v1',
+  templateUrl: './edit-v1.component.html',
+  styleUrls: ['./edit-v1.component.css']
 })
-export class EditComponent implements OnInit {
+export class EditV1Component implements OnInit {
 
   public loading: boolean = true
   private searchingTagName = ""

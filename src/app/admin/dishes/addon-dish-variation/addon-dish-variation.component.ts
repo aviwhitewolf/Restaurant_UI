@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 
 interface ChildFormData {
   name: string;
@@ -17,12 +17,17 @@ interface ChildFormData {
 })
 export class AddonDishVariationComponent implements OnInit {
 
+  @Output() formCreated = new EventEmitter<FormGroup[]>();
+
   parentForms!: FormGroup[];
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder) { 
+    this.parentForms = [this.createParentForm()];
+    this.addChild(0)
+  }
 
   ngOnInit() {
-    this.parentForms = [this.createParentForm()];
+    this.formCreated.emit(this.parentForms);
   }
 
   createParentForm(): FormGroup {
@@ -32,7 +37,7 @@ export class AddonDishVariationComponent implements OnInit {
       metaData: '',
       type: ['Veg', Validators.required],
       required: [false, Validators.required],
-      children: this.formBuilder.array([])
+      children: this.formBuilder.array([], [Validators.required, this.childrenRequiredValidator])
     });
   }
 
@@ -51,6 +56,7 @@ export class AddonDishVariationComponent implements OnInit {
     });
 
     children.push(childForm);
+    this.formCreated.emit(this.parentForms);
   }
 
   removeChild(parentIndex: number, childIndex: number): void {
@@ -59,11 +65,14 @@ export class AddonDishVariationComponent implements OnInit {
     const childForm = children.at(childIndex);
     this.updateForm([[parentIndex, childIndex]])
     children.removeAt(childIndex);
+    this.formCreated.emit(this.parentForms);
   }
 
   addParent(): void {
     const parentForm = this.createParentForm();
     this.parentForms.push(parentForm);
+    this.addChild(this.parentForms.length - 1)
+    this.formCreated.emit(this.parentForms);
   }
 
   removeParent(parentIndex: number): void {
@@ -71,6 +80,7 @@ export class AddonDishVariationComponent implements OnInit {
     const parent = this.parentForms[parentIndex];
     const children = parent.value.children;
     this.updateForm(children.map((child : any, childIndex : number) => [parentIndex, childIndex]))
+    this.formCreated.emit(this.parentForms);
   }
 
   submitForm(): void {
@@ -227,4 +237,15 @@ export class AddonDishVariationComponent implements OnInit {
     }
   }
 
+  childrenRequiredValidator(control: FormArray): ValidationErrors | null {
+    const children = control.controls;
+    if (children.length === 0) {
+      return { childrenRequired: true }; // Validation error if no children are present
+    }
+    return null; // No validation error
+  }
+  
+
 }
+
+
