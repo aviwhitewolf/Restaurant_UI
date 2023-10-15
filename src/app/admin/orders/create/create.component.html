@@ -33,12 +33,12 @@
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Confirm Order -->
       <div class="flex justify-between py-4 items-center">
-        <div (click)="goBackback()" class="text-lime-500 cursor-pointer flex items-center  text-sm">
+        <div (click)="goBackback()" class="text-blue-500 cursor-pointer flex items-center  text-sm">
           <mat-icon class="mr-2 text-base ">
             arrow_back</mat-icon> Back
         </div>
         <button type="button" (click)="confirmOrder()" [disabled]="userFormGroup.invalid || total <= 0"
-          class="disabled:bg-lime-400 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-lime-600 hover:bg-lime-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500">
+          class="disabled:bg-blue-400 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
           <mat-icon class="mr-2 text-md">
             save</mat-icon>
           Confirm Order
@@ -51,7 +51,7 @@
         <!-- <app-search-dish (selectedData)="addDish($event)"></app-search-dish> -->
         <div class="relative rounded-md shadow-sm sm:min-w-0 sm:flex-1">
           <div name="search" (click)="toggleSearchDishDialog(); $event.stopPropagation()"
-              class="border p-2 text-gray-500 focus:ring-lime-500 focus:border-lime-500 block w-full pr-32 sm:text-sm border-gray-300 rounded-md"
+              class="border p-2 text-gray-500 focus:ring-blue-500 focus:border-blue-500 block w-full pr-32 sm:text-sm border-gray-300 rounded-md"
               >
               Burger...
           </div>
@@ -130,7 +130,7 @@
                   <div class="absolute inset-y-0 left-0 flex items-center">
                     <label for="country" class="sr-only">Country Code</label>
                     <select id="country" name="country" autocomplete="country"
-                      class="focus:ring-lime-500 focus:border-lime-500 h-full py-0 pl-3 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md">
+                      class="focus:ring-blue-500 focus:border-blue-500 h-full py-0 pl-3 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md">
                       <option>+91</option>
                     </select>
                   </div>
@@ -138,7 +138,7 @@
                     ( userFormGroup.get('mobile')?.touched ||  userFormGroup.get('mobile')?.dirty)
                   ,'border border-gray-300' : !(userFormGroup.get('mobile')?.errors &&
                   ( userFormGroup.get('mobile')?.touched ||  userFormGroup.get('mobile')?.dirty))}"
-                    class="block w-full rounded-l-md pl-14   text-gray-900 focus:outline-none focus:ring-lime-500 focus:border-lime-500  sm:text-sm">
+                    class="block w-full rounded-l-md pl-14   text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500  sm:text-sm">
                 </div>
                 <button (click)="searchUser()"
                   class="-ml-px cursor-pointer relative inline-flex items-center space-x-2 px-2 border border-gray-300 text-sm font-medium rounded-r-md text-gray-700 bg-gray-50 hover:bg-gray-100 ">
@@ -159,7 +159,7 @@
               ( userFormGroup.get('fullName')?.touched ||  userFormGroup.get('fullName')?.dirty),
             'border border-gray-300' : !(userFormGroup.get('fullName')?.errors &&
             ( userFormGroup.get('fullName')?.touched ||  userFormGroup.get('fullName')?.dirty))}"
-                  class="appearance-none relative block w-full px-3 py-2  placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-lime-500 focus:border-lime-500 focus:z-10 sm:text-sm">
+                  class="appearance-none relative block w-full px-3 py-2  placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm">
               </div>
               <div *ngIf="(userFormGroup.get('fullName')?.touched ||  userFormGroup.get('fullName')?.dirty) 
           && (userFormGroup.get('fullName')?.errors?.['required']) " class="text-red-500 text-xs pt-1">Name is invalid
@@ -177,7 +177,7 @@
               ( userFormGroup.get('modeOfPayment')?.touched ||  userFormGroup.get('modeOfPayment')?.dirty),
           'border-gray-300' : !(userFormGroup.get('modeOfPayment')?.errors &&
           ( userFormGroup.get('modeOfPayment')?.touched ||  userFormGroup.get('modeOfPayment')?.dirty))}"
-                class="mt-1 block w-full bg-white  rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-lime-500 focus:border-lime-500 sm:text-sm">
+                class="mt-1 block w-full bg-white  rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
 
                 <option value="cash">Cash</option>
                 <option value="online">Online</option>
@@ -198,7 +198,7 @@
                 <div class="mt-1 ">
                   <input formControlName="cash" type="number" name="cash" autocomplete="cash"
                     [ngClass]="{'border-2 border-red-500' :  checkForFormErrors(i, 'cash', 'modeOfPaymentInfo'),'border-gray-300' : !(checkForFormErrors(i, 'cash', 'modeOfPaymentInfo')) }"
-                    class="appearance-none relative block w-full px-3 py-2  placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-lime-500 focus:border-lime-500 focus:z-10 sm:text-sm">
+                    class="appearance-none relative block w-full px-3 py-2  placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm">
                 </div>
 
                 <!-- Errors -->
@@ -216,7 +216,7 @@
                 <div class="mt-1 ">
                   <input formControlName="online" type="number" name="online" autocomplete="online"
                     [ngClass]="{'border-2 border-red-500' :  checkForFormErrors(i, 'online', 'modeOfPaymentInfo'),'border-gray-300' : !(checkForFormErrors(i, 'online', 'modeOfPaymentInfo')) }"
-                    class="appearance-none relative block w-full px-3 py-2  placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-lime-500 focus:border-lime-500 focus:z-10 sm:text-sm">
+                    class="appearance-none relative block w-full px-3 py-2  placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm">
                 </div>
                 <!-- Errors -->
                 <span *ngIf="checkForFormErrors(i, 'online', 'modeOfPaymentInfo')">
@@ -238,7 +238,7 @@
             ( userFormGroup.get('table')?.touched ||  userFormGroup.get('table')?.dirty),
         'border-gray-300' : !(userFormGroup.get('table')?.errors &&
         ( userFormGroup.get('table')?.touched ||  userFormGroup.get('table')?.dirty))}"
-                class="mt-1 block w-full bg-white  rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-lime-500 focus:border-lime-500 sm:text-sm">
+                class="mt-1 block w-full bg-white  rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
 
                 <option *ngFor="let table of tables" [value]="table?.id">
                   {{table?.name}}</option>

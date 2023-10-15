@@ -51,7 +51,7 @@
                         ( parent.get('type')?.touched ||  parent.get('type')?.dirty),
                      'border-gray-300' : !(parent.get('type')?.errors &&
                      ( parent.get('type')?.touched ||  parent.get('type')?.dirty))}"
-                        class="shadow-sm focus:ring-lime-500 focus:border-lime-500 block w-full sm:text-sm rounded-md">
+                        class="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm rounded-md">
                         <option value="Veg">Veg</option>
                         <option value="NonVeg">Non Veg</option>
                     </select>
@@ -67,7 +67,7 @@
                     <!-- Required -->
                     <div class="relative flex items-start">
                         <div class="flex items-center h-5">
-                            <input class="focus:ring-lime-500 h-4 w-4 text-lime-600 border-gray-300 rounded"
+                            <input class="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300 rounded"
                                 type="checkbox" formControlName="required"
                                 [ngClass]="{'border-2 border-red-500' : parent.get('required')?.errors && (parent.get('required')?.touched ||  parent.get('required')?.dirty),
                       'border-gray-300' : !(parent.get('required')?.errors && (parent.get('required')?.touched ||  parent.get('required')?.dirty))}">
@@ -90,7 +90,7 @@
                     <!-- MultiSelect -->
                     <div class="relative flex items-start mt-1">
                         <div class="flex items-center h-5">
-                            <input class="focus:ring-lime-500 h-4 w-4 text-lime-600 text- border-gray-300 rounded"
+                            <input class="focus:ring-blue-500 h-4 w-4 text-blue-600 text- border-gray-300 rounded"
                                 type="checkbox" formControlName="multiSelect"
                                 [ngClass]="{'border-2 border-red-500' : parent.get('multiSelect')?.errors && (parent.get('multiSelect')?.touched ||  parent.get('multiSelect')?.dirty),
                       ' border-gray-300' : !(parent.get('multiSelect')?.errors && (parent.get('multiSelect')?.touched ||  parent.get('multiSelect')?.dirty))}">
@@ -126,14 +126,14 @@
 
                 <button *ngIf="accordionItem.expanded" type="button"
                     (click)="accordionItem.toggle(); $event.stopPropagation();"
-                    class="inline-flex items-center ml-2 border border-transparent rounded-full shadow-sm text-white bg-gray-400 hover:bg-lime-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500">
+                    class="inline-flex items-center ml-2 border border-transparent rounded-full shadow-sm text-white bg-gray-400 hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                     <mat-icon class="text-base">expand_less</mat-icon>
                 </button>
 
 
                 <button *ngIf="!accordionItem.expanded" type="button"
                     (click)="accordionItem.toggle();$event.stopPropagation(); "
-                    class="inline-flex items-center ml-2 border border-transparent rounded-full shadow-sm text-white bg-gray-400 hover:bg-lime-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500">
+                    class="inline-flex items-center ml-2 border border-transparent rounded-full shadow-sm text-white bg-gray-400 hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                     <mat-icon class="text-base">expand_more</mat-icon>
                 </button>
 
@@ -221,7 +221,7 @@
                         ( child.get('type')?.touched ||  child.get('type')?.dirty),
                      'border-gray-300' : !(child.get('type')?.errors &&
                      ( child.get('type')?.touched ||  child.get('type')?.dirty))}"
-                                                    class="mt-1 shadow-sm focus:ring-lime-500 focus:border-lime-500 block w-full sm:text-sm rounded-md">
+                                                    class="mt-1 shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm rounded-md">
                                                     <option value="Veg">Veg</option>
                                                     <option value="NonVeg">Non Veg</option>
                                                 </select>
@@ -242,7 +242,7 @@
                         ( child.get('price')?.touched ||  child.get('price')?.dirty),
                      'border-gray-300' : !(child.get('price')?.errors &&
                      ( child.get('price')?.touched ||  child.get('price')?.dirty))}"
-                                                    class="mt-1 shadow-sm focus:ring-lime-500 focus:border-lime-500 block w-full sm:text-sm rounded-md">
+                                                    class="mt-1 shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm rounded-md">
 
 
 
@@ -267,7 +267,7 @@
 
                                                 <!--                                               
                                                 <select 
-                                                    class="mt-1 w-full rounded-md border border-gray-300 text-base font-medium text-gray-700 text-left shadow-sm focus:outline-none focus:ring-1 focus:ring-lime-500 focus:border-lime-500 sm:text-sm">
+                                                    class="mt-1 w-full rounded-md border border-gray-300 text-base font-medium text-gray-700 text-left shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                                                     
                                                     <optgroup
                                                         *ngFor="let variation of getList(parent.get('name')?.value, i)"
@@ -278,7 +278,7 @@
                                                 </select> -->
 
                                                 <!-- <select 
-                                                class="mt-1 w-full rounded-md border border-gray-300 text-base font-medium text-gray-700 text-left shadow-sm focus:outline-none focus:ring-1 focus:ring-lime-500 focus:border-lime-500 sm:text-sm">
+                                                class="mt-1 w-full rounded-md border border-gray-300 text-base font-medium text-gray-700 text-left shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                                                 
                                                 <optgroup formArrayName="dependsOn"
                                                     *ngFor="let parent of ( i > 0 ? mformData.slice(0, mformData.length - 1) : [])"
@@ -294,7 +294,7 @@
                                                     <div class="relative mt-1">
                                                       <button (click)="toggleDropDown(i, j, child, !child.get('showDropDown')?.value); $event.stopPropagation();" 
                                                       (clickOutside)="toggleDropDown(i, j, child, false);" type="button" 
-                                                      class=" relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-lime-500 sm:text-sm sm:leading-6" aria-haspopup="listbox" aria-expanded="true" aria-labelledby="listbox-label">
+                                                      class=" relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-sm sm:leading-6" aria-haspopup="listbox" aria-expanded="true" aria-labelledby="listbox-label">
                                                         <span class="flex items-center">
                                                           <span class="h-full ml-3 block truncate">
                                                             {{getName(child.get('dependsOnIndex')?.value)}} &nbsp;
@@ -324,7 +324,7 @@
                                                         <!--
                                                           Select option, manage highlight styles based on mouseenter/mouseleave and keyboard navigation.
                                                   
-                                                          Highlighted: "bg-lime-600 text-white", Not Highlighted: "text-gray-900"
+                                                          Highlighted: "bg-blue-600 text-white", Not Highlighted: "text-gray-900"
                                                         -->
                                                         <div *ngFor="let variation of getList(i)"> 
                                                         <div *ngFor="let children of variation.children; let first = first; let k = index;">
@@ -337,7 +337,7 @@
                                                             <span [ngClass]="{'font-semibold' : children.name == getName(child.get('dependsOnIndex')?.value)}" class="font-normal ml-3 block truncate">{{children.name}}</span>
                                                           </div>
                                                   
-                                                          <span *ngIf="children.name == getName(child.get('dependsOnIndex')?.value)" class="text-lime-600 absolute inset-y-0 right-0 flex items-center pr-4">
+                                                          <span *ngIf="children.name == getName(child.get('dependsOnIndex')?.value)" class="text-blue-600 absolute inset-y-0 right-0 flex items-center pr-4">
                                                             <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                                                               <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
                                                             </svg>
@@ -365,7 +365,7 @@
 
                 <div class="py-3 flex justify-end ">
                     <button (click)="addChild(i)"
-                        class="flex justify-center items-center bg-lime-600 border border-transparent rounded-md shadow-sm py-1.5 px-4 text-sm text-white hover:bg-lime-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-lime-500">
+                        class="flex justify-center items-center bg-blue-600 border border-transparent rounded-md shadow-sm py-1.5 px-4 text-sm text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-blue-500">
                         <mat-icon class="mr-2">
                             add</mat-icon>
                         Add Child
@@ -382,7 +382,7 @@
 
     <div class="py-3 flex justify-end px-6">
         <button (click)="addParent()"
-            class="flex justify-center items-center bg-lime-600 border border-transparent rounded-md shadow-sm py-1.5 px-4 text-sm text-white hover:bg-lime-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-lime-500">
+            class="flex justify-center items-center bg-blue-600 border border-transparent rounded-md shadow-sm py-1.5 px-4 text-sm text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-blue-500">
             <mat-icon class="mr-2">
                 add</mat-icon>
             Add more variations

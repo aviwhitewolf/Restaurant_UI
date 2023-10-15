@@ -23,19 +23,19 @@
             <form [formGroup]="dishFormGroup">
     
                 <div class="flex justify-between py-4 items-center">
-                    <button (click)="goBackback()" class="text-lime-500 flex items-center  text-sm  ">
+                    <button (click)="goBackback()" class="text-blue-500 flex items-center  text-sm  ">
                         <mat-icon class="mr-2 text-base ">
                             arrow_back</mat-icon> Back
                     </button>
                     <div class="flex flex-row">
     
                     <button (click)="saveDish(publish ? 'Unpublish' : 'Publish')" [disabled]="dishFormGroup.invalid"
-                    class="flex justify-center items-center py-2 px-4 border border-transparent text-lime-700 bg-lime-100 hover:bg-lime-200  text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500  ">
+                    class="flex justify-center items-center py-2 px-4 border border-transparent text-blue-700 bg-blue-100 hover:bg-blue-200  text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500  ">
                     <mat-icon class="mr-2">
                         publish</mat-icon>
                     {{publish ? 'Unpublish' : 'Publish'}}</button>
                     <button (click)="saveDish()" [disabled]="dishFormGroup.invalid"
-                        class="ml-2 disabled:bg-lime-400 flex items-center bg-lime-600 border border-transparent rounded-md shadow-sm py-2 px-4 text-sm text-white hover:bg-lime-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-lime-500">
+                        class="ml-2 disabled:bg-blue-400 flex items-center bg-blue-600 border border-transparent rounded-md shadow-sm py-2 px-4 text-sm text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-blue-500">
                         <mat-icon class="mr-2">
                             save</mat-icon>
                         Save</button>
@@ -73,7 +73,7 @@
                                                 ( dishFormGroup.get('name')?.touched ||  dishFormGroup.get('name')?.dirty),
                                             'border-gray-300' : !(dishFormGroup.get('description')?.errors &&
                                             ( dishFormGroup.get('name')?.touched ||  dishFormGroup.get('name')?.dirty))}"
-                                                class="shadow-sm focus:ring-lime-500 focus:border-lime-500 block w-full sm:text-sm border rounded-md">
+                                                class="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border rounded-md">
                                         </div>
                                         <div *ngIf="(dishFormGroup.get('name')?.touched ||  dishFormGroup.get('name')?.dirty) 
                                             && (dishFormGroup.get('name')?.errors?.['required'])"
@@ -91,7 +91,7 @@
                                                 ( dishFormGroup.get('type')?.touched ||  dishFormGroup.get('type')?.dirty),
                                              'border-gray-300' : !(dishFormGroup.get('type')?.errors &&
                                              ( dishFormGroup.get('type')?.touched ||  dishFormGroup.get('type')?.dirty))}"
-                                                class="shadow-sm focus:ring-lime-500 focus:border-lime-500 block w-full sm:text-sm rounded-md">
+                                                class="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm rounded-md">
                                                 <option value="Veg">Veg</option>
                                                 <option value="NonVeg">Non Veg</option>
                                             </select>
@@ -114,7 +114,7 @@
                                                 ( dishFormGroup.get('description')?.touched ||  dishFormGroup.get('description')?.dirty),
                                             'border-gray-300' : !(dishFormGroup.get('description')?.errors &&
                                             ( dishFormGroup.get('description')?.touched ||  dishFormGroup.get('description')?.dirty))}"
-                                                class="shadow-sm focus:ring-lime-500 focus:border-lime-500 block w-full sm:text-sm border rounded-md"></textarea>
+                                                class="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border rounded-md"></textarea>
     
                                             <div *ngIf="(dishFormGroup.get('description')?.touched ||  dishFormGroup.get('description')?.dirty) 
                                                 && (dishFormGroup.get('description')?.errors?.['required'])"
@@ -127,10 +127,10 @@
                                     <div class="sm:col-span-6 flex flex-row justify-between items-center border-y py-3">
                                         <label for="photo" class="block text-sm font-medium text-gray-700"> Stock </label>
                                         <div class="mt-1 flex flex-col items-center">
-                                            <!-- Enabled: "bg-lime-600", Not Enabled: "bg-gray-200" -->
+                                            <!-- Enabled: "bg-blue-600", Not Enabled: "bg-gray-200" -->
                                             <button type="button" (click)="toggleStock()"
-                                                [ngClass]="{'bg-lime-600' : dishFormGroup.get('inStock')?.value == true, 'bg-gray-200' : dishFormGroup.get('inStock')?.value == false}"
-                                                class="bg-gray-200 relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500"
+                                                [ngClass]="{'bg-blue-600' : dishFormGroup.get('inStock')?.value == true, 'bg-gray-200' : dishFormGroup.get('inStock')?.value == false}"
+                                                class="bg-gray-200 relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                                                 role="switch" aria-checked="false" aria-labelledby="annual-billing-label">
                                                 <!-- Enabled: "translate-x-5", Not Enabled: "translate-x-0" -->
                                                 <span aria-hidden="true"
@@ -160,7 +160,7 @@
     
                                             </span>
                                             <button (click)="changeImage()"
-                                                class="cursor-pointer ml-5 bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500">
+                                                class="cursor-pointer ml-5 bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                                                 Change
                                             </button>
     
@@ -191,7 +191,7 @@
                                                         <input formControlName="name" type="text" name="category-name"
                                                             [ngClass]="{'border-2 border-red-500' :  checkForFormErrors(i, 'name', 'category'),'border-gray-300' : !(checkForFormErrors(i, 'name', 'category')) }"
                                                             autocomplete="category-name"
-                                                            class="shadow-sm focus:ring-lime-500 focus:border-lime-500 block w-full sm:text-sm  rounded-md">
+                                                            class="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm  rounded-md">
                                                     </div>
     
                                                     <!-- Errors -->
@@ -213,7 +213,7 @@
                                                         <input formControlName="price" type="number" name="price"
                                                             autocomplete="price"
                                                             [ngClass]="{'border-2 border-red-500' :  checkForFormErrors(i, 'price', 'category'),'border-gray-300' : !(checkForFormErrors(i, 'price', 'category')) }"
-                                                            class="shadow-sm focus:ring-lime-500 focus:border-lime-500 block w-full sm:text-sm rounded-md">
+                                                            class="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm rounded-md">
     
                                                         <!-- Errors -->
                                                         <span *ngIf="checkForFormErrors(i, 'price', 'category')">
@@ -235,7 +235,7 @@
                                                     <div class="mt-1">
                                                         <input formControlName="metadata" type="text" name="quantity"
                                                             autocomplete="quantity"
-                                                            class="shadow-sm focus:ring-lime-500 focus:border-lime-500 block w-full sm:text-sm border-gray-300 rounded-md">
+                                                            class="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md">
                                                     </div>
                                                 </div>
                                                 <!-- Quantity End -->
@@ -280,7 +280,7 @@
                                             </label>
                                             <div class="mt-1 flex align-middle">
                                                 <button (click)="addDishCategory()"
-                                                    class="flex justify-center w-full items-center bg-lime-600 border border-transparent rounded-md shadow-sm py-1.5 px-4 text-sm text-white hover:bg-lime-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-lime-500">
+                                                    class="flex justify-center w-full items-center bg-blue-600 border border-transparent rounded-md shadow-sm py-1.5 px-4 text-sm text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-blue-500">
                                                     <mat-icon class="mr-2">
                                                         add</mat-icon>
                                                     Add more variations
@@ -313,12 +313,12 @@
                                 
                                 <div class="p-2 mt-2 bg-gray-50 rounded-lg" *ngIf="getFormControl('menus').controls?.length == 0 && menus?.length == 0">
                                     <button type="button" [routerLink]="['./../../','menu', 'add']"
-                                        class="block w-full border-2 border-gray-300 border-dashed rounded-lg p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500">
+                                        class="block w-full border-2 border-gray-300 border-dashed rounded-lg p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                                         <mat-icon style="height: unset;width: unset;" class="mx-auto  text-gray-600  text-5xl">menu_book</mat-icon>
                                         <span class="mx-auto mt-2 block text-sm font-medium text-gray-500">No menu found.</span>
-                                        <button type="button" class=" mx-auto mt-2 inline-flex items-center px-4 py-2 border border-gray-300 shadow-purple-500 shadow-sm text-sm font-medium rounded-3xl text-lime-500 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500">            
+                                        <button type="button" class=" mx-auto mt-2 inline-flex items-center px-4 py-2 border border-gray-300 shadow-purple-500 shadow-sm text-sm font-medium rounded-3xl text-blue-500 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">            
                                             Create one
-                                            <mat-icon style="height: unset;width: unset;" class="ml-2 text-lime-500 text-md">
+                                            <mat-icon style="height: unset;width: unset;" class="ml-2 text-blue-500 text-md">
                                                 east
                                             </mat-icon>
                                         </button>
@@ -327,7 +327,7 @@
     
                                 <div class="bg-gray-100 rounded-md grid grid-cols-1 sm:grid-cols-4 gap-2 p-2 mt-2">
                                     <div *ngIf="getFormControl('menus').controls?.length == 0 && menus.length > 0"
-                                        class="mt-2 col-span-4 relative block w-full border-2 border-gray-300 border-dashed rounded-lg p-6 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500">
+                                        class="mt-2 col-span-4 relative block w-full border-2 border-gray-300 border-dashed rounded-lg p-6 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                                         <mat-icon class="text-gray-500 text-5xl">
                                             menu_book</mat-icon>
                                         <span class="mt-2 block text-sm font-medium text-gray-900"> 
@@ -338,10 +338,10 @@
                                     <div formArrayName="menus" class="sm:col-span-2 col-span-1"
                                         *ngFor="let tags of getFormControl('menus')?.controls; let i = index">
                                         <div [formGroupName]="i"
-                                            class="capitalize py-1 pl-3 pr-2 flex flex-wrap justify-between  rounded-full items-center text-sm font-medium bg-lime-100 text-lime-700">
+                                            class="capitalize py-1 pl-3 pr-2 flex flex-wrap justify-between  rounded-full items-center text-sm font-medium bg-blue-100 text-blue-700">
                                             {{getMenu(i)}}
                                             <button type="button" (click)="removeMenu(i)"
-                                                class="flex-shrink-0 ml-0.5 h-4 w-4 rounded-full inline-flex items-center justify-center text-lime-400 hover:bg-lime-200 hover:text-lime-500 focus:outline-none focus:bg-lime-500 focus:text-white">
+                                                class="flex-shrink-0 ml-0.5 h-4 w-4 rounded-full inline-flex items-center justify-center text-blue-400 hover:bg-blue-200 hover:text-blue-500 focus:outline-none focus:bg-blue-500 focus:text-white">
                                                 <span class="sr-only">Remove</span>
                                                 <svg class="h-2 w-2" stroke="currentColor" fill="none" viewBox="0 0 8 8">
                                                     <path stroke-linecap="round" stroke-width="1.5" d="M1 1l6 6m0-6L1 7" />
@@ -358,7 +358,7 @@
                                             (clickOutside)="menuListClose()" (keyup)="searchMenu($any($event).target.value)"
                                             placeholder="Search"
                                             [ngClass]="{'border-2 border-red-500' :  (dishFormGroup.get('menus')?.hasError('notValid') && dishFormGroup.get('menus')?.touched),'border-gray-300' : !(dishFormGroup.get('menus')?.hasError('notValid') && dishFormGroup.get('menus')?.touched)}"
-                                            class="mt-2 py-2 px-3 rounded-md focus:outline-none focus:ring-lime-500 block w-full sm:text-sm">
+                                            class="mt-2 py-2 px-3 rounded-md focus:outline-none focus:ring-blue-500 block w-full sm:text-sm">
                                     </span>
                                     <div *ngIf="showMenuListDropDown"
                                         class="absolute overflow-hidden z-10 w-full mt-1 bg-white rounded-md shadow-lg">
@@ -388,7 +388,7 @@
                                 <label for="tag" class="block text-sm font-medium text-gray-700">Tags</label>
                                 <div class="bg-gray-100 p-2 mt-2 rounded-md grid grid-cols-1 sm:grid-cols-4 gap-2">
                                     <div *ngIf="getFormControl('tags').controls?.length == 0"
-                                        class="col-span-4 relative block w-full border-2 border-gray-300 border-dashed rounded-lg p-6 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500">
+                                        class="col-span-4 relative block w-full border-2 border-gray-300 border-dashed rounded-lg p-6 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                                         <mat-icon class="text-gray-500 text-5xl">
                                             sell</mat-icon>
                                         <span class="mt-2 block text-sm font-medium text-gray-900"> No tags added, search to
@@ -397,10 +397,10 @@
                                     <div formArrayName="tags" class="sm:col-span-2 col-span-1"
                                         *ngFor="let tags of getFormControl('tags').controls; let i = index">
                                         <div [formGroupName]="i"
-                                            class="capitalize py-1 pl-3 pr-2 flex flex-wrap justify-between  rounded-full items-center text-sm font-medium bg-lime-100 text-lime-700">
+                                            class="capitalize py-1 pl-3 pr-2 flex flex-wrap justify-between  rounded-full items-center text-sm font-medium bg-blue-100 text-blue-700">
                                             {{getTags(i)}}
                                             <button type="button" (click)="removetags(i)"
-                                                class="flex-shrink-0 ml-0.5 h-4 w-4 rounded-full inline-flex items-center justify-center text-lime-400 hover:bg-lime-200 hover:text-lime-500 focus:outline-none focus:bg-lime-500 focus:text-white">
+                                                class="flex-shrink-0 ml-0.5 h-4 w-4 rounded-full inline-flex items-center justify-center text-blue-400 hover:bg-blue-200 hover:text-blue-500 focus:outline-none focus:bg-blue-500 focus:text-white">
                                                 <span class="sr-only">Remove</span>
                                                 <svg class="h-2 w-2" stroke="currentColor" fill="none" viewBox="0 0 8 8">
                                                     <path stroke-linecap="round" stroke-width="1.5" d="M1 1l6 6m0-6L1 7" />
@@ -416,7 +416,7 @@
                                             (clickOutside)="tagListClose()" (keyup)="searchTags($any($event).target.value)"
                                             placeholder="Min 2 character" autocomplete="tag"
                                             [ngClass]="{'border-2 border-red-500' : (dishFormGroup.get('tags')?.hasError('notValid') && dishFormGroup.get('tags')?.touched),'border-gray-300' : !(dishFormGroup.get('tags')?.hasError('notValid') && dishFormGroup.get('tags')?.touched)}"
-                                            class="mt-2 py-2 px-3 rounded-md focus:outline-none focus:ring-lime-500 block w-full sm:text-sm">
+                                            class="mt-2 py-2 px-3 rounded-md focus:outline-none focus:ring-blue-500 block w-full sm:text-sm">
                                     </span>
     
                                     <div *ngIf="showTagsListDropDown"
@@ -441,7 +441,7 @@
     
                                     <div *ngIf="!(dishFormGroup.get('tags')?.hasError('notValid') && dishFormGroup.get('tags')?.touched)"
                                         (click)="showAddTagDialog = true; $event.stopPropagation();"
-                                        class="ml-1 cursor-pointer mt-2 text-xs text-lime-500">
+                                        class="ml-1 cursor-pointer mt-2 text-xs text-blue-500">
                                         Unable to find the tag, <u>click</u> to add one.
                                     </div>
     
@@ -480,7 +480,7 @@
                                         <input formControlName="name" type="text" name="menu-name" autocomplete="menu-name"
                                             [ngClass]="{'border-2 border-red-500' : tagAddFormGroup.get('name')?.errors && (tagAddFormGroup.get('name')?.touched ||  tagAddFormGroup.get('name')?.dirty),
                                         'border-gray-300' : !(tagAddFormGroup.get('name')?.errors && (tagAddFormGroup.get('name')?.touched ||  tagAddFormGroup.get('name')?.dirty))}"
-                                            class="mt-1 focus:ring-lime-500 focus:border-lime-500 block w-full shadow-sm sm:text-sm rounded-md">
+                                            class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm rounded-md">
                                         <div *ngIf="tagAddFormGroup.get('name')?.errors?.['required'] &&  (tagAddFormGroup.get('name')?.errors && (tagAddFormGroup.get('name')?.touched ||  tagAddFormGroup.get('name')?.dirty))"
                                             class="text-red-500 text-xs pt-1">Tag name is invalid</div>
                                     </div>
@@ -489,13 +489,13 @@
                                 <div class="mt-6 flex justify-between px-6 py-5 border-t">
     
                                     <button type="button" (click)="showAddTagDialog = false"
-                                        class="py-2 px-4 border border-lime-500 text-sm font-medium rounded-md text-lime-500  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500">
+                                        class="py-2 px-4 border border-blue-500 text-sm font-medium rounded-md text-blue-500  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                                         Cancel
                                     </button>
     
     
                                     <button type="button" (click)="createTag()" [disabled]="tagAddFormGroup.invalid"
-                                        class="disabled:bg-lime-400 cursor-pointer py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-lime-500 hover:bg-lime-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500">
+                                        class="disabled:bg-blue-400 cursor-pointer py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                                         Add
                                     </button>
     

@@ -2,11 +2,11 @@
 <div *ngIf="!loading && order" class="bg-white mt-8 pb-12">
   <div class="max-w-2xl mx-auto pb-24 px-4 sm:px-6 lg:max-w-7xl lg:px-8">
     <div class="mb-12 mt-6 flex justify-between">
-      <button (click)="goBackback()" class="text-lime-500 flex items-center text-sm">
+      <button (click)="goBackback()" class="text-blue-500 flex items-center text-sm">
         <mat-icon class="mr-2 text-base"> arrow_back</mat-icon> Back
       </button>
       <button (click)="updateOrder(order.id)" [disabled]="orderFormGroup.invalid"
-        class="flex items-center bg-lime-600 border border-transparent rounded-md shadow-sm py-2 px-4 text-sm text-white hover:bg-lime-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-lime-500">
+        class="flex items-center bg-blue-600 border border-transparent rounded-md shadow-sm py-2 px-4 text-sm text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-blue-500">
         <mat-icon class="mr-2"> save</mat-icon>
         Save
       </button>
@@ -30,11 +30,11 @@
               </span>
 
               <span *ngIf="!getStepStatus(order).payment"
-                class="flex-shrink-0 w-6 h-6 flex items-center justify-center border-2 border-lime-600 rounded-full">
-                <span class="text-lime-600 text-xs">01</span>
+                class="flex-shrink-0 w-6 h-6 flex items-center justify-center border-2 border-blue-600 rounded-full">
+                <span class="text-blue-600 text-xs">01</span>
               </span>
 
-              <span [ngClass]="{ 'text-lime-600': !getStepStatus(order).payment }"
+              <span [ngClass]="{ 'text-blue-600': !getStepStatus(order).payment }"
                 class="ml-2 text-xs font-medium text-gray-500">Payment</span>
             </span>
           </div>
@@ -63,12 +63,12 @@
             </span>
 
             <span *ngIf="!getStepStatus(order).food && getStepStatus(order).payment"
-              class="flex-shrink-0 w-6 h-6 flex items-center justify-center border-2 border-lime-600 text-lime-600 rounded-full">
+              class="flex-shrink-0 w-6 h-6 flex items-center justify-center border-2 border-blue-600 text-blue-600 rounded-full">
               <span class="text-xs">02</span>
             </span>
 
             <span [ngClass]="{
-                'text-lime-600':
+                'text-blue-600':
                   !getStepStatus(order).food && getStepStatus(order).payment
               }" class="ml-2 text-xs font-medium text-gray-500">Food Ready</span>
           </div>
@@ -105,12 +105,12 @@
                   getStepStatus(order).payment &&
                   getStepStatus(order).food
                 "
-                class="flex-shrink-0 w-6 h-6 flex items-center justify-center border-2 border-lime-600 text-lime-600 rounded-full">
+                class="flex-shrink-0 w-6 h-6 flex items-center justify-center border-2 border-blue-600 text-blue-600 rounded-full">
                 <span class="text-xs">03</span>
               </span>
 
               <span [ngClass]="{
-                  'text-lime-600':
+                  'text-blue-600':
                     !getStepStatus(order).delivered &&
                     getStepStatus(order).payment &&
                     getStepStatus(order).food
@@ -159,7 +159,7 @@
 
       <div class="mt-4 sm:mt-0">
         <button (click)="toggleRightSideBar(true); $event.stopPropagation()"
-          class="font-medium text-lime-600 bg-lime-100 flex flex-nowrap truncate rounded-md py-2 px-3 hover:bg-lime-200">
+          class="font-medium text-blue-600 bg-blue-100 flex flex-nowrap truncate rounded-md py-2 px-3 hover:bg-blue-200">
           View all orders
         </button>
       </div>
@@ -168,9 +168,9 @@
 
     <div class="mt-4">
 
-      <div
+      <div *ngIf="order?.note"
         class="w-full relative divide-x divide-gray-300 px-4 space-x-3 rounded-lg border  bg-yellow-100 py-4 shadow-md flex ">
-        <div *ngIf="order?.note" class="flex-1 min-w-0 ">
+        <div class="flex-1 min-w-0 ">
           <h3 class="text-gray-600 font-semibold text-sm mb-2">Note from customer:</h3>
           <p class="text-sm text-gray-700 text-justify">
             {{order?.note}}
@@ -190,7 +190,7 @@
           {{ row.name }}</label>
         <div class="sm:hidden mt-1 relative">
           <button type="button" (click)="row.showDropDown = !row.showDropDown" (clickOutside)="row.showDropDown = false"
-            class="relative w-full bg-white hover:bg-gray-100 border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-lime-500 focus:border-lime-500 sm:text-sm"
+            class="relative w-full bg-white hover:bg-gray-100 border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             aria-haspopup="listbox" aria-expanded="true" aria-labelledby="listbox-label">
             <span class="flex items-center">
               <span class="ml-3 h-5 block truncate capitalize">
@@ -211,7 +211,7 @@
             class="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-56 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
             tabindex="-1" role="listbox" aria-labelledby="listbox-label" aria-activedescendant="listbox-option-3">
             <li *ngFor="let subRow of row.columns" (click)="changeSelectedValue(subRow, row.name)" [ngClass]="{
-                'text-white bg-lime-600': getSelectedValue(subRow, row.name),
+                'text-white bg-blue-600': getSelectedValue(subRow, row.name),
                 'text-gray-900 hover:bg-gray-100': !getSelectedValue(
                   subRow,
                   row.name
@@ -245,13 +245,13 @@
         <div class="sm:flex hidden flex-col space-y-2 mt-2 max-h-60 overflow-y-scroll p-2">
           <!--
                       In Stock: "cursor-pointer", Out of Stock: "opacity-25 cursor-not-allowed"
-                      Active: "ring-2 ring-offset-2 ring-lime-500"
-                      Checked: "bg-lime-600 border-transparent text-white hover:bg-lime-700", Not Checked: "bg-white border-gray-200 text-gray-900 hover:bg-gray-50"
+                      Active: "ring-2 ring-offset-2 ring-blue-500"
+                      Checked: "bg-blue-600 border-transparent text-white hover:bg-blue-700", Not Checked: "bg-white border-gray-200 text-gray-900 hover:bg-gray-50"
                     -->
           <label *ngFor="let subRow of row.columns" (click)="changeSelectedValue(subRow, row.name)"
-            class="cursor-pointer active:ring-2 active:ring-offset-2 active:ring-lime-500 hover:ring-2 hover:ring-offset-2 hover:ring-lime-500 border-2 rounded-md py-3 px-3 flex items-center justify-center text-sm font-medium capitalize sm:flex-1 focus:outline-none"
+            class="cursor-pointer active:ring-2 active:ring-offset-2 active:ring-blue-500 hover:ring-2 hover:ring-offset-2 hover:ring-blue-500 border-2 rounded-md py-3 px-3 flex items-center justify-center text-sm font-medium capitalize sm:flex-1 focus:outline-none"
             [ngClass]="{
-              'bg-lime-600 border-transparent text-white hover:bg-lime-700':
+              'bg-blue-600 border-transparent text-white hover:bg-blue-700':
                 getSelectedValue(subRow, row.name)
             }">
             <input type="radio" class="sr-only" />
@@ -277,7 +277,7 @@
             <label for="mode-of-payment" class="block text-sm font-medium text-gray-800">Discount</label>
             <div>
               <input [disabled]="!editOrder" type="number" name="discount" autocomplete="none" [(ngModel)]="discount"
-                class="disabled:bg-gray-100 block w-full border border-gray-300 bg-white text-red-500 font-medium text-right rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-lime-500 focus:border-lime-500 sm:text-sm" />
+                class="disabled:bg-gray-100 block w-full border border-gray-300 bg-white text-red-500 font-medium text-right rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
             </div>
           </div>
           <div *ngFor="let tax of order?.taxes" class="py-6 flex items-center justify-between">
@@ -323,7 +323,7 @@
                         </mat-icon>
                       </button>
                       <div
-                        class="flex w-min px-4  border border-gray-300 py-1.5 text-base font-medium text-gray-700 text-left shadow-sm focus:outline-none focus:ring-1 focus:ring-lime-500 focus:border-lime-500 sm:text-sm">
+                        class="flex w-min px-4  border border-gray-300 py-1.5 text-base font-medium text-gray-700 text-left shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                         {{ category?.quantity }}
                       </div>
                       <button *ngIf="editOrder" (click)="incrementDishCount(dishIndex, categoryIndex)"
@@ -339,7 +339,7 @@
                     <div class="h-full flex flex-col justify-between absolute top-0 right-0 text-red-500">
                       <p>{{ category?.totalPrice | currency : order.currency }}</p>
                       <p (click)="removeDishWithCategory(dishIndex, categoryIndex)"
-                        class="text-sm p-2 cursor-pointer font-semibold text-lime-500">Remove</p>
+                        class="text-sm p-2 cursor-pointer font-semibold text-blue-500">Remove</p>
                     </div>
                   </div>
                 </div>
@@ -347,7 +347,7 @@
             </li>
           </ng-container>
           <button (click)="toggleSearchDishDialog(); $event.stopPropagation()"
-            class="mt-2 sm:mt-0 border border-lime-600 w-full inline-flex justify-center items-center px-4 py-2  shadow-sm text-sm font-medium rounded-md text-lime-600 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500">
+            class="mt-2 sm:mt-0 border border-blue-600 w-full inline-flex justify-center items-center px-4 py-2  shadow-sm text-sm font-medium rounded-md text-blue-600 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
             <mat-icon class="mr-2 text-md">
               add
             </mat-icon>
@@ -379,7 +379,7 @@
                         orderFormGroup.get('modeOfPayment')?.dirty)
                     )
                   }"
-                  class="mt-1 block w-full bg-white rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-lime-500 focus:border-lime-500 sm:text-sm">
+                  class="mt-1 block w-full bg-white rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                   <option value="cash">Cash</option>
                   <option value="online">Online</option>
                   <option value="both">Both</option>
@@ -409,7 +409,7 @@
                           'modeOfPaymentInfo'
                         )
                       }"
-                      class="appearance-none relative block w-full px-3 py-2 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-lime-500 focus:border-lime-500 focus:z-10 sm:text-sm" />
+                      class="appearance-none relative block w-full px-3 py-2 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm" />
                   </div>
 
                   <!-- Errors -->
@@ -436,7 +436,7 @@
                           'modeOfPaymentInfo'
                         )
                       }"
-                      class="appearance-none relative block w-full px-3 py-2 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-lime-500 focus:border-lime-500 focus:z-10 sm:text-sm" />
+                      class="appearance-none relative block w-full px-3 py-2 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm" />
                   </div>
                   <!-- Errors -->
                   <span *ngIf="checkForFormErrors(i, 'online', 'modeOfPaymentInfo')">

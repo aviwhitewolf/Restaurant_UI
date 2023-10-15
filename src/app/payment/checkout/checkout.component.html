@@ -10,7 +10,7 @@
         ( tableFormGroup.get('table')?.touched ||  tableFormGroup.get('table')?.dirty),
         'border-gray-300' : !(tableFormGroup.get('table')?.errors &&
         ( tableFormGroup.get('table')?.touched ||  tableFormGroup.get('table')?.dirty))}"
-          class="mt-2 dark:bg-slate-700 dark:placeholder:text-gray-400 dark:text-white dark:ring-slate-600 dark:border-gray-500  appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-lime-500 focus:border-lime-500 focus:z-10 sm:text-sm">
+          class="mt-2 dark:bg-slate-700 dark:placeholder:text-gray-400 dark:text-white dark:ring-slate-600 dark:border-gray-500  appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm">
 
           <option *ngFor="let table of tables" [value]="table?.id">
             {{table?.name}}
@@ -32,7 +32,7 @@
           <p class="dark:text-gray-400 text-sm">Any Special request for our chef:</p>
           <div class="mt-2">
             <textarea formControlName="note" name="description" rows="3"
-              class="dark:bg-slate-700 dark:placeholder:text-gray-400 dark:text-white dark:ring-slate-600 dark:border-gray-500  appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-lime-500 focus:border-lime-500 focus:z-10 sm:text-sm"></textarea>
+              class="dark:bg-slate-700 dark:placeholder:text-gray-400 dark:text-white dark:ring-slate-600 dark:border-gray-500  appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"></textarea>
           </div>
         </div>
         <!-- Note End -->
@@ -50,13 +50,13 @@
       <div *ngIf="isLogin && !checkTableError()" class="flex justify-between items-center align-middle w-full">
 
         <button type="submit" [disabled]="isLoading" (click)="createOrder('offline')"
-          class="bg-white px-6 py-3 border border-lime-500 text-sm font-medium rounded-md text-lime-500  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500 custom-ripple"
+          class="bg-white px-6 py-3 border border-blue-500 text-sm font-medium rounded-md text-blue-500  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 custom-ripple"
           matRipple [matRippleCentered]="false" [matRippleDisabled]="false" [matRippleUnbounded]="false">
           Pay On Reception
         </button>
 
         <button (click)="createOrder('online')" [disabled]="isLoading"
-          class="disabled:bg-lime-400 flex justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-lime-600 hover:bg-lime-700  custom-ripple"
+          class="disabled:bg-blue-400 flex justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-blue-600 hover:bg-blue-700  custom-ripple"
           matRipple [matRippleCentered]="false" [matRippleDisabled]="false" [matRippleUnbounded]="false">
           Pay Now
         </button>

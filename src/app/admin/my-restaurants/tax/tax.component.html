@@ -6,7 +6,7 @@
 
     <div class="p-12 mx-auto max-w-6xl " *ngIf="!loading && (!taxes || taxes?.length == 0)">
         <button type="button" [routerLink]="['add']"
-            class="block w-full border-2 border-gray-300 border-dashed rounded-lg p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500">
+            class="block w-full border-2 border-gray-300 border-dashed rounded-lg p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
             <mat-icon style="height: unset;width: unset;" class="mx-auto  text-gray-600  text-5xl">
                 savings
             </mat-icon>
@@ -14,9 +14,9 @@
                 No taxes found.
             </span>
             <button type="button"
-                class=" mx-auto mt-2 inline-flex items-center px-4 py-2 border border-gray-300 shadow-purple-500 shadow-sm text-sm font-medium rounded-3xl text-lime-500 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500">
+                class=" mx-auto mt-2 inline-flex items-center px-4 py-2 border border-gray-300 shadow-purple-500 shadow-sm text-sm font-medium rounded-3xl text-blue-500 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                 Create one
-                <mat-icon style="height: unset;width: unset;" class="ml-2 text-lime-500 text-md">
+                <mat-icon style="height: unset;width: unset;" class="ml-2 text-blue-500 text-md">
                     east
                 </mat-icon>
             </button>
@@ -36,7 +36,7 @@
                     </div>
 
                     <button [routerLink]="['add']"
-                        class="disabled:bg-lime-400 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-lime-600 hover:bg-lime-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500">
+                        class="disabled:bg-blue-400 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                         <mat-icon class="mr-2 text-md">
                             add</mat-icon>
                         Create new tax
@@ -52,7 +52,7 @@
                             (click)="accordionItem.toggle(); $event.stopPropagation();"
                             [ngClass]="{'bg-gray-50' : accordionItem.expanded}">
                             <div class="flex flex-col">
-                            <h3 class="text-lime-500 flex items-center">
+                            <h3 class="text-blue-500 flex items-center">
                                 {{tax?.name}} <span class="text-gray-600 font-semibold text-xs ml-2">{{tax.rate}}%</span>
                             </h3>
                             <p class="text-gray-600 lowercase  text-xs mt-1">{{ tax.compound ? 'With compound' : 'With no compound' }}</p>
@@ -70,7 +70,7 @@
                                 </button>
 
                                 <button [routerLink]="['edit', tax.id]" type="button"
-                                    class="inline-flex items-center  border border-transparent rounded-full shadow-sm text-white bg-gray-400 hover:bg-lime-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500">
+                                    class="inline-flex items-center  border border-transparent rounded-full shadow-sm text-white bg-gray-400 hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                                     <mat-icon class="text-base">edit</mat-icon>
                                 </button>
 
@@ -121,7 +121,7 @@
                                 <div class="mt-2 flex justify-between px-4 py-5 sm:gap-4 sm:px-6 border-t">
 
                                     <button type="button" (click)="showDeleteDialog = false"
-                                        class="py-2 px-4 border border-lime-500 text-sm font-medium rounded-md text-lime-500  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500">
+                                        class="py-2 px-4 border border-blue-500 text-sm font-medium rounded-md text-blue-500  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                                         Cancel
                                     </button>
 

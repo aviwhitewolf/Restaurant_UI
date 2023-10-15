@@ -23,7 +23,7 @@
             <div class="flex items-center"><span
                     class="text-red-500 dark:text-red-700">{{dish.category[0]?.price | currency : dish.currency}}</span></div>
             <button *ngIf="dish.inStock" [disabled]="!dish.inStock" (click)="addToCart(); $event.stopPropagation();"
-                class="disabled:bg-lime-300 shadow-md bg-lime-500 dark:bg-lime-500 cursor-pointer rounded-full flex justify-center items-center w-8 h-8 active:bg-lime-700 active:shadow-sm  custom-ripple"
+                class="disabled:bg-blue-300 shadow-md bg-blue-500 dark:bg-blue-500 cursor-pointer rounded-full flex justify-center items-center w-8 h-8 active:bg-blue-700 active:shadow-sm  custom-ripple"
                 matRipple [matRippleCentered]="false" [matRippleDisabled]="false" [matRippleUnbounded]="false">
                 <mat-icon class="text-white">add</mat-icon>
             </button>
@@ -61,7 +61,7 @@
                         class="text-red-500 dark:text-red-500">{{dish.category[0]?.price | currency : dish.currency}}</span>
                 </div>
                 <button *ngIf="dish.inStock" [disabled]="!dish.inStock" (click)="addToCart(); $event.stopPropagation()"
-                    class="disabled:bg-lime-300 shadow-md bg-lime-500 dark:bg-lime-500 cursor-pointer rounded-full flex justify-center items-center w-6 h-6 md:w-8 md:h-8 active:bg-lime-700 active:shadow-sm  custom-ripple"
+                    class="disabled:bg-blue-300 shadow-md bg-blue-500 dark:bg-blue-500 cursor-pointer rounded-full flex justify-center items-center w-6 h-6 md:w-8 md:h-8 active:bg-blue-700 active:shadow-sm  custom-ripple"
                     matRipple [matRippleCentered]="false" [matRippleDisabled]="false" [matRippleUnbounded]="false">
                     <mat-icon class="flex items-center text-white text-base">add</mat-icon>
                 </button>
@@ -97,7 +97,7 @@
                 class="text-gray-500 px-1.5 rounded-full ">{{dish.type}}</p>
 
             <button *ngIf="dish.inStock" [disabled]="!dish.inStock" (click)="addToCart(); $event.stopPropagation();"
-                class="disabled:bg-lime-300 ml-4 bg-lime-500 dark:bg-lime-500 cursor-pointer rounded-full flex justify-center items-center w-8 h-8 active:bg-lime-700  custom-ripple"
+                class="disabled:bg-blue-300 ml-4 bg-blue-500 dark:bg-blue-500 cursor-pointer rounded-full flex justify-center items-center w-8 h-8 active:bg-blue-700  custom-ripple"
                 matRipple [matRippleCentered]="false" [matRippleDisabled]="false" [matRippleUnbounded]="false">
                 <mat-icon class="text-white">add</mat-icon>
             </button>

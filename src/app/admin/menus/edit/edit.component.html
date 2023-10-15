@@ -4,12 +4,12 @@
         <div class="max-w-6xl mx-auto px-4 space-y-4 sm:px-6 lg:px-8">
 
             <div class="flex justify-between py-4 items-center">
-                <button (click)="goBackback()" class="text-lime-500 flex items-center  text-sm  ">
+                <button (click)="goBackback()" class="text-blue-500 flex items-center  text-sm  ">
                     <mat-icon class="mr-2 text-base ">
                         arrow_back</mat-icon> Back
                 </button>
                 <button (click)="updateMenu()" [disabled]="menuUpdateFormGroup.invalid"
-                    class="disabled:bg-lime-400 flex items-center bg-lime-600 border border-transparent rounded-md shadow-sm py-2 px-4 text-sm text-white hover:bg-lime-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-lime-500">
+                    class="disabled:bg-blue-400 flex items-center bg-blue-600 border border-transparent rounded-md shadow-sm py-2 px-4 text-sm text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-blue-500">
                     <mat-icon class="mr-2">
                         save</mat-icon>
                     Save
@@ -34,7 +34,7 @@
                                     <input formControlName="name" type="text" name="menu-name" autocomplete="menu-name"
                                         [ngClass]="{'border-2 border-red-500' : menuUpdateFormGroup.get('name')?.errors && (menuUpdateFormGroup.get('name')?.touched ||  menuUpdateFormGroup.get('name')?.dirty),
                                         'border-gray-300' : !(menuUpdateFormGroup.get('name')?.errors && (menuUpdateFormGroup.get('name')?.touched ||  menuUpdateFormGroup.get('name')?.dirty))}"
-                                        class="mt-1 focus:ring-lime-500 focus:border-lime-500 block w-full shadow-sm sm:text-sm rounded-md">
+                                        class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm rounded-md">
                                     <div *ngIf="menuUpdateFormGroup.get('name')?.errors?.['required'] &&  (menuUpdateFormGroup.get('name')?.errors && (menuUpdateFormGroup.get('name')?.touched ||  menuUpdateFormGroup.get('name')?.dirty))"
                                         class="text-red-500 text-xs pt-1">Menu name is invalid</div>
                                 </div>
@@ -46,7 +46,7 @@
                                         autocomplete="sequence"
                                         [ngClass]="{'border-2 border-red-500' : menuUpdateFormGroup.get('sequence')?.errors && (menuUpdateFormGroup.get('sequence')?.touched ||  menuUpdateFormGroup.get('sequence')?.dirty),
                                         ' border-gray-300' : !(menuUpdateFormGroup.get('sequence')?.errors && (menuUpdateFormGroup.get('sequence')?.touched ||  menuUpdateFormGroup.get('sequence')?.dirty))}"
-                                        class="mt-1 focus:ring-lime-500 focus:border-lime-500 block w-full shadow-sm sm:text-sm rounded-md">
+                                        class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm rounded-md">
                                     <div *ngIf="menuUpdateFormGroup.get('sequence')?.errors?.['required'] && (menuUpdateFormGroup.get('sequence')?.errors && (menuUpdateFormGroup.get('sequence')?.touched ||  menuUpdateFormGroup.get('sequence')?.dirty))"
                                         class="text-red-500 text-xs pt-1">Sequence is invalid</div>
                                 </div>
@@ -54,7 +54,7 @@
 
                             <button (click)="showSearchDishDialog = true; $event.stopPropagation()"
                                 *ngIf="singleMenuAndDish?.dishes?.length == 0 "
-                                class=" mt-6 relative block w-full border-2 border-gray-300 border-dashed rounded-lg p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500">
+                                class=" mt-6 relative block w-full border-2 border-gray-300 border-dashed rounded-lg p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                                 <mat-icon class="mr-2 font-bold text-gray-500">local_dining</mat-icon>
                                 <span class="mt-2 block text-sm font-medium text-gray-900">No dish found, add a dish
                                 </span>
@@ -66,7 +66,7 @@
                                 class="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
 
                                 <div *ngFor="let dish of singleMenuAndDish?.dishes"
-                                    class="p-4 w-full relative rounded-lg border  border-gray-200 bg-white shadow-sm flex items-center focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-lime-500">
+                                    class="p-4 w-full relative rounded-lg border  border-gray-200 bg-white shadow-sm flex items-center focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
 
                                     <div (click)="removeDish(dish)"
                                         class="animate-bounce hover:animate-none absolute -top-2 -right-2 text-xs text-gray-400 hover:text-red-500 z-50">
@@ -101,7 +101,7 @@
 
                             <div class="mt-6 text-right">
                                 <button (click)="showSearchDishDialog = true; $event.stopPropagation()"
-                                    class="font-bold inline-flex items-center px-4 py-2 border border-transparent text-base rounded-md text-lime-700 bg-lime-100 hover:bg-lime-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500">
+                                    class="font-bold inline-flex items-center px-4 py-2 border border-transparent text-base rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                                     <mat-icon class="mr-2 font-bold">add</mat-icon>
                                     Add Dish
                                 </button>

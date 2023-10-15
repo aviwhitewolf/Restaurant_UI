@@ -12,7 +12,7 @@
                 <app-date-range (data)="dateRangeChanged($event)" #dateRange></app-date-range>
 
                 <button [routerLink]="['../add']"
-                    class="mt-2 sm:mt-0 inline-flex justify-center items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-lime-600 hover:bg-lime-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500">
+                    class="mt-2 sm:mt-0 inline-flex justify-center items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                     <mat-icon class="mr-2 text-md">
                         add</mat-icon>
                     Create expense
@@ -224,7 +224,7 @@
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Category </th>
                                 <td mat-cell *matCellDef="let element">
                                     <a [routerLink]="['../edit', element.id]"
-                                        class="capitalize underline text-lime-500">
+                                        class="capitalize underline text-blue-500">
                                         {{element?.category?.name}}
                                     </a>
                                 </td>
@@ -274,7 +274,7 @@
 
                                             <ng-container *ngIf="element?.remarks || element?.employee?.fullName">
                                                 <div
-                                                    class="w-full relative divide-x divide-gray-300 px-4 space-x-3 rounded-lg border border-gray-200 bg-yellow-50 py-4 shadow-md flex  focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-lime-500">
+                                                    class="w-full relative divide-x divide-gray-300 px-4 space-x-3 rounded-lg border border-gray-200 bg-yellow-50 py-4 shadow-md flex  focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
                                                     <div *ngIf="element?.remarks" class="flex-1 min-w-0 ">
                                                         <h3 class="text-gray-400 mb-2">Remarks</h3>
                                                         <a [routerLink]="['../edit', element.id]"
