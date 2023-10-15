@@ -1,30 +1,30 @@
+
 <div *ngIf="loading" class="flex justify-center items-center w-full p-4">
     <h1 class="text-xl font-bold text-gray-700">Loading...</h1>
 </div>
-<h2 *ngIf="!loading" class="text-lg font-medium text-gray-900">Search</h2>
 
 
-  <div class="text-center  border-gray-300 pt-4" *ngIf="!loading && dishes?.length == 0">
+  <div class="text-center  border-gray-300 pt-42" *ngIf="!loading && dishes?.length == 0">
     <button type="button" [routerLink]="['../../', 'dishes','add']"
-        class="block w-full border-2 border-gray-300 border-dashed rounded-lg p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+        class="block w-full border-2 border-gray-300 border-dashed rounded-lg p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500">
         <mat-icon style="height: unset;width: unset;" class="mx-auto  text-gray-600  text-5xl">lunch_dining</mat-icon>
         <span class="mx-auto mt-2 block text-sm font-medium text-gray-500">No dihes found.</span>
-        <button type="button" class=" mx-auto mt-2 inline-flex items-center px-4 py-2 border border-gray-300 shadow-purple-500 shadow-sm text-sm font-medium rounded-3xl text-indigo-500 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">            
+        <button type="button" class=" mx-auto mt-2 inline-flex items-center px-4 py-2 border border-gray-300 shadow-purple-500 shadow-sm text-sm font-medium rounded-3xl text-lime-500 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500">            
             Create one
-            <mat-icon style="height: unset;width: unset;" class="ml-2 text-indigo-500 text-md">
+            <mat-icon style="height: unset;width: unset;" class="ml-2 text-lime-500 text-md">
                 east
             </mat-icon>
         </button>
     </button>
 </div>
   
-<div *ngIf="!loading" class="mx-auto">
+<div *ngIf="!loading" class="mx-auto mt-2">
     <div>
         <form class="mt-6 sm:flex sm:items-center">
             <label for="search" class="sr-only">Search</label>
             <div class="relative rounded-md shadow-sm sm:min-w-0 sm:flex-1">
-                <input type="text" name="search" [(ngModel)]="searchTerm"
-                    class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pr-32 sm:text-sm border-gray-300 rounded-md"
+                <input  autofocus #searchInputField type="text" name="search" (keyup)="searchDish($any($event).target.value)"
+                    class="focus:ring-lime-500 focus:border-lime-500 block w-full pr-32 sm:text-sm border-gray-300 rounded-md"
                     placeholder="Burger...">
             </div>
         </form>
@@ -37,7 +37,7 @@
                 <ng-container *ngFor="let category of dish.category">
                     <button *ngIf="format == 'WITH_CATEGORY'" (click)="selectedDish(dish, category)">
                         <div
-                            class="cursor-pointer bg-gray-100 p-2 w-full flex items-center justify-between rounded-full border border-gray-300 shadow-sm  text-left hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            class="cursor-pointer bg-gray-100 p-2 w-full flex items-center justify-between rounded-full border border-gray-300 shadow-sm  text-left hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500">
                             <img loading="lazy" class="h-10 w-10 object-cover rounded-full"
                                 [src]="dish?.image ? getImageUrl(dish?.image[0]) : '' " [alt]="dish.name">
                             <div class="flex w-full flex-col ml-2">
@@ -61,7 +61,7 @@
                 <button (click)="selectedDish(dish, null)" *ngIf="format == 'WITHOUT_CATEGORY'">
 
                     <div
-                        class="cursor-pointer bg-gray-100 p-2 w-full flex items-center justify-between rounded-full border border-gray-300 shadow-sm  text-left hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        class="cursor-pointer bg-gray-100 p-2 w-full flex items-center justify-between rounded-full border border-gray-300 shadow-sm  text-left hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500">
                         <img loading="lazy" class="h-10 w-10 rounded-full object-cover "
                             [src]="dish?.image ? getImageUrl(dish?.image[0]) : '' " [alt]="dish.name">
                         <div class="flex w-full flex-col ml-2">
@@ -76,7 +76,7 @@
             </ng-container>
                         
         </ul>
-        <div *ngIf="filteredDishes?.length == 0" class="relative block w-full border-2 border-gray-300 border-dashed rounded-lg p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+        <div *ngIf="filteredDishes?.length == 0" class="relative block w-full border-2 border-gray-300 border-dashed rounded-lg p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500">
             <mat-icon class="mx-auto h-12 w-12 text-gray-400">
                 no_food
             </mat-icon>

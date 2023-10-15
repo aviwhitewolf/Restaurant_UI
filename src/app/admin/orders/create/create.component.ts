@@ -9,7 +9,8 @@ import { RestaurantService } from 'src/app/restaurant/restaurant.service';
 import { PaymentService } from 'src/app/payment/payment.service';
 import * as moment from 'moment';
 import { AdminService } from '../../admin.service';
-
+import { SnackbarComponent } from 'src/app/reusable/snackbar/snackbar.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-create',
@@ -26,6 +27,7 @@ export class CreateComponent implements OnInit {
   public tables: any[] = []
   public taxes: any[] = []
   public subTotal: number = 0
+  public showSearchDishDialog: boolean = false
 
 
   public userFormGroup: FormGroup = this.formBuilder.group({
@@ -45,7 +47,8 @@ export class CreateComponent implements OnInit {
     private _location: Location,
     private mainService: MainService,
     private paymentService: PaymentService,
-    private restaurantService: RestaurantService
+    private restaurantService: RestaurantService,
+    private _snackBar: MatSnackBar,
   ) {
     this.cartItems = this.mainService.getToLocalStorage(Constants.LOCAL_CART)
 
@@ -159,10 +162,31 @@ export class CreateComponent implements OnInit {
     }
   }
 
+
+  toggleSearchDishDialog() {
+
+    this.showSearchDishDialog = !this.showSearchDishDialog
+    if (this.showSearchDishDialog)
+      document.body.classList.add("no-parent-scroll");
+    else
+      document.body.classList.remove("no-parent-scroll");
+
+  }
+
   public addDish(data: any) {
     const { dish, category } = data
     this.restaurantService.changeDishQunatityLocaly(dish, category.name, 1, category.price, category.id)
     this.refreshCartItems(0)
+    this._snackBar.openFromComponent(SnackbarComponent, {
+      data: {
+        message: 'Dish Added',
+        type: 'S'
+      },
+      panelClass: 'snack-bar',
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+      duration: 1700
+    });
   }
 
 

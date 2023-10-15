@@ -32,13 +32,13 @@
 
 
         <div class="flex justify-between py-4 items-center">
-            <button (click)="goBackback()" class="text-indigo-500 flex items-center  text-sm  ">
+            <button (click)="goBackback()" class="text-lime-500 flex items-center  text-sm  ">
                 <mat-icon class="mr-2 text-base ">
                     arrow_back</mat-icon> Back
             </button>
             <!-- (click)="updateMenu()" [disabled]="expenseFormGroup.invalid" -->
             <button [disabled]="expenseFormGroup.invalid" (click)="updateOrSaveExpense()"
-                class="disabled:bg-indigo-400 flex items-center bg-indigo-600 border border-transparent rounded-md shadow-sm py-2 px-4 text-sm text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500">
+                class="disabled:bg-lime-400 flex items-center bg-lime-600 border border-transparent rounded-md shadow-sm py-2 px-4 text-sm text-white hover:bg-lime-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-lime-500">
                 <mat-icon class="mr-2">
                     save</mat-icon>
                 Save
@@ -75,7 +75,7 @@
                                               ( expenseFormGroup.get('category')?.touched ||  expenseFormGroup.get('category')?.dirty),
                                           'border-gray-300' : !(expenseFormGroup.get('category')?.errors &&
                                           ( expenseFormGroup.get('category')?.touched ||  expenseFormGroup.get('category')?.dirty))}"
-                                                class="mt-1 block w-full bg-white  rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                                class="mt-1 block w-full bg-white  rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-lime-500 focus:border-lime-500 sm:text-sm">
 
                                                 <option *ngFor="let cat of expenseCategories" [value]="cat?.id">
                                                     {{cat?.name}}
@@ -101,7 +101,7 @@
                                                     [alt]="seletedEmployee.fullName">
                                                 <div class="ml-4 font-medium text-lg leading-6 space-y-1">
                                                     <h3 class="capitalize">{{seletedEmployee.fullName}}</h3>
-                                                    <p class="text-indigo-600">{{seletedEmployee?.designation?.name}}
+                                                    <p class="text-lime-600">{{seletedEmployee?.designation?.name}}
                                                     </p>
                                                 </div>
                                             </div>
@@ -138,7 +138,7 @@
                                             <label for="debit"
                                                 class="flex items-center text-sm font-medium text-gray-700">
                                                 <span>Debit
-                                                    <b class="font-medium text-indigo-400 text-xs">({{currency}})</b>
+                                                    <b class="font-medium text-lime-400 text-xs">({{currency}})</b>
                                                 </span>
                                             </label>
                                             <input formControlName="debit" type="number" name="debit"
@@ -147,7 +147,7 @@
                                                 ( expenseFormGroup.get('debit')?.touched ||  expenseFormGroup.get('debit')?.dirty),
                                                 'border-gray-300' : !(expenseFormGroup.get('debit')?.errors &&
                                                 ( expenseFormGroup.get('debit')?.touched ||  expenseFormGroup.get('debit')?.dirty))}"
-                                                class="mt-1 block w-full  rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                                class="mt-1 block w-full  rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-lime-500 focus:border-lime-500 sm:text-sm">
 
                                             <!-- Error -->
                                             <div *ngIf="(expenseFormGroup.get('debit')?.touched ||  expenseFormGroup.get('debit')?.dirty) 
@@ -164,7 +164,7 @@
                                         <div class="col-span-4 sm:col-span-1">
                                             <label for="credit"
                                                 class="flex items-center text-sm font-medium text-gray-700">
-                                                <span>Credit <b class="font-medium text-indigo-400 text-xs">({{currency}})</b></span>
+                                                <span>Credit <b class="font-medium text-lime-400 text-xs">({{currency}})</b></span>
                                             </label>
                                             <input formControlName="credit" type="number" name="credit"
                                                 autocomplete="none"
@@ -172,7 +172,7 @@
                                                 ( expenseFormGroup.get('credit')?.touched ||  expenseFormGroup.get('credit')?.dirty),
                                                 'border-gray-300' : !(expenseFormGroup.get('credit')?.errors &&
                                                 ( expenseFormGroup.get('credit')?.touched ||  expenseFormGroup.get('credit')?.dirty))}"
-                                                class="mt-1 block w-full  rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                                class="mt-1 block w-full  rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-lime-500 focus:border-lime-500 sm:text-sm">
 
                                             <!-- Error -->
                                             <div *ngIf="(expenseFormGroup.get('credit')?.touched ||  expenseFormGroup.get('credit')?.dirty) 
@@ -196,7 +196,7 @@
                                             ( expenseFormGroup.get('remarks')?.touched ||  expenseFormGroup.get('remarks')?.dirty),
                                                 'border-gray-300' : !(expenseFormGroup.get('remarks')?.errors &&
                                                 ( expenseFormGroup.get('remarks')?.touched ||  expenseFormGroup.get('remarks')?.dirty))}"
-                                                class="shadow-sm  focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md"></textarea>
+                                                class="shadow-sm  focus:ring-lime-500 focus:border-lime-500 block w-full sm:text-sm border rounded-md"></textarea>
 
                                             <!-- Error -->
                                             <div *ngIf="(expenseFormGroup.get('remarks')?.touched ||  expenseFormGroup.get('remarks')?.dirty) 
@@ -220,7 +220,7 @@
                                               ( expenseFormGroup.get('modeOfPayment')?.touched ||  expenseFormGroup.get('modeOfPayment')?.dirty),
                                           'border-gray-300' : !(expenseFormGroup.get('modeOfPayment')?.errors &&
                                           ( expenseFormGroup.get('modeOfPayment')?.touched ||  expenseFormGroup.get('modeOfPayment')?.dirty))}"
-                                                    class="mt-1 block w-full bg-white  rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                                    class="mt-1 block w-full bg-white  rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-lime-500 focus:border-lime-500 sm:text-sm">
 
                                                     <option value="cash">Cash</option>
                                                     <option value="online">Online</option>
@@ -243,7 +243,7 @@
                                                         <input formControlName="cash" type="number" name="cash"
                                                             autocomplete="cash"
                                                             [ngClass]="{'border-2 border-red-500' :  checkForFormErrors(i, 'cash', 'modeOfPaymentInfo'),'border-gray-300' : !(checkForFormErrors(i, 'cash', 'modeOfPaymentInfo')) }"
-                                                            class="appearance-none relative block w-full px-3 py-2  placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm">
+                                                            class="appearance-none relative block w-full px-3 py-2  placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-lime-500 focus:border-lime-500 focus:z-10 sm:text-sm">
                                                     </div>
 
                                                     <!-- Errors -->
@@ -265,7 +265,7 @@
                                                         <input formControlName="online" type="number" name="online"
                                                             autocomplete="online"
                                                             [ngClass]="{'border-2 border-red-500' :  checkForFormErrors(i, 'online', 'modeOfPaymentInfo'),'border-gray-300' : !(checkForFormErrors(i, 'online', 'modeOfPaymentInfo')) }"
-                                                            class="appearance-none relative block w-full px-3 py-2  placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm">
+                                                            class="appearance-none relative block w-full px-3 py-2  placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-lime-500 focus:border-lime-500 focus:z-10 sm:text-sm">
                                                     </div>
                                                     <!-- Errors -->
                                                     <span *ngIf="checkForFormErrors(i, 'online', 'modeOfPaymentInfo')">
@@ -293,7 +293,7 @@
                                                 ( expenseFormGroup.get('uploadUrl')?.touched ||  expenseFormGroup.get('uploadUrl')?.dirty),
                                                 'border-gray-300' : !(expenseFormGroup.get('uploadUrl')?.errors &&
                                                 ( expenseFormGroup.get('uploadUrl')?.touched ||  expenseFormGroup.get('uploadUrl')?.dirty))}"
-                                                class="mt-1 block w-full  rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                                class="mt-1 block w-full  rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-lime-500 focus:border-lime-500 sm:text-sm">
 
                                             <!-- Error -->
                                             <div *ngIf="(expenseFormGroup.get('uploadUrl')?.touched ||  expenseFormGroup.get('uploadUrl')?.dirty) 
@@ -317,7 +317,7 @@
                                                 ( expenseFormGroup.get('date')?.touched ||  expenseFormGroup.get('date')?.dirty),
                                             'border-gray-300' : !(expenseFormGroup.get('date')?.errors &&
                                             ( expenseFormGroup.get('date')?.touched ||  expenseFormGroup.get('date')?.dirty))}"
-                                                class="border mt-1 block w-full  rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                class="border mt-1 block w-full  rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-lime-500 focus:border-lime-500 sm:text-sm"
                                                 (click)="dojpicker.open()" placeholder="">
                                             <mat-datepicker #dojpicker [disabled]="false"></mat-datepicker>
 
@@ -380,12 +380,12 @@
                                 </button>
 
                                 <button *ngIf="file?.ext == '.pdf'" type="button" (click)="openPdfViewer(file)"
-                                    class="inline-flex items-center  border border-transparent rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    class="inline-flex items-center  border border-transparent rounded-full shadow-sm text-white bg-lime-600 hover:bg-lime-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500">
                                     <mat-icon class="text-base">visibility</mat-icon>
                                 </button>
 
                                 <button type="button" (click)="download(file)"
-                                    class="inline-flex items-center  border border-transparent rounded-full shadow-sm text-white bg-yellow-500 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    class="inline-flex items-center  border border-transparent rounded-full shadow-sm text-white bg-yellow-500 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500">
                                     <mat-icon class="text-base">download</mat-icon>
                                 </button>
 
@@ -420,10 +420,10 @@
                         </li>
                         <!-- Documents from local end -->
                         <div
-                            class="sticky bottom-0 cursor-pointer bg-indigo-50 border-t w-full text-sm leading-8 font-medium text-gray-700 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            class="sticky bottom-0 cursor-pointer bg-lime-50 border-t w-full text-sm leading-8 font-medium text-gray-700 hover:bg-lime-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500">
                             <label for="upload-document"
-                                class="flex items-center justify-center  w-full py-2 text-indigo-500">
-                                <mat-icon class="mr-2 text-md text-indigo-500">
+                                class="flex items-center justify-center  w-full py-2 text-lime-500">
+                                <mat-icon class="mr-2 text-md text-lime-500">
                                     add
                                 </mat-icon>
                                 Upload Document
@@ -487,7 +487,7 @@
                     <div class="mt-2 flex justify-between px-4 py-5 sm:gap-4 sm:px-6 border-t">
 
                         <button type="button" (click)="showDeleteDocumentDialog = false"
-                            class="py-2 px-4 border border-indigo-500 text-sm font-medium rounded-md text-indigo-500  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            class="py-2 px-4 border border-lime-500 text-sm font-medium rounded-md text-lime-500  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500">
                             Cancel
                         </button>
 

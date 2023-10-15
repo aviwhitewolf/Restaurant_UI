@@ -1,0 +1,81 @@
+<div id="print-compact-order" class="bill">
+  <div class="text-center">
+    <h2 class="brand">{{ restaurantDetails?.name }}</h2>
+    <p class="address">
+      {{ restaurantDetails?.address }}
+    </p>
+    <h3
+      *ngIf="restaurantDetails?.PAN || restaurantDetails?.GST"
+      class="shop-details"
+    >
+      <span>PAN:&nbsp;{{ restaurantDetails?.PAN }}</span
+      >&nbsp;<span>GST:&nbsp;{{ restaurantDetails?.GST }}</span>
+    </h3>
+    <p>ORDER INVOICE</p>
+  </div>
+  <div class="bill-details">
+    <div class="flex justify-between">
+      <div>BILL NO:&nbsp;{{ order?.id }}</div>
+      <div>TABLE : &nbsp;{{ order?.table?.name }}</div>
+    </div>
+    <div class="flex justify-between">
+      <div>BILL DATE:&nbsp;{{ order?.createdAt | date : "mediumDate" }}</div>
+      <div>TIME: &nbsp;{{ order?.createdAt | date : "shortTime" }}</div>
+    </div>
+  </div>
+  <table class="table">
+    <tr class="header">
+      <th>Particulars</th>
+      <th>Rate</th>
+      <th>Qty</th>
+      <th>Amount</th>
+    </tr>
+    <ng-container *ngFor="let items of order.orderItems">
+      <ng-container *ngFor="let category of items.orderDishCategory">
+        <tr>
+          <td>
+            {{ items?.dish?.name }}-<span>{{ category?.name }}</span>
+          </td>
+          <td>{{ category?.unitPrice | currency : order.currency }}</td>
+          <td>{{ category?.quantity }}</td>
+          <td>{{ category?.totalPrice | currency : order.currency }}</td>
+        </tr>
+      </ng-container>
+    </ng-container>
+
+    <ng-container *ngFor="let tax of order?.taxes">
+      <tr>
+        <td></td>
+        <td>{{ tax.name }}</td>
+        <td>{{ tax.rate }}%</td>
+        <td>{{ tax?.taxDue | currency : order.currency }}</td>
+      </tr>
+    </ng-container>
+
+    
+    <ng-container *ngIf="order?.discount">
+      <tr>
+        <td></td>
+        <td>Discount</td>
+        <td></td>
+        <td>-{{ order?.discount | currency : order.currency }}</td>
+      </tr>
+    </ng-container>
+
+    <tr class="net-amount">
+      <td></td>
+      <td>Net Amnt</td>
+      <td></td>
+      <td>{{ order?.totalAmount | currency : order.currency }}</td>
+    </tr>
+  </table>
+  <div class="text-center">
+    <p>
+      Order ID:&nbsp;{{ order?.orderId }} <br />User:&nbsp;{{
+        order?.user?.fullName
+      }}
+      [Biller] <br />
+      Thank You ! Please visit again
+    </p>
+  </div>
+</div>

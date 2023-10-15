@@ -26,13 +26,13 @@
             <div class="flex items-center space-x-3 border-2 dark:border-gray-700 rounded-full">
 
               <button (click)="changeDishQuantity(dishCategory, -1)" [disabled]="dishQuantity[dishCategory?.name] <= 0 || !dishQuantity[dishCategory?.name]"
-                class="bg-indigo-500 cursor-pointer rounded-full flex justify-center items-center w-8 h-8 active:bg-indigo-700 disabled:bg-indigo-300 custom-ripple"
+                class="bg-lime-500 cursor-pointer rounded-full flex justify-center items-center w-8 h-8 active:bg-lime-700 disabled:bg-lime-300 custom-ripple"
                 matRipple [matRippleCentered]="false" [matRippleDisabled]="false" [matRippleUnbounded]="false">
                 <mat-icon class="text-white">remove</mat-icon>
               </button>
               <p class="text-gray-500 text-sm dark:text-gray-100">{{dishQuantity[dishCategory?.name] || 0}}</p>
               <button (click)="changeDishQuantity(dishCategory, 1)"
-                class="ml-4 bg-indigo-500 cursor-pointer rounded-full flex justify-center items-center w-8 h-8 active:bg-indigo-700  custom-ripple"
+                class="ml-4 bg-lime-500 cursor-pointer rounded-full flex justify-center items-center w-8 h-8 active:bg-lime-700  custom-ripple"
                 matRipple [matRippleCentered]="false" [matRippleDisabled]="false" [matRippleUnbounded]="false">
                 <mat-icon class="text-white">add</mat-icon>
               </button>
@@ -51,7 +51,7 @@
     <div class="w-full flex justify-center items-center">
 
       <button mat-dialog-close
-        class="fixed bottom-6 shadow-xl bg-indigo-500 cursor-pointer rounded-full flex justify-center items-center w-16 h-16 active:bg-indigo-700 active:shadow-sm  custom-ripple"
+        class="fixed bottom-6 shadow-xl bg-lime-500 cursor-pointer rounded-full flex justify-center items-center w-16 h-16 active:bg-lime-700 active:shadow-sm  custom-ripple"
         matRipple [matRippleCentered]="false" [matRippleDisabled]="false" [matRippleUnbounded]="false">
         <mat-icon class="text-white">close</mat-icon>
       </button>

@@ -11,6 +11,7 @@ export interface OrderInfo{
     modeOfTransaction : string
     mCreatedBy? : number
     createdAt? : string
+    note? : string
     mUpdatedBy? : number
     updatedAt? : string
     userInfo? : any

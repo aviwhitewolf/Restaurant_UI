@@ -15,13 +15,13 @@
 
       <div class="flex items-center space-x-3 border-2 dark:border-gray-700 rounded-full">
         <button (click)="changeDishQuantity(dishCategory, -1)" [disabled]="dishQuantity[dishCategory?.name] <= 0 || !dishQuantity[dishCategory?.name]"
-          class=" bg-indigo-500 cursor-pointer rounded-full flex justify-center items-center w-8 h-8 active:bg-indigo-700  disabled:bg-indigo-300 custom-ripple"
+          class=" bg-lime-500 cursor-pointer rounded-full flex justify-center items-center w-8 h-8 active:bg-lime-700  disabled:bg-lime-300 custom-ripple"
           matRipple [matRippleCentered]="false" [matRippleDisabled]="false" [matRippleUnbounded]="false">
           <mat-icon class="text-white">remove</mat-icon>
         </button>
         <p class="text-gray-500 text-sm dark:text-gray-100">{{dishQuantity[dishCategory?.name] || 0}}</p>
         <button (click)="changeDishQuantity(dishCategory, 1)"
-          class="ml-4 bg-indigo-500 cursor-pointer rounded-full flex justify-center items-center w-8 h-8 active:bg-indigo-700  custom-ripple"
+          class="ml-4 bg-lime-500 cursor-pointer rounded-full flex justify-center items-center w-8 h-8 active:bg-lime-700  custom-ripple"
           matRipple [matRippleCentered]="false" [matRippleDisabled]="false" [matRippleUnbounded]="false">
           <mat-icon class="text-white">add</mat-icon>
         </button>
@@ -35,7 +35,7 @@
 
 <div class="bg-gray-100 dark:bg-gray-800 px-3 py-3  sm:flex sm:flex-row-reverse">
   <button type="button" (click)="closeModal()"
-    class="w-full inline-flex justify-center rounded-md border border-gray-300 dark:border-gray-700 shadow-sm px-4 py-2 bg-white dark:bg-indigo-500 dark:text-white text-base font-medium text-gray-700 focus:outline-none sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm  custom-ripple"
+    class="w-full inline-flex justify-center rounded-md border border-gray-300 dark:border-gray-700 shadow-sm px-4 py-2 bg-white dark:bg-lime-500 dark:text-white text-base font-medium text-gray-700 focus:outline-none sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm  custom-ripple"
     matRipple [matRippleCentered]="false" [matRippleDisabled]="false" [matRippleUnbounded]="false">
     Close
   </button>

@@ -92,89 +92,88 @@ export class EditComponent implements OnInit {
 
 
   saveDish(publish: string = "Publish") {
-    // this.loading = true
-    // const restaurantSlug = this.restaurantService.getRestaurantSlug()
-    console.log("Form Result", this.dishFormGroup.value)
-      // if (restaurantSlug) {
-      //   this.route?.params.subscribe(async (param: any) => {
-      //     const dishData = {
-      //       name: this.dishFormGroup.value.name,
-      //       description: this.dishFormGroup.value.description,
-      //       price: Math.min.apply(Math, this.dishFormGroup.value.category.map((cat: any) => cat.price)),
-      //       inStock: this.dishFormGroup.value.inStock,
-      //       type: this.dishFormGroup.value.type,
-      //       tags: this.dishFormGroup.value.tags.map((tag: any) => tag.id),
-      //       menus: this.dishFormGroup.value.menus.map((menu: any) => menu.id),
-      //       category: this.dishFormGroup.value.category,
-      //       publishedAt: publish == 'Publish' ? new Date() : null
-      //     }
+    this.loading = true
+    const restaurantSlug = this.restaurantService.getRestaurantSlug()
+      if (restaurantSlug) {
+        this.route?.params.subscribe(async (param: any) => {
+          const dishData = {
+            name: this.dishFormGroup.value.name,
+            description: this.dishFormGroup.value.description,
+            price: Math.min.apply(Math, this.dishFormGroup.value.category.map((cat: any) => cat.price)),
+            inStock: this.dishFormGroup.value.inStock,
+            type: this.dishFormGroup.value.type,
+            tags: this.dishFormGroup.value.tags.map((tag: any) => tag.id),
+            menus: this.dishFormGroup.value.menus.map((menu: any) => menu.id),
+            category: this.dishFormGroup.value.category,
+            publishedAt: publish == 'Publish' ? new Date() : null
+          }
           
-      //     dishData.category = dishData.category.map((cat: any) => {
-      //       if (!cat.id)
-      //         delete cat?.id
-      //       return cat
-      //     })
+          dishData.category = dishData.category.map((cat: any) => {
+            if (!cat.id)
+              delete cat?.id
+            return cat
+          })
 
 
-      //     //User want to edit
-      //     if (param['dishId']) {
-      //       //User did not changed the Image
-      //       if (!this.selectedImage) {
-      //         //do a normal request without formdata
-      //         this.adminService.updateDish(dishData,restaurantSlug, param['dishId'])
-      //           .then((result) => {
-      //             this.loading = false
-      //             this.mainService.openDialog("Success", "Dish Updated Successfully", "S", true)
-      //           }).catch((err) => {
-      //             this.loading = false
-      //             console.log("Error", err)
-      //             this.mainService.openDialog("Error", this.mainService.errorMessage(err), "E")
-      //           })
+          //User want to edit
+          if (param['dishId']) {
+            //User did not changed the Image
+            if (!this.selectedImage) {
+              //do a normal request without formdata
+              this.adminService.updateDish(dishData,restaurantSlug, param['dishId'])
+                .then((result) => {
+                  this.loading = false
+                  this.mainService.openDialog("Success", "Dish Updated Successfully", "S", true)
+                }).catch((err) => {
+                  this.loading = false
+                  console.log("Error", err)
+                  this.mainService.openDialog("Error", this.mainService.errorMessage(err), "E")
+                })
 
-      //         //User changed the image
-      //       } else {
+              //User changed the image
+            } else {
 
-      //         this.formdata.delete('data')
-      //         this.formdata.append("data", JSON.stringify(dishData));
-      //         this.adminService.updateDish(this.formdata, restaurantSlug, param['dishId'])
-      //           .then((result) => {
-      //             this.loading = false
-      //             this.mainService.openDialog("Success", "Dish Updated Successfully", "S", true)
-      //           }).catch((err) => {
-      //             this.loading = false
-      //             console.log("Error", err)
-      //             this.mainService.openDialog("Error", this.mainService.errorMessage(err), "E")
+              this.formdata.delete('data')
+              this.formdata.append("data", JSON.stringify(dishData));
+              this.adminService.updateDish(this.formdata, restaurantSlug, param['dishId'])
+                .then((result) => {
+                  this.loading = false
+                  this.mainService.openDialog("Success", "Dish Updated Successfully", "S", true)
+                }).catch((err) => {
+                  this.loading = false
+                  console.log("Error", err)
+                  this.mainService.openDialog("Error", this.mainService.errorMessage(err), "E")
 
-      //           })
-      //       }
+                })
+            }
 
-      //       //User wants to add
-      //     } else {
-      //       const restaurantSlug = this.restaurantService.getRestaurantSlug()
-      //         if (restaurantSlug)  {
-      //           if (!this.selectedImage) {
-      //             this.mainService.openDialog("Error", "Please upload image", "E")
-      //             return
-      //           }
-      //           this.formdata.delete('data')
-      //           this.formdata.append("data", JSON.stringify(dishData));
+            //User wants to add
+          } else {
+            const restaurantSlug = this.restaurantService.getRestaurantSlug()
+              if (restaurantSlug)  {
+                if (!this.selectedImage) {
+                  this.mainService.openDialog("Error", "Please upload image", "E")
+                  return
+                }
+                this.formdata.delete('data')
+                this.formdata.append("data", JSON.stringify(dishData));
 
-      //           this.adminService.addDish(this.formdata, restaurantSlug)
-      //             .then((result) => {
-      //               this.loading = false
-      //               this.mainService.openDialog("Success", "Dish Added Successfully with id : " + result.data.id, "S", true)
-      //             }).catch((err) => {
-      //               this.loading = false
-      //               console.log("Error", err)
-      //               this.mainService.openDialog("Error", this.mainService.errorMessage(err), "E")
+                this.adminService.addDish(this.formdata, restaurantSlug)
+                  .then((result) => {
+                    this.loading = false
+                    this.mainService.openDialog("Success", "Dish Added Successfully with id : " + result.data.id, "S", true)
+                  }).catch((err) => {
+                    this.loading = false
+                    console.log("Error", err)
+                    this.mainService.openDialog("Error", this.mainService.errorMessage(err), "E")
 
-      //             })
-      //         }
+                  })
+              }
             
-      //     }
+          }
 
-      //   })
-      // }
+        })
+      }
   }
 
 

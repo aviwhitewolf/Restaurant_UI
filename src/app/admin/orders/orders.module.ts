@@ -13,13 +13,16 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import {ScrollingModule} from '@angular/cdk/scrolling';
 import { RightSideBarComponent } from './right-side-bar/right-side-bar.component';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { NgxPrintModule } from 'ngx-print';
+import { PrintOrderComponent } from './print-order/print-order.component';
 
 @NgModule({
   declarations: [
     CreateComponent,
     ViewComponent,
     OverviewComponent,
-    RightSideBarComponent
+    RightSideBarComponent,
+    PrintOrderComponent
   ],
   imports: [
     CommonModule,
@@ -32,7 +35,8 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
     OrderRoutingModule,
     MatCheckboxModule,
     ScrollingModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    NgxPrintModule
   ]
 })
 export class OrdersModule { }

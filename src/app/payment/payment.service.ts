@@ -14,15 +14,15 @@ export class PaymentService {
 
   constructor(private mainService: MainService) { }
 
-  getOrderInfo(slug : string): OrderInfo {
+  getOrderInfo(slug: string): OrderInfo {
     const cartItems = this.mainService.getToLocalStorage(Constants.LOCAL_CART)
 
     const orderInfo: OrderInfo = {
       "user": this.mainService.getToLocalStorage(Constants.LOCAL_USER).id,
       "restaurantSlug": slug,
       "orderItems": [],
-      "table" : "",
-      "modeOfTransaction" : ""
+      "table": "",
+      "modeOfTransaction": ""
     }
 
     for (const key in cartItems) {
@@ -48,14 +48,21 @@ export class PaymentService {
 
   }
 
-  createOrder(orderInfo: OrderInfo, table : string, modeOfTransaction : string) {
+  createOrder(orderInfo: OrderInfo, table: string, note : string,  modeOfTransaction: string) {
     const jwt = this.mainService.getToLocalStorage(Constants.LOCAL_USER).jwt || ""
     orderInfo.table = table
+    orderInfo.note = note
     orderInfo.modeOfTransaction = modeOfTransaction
+    
+    if (modeOfTransaction == 'online')
+      orderInfo.modeOfPayment = 'online'
+    else
+      orderInfo.modeOfPayment = 'notConfirm'
+
     const headers = {
       Authorization: `Bearer ${jwt}`
     }
-    return axios.post(Constants.BASE_URL + Constants.CREATE_ORDER_URL , orderInfo, { headers })
+    return axios.post(Constants.BASE_URL + Constants.CREATE_ORDER_URL, orderInfo, { headers })
   }
 
   getAllTables(slug: string) {

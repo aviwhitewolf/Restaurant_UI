@@ -33,12 +33,12 @@
                         class="px-4 py-5 sm:gap-4 sm:px-6 sm:grid sm:grid-cols-3 dark:bg-slate-700 items-center ">
                         <dt class="text-sm font-medium text-gray-500 dark:text-gray-200">Full name</dt>
                         <input formControlName="fullName" type="text" autocomplete="given-name" placeholder="Your Name"
-                            class="mt-1 dark:bg-slate-800 dark:text-white dark:ring-slate-700 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 dark:border-gray-700 rounded-md">
+                            class="mt-1 dark:bg-slate-800 dark:text-white dark:ring-slate-700 focus:ring-lime-500 focus:border-lime-500 block w-full shadow-sm sm:text-sm border-gray-300 dark:border-gray-700 rounded-md">
                     </div>
                     <div *ngIf="userData.username" class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 dark:bg-slate-800">
                         <dt class="text-sm font-medium text-gray-500 dark:text-gray-200">Username</dt>
                         <input formControlName="username" type="text" name="username" autocomplete="username"
-                            class="mt-1 dark:bg-slate-800 dark:text-white dark:ring-slate-700 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 dark:border-gray-700 rounded-md"
+                            class="mt-1 dark:bg-slate-800 dark:text-white dark:ring-slate-700 focus:ring-lime-500 focus:border-lime-500 block w-full shadow-sm sm:text-sm border-gray-300 dark:border-gray-700 rounded-md"
                             [ngClass]="{'border-2 border-red-500' : updateFormGroup.get('username')?.errors && (updateFormGroup.get('username')?.touched ||  updateFormGroup.get('username')?.dirty)}"
                             >
                         <div *ngIf="updateFormGroup.get('username')?.errors?.['required'] || updateFormGroup.get('username')?.errors?.['username']"
@@ -58,15 +58,15 @@
                 <div class="mt-2 flex justify-between px-4 py-5 sm:gap-4 sm:px-6 bg-white dark:bg-slate-800">
 
                     <button type="submit" [disabled]="updateFormGroup.invalid"
-                        [ngClass]="{'text-indigo-200 border-indigo-200' : updateFormGroup.invalid}"
-                        class="py-2 px-4 border border-indigo-500 dark:border-indigo-400 text-sm font-medium rounded-md text-indigo-500 dark:text-indigo-400  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500  custom-ripple" matRipple
+                        [ngClass]="{'text-lime-200 border-lime-200' : updateFormGroup.invalid}"
+                        class="py-2 px-4 border border-lime-500 dark:border-lime-400 text-sm font-medium rounded-md text-lime-500 dark:text-lime-400  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500  custom-ripple" matRipple
                         [matRippleCentered]="false" [matRippleDisabled]="false"
                         [matRippleUnbounded]="false">
                         Update
                     </button>
 
                     <button mat-dialog-close
-                        class="cursor-pointer py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500  custom-ripple" matRipple
+                        class="cursor-pointer py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-lime-600 hover:bg-lime-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500  custom-ripple" matRipple
                         [matRippleCentered]="false" [matRippleDisabled]="false"
                         [matRippleUnbounded]="false">
                         Close

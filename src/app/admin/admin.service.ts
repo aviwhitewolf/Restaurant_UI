@@ -78,13 +78,13 @@ export class AdminService {
     return axios.get(url, { headers })
   }
 
-  updateOrder(orderId: number, updateOrder: any) {
+  updateOrder(orderId: number, updateOrder: any, slug : string) {
     const jwt = this.mainService.getToLocalStorage(Constants.LOCAL_USER).jwt || ""
     const headers = {
       Authorization: `Bearer ${jwt}`
     }
 
-    return axios.put(Constants.BASE_URL + Constants.ORDER_URL + `/${orderId}`, updateOrder, { headers })
+    return axios.put(Constants.BASE_URL + Constants.ORDER_URL + `/${orderId}?slug=${slug}`, updateOrder, { headers })
   }
 
   getAllDishes(slug: string) {

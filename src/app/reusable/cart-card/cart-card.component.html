@@ -25,13 +25,13 @@
         <div class="flex items-center space-x-3 border-2 dark:border-gray-700 rounded-full">
 
           <button (click)="decreaseQuntity(getJsonData(property.value, 'name'))"
-            class="bg-indigo-500 dark:bg-indigo-500 cursor-pointer rounded-full flex justify-center items-center w-8 h-8 active:bg-indigo-700  dark:active:bg-indigo-800 custom-ripple"
+            class="bg-lime-500 dark:bg-lime-500 cursor-pointer rounded-full flex justify-center items-center w-8 h-8 active:bg-lime-700  dark:active:bg-lime-800 custom-ripple"
             matRipple [matRippleCentered]="false" [matRippleDisabled]="false" [matRippleUnbounded]="false">
             <mat-icon class="text-white">remove</mat-icon>
           </button>
           <p class="text-gray-500 text-sm dark:text-gray-100">{{getJsonData(property.value,'quantity') || 0}}</p>
           <button (click)="increaseQuntity(getJsonData(property.value, 'name'))"
-            class="ml-4 bg-indigo-500  dark:bg-indigo-500 cursor-pointer rounded-full flex justify-center items-center w-8 h-8 active:bg-indigo-700 dark:active:bg-indigo-800 custom-ripple"
+            class="ml-4 bg-lime-500  dark:bg-lime-500 cursor-pointer rounded-full flex justify-center items-center w-8 h-8 active:bg-lime-700 dark:active:bg-lime-800 custom-ripple"
             matRipple [matRippleCentered]="false" [matRippleDisabled]="false" [matRippleUnbounded]="false">
             <mat-icon class="text-white">add</mat-icon>
           </button>
@@ -39,7 +39,7 @@
 
         <div class="flex">
           <button (click)="removeDish(getJsonData(property.value, 'name'))" type="button"
-            class="font-medium text-indigo-500 hover:text-indigo-500 p-2 rounded-full custom-ripple" matRipple
+            class="font-medium text-lime-500 hover:text-lime-500 p-2 rounded-full custom-ripple" matRipple
             [matRippleCentered]="false" [matRippleDisabled]="false" [matRippleUnbounded]="false">
             Remove
           </button>

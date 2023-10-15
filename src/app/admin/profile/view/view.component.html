@@ -25,7 +25,7 @@
                 <div *ngIf="me?.fullName">
                     <h1 class="text-2xl font-bold text-gray-900">{{me?.fullName}}</h1>
                     <h3 *ngIf="me?.designation" class="text-base">
-                        <span class="flex  items-center text-indigo-500">
+                        <span class="flex  items-center text-lime-500">
                             <mat-icon class="mr-2">badge</mat-icon>
                             {{me?.designation}}
                         </span>
@@ -36,7 +36,7 @@
             <div *ngIf="selectedImage"
                 class="mt-6 flex space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-x-reverse sm:space-y-0 space-x-3 md:mt-0 md:flex-row md:space-x-3">
                 <button (click)="updateEmployeeImage()"
-                    class="disabled:bg-indigo-400 flex items-center bg-indigo-600 border border-transparent rounded-md shadow-sm py-2 px-4 text-sm text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500">
+                    class="disabled:bg-lime-400 flex items-center bg-lime-600 border border-transparent rounded-md shadow-sm py-2 px-4 text-sm text-white hover:bg-lime-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-lime-500">
                     <mat-icon class="mr-2">
                         save</mat-icon>
                     Save
@@ -124,7 +124,7 @@
                             <ul role="list" class="relative z-0 divide-y divide-gray-200">
                                 <li *ngFor="let salary of salaryHistory">
                                     <div
-                                        class="relative px-6 py-5 flex items-center space-x-3 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500">
+                                        class="relative px-6 py-5 flex items-center space-x-3 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-lime-500">
                                         <div class="flex-shrink-0">
                                             <div
                                                 class="bg-green-100 h-10 w-10 flex justify-center items-center rounded-full">

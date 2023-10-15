@@ -4,16 +4,16 @@
 
 <div class="max-w-6xl p-12 mx-auto" *ngIf="!loading && (!employees || employees?.length == 0)">
     <button type="button" [routerLink]="['add']"
-        class="block w-full border-2 border-gray-300 border-dashed rounded-lg p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+        class="block w-full border-2 border-gray-300 border-dashed rounded-lg p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500">
         <mat-icon style="height: unset;width: unset;" class="mx-auto  text-gray-600  text-5xl">
             person_search
         </mat-icon>
         <span class="mx-auto mt-2 block text-sm font-medium text-gray-500">
             No staff found.
         </span>
-        <button type="button" class=" mx-auto mt-2 inline-flex items-center px-4 py-2 border border-gray-300 shadow-purple-500 shadow-sm text-sm font-medium rounded-3xl text-indigo-500 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">            
+        <button type="button" class=" mx-auto mt-2 inline-flex items-center px-4 py-2 border border-gray-300 shadow-purple-500 shadow-sm text-sm font-medium rounded-3xl text-lime-500 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500">            
             Create one
-            <mat-icon style="height: unset;width: unset;" class="ml-2 text-indigo-500 text-md">
+            <mat-icon style="height: unset;width: unset;" class="ml-2 text-lime-500 text-md">
                 east
             </mat-icon>
         </button>
@@ -33,7 +33,7 @@
                 </div>
 
                 <button type="button" [routerLink]="['add']"
-                    class="disabled:bg-indigo-400 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    class="disabled:bg-lime-400 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-lime-600 hover:bg-lime-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500">
                     <mat-icon class="mr-2 text-md">
                         add</mat-icon>
                     Add Staff
@@ -58,7 +58,7 @@
                                     </div>
                                     <div class="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">
                                         <div>
-                                            <p [ngClass]="{'text-red-500' : checkIfResigned(employee?.dateOfResignation), 'text-indigo-600' :!checkIfResigned(employee?.dateOfResignation) }"
+                                            <p [ngClass]="{'text-red-500' : checkIfResigned(employee?.dateOfResignation), 'text-lime-600' :!checkIfResigned(employee?.dateOfResignation) }"
                                                 class="text-sm font-medium truncate capitalize">{{employee?.fullName}}
                                             </p>
                                             <p class="mt-2 flex items-center text-sm text-gray-500">
@@ -74,7 +74,7 @@
                                         </div>
                                         <div class="hidden md:block">
                                             <div>
-                                                <p [ngClass]="{'text-red-500' : checkIfResigned(employee?.dateOfResignation), 'text-indigo-600' :!checkIfResigned(employee?.dateOfResignation) }"
+                                                <p [ngClass]="{'text-red-500' : checkIfResigned(employee?.dateOfResignation), 'text-lime-600' :!checkIfResigned(employee?.dateOfResignation) }"
                                                     class="flex items-center font-semibold text-sm">
                                                     <mat-icon class="text-base">badge</mat-icon>
                                                     {{employee?.designation?.name}}

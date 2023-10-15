@@ -23,7 +23,8 @@ export class CheckoutComponent implements OnInit {
   public tables: any[] = []
 
   public tableFormGroup: FormGroup = this.formBuilder.group({
-    table: ['', [Validators.required, Validators.nullValidator]]
+    table: ['', [Validators.required, Validators.nullValidator]],
+    note : ['']
   });
 
   constructor(
@@ -38,7 +39,7 @@ export class CheckoutComponent implements OnInit {
     private restaurantService: RestaurantService,
     private _location: Location
   ) {
-    this.slug = restaurantService.getRestaurantSlug() 
+    this.slug = restaurantService.getRestaurantSlug()
     const user = this.mainService.getToLocalStorage(Constants.LOCAL_USER)
     this.jwt = user.jwt || ""
     if (!this.mainService.getToLocalStorage(Constants.LOCAL_CART)) {
@@ -61,9 +62,9 @@ export class CheckoutComponent implements OnInit {
       this.isLoading = false
     }
 
-        this.route.queryParams.subscribe(params => {
-          this.getAllTables( params['tb'])
-        });
+    this.route.queryParams.subscribe(params => {
+      this.getAllTables(params['tb'])
+    });
 
   }
 
@@ -105,42 +106,42 @@ export class CheckoutComponent implements OnInit {
         return
       }
 
-      
-        if (this.slug) {
-          this.paymentService.createOrder(this.paymentService.getOrderInfo(this.slug), this.tableFormGroup.value.table, modeOfTransaction).then((response) =>
-            this.launchRazorPay(response.data))
-            .catch((err) => {
-              this.isLoading = false
-              console.log("Error while creating order", err)
-              this.mainService.openDialog("Create Order Error", err && err?.response && err?.response && err?.response?.data?.error ? (err?.response?.data?.error?.status + ": " + err?.response?.data?.error?.message) : "Something went wrong, check your network and try again.", "E")
-            })
-        }
-      
+
+      if (this.slug) {
+        this.paymentService.createOrder(this.paymentService.getOrderInfo(this.slug), this.tableFormGroup.value.table, this.tableFormGroup.value.note, modeOfTransaction).then((response) =>
+          this.launchRazorPay(response.data))
+          .catch((err) => {
+            this.isLoading = false
+            console.log("Error while creating order", err)
+            this.mainService.openDialog("Create Order Error", err && err?.response && err?.response && err?.response?.data?.error ? (err?.response?.data?.error?.status + ": " + err?.response?.data?.error?.message) : "Something went wrong, check your network and try again.", "E")
+          })
+      }
+
 
     } else if (modeOfTransaction == 'offline') {
       this.isLoading = true
-      
-        if (this.slug) {
-          this.paymentService.createOrder(this.paymentService.getOrderInfo(this.slug), this.tableFormGroup.value.table, modeOfTransaction)
-            .then((response: any) => {
-              this.isLoading = false
-              this.mainService.setshowPaymentStatus(true)
-              localStorage.setItem(Constants.LOCAL_CART, "")
-              this.zone.run(() => this.router.navigate(['/restaurant', this.slug, 'payment', Constants.SUCCESS], { queryParams: { tb: this.tableFormGroup.value.table, message: "Order placed, preparing your order, kindly make your payment on reception." } }));
-            })
-            .catch((err) => {
-              this.isLoading = false
-              console.log("Error while creating order", err)
-              this.mainService.openDialog("Create Order Error", err && err?.response && err?.response && err?.response?.data?.error ? (err?.response?.data?.error?.status + ": " + err?.response?.data?.error?.message) : "Something went wrong, check your network and try again.", "E")
-            })
-        }
-      
+
+      if (this.slug) {
+        this.paymentService.createOrder(this.paymentService.getOrderInfo(this.slug), this.tableFormGroup.value.table, this.tableFormGroup.value.note, modeOfTransaction)
+          .then((response: any) => {
+            this.isLoading = false
+            this.mainService.setshowPaymentStatus(true)
+            localStorage.setItem(Constants.LOCAL_CART, "")
+            this.zone.run(() => this.router.navigate(['/restaurant', this.slug, 'payment', Constants.SUCCESS], { queryParams: { tb: this.tableFormGroup.value.table, message: "Order placed, preparing your order, kindly make your payment on reception." } }));
+          })
+          .catch((err) => {
+            this.isLoading = false
+            console.log("Error while creating order", err)
+            this.mainService.openDialog("Create Order Error", err && err?.response && err?.response && err?.response?.data?.error ? (err?.response?.data?.error?.status + ": " + err?.response?.data?.error?.message) : "Something went wrong, check your network and try again.", "E")
+          })
+      }
+
     }
   }
 
   private launchRazorPay(data: any) {
     this.mainService.setshowPaymentStatus(true)
-    const razorpayInfo = data.paymentInfo 
+    const razorpayInfo = data.paymentInfo
     const options = {
       key: razorpayInfo.razorpayKeyId,
       currency: data.currency,
@@ -219,19 +220,19 @@ export class CheckoutComponent implements OnInit {
 
   getAllTables(mtable: string) {
     const slug = this.restaurantService.getRestaurantSlug()
-    if(slug){
-    this.isLoading = true
-    this.paymentService.getAllTables(slug)
-      .then((res) => {
-        this.tables = res.data
-        const tableId = this.tables?.filter(table => table.slug == mtable)[0]?.id
-        this.tableFormGroup.controls['table'].patchValue(tableId)
-        this.isLoading = false
-      }).catch((err) => {
-        this.isLoading = false
-        console.log("Error", err)
-        this.mainService.openDialog("Error", this.mainService.errorMessage(err), "E")
-      })
+    if (slug) {
+      this.isLoading = true
+      this.paymentService.getAllTables(slug)
+        .then((res) => {
+          this.tables = res.data
+          const tableId = this.tables?.filter(table => table.slug == mtable)[0]?.id
+          this.tableFormGroup.controls['table'].patchValue(tableId)
+          this.isLoading = false
+        }).catch((err) => {
+          this.isLoading = false
+          console.log("Error", err)
+          this.mainService.openDialog("Error", this.mainService.errorMessage(err), "E")
+        })
     }
 
   }

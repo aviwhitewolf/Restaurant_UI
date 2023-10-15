@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AdminService } from 'src/app/admin/admin.service';
 import { Constants } from 'src/app/Constants/Interface/Constants';
@@ -12,38 +12,47 @@ import { RestaurantService } from 'src/app/restaurant/restaurant.service';
 })
 export class SearchDishComponent implements OnInit {
 
+  @ViewChild('searchInputField')
+  searchInputField!: ElementRef;
+
   @Input()
-  public format : string = 'WITH_CATEGORY'
+  public format: string = 'WITH_CATEGORY'
 
   @Output()
-  public selectedData : EventEmitter<any> = new EventEmitter();
+  public selectedData: EventEmitter<any> = new EventEmitter();
 
-  public loading : boolean = true
+  public loading: boolean = true
   public filteredDishes: any
   private _searchTerm: string = ""
-  public dishes : any
-  
+  public dishes: any
+  public searchingDish: boolean = false
+  private searchingDishName: string = ""
+
   constructor(
-    private mainService : MainService,
-    private adminService : AdminService,
+    private mainService: MainService,
+    private adminService: AdminService,
     private route: ActivatedRoute,
-    private restaurantService : RestaurantService
-    ) { }
+    private restaurantService: RestaurantService
+  ) { }
 
   ngOnInit(): void {
 
     const restaurantSlug = this.restaurantService.getRestaurantSlug()
-      if (restaurantSlug) {
-        this.getAllDishes(restaurantSlug)
-      } 
-    
+    if (restaurantSlug) {
+      this.getAllDishes(restaurantSlug)
+    }
+
+  }
+
+  ngAfterViewInit() {
+    this.searchInputField?.nativeElement?.focus();
   }
 
   private getAllDishes(slug: string) {
     this.loading = true
     this.adminService.getAllDishes(slug)
       .then((result) => {
-        this.dishes = result?.data?.filter((dish : any) => dish?.publishedAt)
+        this.dishes = result?.data?.filter((dish: any) => dish?.publishedAt)
         this.filteredDishes = this.dishes?.slice(0, 2)
         this.loading = false
       }).catch((err) => {
@@ -64,10 +73,8 @@ export class SearchDishComponent implements OnInit {
 
 
   public selectedDish(dish: any, category: any) {
-      this.selectedData.emit({dish, category});
+    this.selectedData.emit({ dish, category });
   }
-
-
 
   get searchTerm(): string {
     return this._searchTerm
@@ -78,9 +85,40 @@ export class SearchDishComponent implements OnInit {
     this.filteredDishes = this.filterDishes(value)
   }
 
+
+  public searchDish(data: string) {
+    this.searchingDish = true
+    if (data && data?.length >= 2) {
+      this.searchingDishName = data
+      this.debouncedUpdate()
+    } else if (data && data?.length == 0) {
+      this.searchingDish = false
+      this.filteredDishes = this.dishes?.slice(0, 2)
+    }
+    else {
+      this.searchingDish = false
+      this.filteredDishes = this.dishes?.slice(0, 2)
+    }
+  }
+
   public getImageUrl(image: any) {
     return this.mainService.getImageUrl(image, Constants.IMAGE_JSON_STRUCTURE_WITHOUT_ATTRIBUTE)
   }
+
+
+  debounce = (fn: Function, ms = 700) => {
+    let timeoutId: ReturnType<typeof setTimeout>;
+    return function (this: any, ...args: any[]) {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => fn.apply(this, args), ms);
+    };
+  };
+
+  updateState = () => {
+    this.filteredDishes = this.filterDishes(this.searchingDishName)
+  };
+
+  debouncedUpdate = this.debounce(this.updateState);
 
 
 }

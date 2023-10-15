@@ -8,6 +8,21 @@ import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { SocketService } from 'src/app/socket.service';
 import { RestaurantService } from 'src/app/restaurant/restaurant.service';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackbarComponent } from 'src/app/reusable/snackbar/snackbar.component';
+
+interface IUpdateOrder {
+  status: string;
+  foodStatus: string;
+  preparationTime: string;
+  mUpdatedBy: any[];
+  modeOfTransaction: string;
+  cash: number;
+  online: number;
+  modeOfPayment: string;
+  discount?: number;
+  orderItems?: any[];
+}
 
 @Component({
   selector: 'app-view',
@@ -15,6 +30,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./view.component.css']
 })
 export class ViewComponent implements OnInit {
+
 
   public loading: boolean = true
   public showDateRange: boolean = false
@@ -27,6 +43,10 @@ export class ViewComponent implements OnInit {
   private page: number = 1
   private pageSize: number = 20
   private total: number = 0
+  public showSearchDishDialog: boolean = false
+  public updatedDishesWithOrderItem: any
+  public discount: number = 0
+  public editOrder: boolean = false;
 
   @ViewChild('scroller') scroller!: CdkVirtualScrollViewport;
 
@@ -35,6 +55,7 @@ export class ViewComponent implements OnInit {
     modeOfPaymentInfo: this.formBuilder.array([])
   });
 
+
   constructor(
     private formBuilder: FormBuilder,
     private adminService: AdminService,
@@ -42,6 +63,7 @@ export class ViewComponent implements OnInit {
     private route: ActivatedRoute,
     private _location: Location,
     private router: Router,
+    private _snackBar: MatSnackBar,
     private ngZone: NgZone,
     private socket: SocketService,
     private restaurantService: RestaurantService
@@ -67,11 +89,26 @@ export class ViewComponent implements OnInit {
   }
 
   getSingleOrder(slug: string, orderId: number) {
+
     this.loading = true
     this.adminService.getSingleOrder(slug, orderId)
       .then((res: any) => {
         this.order = res.data.results[0]
+        this.updatedDishesWithOrderItem = JSON.parse(JSON.stringify(this.order?.orderItems)) as any[]
         this.total = this.order?.totalAmount || 0
+        this.discount = this.order?.discount || 0
+
+
+        const timeDiff = new Date().getTime() - new Date(this.order.createdAt).getTime();
+
+        // Calculate the number of milliseconds in a day
+        const oneDayInMilliseconds = 24 * 60 * 60 * 1000;
+
+        // Check if the time difference is greater than one day
+        if (timeDiff <= oneDayInMilliseconds) {
+          this.editOrder = true
+        }
+
         this.emitOrderRead(this.order, slug)
 
         if (this.order) {
@@ -83,12 +120,12 @@ export class ViewComponent implements OnInit {
             modeOfPayment: this.order.modeOfPayment
           })
 
-
           if (this.order.modeOfPayment == 'both')
             this.modeOfPaymentInfo.push(this.formBuilder.group({ cash: this.order.cash, online: this.order.online }))
 
         } else {
           this.mainService.openDialog("Error", this.mainService.errorMessage("No data found", true), "E")
+
         }
         this.loading = false
       }).catch((err) => {
@@ -101,7 +138,12 @@ export class ViewComponent implements OnInit {
 
   updateOrder(orderId: number) {
 
-    const updateOrder = {
+    if (this.discount < 0) {
+      this.mainService.openDialog("Error", "Discount should be positive.", "E")
+      return
+    }
+
+    const updateOrder: IUpdateOrder = {
       status: this.dropDownSelectedValue[Constants.ADMIN_ORDER_STATUS_DROPDOWN] || this.order.status,
       foodStatus: this.dropDownSelectedValue[Constants.ADMIN_FOOD_STATUS_DROPDOWN] || this.order.foodStatus,
       preparationTime: this.dropDownSelectedValue[Constants.ADMIN_FOOD_PREPARATION_DROPDOWN] || this.order.preparationTime,
@@ -109,13 +151,18 @@ export class ViewComponent implements OnInit {
       modeOfTransaction: "offline",
       cash: 0,
       online: 0,
-      modeOfPayment: "notConfirm"
+      modeOfPayment: "notConfirm",
+      discount: this.discount
+    }
+
+    if (JSON.stringify(this.order?.orderItems) !== JSON.stringify(this.updatedDishesWithOrderItem)) {
+      updateOrder.orderItems = this.updatedDishesWithOrderItem
     }
 
     let modeOfPayment = this.orderFormGroup.value?.modeOfPayment
     let modeOfPaymentInfo = this.orderFormGroup.value?.modeOfPaymentInfo[0]
 
-    if (modeOfPayment && modeOfPayment == 'both' && modeOfPaymentInfo && (modeOfPaymentInfo?.cash + modeOfPaymentInfo?.online) != this.total) {
+    if (modeOfPayment && modeOfPayment == 'both' && modeOfPaymentInfo && (modeOfPaymentInfo?.cash + modeOfPaymentInfo?.online) != this.calculateTotal()) {
       this.mainService.openDialog("Error", "Cash and online amount is not equal to total amount.", "E")
       return
     }
@@ -125,23 +172,24 @@ export class ViewComponent implements OnInit {
       updateOrder.online = modeOfPaymentInfo?.online
 
     } else if (modeOfPayment && modeOfPayment == 'cash') {
-      updateOrder.cash = this.total
+      updateOrder.cash = this.calculateTotal()
       updateOrder.online = 0
 
     } else if (modeOfPayment && modeOfPayment == 'online') {
       updateOrder.cash = 0
-      updateOrder.online = this.total
+      updateOrder.online = this.calculateTotal()
 
-    }else {
+    } else {
       this.mainService.openDialog("Error", "Need to select 'Mode of payment'.", "E")
-
+      return
     }
 
     updateOrder.modeOfPayment = modeOfPayment
 
 
     this.loading = true
-    this.adminService.updateOrder(orderId, updateOrder)
+    const restaurantSlug = this.restaurantService.getRestaurantSlug()
+    this.adminService.updateOrder(orderId, updateOrder, restaurantSlug)
       .then((result) => {
         this.loading = false
         this.mainService.openDialog("Success", "Order Updated Successfully with Order id: " + result.data.orderId, "S", true, false)
@@ -193,6 +241,17 @@ export class ViewComponent implements OnInit {
 
   }
 
+
+  toggleSearchDishDialog() {
+
+    this.showSearchDishDialog = !this.showSearchDishDialog
+    if (this.showSearchDishDialog)
+      document.body.classList.add("no-parent-scroll");
+    else
+      document.body.classList.remove("no-parent-scroll");
+
+  }
+
   toggleRightSideBar(state: boolean) {
 
     this.showRightSideBar = !this.showRightSideBar
@@ -224,6 +283,115 @@ export class ViewComponent implements OnInit {
   }
 
 
+  addDish(data: any) {
+    const { dish, category } = data
+    const dishIndex = this.updatedDishesWithOrderItem.findIndex((item: any) => item?.dish?.id == dish.id)
+    if (dishIndex >= 0) {
+      const dishCategory = this.updatedDishesWithOrderItem[dishIndex]?.orderDishCategory
+      const categoryIndex = dishCategory.findIndex((item: any) => item.name == category.name)
+      if (categoryIndex >= 0) {
+        this.updatedDishesWithOrderItem[dishIndex].orderDishCategory[categoryIndex].quantity++
+        this.updatedDishesWithOrderItem[dishIndex].orderDishCategory[categoryIndex].totalPrice =
+          this.updatedDishesWithOrderItem[dishIndex].orderDishCategory[categoryIndex].quantity * category.price
+      } else
+        this.updatedDishesWithOrderItem[dishIndex].orderDishCategory.push({ ...category, quantity: 1, unitPrice: category.price, totalPrice: category.price })
+    } else {
+
+      this.updatedDishesWithOrderItem.push({ dish: { ...dish }, orderDishCategory: [{ ...category, quantity: 1, unitPrice: category.price, totalPrice: category.price }] })
+
+    }
+
+
+    this._snackBar.openFromComponent(SnackbarComponent, {
+      data: {
+        message: 'Dish Added',
+        type: 'S'
+      },
+      panelClass: 'snack-bar',
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+      duration: 1700
+    });
+
+  }
+
+  calculateTotal() {
+    let total = 0
+    this.updatedDishesWithOrderItem?.forEach((item: any) => {
+      item?.orderDishCategory?.forEach((category: any) => {
+        total += category.totalPrice
+      });
+    })
+
+    if (this.order?.taxes) {
+      total = this.calculateTaxes(total, this.order?.taxes)?.total
+    }
+
+    total -= this.discount
+
+    return total
+  }
+
+  calculateTaxes(subtotal: number, taxes: any) {
+    let total = subtotal
+    const compoundTaxes = []
+    const calculatedTaxes = []
+    const mTotal = subtotal
+    for (let index = 0; index < taxes.length; index++) {
+      const tax = taxes[index];
+      if (!tax?.disable) {
+        if (!tax.compound) {
+          const taxDue = mTotal * (tax.rate / 100);
+          taxes[index].taxDue = taxDue;
+          calculatedTaxes.push(tax)
+          total += (mTotal * (1 + (tax?.rate / 100))) - mTotal;
+        } else {
+          compoundTaxes.push(index)
+        }
+      }
+    }
+
+    let cTotal = total
+    for (let index = 0; index < compoundTaxes.length; index++) {
+      const i = compoundTaxes[index];
+      const compoundTax = taxes[i]
+      const taxDue = cTotal * (compoundTax.rate / 100);
+      taxes[i].taxDue = taxDue;
+      calculatedTaxes.push(compoundTax)
+      cTotal += (cTotal * (1 + (compoundTax?.rate / 100))) - cTotal;
+    }
+
+    total = cTotal
+
+    return { total, taxes: calculatedTaxes }
+  }
+
+
+  incrementDishCount(dishIndex: number, categoryIndex: number) {
+    this.updatedDishesWithOrderItem[dishIndex].orderDishCategory[categoryIndex].quantity++
+
+    this.updatedDishesWithOrderItem[dishIndex].orderDishCategory[categoryIndex].totalPrice =
+      this.updatedDishesWithOrderItem[dishIndex].orderDishCategory[categoryIndex].quantity *
+      this.updatedDishesWithOrderItem[dishIndex].orderDishCategory[categoryIndex].unitPrice
+  }
+
+
+  decrementDishCount(dishIndex: number, categoryIndex: number) {
+    if (this.updatedDishesWithOrderItem[dishIndex].orderDishCategory[categoryIndex].quantity > 1) {
+      this.updatedDishesWithOrderItem[dishIndex].orderDishCategory[categoryIndex].quantity--
+      this.updatedDishesWithOrderItem[dishIndex].orderDishCategory[categoryIndex].totalPrice =
+        this.updatedDishesWithOrderItem[dishIndex].orderDishCategory[categoryIndex].quantity *
+        this.updatedDishesWithOrderItem[dishIndex].orderDishCategory[categoryIndex].unitPrice
+    }
+  }
+
+  removeDishWithCategory(dishIndex: number, categoryIndex: number) {
+    this.updatedDishesWithOrderItem[dishIndex].orderDishCategory.splice(categoryIndex, 1)
+    if (this.updatedDishesWithOrderItem[dishIndex]?.orderDishCategory.length == 0) {
+      this.updatedDishesWithOrderItem.splice(dishIndex, 1)
+    }
+    console.log(this.updatedDishesWithOrderItem)
+  }
 
   removeFormControlmodeOfPayment(i = 0) {
     let paymentInfo = this.orderFormGroup.controls['modeOfPaymentInfo'] as FormArray;
