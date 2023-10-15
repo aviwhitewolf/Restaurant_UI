@@ -1,5 +1,5 @@
 <app-loader class="absolute top-0 left-0" *ngIf="loading"></app-loader>
-
+<div [ngClass]="{'overflow-hidden' : showSearchDishDialog}">
 <div *ngIf="!loading && tables && tables?.length == 0" class="bg-red-500">
   <div class="mx-auto max-w-6xl py-3 px-3 sm:px-6 lg:px-8">
     <div class="flex flex-wrap items-start justify-between">
@@ -28,7 +28,7 @@
   </div>
 </div>
 
-<div *ngIf="!loading" class="bg-white mt-8 pb-12 ">
+<div *ngIf="!loading" class="bg-white mt-8 pb-12 min-h-full overflow-y-scroll">
   <form [formGroup]="userFormGroup">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Confirm Order -->
@@ -295,7 +295,7 @@
    -->
     <div
       [ngClass]="{'ease-out duration-300 opacity-100 scale-100' : showSearchDishDialog, 'ease-in duration-200 opacity-0 scale-95' : !showSearchDishDialog}"
-      class=" h-full sm:h-fit mx-auto max-w-4xl transform divide-y divide-gray-500 divide-opacity-10 overflow-hidden sm:rounded-xl bg-white bg-opacity-80 shadow-2xl ring-1 ring-black ring-opacity-5 backdrop-blur backdrop-filter transition-all">
+      class=" min-h-full sm:h-fit mx-auto max-w-4xl transform divide-y divide-gray-500 divide-opacity-10 overflow-hidden sm:rounded-xl bg-white bg-opacity-80 shadow-2xl ring-1 ring-black ring-opacity-5 backdrop-blur backdrop-filter transition-all">
 
       <button (click)="toggleSearchDishDialog()"
         class="fixed top-4 right-6 inline-flex items-center p-1 border border-transparent rounded-full shadow-sm bg-opacity-50 text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black">
@@ -314,4 +314,5 @@
     </div>
   </div>
   <!-- search popup end -->
+</div>
 </div>

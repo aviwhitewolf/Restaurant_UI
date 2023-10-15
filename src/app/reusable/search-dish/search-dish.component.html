@@ -1,8 +1,6 @@
-
 <div *ngIf="loading" class="flex justify-center items-center w-full p-4">
     <h1 class="text-xl font-bold text-gray-700">Loading...</h1>
 </div>
-
 
   <div class="text-center  border-gray-300 pt-42" *ngIf="!loading && dishes?.length == 0">
     <button type="button" [routerLink]="['../../', 'dishes','add']"
