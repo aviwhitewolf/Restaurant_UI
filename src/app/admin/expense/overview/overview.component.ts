@@ -31,7 +31,7 @@ export class OverviewComponent implements OnInit {
   public restaurant: any
   public expense: any
   public dataSource!: MatTableDataSource<Expense>;
-  public displayedColumns: string[] = ['select', 'category', 'employee', 'date', 'debit', 'credit'];
+  public displayedColumns: string[] = ['select', 'category', 'employee', 'date', 'modeOfPayment', 'debit', 'credit',];
   public columnsToDisplayWithExpand = [...this.displayedColumns, 'expand']
   public expandedElement!: Expense
   public selection = new SelectionModel<Expense>(true, []);

@@ -38,7 +38,7 @@ export class HomeComponent implements OnInit {
     private location: PlatformLocation,
     private _bottomSheet: MatBottomSheet
   ) {
-    this.selectedtheme = this.mainService.getToLocalStorage(Constants.LOCAL_USER).theme || "grid"
+    this.selectedtheme = this.mainService.getToLocalStorage(Constants.LOCAL_USER).theme || "list"
     this.userInfo = this.mainService.getToLocalStorage(Constants.LOCAL_USER).jwt ? this.mainService.getToLocalStorage(Constants.LOCAL_USER).username : "Login / Signup"
 
   }

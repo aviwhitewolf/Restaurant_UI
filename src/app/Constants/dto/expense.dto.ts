@@ -26,5 +26,6 @@ export interface Expense {
     tags: {
         id?: number,
         name: string
-    }
+    },
+    modeOfPayment : string
 }

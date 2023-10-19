@@ -30,7 +30,7 @@ export class OverviewComponent implements OnInit {
   public loading: boolean = true
   public orders: any
   public dataSource!: MatTableDataSource<Order>;
-  public displayedColumns: string[] = ['select', 'fullName', 'totalAmount', 'status', 'table', 'number', 'createdAt'];
+  public displayedColumns: string[] = ['select', 'fullName', 'totalAmount', 'status', 'table', 'number', 'modeOfPayment', 'createdAt'];
   public columnsToDisplayWithExpand = [...this.displayedColumns, 'expand']
   public selection = new SelectionModel<Order>(true, []);
   public expandedElement!: Order

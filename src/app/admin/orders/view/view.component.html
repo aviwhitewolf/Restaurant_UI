@@ -336,7 +336,7 @@
 
 
 
-                    <div class="h-full flex flex-col justify-between absolute top-0 right-0 text-red-500">
+                    <div *ngIf="editOrder" class="h-full flex flex-col justify-between absolute top-0 right-0 text-red-500">
                       <p>{{ category?.totalPrice | currency : order.currency }}</p>
                       <p (click)="removeDishWithCategory(dishIndex, categoryIndex)"
                         class="text-sm p-2 cursor-pointer font-semibold text-blue-500">Remove</p>
@@ -346,7 +346,7 @@
               </div>
             </li>
           </ng-container>
-          <button (click)="toggleSearchDishDialog(); $event.stopPropagation()"
+          <button *ngIf="editOrder" (click)="toggleSearchDishDialog(); $event.stopPropagation()"
             class="mt-2 sm:mt-0 border border-blue-600 w-full inline-flex justify-center items-center px-4 py-2  shadow-sm text-sm font-medium rounded-md text-blue-600 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
             <mat-icon class="mr-2 text-md">
               add

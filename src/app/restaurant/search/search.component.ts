@@ -124,7 +124,7 @@ export class SearchComponent implements OnInit {
     this.debouncedUpdate()
   }
 
-  debounce = (fn: Function, ms = 300) => {
+  debounce = (fn: Function, ms = 800) => {
     let timeoutId: ReturnType<typeof setTimeout>;
     return function (this: any, ...args: any[]) {
       clearTimeout(timeoutId);

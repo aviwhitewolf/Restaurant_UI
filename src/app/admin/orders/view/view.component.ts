@@ -180,8 +180,10 @@ export class ViewComponent implements OnInit {
       updateOrder.online = this.calculateTotal()
 
     } else {
-      this.mainService.openDialog("Error", "Need to select 'Mode of payment'.", "E")
-      return
+      if (updateOrder.status == 'success') {
+        this.mainService.openDialog("Error", "Need to select 'Mode of payment'.", "E")
+        return
+      }
     }
 
     updateOrder.modeOfPayment = modeOfPayment
