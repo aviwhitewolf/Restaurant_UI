@@ -128,125 +128,64 @@ export class ExpenseChartComponent implements OnInit {
   }
 
   formatExpense(data: any, pStart: string, pEnd: string, type: string = "") {
-
-    const credit = {}
-    const debit = {}
-    const start = moment(pStart)
-    const end = moment(pEnd)
-    const diffhours = end.diff(start, 'hours')
-    const diffdays = end.diff(start, 'days')
-    const diffMonth = end.diff(start, 'months')
-    const diffYears = end.diff(start, 'years')
-
-    /**
-     * Here i'm checking if my type [hours, days, months, years] is null
-     * then check the differece of hours, days, months, years in sequence
-     * and which ever is greater than 0 execute that part
-     * 
-     * If Type is not null then check two condition that is the difference and type
-     * 
-     */
-    if (type == "" ? (diffYears > 0) : (diffYears > 0 && type == 'yeasrs')) {
-
+    const credit: { [key: string]: number } = {}; // Specify credit as an object with string keys and number values
+    const debit: { [key: string]: number } = {};  // Specify debit as an object with string keys and number values
+    const start = moment(pStart);
+    const end = moment(pEnd);
+    const diffhours = end.diff(start, 'hours');
+    const diffdays = end.diff(start, 'days');
+    const diffMonth = end.diff(start, 'months');
+    const diffYears = end.diff(start, 'years');
+  
+    if (type === '' ? (diffYears > 0) : (diffYears > 0 && type === 'years')) {
       data.reduce((acc: any, curr: any) => {
-
-        if (acc.credit[moment(curr.date).year()]) {
-          acc.credit[moment(curr.date).year()] = parseFloat(acc.credit[moment(curr.date).year()]) + parseFloat(curr.credit ? curr.credit : 0)
-        } else {
-          acc.credit[moment(curr.date).year()] = parseFloat(curr.credit ? curr.credit : 0)
-        }
-
-        if (acc.debit[moment(curr.date).year()]) {
-          acc.debit[moment(curr.date).year()] = parseFloat(acc.debit[moment(curr.date).year()]) + parseFloat(curr.debit ? curr.debit : 0)
-        } else {
-          acc.debit[moment(curr.date).year()] = parseFloat(curr.debit ? curr.debit : 0)
-        }
-
+        const year = moment(curr.date).year().toString(); // Convert year to string for indexing
+        acc.credit[year] = (acc.credit[year] || 0) + parseFloat(curr.credit || 0);
+        acc.debit[year] = (acc.debit[year] || 0) + parseFloat(curr.debit || 0);
         return acc;
-
-      }, { credit, debit })
-
-      this.category = "years"
-
-    } else if (type == "" ? (diffMonth > 4) : (diffMonth > 4 && type == 'months')) {
-
+      }, { credit, debit });
+      this.category = "years";
+    } else if (type === '' ? (diffMonth > 4) : (diffMonth > 4 && type === 'months')) {
       data.reduce((acc: any, curr: any) => {
-
-        if (acc.credit[moment(curr.date).format('MMM')]) {
-          acc.credit[moment(curr.date).format('MMM')] = parseFloat(acc.credit[moment(curr.date).format('MMM')]) + parseFloat(curr.credit ? curr.credit : 0)
-        } else {
-          acc.credit[moment(curr.date).format('MMM')] = parseFloat(curr.credit ? curr.credit : 0)
-        }
-
-        if (acc.debit[moment(curr.date).format('MMM')]) {
-          acc.debit[moment(curr.date).format('MMM')] = parseFloat(acc.debit[moment(curr.date).format('MMM')]) + parseFloat(curr.debit ? curr.debit : 0)
-        } else {
-          acc.debit[moment(curr.date).format('MMM')] = parseFloat(curr.debit ? curr.debit : 0)
-        }
-
-
+        const month = moment(curr.date).format('MMM'); // Use string keys for months
+        acc.credit[month] = (acc.credit[month] || 0) + parseFloat(curr.credit || 0);
+        acc.debit[month] = (acc.debit[month] || 0) + parseFloat(curr.debit || 0);
         return acc;
-
-      }, { credit, debit })
-
-      this.category = "months"
-
-
-    } else if (type == "" ? (diffdays > 0) : (diffdays > 0 && type == 'days')) {
-
+      }, { credit, debit });
+      this.category = "months";
+    } else if (type === '' ? (diffdays > 0) : (diffdays > 0 && type === 'days')) {
       data.reduce((acc: any, curr: any) => {
-
-        if (acc.credit[moment(curr.date).format('DD MMM')]) {
-          acc.credit[moment(curr.date).format('DD MMM')] = parseFloat(acc.credit[moment(curr.date).format('DD MMM')]) + parseFloat(curr.credit ? curr.credit : 0)
-        } else {
-          acc.credit[moment(curr.date).format('DD MMM')] = parseFloat(curr.credit ? curr.credit : 0)
-        }
-
-        if (acc.debit[moment(curr.date).format('DD MMM')]) {
-          acc.debit[moment(curr.date).format('DD MMM')] = parseFloat(acc.debit[moment(curr.date).format('DD MMM')]) + parseFloat(curr.debit ? curr.debit : 0)
-        } else {
-          acc.debit[moment(curr.date).format('DD MMM')] = parseFloat(curr.debit ? curr.debit : 0)
-        }
-
+        const day = moment(curr.date).format('DD MMM'); // Use string keys for days
+        acc.credit[day] = (acc.credit[day] || 0) + parseFloat(curr.credit || 0);
+        acc.debit[day] = (acc.debit[day] || 0) + parseFloat(curr.debit || 0);
         return acc;
-
-      }, { credit, debit })
-
-      this.category = "days"
-
-
-    } else if (type == "" ? (diffhours > 0) : (diffhours > 0 && type == 'hours')) {
-
+      }, { credit, debit });
+      this.category = "days";
+    } else if (type === '' ? (diffhours > 0) : (diffhours > 0 && type === 'hours')) {
       data.reduce((acc: any, curr: any) => {
-
-
-        if (acc.credit[moment(curr.date).format('DD MMM hh:mm A')]) {
-          acc.credit[moment(curr.date).format('DD MMM hh:mm A')] = parseFloat(acc.credit[moment(curr.date).format('DD MMM hh:mm A')]) + parseFloat(curr.credit ? curr.credit : 0)
-        } else {
-          acc.credit[moment(curr.date).format('DD MMM hh:mm A')] = parseFloat(curr.credit ? curr.credit : 0)
-        }
-
-        if (acc.debit[moment(curr.date).format('DD MMM hh:mm A')]) {
-          acc.debit[moment(curr.date).format('DD MMM hh:mm A')] = parseFloat(acc.debit[moment(curr.date).format('DD MMM hh:mm A')]) + parseFloat(curr.debit ? curr.debit : 0)
-        } else {
-          acc.debit[moment(curr.date).format('DD MMM hh:mm A')] = parseFloat(curr.debit ? curr.debit : 0)
-        }
-
+        const hour = moment(curr.date).format('DD MMM hh:mm A'); // Use string keys for hours
+        acc.credit[hour] = (acc.credit[hour] || 0) + parseFloat(curr.credit || 0);
+        acc.debit[hour] = (acc.debit[hour] || 0) + parseFloat(curr.debit || 0);
         return acc;
-      }, { credit, debit })
-
-      this.category = "hours"
-
+      }, { credit, debit });
+      this.category = "hours";
     } else {
-      this.mainService.openDialog("Error", "Not possible to plot a graph for a given selection.", "E")
+      this.mainService.openDialog("Error", "Not possible to plot a graph for a given selection.", "E");
+      return { credit: [], debit: [], categories: [] }; // Return empty arrays if no valid type is provided
     }
-
+  
+    // Ensure both credit and debit arrays have the same length and align with categories
+    const categories = Object.keys(credit);
+    const creditValues = categories.map(category => credit[category]);
+    const debitValues = categories.map(category => debit[category] || 0); // Fill missing debit with 0
+  
     return {
-      credit: Object.values(credit),
-      debit: Object.values(debit),
-      categories: Object.keys(credit)
-    }
-
+      credit: creditValues,
+      debit: debitValues,
+      categories: categories
+    };
   }
+  
+  
 
 }

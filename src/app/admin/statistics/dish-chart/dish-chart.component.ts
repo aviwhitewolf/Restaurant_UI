@@ -56,8 +56,9 @@ export class DishChartComponent implements OnInit {
   public DISH_CHART_CONSTANT_TYPE = DISH_CHART_CONSTANT
   public activeCategory = this.DISH_CHART_CONSTANT_TYPE.SUMMARY
 
+  public topCounts: number[] = [10, 20, 30, 50, 100];
   public topCount: number = 20;
-
+  
   constructor() { }
 
   ngOnInit(): void {
@@ -114,11 +115,6 @@ export class DishChartComponent implements OnInit {
           show: false
         },
       },
-      yaxis: {
-        title: {
-          text: 'Sold'
-        }
-      },
       fill: {
         opacity: 1
       },
@@ -164,5 +160,13 @@ export class DishChartComponent implements OnInit {
 
     }
   }
+
+  // Method to handle changes in the number of top items selected
+onTopCountChange(e: any) {
+  this.topCount = e?.target?.value || 20;
+  if (this.data?.length > 0) {
+      this.renderChart(this.data, this.start, this.end, this.activeCategory);
+  }
+}
 
 }

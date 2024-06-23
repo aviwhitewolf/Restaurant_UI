@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  baseUrl : "http://localhost:1337",
-  uiDomain : "http://localhost:4200",
+  baseUrl : "https://rms-4cleu.ondigitalocean.app",
+  uiDomain : "https://aviwhitewolf.github.io/Restaurant_UI",
   razorpayKey : "rzp_test_kHx9wkorHyQIIZ",
   assestPath : "src/assets"
 };

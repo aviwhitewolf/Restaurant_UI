@@ -59,292 +59,187 @@ export class SalesChartComponent implements OnInit {
        this.renderChart(this.data, this.start, this.end, category)
   }
 
-  renderChart(data: any, start: string, end: string, category: string = "") {
+  renderChart(data: any, start: string, end: string, category: string = '') {
+    const sales = this.formatSales(data?.sale, start, end, category);
+    const chartData = this.formatExpense(data.expense, start, end, category);
 
-    const sales = this.formatSales(data?.sale, start, end, category)
-    const chartData = this.formatExpense(data.expense, start, end, category)
-    if (sales?.data?.length > chartData?.debit?.length) {
-      chartData.debit = chartData?.debit?.concat(Array(sales?.data?.length - chartData?.debit?.length).fill(0));
-    } else if (sales?.data?.length < chartData?.debit?.length) {
-      sales.data = sales?.data?.concat(Array(chartData?.debit?.length - sales?.data?.length).fill(0));
-    }
-
-    const queenArray = [...chartData.categories, ...sales.categories];
-    chartData.categories = queenArray
-    sales.categories = queenArray
-
-    if (sales?.data?.length > 0){
-
-      this.salesChartOptions = {
-        series: [
-          {
-            name: "Sale",
-            data: sales.data
-          },
-          {
-            name: "Expense",
-            data: chartData.debit
-          }
-        ],
-        chart: {
-          type: 'area',
-          zoom: {
-            enabled: false
-          }
+    // Set chart options
+    this.salesChartOptions = {
+      series: [
+        {
+          name: "Sale",
+          data: sales.data
         },
-        dataLabels: {
+        {
+          name: "Expense",
+          data: chartData.debit
+        }
+      ],
+      chart: {
+        type: 'area',
+        zoom: {
           enabled: false
-        },
-        stroke: {
-          curve: 'smooth'
-        },
-        fill: {
-          type: "gradient",
-          gradient: {
-            shadeIntensity: 1,
-            inverseColors: false,
-            opacityFrom: 0.70,
-            opacityTo: 0.05,
-            stops: [50, 100, 100, 100]
-          }
-        },
-        yaxis: {
-          title: {
-            text: 'Amount'
-          },
-          axisTicks: {
-            show: false
-          },
-          labels: {
-            show: false
-          },
-        },
-        grid: {
-          row: {
-            colors: ['#fff', '#f2f2f2']
-          }
-        },
-        colors: ["#6366f1", "#FF0000"],
-        xaxis: {
-          categories: sales.categories,
-          axisTicks: {
-            show: false
-          },
-          labels: {
-            show: false
-          },
         }
-      };
-    }
+      },
+      dataLabels: {
+        enabled: false
+      },
+      stroke: {
+        curve: 'smooth'
+      },
+      fill: {
+        type: "gradient",
+        gradient: {
+          shadeIntensity: 1,
+          inverseColors: false,
+          opacityFrom: 0.70,
+          opacityTo: 0.05,
+          stops: [50, 100, 100, 100]
+        }
+      },
+      yaxis: {
+        title: {
+          text: 'Amount'
+        },
+        axisTicks: {
+          show: false
+        },
+        labels: {
+          show: false
+        },
+      },
+      grid: {
+        row: {
+          colors: ['#fff', '#f2f2f2']
+        }
+      },
+      colors: ["#6366f1", "#FF0000"],
+      xaxis: {
+        categories: sales.categories, // Use sales categories assuming they are correctly formatted
+        axisTicks: {
+          show: false
+        },
+        labels: {
+          show: false
+        },
+      }
+    };
   }
 
-  formatSales(sales: any, pStart: string, pEnd: string, type: string = "") {
+  formatSales(sales: any, pStart: string, pEnd: string, type: string = '') {
+    const mSales = {};
 
-    const mSales = {}
-    const start = moment(pStart)
-    const end = moment(pEnd)
-    const diffhours = end.diff(start, 'hours')
-    const diffdays = end.diff(start, 'days')
-    const diffMonth = end.diff(start, 'months')
-    const diffYears = end.diff(start, 'years')
+    // Parse start and end dates
+    const start = moment(pStart);
+    const end = moment(pEnd);
 
-    /**
-     * Here i'm checking if my type [hours, days, months, years] is null
-     * then check the differece of hours, days, months, years in sequence
-     * and which ever is greater than 0 execute that part
-     * 
-     * If Type is not null then check two condition that is the difference and type
-     * 
-     */
-    if (type == "" ? (diffYears > 0) : (diffYears > 0 && type == 'yeasrs')) {
+    // Determine date difference
+    const diffhours = end.diff(start, 'hours');
+    const diffdays = end.diff(start, 'days');
+    const diffMonth = end.diff(start, 'months');
+    const diffYears = end.diff(start, 'years');
 
+    // Based on type, aggregate sales data
+    if (type === '' ? (diffYears > 0) : (diffYears > 0 && type === 'years')) {
       sales.reduce((acc: any, curr: any) => {
-
-        if (acc[moment(curr.date).year()]) {
-          acc[moment(curr.date).year()] = parseFloat(acc[moment(curr.date).year()]) + parseFloat(curr.total)
-        } else {
-          acc[moment(curr.date).year()] = parseFloat(curr.total)
-        }
-
+        const year = moment(curr.date).year();
+        acc[year] = (acc[year] || 0) + parseFloat(curr.total);
         return acc;
-      }, mSales)
-
-      this.category = "years"
-
-    } else if (type == "" ? (diffMonth > 4) : (diffMonth > 4 && type == 'months')) {
-
+      }, mSales);
+      this.category = 'years';
+    } else if (type === '' ? (diffMonth > 4) : (diffMonth > 4 && type === 'months')) {
       sales.reduce((acc: any, curr: any) => {
-
-        if (acc[moment(curr.date).format('MMM')]) {
-          acc[moment(curr.date).format('MMM')] = parseFloat(acc[moment(curr.date).format('MMM')]) + parseFloat(curr.total)
-        } else {
-          acc[moment(curr.date).format('MMM')] = parseFloat(curr.total)
-        }
-
+        const month = moment(curr.date).format('MMM');
+        acc[month] = (acc[month] || 0) + parseFloat(curr.total);
         return acc;
-
-      }, mSales)
-
-      this.category = "months"
-
-    } else if (type == "" ? (diffdays > 0) : (diffdays > 0 && type == 'days')) {
-
+      }, mSales);
+      this.category = 'months';
+    } else if (type === '' ? (diffdays > 0) : (diffdays > 0 && type === 'days')) {
       sales.reduce((acc: any, curr: any) => {
-
-        if (acc[moment(curr.date).format('DD MMM')]) {
-          acc[moment(curr.date).format('DD MMM')] = parseFloat(acc[moment(curr.date).format('DD MMM')]) + parseFloat(curr.total)
-        } else {
-          acc[moment(curr.date).format('DD MMM')] = parseFloat(curr.total)
-        }
-
+        const day = moment(curr.date).format('DD MMM');
+        acc[day] = (acc[day] || 0) + parseFloat(curr.total);
         return acc;
-
-      }, mSales)
-
-      this.category = "days"
-
-    } else if (type == "" ? (diffhours > 0) : (diffhours > 0 && type == 'hours')) {
-
+      }, mSales);
+      this.category = 'days';
+    } else if (type === '' ? (diffhours > 0) : (diffhours > 0 && type === 'hours')) {
       sales.reduce((acc: any, curr: any) => {
-
-        if (acc[moment(curr.date).format('DD MMM hh:mm A')]) {
-          acc[moment(curr.date).format('DD MMM hh:mm A')] = parseFloat(acc[moment(curr.date).format('DD MMM hh:mm A')]) + parseFloat(curr.total)
-        } else {
-          acc[moment(curr.date).format('DD MMM hh:mm A')] = parseFloat(curr.total)
-        }
+        const hour = moment(curr.date).format('DD MMM hh:mm A');
+        acc[hour] = (acc[hour] || 0) + parseFloat(curr.total);
         return acc;
-      }, mSales)
-
-      this.category = "hours"
-
+      }, mSales);
+      this.category = 'hours';
     } else {
-      this.mainService.openDialog("Error", "Not possible to plot a graph for a given selection.", "E")
+      console.error("Error: Not possible to plot a graph for the given selection.");
     }
 
-    return { data: Object.values(mSales), categories: Object.keys(mSales) }
-
+    // Return formatted sales data
+    return { data: Object.values(mSales), categories: Object.keys(mSales) };
   }
 
+  formatExpense(data: any, pStart: string, pEnd: string, type: string = '') {
+    const debit = {};
 
-  formatExpense(data: any, pStart: string, pEnd: string, type: string = "") {
+    // Parse start and end dates
+    const start = moment(pStart);
+    const end = moment(pEnd);
 
-    const credit = {}
-    const debit = {}
-    const start = moment(pStart)
-    const end = moment(pEnd)
-    const diffhours = end.diff(start, 'hours')
-    const diffdays = end.diff(start, 'days')
-    const diffMonth = end.diff(start, 'months')
-    const diffYears = end.diff(start, 'years')
+    // Determine date difference
+    const diffhours = end.diff(start, 'hours');
+    const diffdays = end.diff(start, 'days');
+    const diffMonth = end.diff(start, 'months');
+    const diffYears = end.diff(start, 'years');
 
-    /**
-     * Here i'm checking if my type [hours, days, months, years] is null
-     * then check the differece of hours, days, months, years in sequence
-     * and which ever is greater than 0 execute that part
-     * 
-     * If Type is not null then check two condition that is the difference and type
-     * 
-     */
-    if (type == "" ? (diffYears > 0) : (diffYears > 0 && type == 'yeasrs')) {
-
+    // Based on type, aggregate expense data
+    if (type === '' ? (diffYears > 0) : (diffYears > 0 && type === 'years')) {
       data?.reduce((acc: any, curr: any) => {
-
-        if (acc.credit[moment(curr.date).year()]) {
-          acc.credit[moment(curr.date).year()] = parseFloat(acc.credit[moment(curr.date).year()]) + parseFloat(curr.credit ? curr.credit : 0)
-        } else {
-          acc.credit[moment(curr.date).year()] = parseFloat(curr.credit ? curr.credit : 0)
-        }
-
-        if (acc.debit[moment(curr.date).year()]) {
-          acc.debit[moment(curr.date).year()] = parseFloat(acc.debit[moment(curr.date).year()]) + parseFloat(curr.debit ? curr.debit : 0)
-        } else {
-          acc.debit[moment(curr.date).year()] = parseFloat(curr.debit ? curr.debit : 0)
-        }
-
+        const year = moment(curr.date).year();
+        acc[year] = {
+          credit: (acc[year]?.credit || 0) + parseFloat(curr.credit || 0),
+          debit: (acc[year]?.debit || 0) + parseFloat(curr.debit || 0)
+        };
         return acc;
-
-      }, { credit, debit })
-
-      this.category = "years"
-
-    } else if (type == "" ? (diffMonth > 4) : (diffMonth > 4 && type == 'months')) {
-
+      }, debit);
+      this.category = 'years';
+    } else if (type === '' ? (diffMonth > 4) : (diffMonth > 4 && type === 'months')) {
       data?.reduce((acc: any, curr: any) => {
-
-        if (acc.credit[moment(curr.date).format('MMM')]) {
-          acc.credit[moment(curr.date).format('MMM')] = parseFloat(acc.credit[moment(curr.date).format('MMM')]) + parseFloat(curr.credit ? curr.credit : 0)
-        } else {
-          acc.credit[moment(curr.date).format('MMM')] = parseFloat(curr.credit ? curr.credit : 0)
-        }
-
-        if (acc.debit[moment(curr.date).format('MMM')]) {
-          acc.debit[moment(curr.date).format('MMM')] = parseFloat(acc.debit[moment(curr.date).format('MMM')]) + parseFloat(curr.debit ? curr.debit : 0)
-        } else {
-          acc.debit[moment(curr.date).format('MMM')] = parseFloat(curr.debit ? curr.debit : 0)
-        }
-
-
+        const month = moment(curr.date).format('MMM');
+        acc[month] = {
+          credit: (acc[month]?.credit || 0) + parseFloat(curr.credit || 0),
+          debit: (acc[month]?.debit || 0) + parseFloat(curr.debit || 0)
+        };
         return acc;
-
-      }, { credit, debit })
-
-      this.category = "months"
-
-
-    } else if (type == "" ? (diffdays > 0) : (diffdays > 0 && type == 'days')) {
-
+      }, debit);
+      this.category = 'months';
+    } else if (type === '' ? (diffdays > 0) : (diffdays > 0 && type === 'days')) {
       data?.reduce((acc: any, curr: any) => {
-
-        if (acc.credit[moment(curr.date).format('DD MMM')]) {
-          acc.credit[moment(curr.date).format('DD MMM')] = parseFloat(acc.credit[moment(curr.date).format('DD MMM')]) + parseFloat(curr.credit ? curr.credit : 0)
-        } else {
-          acc.credit[moment(curr.date).format('DD MMM')] = parseFloat(curr.credit ? curr.credit : 0)
-        }
-
-        if (acc.debit[moment(curr.date).format('DD MMM')]) {
-          acc.debit[moment(curr.date).format('DD MMM')] = parseFloat(acc.debit[moment(curr.date).format('DD MMM')]) + parseFloat(curr.debit ? curr.debit : 0)
-        } else {
-          acc.debit[moment(curr.date).format('DD MMM')] = parseFloat(curr.debit ? curr.debit : 0)
-        }
-
+        const day = moment(curr.date).format('DD MMM');
+        acc[day] = {
+          credit: (acc[day]?.credit || 0) + parseFloat(curr.credit || 0),
+          debit: (acc[day]?.debit || 0) + parseFloat(curr.debit || 0)
+        };
         return acc;
-
-      }, { credit, debit })
-
-      this.category = "days"
-
-
-    } else if (type == "" ? (diffhours > 0) : (diffhours > 0 && type == 'hours')) {
-
+      }, debit);
+      this.category = 'days';
+    } else if (type === '' ? (diffhours > 0) : (diffhours > 0 && type === 'hours')) {
       data?.reduce((acc: any, curr: any) => {
-
-
-        if (acc.credit[moment(curr.date).format('DD MMM hh:mm A')]) {
-          acc.credit[moment(curr.date).format('DD MMM hh:mm A')] = parseFloat(acc.credit[moment(curr.date).format('DD MMM hh:mm A')]) + parseFloat(curr.credit ? curr.credit : 0)
-        } else {
-          acc.credit[moment(curr.date).format('DD MMM hh:mm A')] = parseFloat(curr.credit ? curr.credit : 0)
-        }
-
-        if (acc.debit[moment(curr.date).format('DD MMM hh:mm A')]) {
-          acc.debit[moment(curr.date).format('DD MMM hh:mm A')] = parseFloat(acc.debit[moment(curr.date).format('DD MMM hh:mm A')]) + parseFloat(curr.debit ? curr.debit : 0)
-        } else {
-          acc.debit[moment(curr.date).format('DD MMM hh:mm A')] = parseFloat(curr.debit ? curr.debit : 0)
-        }
-
+        const hour = moment(curr.date).format('DD MMM hh:mm A');
+        acc[hour] = {
+          credit: (acc[hour]?.credit || 0) + parseFloat(curr.credit || 0),
+          debit: (acc[hour]?.debit || 0) + parseFloat(curr.debit || 0)
+        };
         return acc;
-      }, { credit, debit })
+      }, debit);
+      this.category = 'hours';
+    } else {
+      console.error("Error: Not possible to plot a graph for the given selection.");
+    }
 
-      this.category = "hours"
-
-    } 
-
+    // Return formatted expense data
     return {
-      credit: Object.values(credit),
-      debit: Object.values(debit),
-      categories: Object.keys(credit)
-    }
-
+      credit: Object.values(debit).map((item: any) => item.credit),
+      debit: Object.values(debit).map((item: any) => item.debit),
+      categories: Object.keys(debit)
+    };
   }
-
 
 }
