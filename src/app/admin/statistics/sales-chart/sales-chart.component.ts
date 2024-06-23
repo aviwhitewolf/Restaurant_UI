@@ -111,7 +111,13 @@ export class SalesChartComponent implements OnInit {
         yaxis: {
           title: {
             text: 'Amount'
-          }
+          },
+          axisTicks: {
+            show: false
+          },
+          labels: {
+            show: false
+          },
         },
         grid: {
           row: {
@@ -120,7 +126,13 @@ export class SalesChartComponent implements OnInit {
         },
         colors: ["#6366f1", "#FF0000"],
         xaxis: {
-          categories: sales.categories
+          categories: sales.categories,
+          axisTicks: {
+            show: false
+          },
+          labels: {
+            show: false
+          },
         }
       };
     }

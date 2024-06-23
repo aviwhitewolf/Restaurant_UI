@@ -2,7 +2,7 @@
     <div class="p-6">
         <div class="sm:hidden">
             <label for="tabs" class="sr-only">Select a tab</label>
-            <h3 class="text-gray-900 text-md font-medium">Top Food Items</h3>
+            <h3 class="text-gray-900 text-md font-medium">Top {{ topCount }} Food Items</h3>
             <select name="tabs" (change)="changeCategoryAndRenderChart($any($event.target).value)"
                 class="mt-4 block w-full focus:ring-blue-500 focus:border-blue-500 border-gray-300 rounded-md">
                 <option [selected]="DISH_CHART_CONSTANT_TYPE.SUMMARY == activeCategory"
@@ -19,7 +19,7 @@
         <div class="hidden sm:block ">
 
             <div class="flex items-center flex-row flex-wrap justify-between sm:space-y-2 md:space-y-0">
-                <h3 class="text-gray-800 text-base font-medium pl-6 sm:pl-0">Top Food Items</h3>
+                <h3 class="text-gray-800 text-base font-medium pl-6 sm:pl-0">Top {{ topCount }} Food Items</h3>
                 <span class="relative z-0 inline-flex shadow-sm rounded-md">
                     <button (click)="changeCategoryAndRenderChart(DISH_CHART_CONSTANT_TYPE.SUMMARY)"
                         class="relative inline-flex items-center px-4 py-2 rounded-l-lg border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"

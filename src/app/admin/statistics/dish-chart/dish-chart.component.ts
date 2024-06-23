@@ -56,6 +56,7 @@ export class DishChartComponent implements OnInit {
   public DISH_CHART_CONSTANT_TYPE = DISH_CHART_CONSTANT
   public activeCategory = this.DISH_CHART_CONSTANT_TYPE.SUMMARY
 
+  public topCount: number = 20;
 
   constructor() { }
 
@@ -79,7 +80,7 @@ export class DishChartComponent implements OnInit {
     this.dishChartOptions = {
       series: [{
         name: 'Sold',
-        data: dishData?.data || []
+        data: dishData?.data?.splice(0, this.topCount) || []
       }],
       chart: {
         type: 'bar',
@@ -87,9 +88,7 @@ export class DishChartComponent implements OnInit {
       },
       plotOptions: {
         bar: {
-          horizontal: false,
-          columnWidth: '55%',
-          endingShape: 'rounded'
+          horizontal: true,
         },
       },
       dataLabels: {
@@ -107,7 +106,13 @@ export class DishChartComponent implements OnInit {
         }
       },
       xaxis: {
-        categories: dishData.categories || [],
+        categories: dishData.categories?.splice(0, this.topCount) || [],
+        axisTicks: {
+          show: false
+        },
+        labels: {
+          show: false
+        },
       },
       yaxis: {
         title: {

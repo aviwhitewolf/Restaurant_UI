@@ -47,22 +47,31 @@ export class ExpenseCategoryRadialBarComponent implements OnInit {
     this.category = category
     this.chartOptions = {
       series: data?.map((e: any) => e[category]),
-      chart: {
-        type: "donut"
-      },
       labels: data?.map((e: any) => e?.name),
-      responsive: [
-        {
-          breakpoint: 480,
-          options: {
-            legend: {
-              show : true,
-              position : "bottom",
-              offset : 20
+      chart: {
+        type: "pie",
+        sparkline: {
+          enabled: true
+        }
+      },
+      tooltip: {
+        fixed: {
+          enabled: true
+        },
+        x: {
+          show: true
+        },
+        y: {
+          title: {
+            formatter: function(seriesName : any) {
+              return "";
             }
           }
+        },
+        marker: {
+          show: true
         }
-      ]
+      }
     };
   }
 

@@ -80,21 +80,23 @@
           class="lowercase text-gray-500 text-xs font-normal">&nbsp;of&nbsp;{{activeDateRange}}</span>
       </h2>
 
-      <div class="mt-2 grid grid-cols-1 gap-y-8 lg:grid-cols-2 lg:gap-x-8">
+      <div class="mt-2 grid grid-cols-1 gap-y-8 lg:grid-cols-6 lg:gap-x-8">
 
-        <app-dish-chart *ngIf="overview && dateData" [data]="overview?.dishesSale" [start]="dateData?.start"
+        <app-dish-chart class="lg:col-span-6" *ngIf="overview && dateData" [data]="overview?.dishesSale" [start]="dateData?.start"
           [end]="dateData?.end">
         </app-dish-chart>
 
-        <app-sales-chart *ngIf="overview && dateData" [data]="{sale: overview?.sale, expense: overview?.expense}" [start]="dateData?.start"
+        <app-expense-category-radial-bar class="lg:col-span-3" *ngIf="overview && dateData" [data]="overview?.expenseGroupByCategory">
+        </app-expense-category-radial-bar>
+
+        <app-sales-chart class="lg:col-span-3" *ngIf="overview && dateData" [data]="{sale: overview?.sale, expense: overview?.expense}" [start]="dateData?.start"
           [end]="dateData?.end">
         </app-sales-chart>
 
-        <app-expense-chart *ngIf="overview && dateData" [data]="overview?.expense" [start]="dateData?.start"
+        <app-expense-chart class="lg:col-span-3" *ngIf="overview && dateData" [data]="overview?.expense" [start]="dateData?.start"
           [end]="dateData?.end"></app-expense-chart>
 
-        <app-expense-category-radial-bar *ngIf="overview && dateData" [data]="overview?.expenseGroupByCategory">
-        </app-expense-category-radial-bar>
+
 
       </div>
 

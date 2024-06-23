@@ -100,7 +100,13 @@ export class ExpenseChartComponent implements OnInit {
         yaxis: {
           title: {
             text: 'Amount'
-          }
+          },
+          axisTicks: {
+            show: false
+          },
+          labels: {
+            show: false
+          },
         },
         grid: {
           row: {
@@ -110,7 +116,13 @@ export class ExpenseChartComponent implements OnInit {
         colors: ["#00e396", "#FF0000"],
         xaxis: {
           categories: chartData.categories
-        }
+        },
+        axisTicks: {
+          show: false
+        },
+        labels: {
+          show: false
+        },
       };
 
   }
