@@ -14,7 +14,7 @@
     <p><b>ORDER INVOICE</b></p>
   </div>
   <div class="bill-details">
-    <div class="flex justify-between">
+    <div class="flex flex-col justify-between">
       <div><b>BILL NO:</b>&nbsp;{{ order?.id }}</div>
       <div><b>BILL DATE:</b>&nbsp;{{ order?.createdAt | date : "mediumDate" }}&nbsp;{{ order?.createdAt | date : "shortTime" }}</div>
     </div>
@@ -60,9 +60,9 @@
 
     <tr class="net-amount">
       <td></td>
-      <td>Net Amnt</td>
+      <td>To Pay</td>
       <td></td>
-      <td>{{ order?.totalAmount | currency : order.currency }}</td>
+      <td><b>{{ order?.totalAmount | currency : order.currency }}</b></td>
     </tr>
   </table>
   <div class="text-center" style="margin-top: 8px;">
