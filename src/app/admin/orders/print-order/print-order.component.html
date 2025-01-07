@@ -1,6 +1,6 @@
-<div id="print-compact-order" class="bill">
+<div id="print-compact-order" class="bill" style="font-size: smaller !important;">
   <div class="text-center">
-    <h2 class="brand">{{ restaurantDetails?.name }}</h2>
+    <h2 class="brand"><b>{{ restaurantDetails?.name }}</b></h2>
     <p class="address">
       {{ restaurantDetails?.address }}
     </p>
@@ -11,19 +11,15 @@
       <span>PAN:&nbsp;{{ restaurantDetails?.PAN }}</span
       >&nbsp;<span>GST:&nbsp;{{ restaurantDetails?.GST }}</span>
     </h3>
-    <p>ORDER INVOICE</p>
+    <p><b>ORDER INVOICE</b></p>
   </div>
   <div class="bill-details">
     <div class="flex justify-between">
-      <div>BILL NO:&nbsp;{{ order?.id }}</div>
-      <div>TABLE : &nbsp;{{ order?.table?.name }}</div>
-    </div>
-    <div class="flex justify-between">
-      <div>BILL DATE:&nbsp;{{ order?.createdAt | date : "mediumDate" }}</div>
-      <div>TIME: &nbsp;{{ order?.createdAt | date : "shortTime" }}</div>
+      <div><b>BILL NO:</b>&nbsp;{{ order?.id }}</div>
+      <div><b>BILL DATE:</b>&nbsp;{{ order?.createdAt | date : "mediumDate" }}&nbsp;{{ order?.createdAt | date : "shortTime" }}</div>
     </div>
   </div>
-  <table class="table">
+  <table class="table" style="margin-top: 8px;">
     <tr class="header">
       <th>Particulars</th>
       <th>Rate</th>
@@ -32,7 +28,7 @@
     </tr>
     <ng-container *ngFor="let items of order.orderItems">
       <ng-container *ngFor="let category of items.orderDishCategory">
-        <tr style="font-size: smaller;">
+        <tr >
           <td>
             {{ items?.dish?.name }}-<span>{{ category?.name?.substring(0, 1)?.toUpperCase() }}</span>
           </td>
@@ -69,9 +65,9 @@
       <td>{{ order?.totalAmount | currency : order.currency }}</td>
     </tr>
   </table>
-  <div class="text-center">
+  <div class="text-center" style="margin-top: 8px;">
     <p>
-      Order ID:&nbsp;{{ order?.orderId }} <br />User:&nbsp;{{
+      Order ID:&nbsp;{{ order?.orderId }} <br />Name:&nbsp;{{
         order?.user?.fullName
       }}
       <br />
