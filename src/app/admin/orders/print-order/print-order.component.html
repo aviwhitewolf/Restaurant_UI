@@ -32,12 +32,12 @@
     </tr>
     <ng-container *ngFor="let items of order.orderItems">
       <ng-container *ngFor="let category of items.orderDishCategory">
-        <tr>
+        <tr style="font-size: smaller;">
           <td>
-            {{ items?.dish?.name }}-<span>{{ category?.name }}</span>
+            {{ items?.dish?.name }}-<span>{{ category?.name?.substring(0, 1)?.toUpperCase() }}</span>
           </td>
           <td>{{ category?.unitPrice | currency : order.currency }}</td>
-          <td>{{ category?.quantity }}</td>
+          <td> * {{ category?.quantity }}</td>
           <td>{{ category?.totalPrice | currency : order.currency }}</td>
         </tr>
       </ng-container>
@@ -74,7 +74,7 @@
       Order ID:&nbsp;{{ order?.orderId }} <br />User:&nbsp;{{
         order?.user?.fullName
       }}
-      [Biller] <br />
+      <br />
       Thank You ! Please visit again
     </p>
   </div>
