@@ -27,8 +27,8 @@
       <th>Amount</th>
     </tr>
     <ng-container *ngFor="let items of order.orderItems">
-      <ng-container *ngFor="let category of items.orderDishCategory">
-        <tr >
+      <ng-container *ngFor="let category of items.orderDishCategory;">
+        <tr style="border-bottom: 1px solid #cccccc;">
           <td>
             {{ items?.dish?.name }}-<span>{{ category?.name?.substring(0, 1)?.toUpperCase() }}</span>
           </td>
