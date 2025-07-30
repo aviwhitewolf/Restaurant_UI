@@ -61,7 +61,7 @@ export class OverviewComponent implements OnInit {
   getValue(tableName: string) {
 
     if (this.slug) {
-      return Constants.UI_DOMAIN + `/restaurant/${this.slug}/welcome/${tableName}`
+      return `/restaurant/${this.slug}/welcome/${tableName}`
     }
     return ''
   }
