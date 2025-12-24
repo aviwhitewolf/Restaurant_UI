@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  baseUrl : "https://grounded-festival-e3e8a6a184.strapiapp.com",
-  uiDomain : "https://aviwhitewolf.github.io/Restaurant_UI",
+  baseUrl : "http://localhost:1337",//"https://grounded-festival-e3e8a6a184.strapiapp.com",
+  uiDomain : "https://osc.uncia.in",
   razorpayKey : "rzp_test_kHx9wkorHyQIIZ",
   assestPath : "src/assets"
 };
